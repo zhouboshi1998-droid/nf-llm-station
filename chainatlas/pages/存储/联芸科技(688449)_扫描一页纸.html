@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>联芸科技(688449)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">联芸科技</span><span class="code">688449</span>
+      <div class="tags">国产独立 SSD 主控芯片龙头 · 企业级 PCIe Gen5 放量 · 海康系参股约 37% · AI 数据中心直接受益</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥74.79　总市值 ≈344 亿</div>
+      <div class="meta">PE-TTM ~196x · PB ~17.7x · 4.60 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>联芸科技是国产<b>独立 SSD 主控芯片</b>龙头，主业为数据存储主控芯片（SATA / PCIe Gen3–5，含企业级/消费级）＋ AIoT 信号处理与数据处理芯片，海康威视系参股约 37%。核心看点：<b>企业级 PCIe Gen5 主控</b>已规模出货、绑定海康＋长江存储，AI 数据中心拉动企业级 SSD 需求→高毛利 Gen4/Gen5 主控占比提升，2025 综合毛利率首破 50%（51.4%）；属<b>放量型</b>逻辑（弹性来自高端放量而非单价普涨），但绝对体量仍小、当前估值（PE-TTM ~196x）偏高，空间感有限。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">13.27 亿</div><div class="s up">+13.1% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">1.42 亿</div><div class="s up">+20.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">51.4%</div><div class="s up">首破 50%（+8.3pct）</div></div>
+    <div class="stat"><div class="k">SSD 主控占比</div><div class="v">87.6%</div><div class="s">毛利率 ~54.3%</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.27 亿</div><div class="s up">+135.7%</div></div>
+    <div class="stat"><div class="k">2025 扣非归母</div><div class="v">1.01 亿</div><div class="s up">+130.3%</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 主控含 SATA/PCIe Gen3-5 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ SSD 主控芯片（SATA / PCIe Gen3-5）</td><td class="num">11.63</td><td class="num">87.6%</td><td class="num up">+14.9%</td><td class="num">54.3%</td><td class="num">92.5%</td></tr>
+        <tr><td>AIoT 信号处理 / 数据处理芯片</td><td class="num">1.33</td><td class="num">10.0%</td><td class="num dn">-2.4%</td><td class="num">17.8%</td><td class="num">3.5%</td></tr>
+        <tr><td>其他</td><td class="num">0.31</td><td class="num">2.4%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">4.0%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">13.27</td><td class="num">100%</td><td class="num">+13.1%</td><td class="num">51.4%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">SSD 主控占营收 87.6%，其中企业级/数据中心主控（PCIe Gen5）是弹性核心；<b>AI 敞口相对直接</b>——AI 数据中心拉动企业级 SSD 需求，直接带动公司企业级主控放量。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">SSD 主控 Fabless（无晶圆设计），国产独立主控龙头；PCIe Gen5 8 通道主控已规模出货、Gen5 4 通道进客户验证；绑定<b>海康系</b>（参股约 37%，企业级主控核心客户）＋长江存储颗粒。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">SSD 主控毛利率约 54.3%；受高毛利 PCIe Gen4/Gen5 占比提升拉动，2025 综合毛利率首破 50%（51.4%，+8.3pct）；AIoT 芯片毛利率仅 ~17.8%，为结构性拖累。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">未来 2-3 年企业级/数据中心主控（PCIe Gen5，及在研 Gen6/Gen7）收入占比随 AI 需求进一步提升；消费级仍为当前主体，结构升级是主线。</div></div>
+      <div class="bl"><div class="t">放量口径利润</div><div class="x">主控定价相对稳定，利润弹性来自<b>高端放量</b>而非单价普涨；企业级主控收入基数放大 × 高毛利率 → 净利杠杆（测算，见 §03）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝AI 数据中心存储＋国产主控替代＋企业级 Gen5 放量；拟定增约 20.6 亿投数据中心主控（Gen6/Gen7）；现市值 344 亿已隐含 2028E 乐观情景盈利（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与量价敏感性</h2></div>
+      <div class="p"><b>放量逻辑：</b>AI 数据中心拉动企业级 SSD 需求→公司企业级/数据中心主控（PCIe Gen5）放量，叠加高毛利 Gen4/Gen5 占比提升。<b>弹性来自高端放量而非单价普涨</b>——主控定价相对稳定。</div>
+      <div class="p"><b>弹性假设：</b>以 SSD 主控 2025 收入 11.63 亿为基准，企业级放量带来的增量收入约 60% 落到净利（高毛利、费用杠杆，测算）。</div>
+      <table>
+        <thead><tr><th>SSD 主控放量</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值(30x)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 年报口径）</td><td class="num">—</td><td class="num">~1.4 亿</td><td class="num up">~42 亿</td></tr>
+          <tr><td class="base">主控收入 +20%</td><td class="num">+1.4 亿</td><td class="num">~2.8 亿</td><td class="num up">~84 亿</td></tr>
+          <tr><td class="base">主控收入 +40%</td><td class="num">+2.8 亿</td><td class="num">~4.2 亿</td><td class="num up">~126 亿</td></tr>
+          <tr><td class="base">主控收入 +60%</td><td class="num">+4.2 亿</td><td class="num">~5.6 亿</td><td class="num up">~168 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯放量敏感性（量增、价稳，测算）；弹性段＝主控收入 11.63 亿×放量幅度×60% 落净利；公司净利基数按 2025 归母 1.42 亿起算（测算）；未含费用摊薄超预期。注：表内情景市值均低于现市值 344 亿，反映市场已定价更高/更快的企业级放量预期。</div>
+      <div class="exp">
+        <div class="eh">▪ 扩产节奏 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">主控为设计环节、产能跟随代工，自身不受产能约束；景气跟随 NAND/SSD 与企业级/数据中心需求。拟定增约 20.6 亿投数据中心主控（Gen6/Gen7）。</span></div>
+        <div class="er"><span class="lb">需求时点</span><span class="vv">企业级/数据中心需求是关键变量；28 年前利基颗粒紧缺延续、AI 数据中心存储扩容支撑景气。</span></div>
+        <div class="er rv"><span class="lb">反转风险</span><span class="vv">跟随存储大周期；若企业级放量不及预期或 AI 数据中心需求走弱→景气证伪。关键变量：Gen5/Gen6 客户导入节奏、海康系采购、长存颗粒配套。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ SSD 主控 ·（含企业级 Gen5）</td><td class="cn as">企业级放量、结构升级（测算）</td><td class="cn num nn">7.0</td><td class="op as bd">Gen5/Gen6 超预期放量（测算）</td><td class="op num no">10.5</td></tr>
+        <tr><td>AIoT / 数据处理 + 其他</td><td class="cn as">信号链企稳、占比小（测算）</td><td class="cn num nn">1.0</td><td class="op as bd">数据处理芯片起量（测算）</td><td class="op num no">1.5</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">主控 7.0 / 其他 1.0</span></td><td class="cn num">~8.0</td><td class="op bd"><span class="sub">主控 10.5 / 其他 1.5</span></td><td class="op num">~12.0</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 344 亿</td><td class="cn"><span class="sub">整体 20x（研究员给定）</span></td><td class="cn num dn">~160亿 (-53%)</td><td class="op bd"><span class="sub">整体 30x（研究员给定）</span></td><td class="op num up">~360亿 (+5%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 8 亿 / 乐观 12 亿）× 假设 PE（中性 20x / 乐观 30x）。分段净利按 2025 主控/非主控贡献比例拆分为情景测算，仅供参考。空间%按最新市值 344 亿重算。<b>结论：</b>突破大客户、绑定长存＋海康，但绝对体量仍小、估值偏高，空间感不大；中性情景市值 160 亿显著低于现价（-53%）。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 企业级 PCIe Gen5 主控规模放量、海康系采购上量；② 定增约 20.6 亿投数据中心主控（Gen6/Gen7）落地；③ 高毛利 Gen4/Gen5 占比提升拉动综合毛利率继续上行（2025 已破 50%）；④ AI 数据中心 SSD 需求扩容、国产主控替代加速。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 估值已处高位（PE-TTM ~196x、PB ~17.7x），中性 2028E 情景市值 160 亿低于现价约 -53%；② 绝对盈利体量仍小（2025 归母仅 1.42 亿）、空间感有限；③ 主控定价稳定、无单价普涨逻辑，弹性依赖企业级放量兑现；④ AIoT 芯片毛利率低（~17.8%）且同比下滑，构成结构拖累；⑤ 大客户/大颗粒集中度高，客户导入或采购不及预期。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07）；联芸科技 2025 年年度报告及 2026 年一季报（主营分部为 2025 年报口径，SSD 主控 11.63 亿/毛利率 54.3%、AIoT 1.33 亿/毛利率 17.8%）；公开券商研报及会议纪要。2028E 归母（研究员给定中性 8 亿 / 乐观 12 亿）、放量弹性与市值空间为情景测算，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

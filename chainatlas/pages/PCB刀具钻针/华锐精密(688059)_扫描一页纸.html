@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>华锐精密(688059)_扫描一页纸</title>
+<!-- ============================================================
+  scanner 模板页 · 本文件既是 CSS 模板也是结构范例
+  · 页内全部数字为【示例占位数据】，生成正式页时必须整页替换
+  · CSS 变量与版式骨架请勿改动；内容多时允许页面自然变长
+============================================================ -->
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">华锐精密</span><span class="code">688059</span>
+      <div class="tags">数控刀片龙头 · 切入PCB钻针上游钨棒 · 新增直接敞口</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥208.48 208亿</div>
+      <div class="meta">PE-TTM 63× · PB 11.8× · 1.00亿股</div>
+      <div class="date">数据截至 2026-06-23</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>AI敞口＝PCB钻针上游钨棒（非刀片主业）：AI拉动PCB钻针需求倍增，上游PCB棒材+纳米级碳化钨粉是关键瓶颈；华锐2025H2已建成PCB棒材产线，挖金洲+德国团队布局微钻棒材。更进一步·切微钻：主攻直径比30:1微钻、已向下游送样验证微钻钨棒，1200吨粉料项目投建、微钻设备预计26年10月到位，27年PCB钻针有望放量。26Q1毛利率57.3%（组内最高）、净利+499%。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025营收</div><div class="v">10.0亿</div><div class="s up">+32% YoY</div></div>
+    <div class="stat"><div class="k">2025归母净利</div><div class="v">3.0亿</div><div class="s up">+499% YoY</div></div>
+    <div class="stat"><div class="k">2025净利率</div><div class="v">~30%</div><div class="s ">毛利率57.3%</div></div>
+    <div class="stat"><div class="k">核心业务占比</div><div class="v">~62%</div><div class="s ">车削刀片</div></div>
+    <div class="stat"><div class="k">PCB棒材</div><div class="v">已建成</div><div class="s ">2025H2</div></div>
+    <div class="stat"><div class="k">2026Q1归母</div><div class="v">1.2亿</div><div class="s up">+499%</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>车削刀片</td><td class="num">6.21</td><td class="num">62.0%</td><td class="num up">+35%</td><td class="num">60%</td><td class="num">65%</td></tr>
+        <tr><td>铣削刀片</td><td class="num">2.03</td><td class="num">20.3%</td><td class="num up">+30%</td><td class="num">55%</td><td class="num">20%</td></tr>
+        <tr><td>整体刀具</td><td class="num">1.15</td><td class="num">11.5%</td><td class="num up">+40%</td><td class="num">50%</td><td class="num">10%</td></tr>
+        <tr><td>钻削刀片</td><td class="num">0.24</td><td class="num">2.4%</td><td class="num up">+25%</td><td class="num">48%</td><td class="num">2%</td></tr>
+        <tr><td>其他</td><td class="num">0.36</td><td class="num">3.8%</td><td class="num up">+10%</td><td class="num">40%</td><td class="num">3%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">9.99</td><td class="num">100%</td><td class="num">+32%</td><td class="num">57%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">AI敞口＝PCB钻针上游钨棒（非刀片主业）：AI拉动PCB钻针需求倍增，上游PCB棒材+纳米级碳化钨粉是关键瓶颈；华锐2025H2已建成PCB棒材产线，挖金洲+德国团队布局微钻棒材。</div></div>
+      <div class="bl"><div class="t">产业链位置</div><div class="x">数控刀片龙头之一，主业下游为通用机械/汽车/模具/AI硬件零件加工。PCB棒材尚未贡献收入——2025H2已建成PCB棒材生产线、测试后面向市场，构成2026+增量。</div></div>
+      <div class="bl"><div class="t">技术&盈利力</div><div class="x">毛利率57.3%（组内最高），高端涂层刀片占比提升；PCB棒材/微钻为后续量价增量。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">主攻直径比30:1微钻、已向下游送样验证微钻钨棒，1200吨粉料项目投建、微钻设备预计26年10月到位，27年PCB钻针有望放量。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">有（成本传导+结构+棒材增量）：数控刀片非钻针，钨价上行可向刀片传导；高端涂层刀片占比提升带动ASP；PCB棒材/微钻为后续量价增量。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026-06）市场定价刀片主业高增+PCB棒材/微钻期权，26Q1业绩爆发（净利+499%、毛利率57.3%）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>有（成本传导+结构+棒材增量）：数控刀片非钻针，钨价上行可向刀片传导；高端涂层刀片占比提升带动ASP；PCB棒材/微钻为后续量价增量。提价弹性中等偏强，靠涂层/高端化结构升级+钨棒国产替代。</div>
+      <div class="p"><b>弹性假设：</b>数控刀片主业受益钨链格局重塑/国产替代；PCB棒材/微钻为2026+增量。中金给350亿目标市值。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准价（结构升级）</td><td class="num">3.0亿</td><td class="num">3.0亿</td><td class="num up">90亿</td></tr>
+          <tr><td class="base">提价+10%</td><td class="num">3.5亿</td><td class="num">3.5亿</td><td class="num up">105亿</td></tr>
+          <tr><td class="base">提价+20%</td><td class="num">4.0亿</td><td class="num">4.0亿</td><td class="num up">120亿</td></tr>
+          <tr><td class="base">提价+30%</td><td class="num">4.5亿</td><td class="num">4.5亿</td><td class="num up">135亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（中性量不变）；乐观情形为量+价+净利率齐升。基准行须标注基准单价。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">数控刀片主业受益钨链格局重塑/国产替代；PCB棒材/微钻为2026+增量。中金给350亿目标市值。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">详见扩产节奏描述中的供需反转判断时点。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心业务 30x / 其他 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>数控刀片主业 ·25x</td><td class="cn as">收入CAGR 20%·净利率30%</td><td class="cn num nn">5.5</td><td class="op as bd">收入CAGR 25%·净利率32%</td><td class="op num no">6.5</td></tr>
+        <tr class="ai-row"><td>◆ PCB棒材/微钻 ·30x</td><td class="cn as">2027年PCB钻针有望放量</td><td class="cn num nn">1.5</td><td class="op as bd">钨棒/微钻全面放量</td><td class="op num no">2.5</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段 7.0 / 其他 0</span></td><td class="cn num">~7.0</td><td class="op bd"><span class="sub">核心段 9.0 / 其他 0</span></td><td class="op num">~9.0</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 208亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">210亿 (+1%)</td><td class="op bd"></td><td class="op num up">270亿 (+30%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>传统主业按收入增速 + 净利率外推；核心业务按满产产能 × 单价 × 净利率；分段净利 × 倍数（核心 30x / 其他 20x / 周期资源类 10x）加总。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">PCB棒材产线投产：2025H2已建成，测试后面向市场；微钻设备预计26年10月到位，27年PCB钻针有望放量；高端涂层刀片占比提升；26Q1业绩已验证（净利+499%、毛利率57.3%）。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">估值已接近中性（现市值208亿 vs 中性210亿+1%）；PCB棒材/微钻放量不及预期；钨价波动；竞争加剧。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-06-23）；进门财经研报及会议纪要（列券商名）；公开网络资料。2026-27E 为卖方一致预期；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

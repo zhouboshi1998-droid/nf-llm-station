@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>光环新网(300383)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">光环新网</span><span class="code">300383</span>
+      <div class="tags">AWS中国独家运营商 · IDC向AIDC转型中 · 2025年计提减值巨亏</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥12.81　总市值 230.27 亿</div>
+      <div class="meta">PE-TTM 亏损(不适用) · PB(LF) 1.9x · 17.98 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>光环新网是国内老牌IDC(互联网数据中心，即为客户提供机柜/带宽租用等基础设施服务)与云计算一体化服务商，自2016年起独家运营亚马逊AWS中国(北京)区域云服务，是字节跳动、亚马逊的重要合作伙伴。2025年公司营业收入71.78亿元、同比-1.4%，但受计提商誉减值准备约8.64亿元等一次性因素影响，归母净利润由盈转亏至-7.59亿元(剔除减值后约1.04亿元，同比-72.6%)；核心症结在于行业供给过剩、价格战压制IDC毛利率(降至29.15%)，叠加数据中心上架率降至约60%，云计算(AWS合作)业务毛利率也仅6.76%。公司正加速推进"从IDC到AIDC"的智算升级，<b>上架率与定价修复、AIDC放量节奏是当前核心看点与不确定性所在</b>。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">71.78 亿</div><div class="s dn">-1.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">-7.59 亿</div><div class="s dn">由盈转亏，主因商誉减值8.64亿</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">-10.6%</div><div class="s">剔除减值后约+1.4%；毛利率~14.0%</div></div>
+    <div class="stat"><div class="k">IDC业务收入占比</div><div class="v">~31.1%</div><div class="s up">同比+6.8%，毛利率承压</div></div>
+    <div class="stat"><div class="k">2026Q1 归母净利</div><div class="v">0.22 亿</div><div class="s dn">扭亏为盈，但同比-67.5%</div></div>
+    <div class="stat"><div class="k">数据中心上架率</div><div class="v">~60%</div><div class="s">2024年约70-75%，承压下滑</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>云计算（AWS中国区运营）</td><td class="num">48.36</td><td class="num">67.4%</td><td class="num dn">-5.2%</td><td class="num">6.8%</td><td class="num">32.6%</td></tr>
+        <tr class="key"><td>◆ IDC及其增值服务（含AIDC）</td><td class="num">22.31</td><td class="num">31.1%</td><td class="num up">+6.8%</td><td class="num">29.1%</td><td class="num">64.8%</td></tr>
+        <tr><td>其他</td><td class="num">0.65</td><td class="num">0.9%</td><td class="num up">+55.7%</td><td class="num">28.1%</td><td class="num">1.8%</td></tr>
+        <tr><td>宽带接入服务</td><td class="num">0.45</td><td class="num">0.6%</td><td class="num dn">-7.2%</td><td class="num">16.7%</td><td class="num">0.7%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">71.78</td><td class="num">100%</td><td class="num dn">-1.4%</td><td class="num">14.0%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">IDC及其增值服务2025年营收22.31亿元，占比31.1%，同比+6.8%，是公司实际的利润引擎(毛利占比64.8%)；但受行业供给过剩、价格战及新机柜转固折旧影响，毛利率降至29.15%(-5.25pct)，上架率已降至约60%(此前70-75%)。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司自2016年起获亚马逊授权，独家运营AWS中国(北京)区域云服务，是字节跳动、亚马逊的重要合作伙伴；IDC业务布局京津冀、长三角、中西部及内蒙古、海南等"东数西算"节点，正推进从"IDC"向"AIDC(智算数据中心)"升级。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">云计算业务(AWS合作)营收占比最大(67.4%)但毛利率仅6.76%(-2.26pct)，因客户结构优化及2017年购买的特定经营性资产到期处置(减少收益约1.05亿元)拖累收入；2025年整体因计提商誉减值准备约8.64亿元由盈转亏，剔除该影响归母净利润约1.04亿元(同比-72.6%)，EBITDA同比+1.1%至14.17亿元，经营现金流相对稳健。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">公司加速布局AIDC及智算业务，目前智算相关业务年合同额已超1亿元(规模尚小)，并在内蒙古、海南及马来西亚拓展智算中心项目；2025年新投放机柜2.6万个(历史最高)，已投产机柜总数超8.6万个(与§04情景假设勾稽)。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">假设IDC及其增值服务收入较基准每上升10%且约60%落净利(高固定成本，上架率/定价修复弹性大)，对应公司总净利较基准增厚约3.8亿元（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场交易的是IDC上架率触底修复与AIDC转型预期，叠加公司获评"2026年度AI基础设施创新奖"等事件催化；但股价7月1日单日大涨9.3%后连续回落、7月8日反弹5.1%，波动剧烈，反映资金对亏损修复节奏的分歧较大。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>国内数据中心行业短期受新基建政策推动供给激增、价格战压制IDC租赁价格，但AI大模型训练及推理算力需求持续释放，推动GPU集群、液冷等专用智算基础设施加速落地；公司存量机柜上架率(约60%)存在修复空间，叠加AIDC升级带来的单柜价值量提升，具备定价/上架率双重修复弹性，由于折旧、电费等成本大部分刚性，收入端修复对净利润具有较强的经营杠杆效应。</div>
+      <div class="p"><b>弹性假设：</b>假设IDC及其增值服务收入(2028E中性情景)较基准整体上升10%(上架率修复+AIDC溢价)，且约60%转化为增量净利（高固定成本运营杠杆）。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E中性IDC定价/上架率，测算口径）</td><td class="num">8.3 亿</td><td class="num">10.1 亿</td><td class="num up">285 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">12.1 亿</td><td class="num">13.9 亿</td><td class="num up">400 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">16.0 亿</td><td class="num">17.8 亿</td><td class="num up">515 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">19.8 亿</td><td class="num">21.6 亿</td><td class="num up">630 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯IDC定价/上架率敏感性（中性量不变，云计算+其他+宽带板块净利固定约1.8亿）；乐观情形为量+价+净利率齐升，见§04。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">2025年公司新投放机柜2.6万个(历史最高)，已投产机柜总数超8.6万个；智算相关业务年合同额已超1亿元，在内蒙古、海南及马来西亚拓展智算中心项目。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">行业短期供给过剩、价格战压制IDC租赁价格，公司上架率已降至约60%(2024年约70-75%)；AIDC/智算增量项目仍处早期，规模化贡献业绩尚需时间。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">传统IDC与AI服务器高功率需求存在适配错位，行业面临技术迭代冲击；需重点跟踪机柜上架率能否触底回升、AWS合作资产到期续约/置换节奏，以及控股股东持续减持对股价的压制是否缓解。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（IDC及其增值服务(AIDC) 30x / 云计算+其他+宽带 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ IDC及其增值服务(AIDC) ·30x</td><td class="cn as">收入CAGR~42%(25-28E)至63.9亿·净利率13.0%(上架率修复+AIDC升级溢价)</td><td class="cn num nn">8.3</td><td class="op as bd">收入CAGR~48%·净利率14.5%(智算业务放量超预期)</td><td class="op num no">10.5</td></tr>
+        <tr><td>云计算(AWS合作)+其他+宽带 ·20x</td><td class="cn as">收入CAGR~4%至55.6亿·净利率3.2%(客户结构优化，AWS合作企稳)</td><td class="cn num nn">1.8</td><td class="op as bd">收入CAGR~6%·净利率3.4%</td><td class="op num no">2.0</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段8.3 / 其他1.8</span></td><td class="cn num">~10.1</td><td class="op bd"><span class="sub">核心段10.5 / 其他2.0</span></td><td class="op num">~12.5</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价230.27亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~285亿 (+23.7%)</td><td class="op bd"></td><td class="op num up">~355亿 (+54.0%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>IDC及其增值服务(含AIDC升级)、云计算(AWS合作)+其他+宽带接入均按收入CAGR+净利率假设外推，中性情景对应目标市值约288亿元、乐观情景约360亿元(误差±20亿)；分段净利×倍数(核心业务30x/传统主业20x)加总。2025年归母净利润受8.64亿元商誉减值一次性拖累，本情景分部净利拆分以剔除减值后的约1.04亿元为2025A基准起点。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">持续：AIDC/智算业务加速布局(内蒙古、海南、马来西亚)，年合同额已超1亿元并有望持续放量；2026年内：数据中心整体上架率能否触底回升，是决定IDC业务毛利率修复节奏的核心变量；持续：AWS中国(北京)区域独家运营权带来的云计算客户结构优化及混合云/私有云延伸机会；事件：公司获评"2026年度AI基础设施创新奖"等行业认可，带动短期市场关注度提升。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">本情景中性情景对应净利润(10.09亿元)显著高于Wind卖方一致预期2028E(5.89亿元)，情景测算隐含明显快于当前卖方预期的上架率修复及AIDC放量节奏，若实际兑现不及情景假设存在较大证伪风险；公司2025年归母净利润为亏损(-7.59亿元)，现价对应PE-TTM为负，估值缺乏传统盈利锚定，股价近一周大幅波动；2025年由盈转亏主因计提商誉减值约8.64亿元，2022年已发生过一次年度巨亏，剔除减值后归母净利润仍同比下滑72.6%，主业盈利能力显著承压；数据中心行业短期供给过剩、价格战持续，公司上架率已降至约60%；据公开报道控股股东存在持续减持情况，叠加云计算业务对亚马逊AWS合作的高度依赖，需关注后续股权及大客户关系变化。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年年度报告及公告（巨潮）；iFinD、Wind（行情/估值/主营构成/一致预期，截至2026-07-08）；进门财经研报及财经资讯及公开网络资料。Wind卖方一致预期2026E/2027E/2028E归母净利润分别为3.23/4.28/5.89亿元，与本情景中性假设(10.09亿)存在较大差异，供参考。2025年归母净利润(-7.59亿元)主要受商誉减值准备约8.64亿元一次性影响，剔除后约1.04亿元，本情景分部净利拆分以此为2025A基准。2028E分段情景、净利率档位、租金弹性与市值空间为对应目标市值（中性约288亿元/乐观约360亿元，误差±20亿）校准的情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

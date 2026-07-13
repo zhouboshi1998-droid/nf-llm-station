@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>TCL科技(000100)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">TCL科技</span><span class="code">000100</span>
+      <div class="tags">全球 LCD 面板龙头之一 · 利润向经营现金流靠拢 · 玻璃基板期权（下半年投实验线）</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ~¥5.27　总市值 ~1080 亿</div>
+      <div class="meta">PE-TTM ~24x · PB ~1.7x · ~205 亿股</div>
+      <div class="date">数据截至 2026-07-06（收盘）</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>公司是全球 LCD 面板龙头之一（主体为 TCL 华星，LCD 电视面板制造），并持股 30% TCL 中环（光伏/半导体材料）。核心看点：面板行业进入"按需生产、调稼动率"新阶段，价格平稳支撑公司 <b>~400 亿体量经营现金流</b>；当前表观利润仅 45 亿，受折旧 + 中环亏损压制，随 2026 年后<b>折旧大幅下降</b>（25–30 年降 100 亿）、中环扭亏、少数股权收回，中期归母有望向 250–300 亿修复。玻璃基板/先进封装为近乎白送的期权（下半年投实验线）。量价利中，利润"向现金流靠拢"的确定性修复最具看点。</div>
+
+  <!-- KPI 条 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">1842 亿</div><div class="s up">+11.7% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">45 亿</div><div class="s up">+188.8% YoY</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">~2.4%</div><div class="s">华星净利率 ~7.6%</div></div>
+    <div class="stat"><div class="k">华星光电占比</div><div class="v">57.1%</div><div class="s">归母贡献 53.6 亿</div></div>
+    <div class="stat"><div class="k">2026E 归母</div><div class="v">~65 亿</div><div class="s up">+45%</div></div>
+    <div class="stat"><div class="k">2027E 归母</div><div class="v">~102 亿</div><div class="s up">+57%</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 年报按分部披露净利，毛利率未按此拆分 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 华星光电（半导体显示）</td><td class="num">1052.00</td><td class="num">57.1%</td><td class="num up">+17.4%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr><td>翰林汇（IT 产品分销）</td><td class="num">346.00</td><td class="num">18.8%</td><td class="num up">+9.8%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr><td>TCL 中环（光伏/半导体材料）</td><td class="num">291.00</td><td class="num">15.8%</td><td class="num up">+2.5%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr><td>TCL 茂佳（智屏 ODM）</td><td class="num">155.00</td><td class="num">8.4%</td><td class="num up">+6.2%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr><td>其他业务</td><td class="num">-2.00</td><td class="num">-0.1%</td><td class="num">—</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr class="total"><td>合计</td><td class="num">1842.00</td><td class="num">100%</td><td class="num">+11.7%</td><td class="num">未披露</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">华星光电（半导体显示）占营收 57%、是利润基本盘（2025 归母贡献 53.6 亿）；TCL 中环拖累（2025 归母 -30 亿）；玻璃基板为报表外期权。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">TCL 华星是全球 LCD 电视面板双雄之一（与京东方）；2022 年后行业"国产替代完成→追求利润、按需生产"，大陆厂商掌握定价权，大尺寸化驱动需求面积增长。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">电视面板业务净利率去年 13% → 今年 15+%，上游成本基本可控且具备向下游传导能力；华星处第一梯队。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">折旧 2026 年后大幅下降（25–28 年降 50 亿、25–30 年降 100 亿、25–32 年降 150 亿）+ 中环扭亏 + 少数股权收回（T9 股权 Q3 收回，2027 年底华星归母比例达 90%），中期归母向 250–300 亿靠拢。</div></div>
+      <div class="bl"><div class="t">弹性口径利润</div><div class="x">~400 亿经营净现金流为锚，折旧下降 + 中环扭亏直接转化为表观利润修复；2028E 主业归母 ~135 亿（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）交易利润向现金流兑现 + 股东回报提升 + 玻璃基期权；现价对应 2027E 仅 ~10–13x PE，6/30–7/1 连续大涨。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>面板价格中枢与利润弹性</h2></div>
+      <div class="p"><b>价格逻辑：</b>LCD TV 面板"调稼动率、按需生产"，稼动率 2022 年 76% → 2025 年 85% → 26H1 87%，大尺寸化（平均尺寸每 +1 英寸需求面积 +2–3%）支撑价格平稳偏强；高经营杠杆下价格上行大比例落净利。</div>
+      <div class="p"><b>弹性假设：</b>以华星 2028E 收入 ~1230 亿为基数，价格变动约 50% 落净利（测算，量不变）；基准取 2028E 主业正常化归母 ~135 亿。</div>
+      <table>
+        <thead><tr><th>面板价格中枢</th><th class="num">弹性段净利</th><th class="num">公司总归母</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E 中枢）</td><td class="num">—</td><td class="num">~135 亿</td><td class="num up">~1500 亿</td></tr>
+          <tr><td class="base">+5%</td><td class="num">+31 亿</td><td class="num">~166 亿</td><td class="num up">~1830 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">+62 亿</td><td class="num">~197 亿</td><td class="num up">~2170 亿</td></tr>
+          <tr><td class="base">+15%</td><td class="num">+92 亿</td><td class="num">~227 亿</td><td class="num up">~2500 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（量不变），基准为 2028E 正常化归母 ×~11x；实际乐观情形为价 + 稼动 + 中环扭亏齐升。均为情景测算。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判（LCD TV 面板）</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">"按需生产"，无大规模新增大陆产线；稼动率 2022 年 76% → 2025 年 85% → 26H1 87%，由大尺寸化拉动。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">若海外大屏化推进顺利，预计 2028 年左右接近供需平衡；玻璃基实验线下半年投建。</span></div>
+        <div class="er rv"><span class="lb">供需拐点</span><span class="vv">LCD 供需由过剩转健康已基本兑现、价格窄幅波动；大尺寸化（每 +1 寸需求面积 +2–3%）为需求增量关键变量，盯海外品牌出海与大屏化节奏。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（半导体显示主业 10x · 玻璃基期权）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利/市值</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利/市值</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>半导体显示主业 ·10x</td><td class="cn as">2028E 正常化归母 ~135 亿（折旧降 + 中环扭亏）</td><td class="cn num nn">135</td><td class="op as bd">价格/中环更优，归母 ~150 亿</td><td class="op num no">150</td></tr>
+        <tr class="ai-row"><td>◆ 玻璃基板期权</td><td class="cn as">布局落后京东方，仅给极少期权市值</td><td class="cn num nn">~150亿</td><td class="op as bd">给京东方玻璃基期权约 1/3</td><td class="op num no">~500亿</td></tr>
+        <tr class="sum"><td>合计（归母净利 亿元 / 含期权市值）</td><td class="cn"><span class="sub">主业 135 ×10x + 期权 ~150亿</span></td><td class="cn num">~1500亿</td><td class="op bd"><span class="sub">主业 150 ×10x + 期权 ~500亿</span></td><td class="op num">~2000亿</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 ~1080 亿</td><td class="cn"><span class="sub">分段加总</span></td><td class="cn num up">~1500亿 (+39%)</td><td class="op bd"></td><td class="op num up">~2000亿 (+85%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>半导体显示主业按 2028E 折旧下降 + 中环扭亏后正常化归母（~135 亿）×10x；玻璃基板期权中性仅给极少市值、乐观按京东方玻璃基期权约 1/3 估算（~500 亿）。安全边际：现价对应 2027E 仅 ~10–13x PE。均为情景测算、可证伪。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">折旧逐年下降释放利润（25–30 年降 100 亿）；TCL 中环扭亏；少数股权收回（T9 Q3 完成，2027 年底华星归母比例达 90%）；分红率提升（未来三年 40+%）+ 回购（今年 11–12 亿，2020 年来最高）；玻璃基实验线下半年投建 + 中报披露规划；面板价格中枢/稼动率上行。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">面板价格中枢回落；中环亏损收窄不及预期；大尺寸化/海外出海放缓致 2028 年供需平衡推迟；玻璃基板布局落后京东方（期权兑现慢）；上游成本上涨传导不畅；短期股价连续大涨后回调。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2025 年年度报告及业绩说明会；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-06）；进门财经研报及会议纪要；公开网络资料；及内部提供资料。2026-28E 为卖方一致预期/情景测算；折旧下降、中环扭亏、价格弹性、玻璃基期权与市值空间为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

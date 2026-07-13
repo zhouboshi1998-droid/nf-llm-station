@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>西安奕材(688783)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">西安奕材</span><span class="code">688783</span>
+      <div class="tags">国内第一 / 全球第六的 12 英寸大硅片纯玩家 · 半导体周期次新股 · AI 间接敞口（先进制程/HBM 扩产拉动 12 寸需求）</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥53.26　总市值 ≈2,151 亿</div>
+      <div class="meta">PE-TTM 亏损(-286x) · PB ~17.5x · 40.38 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>西安奕材（奕斯伟材料）是国内<b>第一、全球第六</b>的 12 英寸大硅片（300mm）<b>纯玩家</b>，2025 年 10 月科创板上市（发行价 8.62 元）。硅片是芯片"地基"，AI 拉动 HBM/先进 DRAM/NAND 及逻辑芯片扩产→带动 12 寸大硅片需求（HBM 对 12 寸需求约普通 DRAM 3 倍），属<b>间接</b>敞口。核心看点：二厂产能爬坡、正片（抛光/外延）占比与单价提升、走向盈利。但当前仍<b>战略性亏损</b>（2025 归母 -7.4 亿、综合毛利率仅 3.9%，测试片负毛利拖累），且股价自上市翻倍（8.62→53.26 元），估值透支明显。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">26.49 亿</div><div class="s up">+24.9% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">-7.38 亿</div><div class="s dn">仍亏损（扣非 -8.09 亿）</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">~3.9%</div><div class="s dn">-34% 同比（测试片负毛利拖累）</div></div>
+    <div class="stat"><div class="k">正片收入占比</div><div class="v">~60%</div><div class="s">抛光+外延 结构升级中</div></div>
+    <div class="stat"><div class="k">2026Q1 营收</div><div class="v">7.23 亿</div><div class="s up">+10.6% YoY</div></div>
+    <div class="stat"><div class="k">12 寸月产能</div><div class="v">&gt;85 万片</div><div class="s">二厂满产→合并 ~120 万片</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 毛利占比按分产品毛利加总口径 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>测试片</td><td class="num">10.42</td><td class="num">39.3%</td><td class="num up">+12.4%</td><td class="num dn">~-5%</td><td class="num">-58.3%</td></tr>
+        <tr class="key"><td>◆ 抛光片（正片主力 · 12 寸大硅片）</td><td class="num">9.84</td><td class="num">37.2%</td><td class="num up">+18.5%</td><td class="num">8.2%</td><td class="num">89.8%</td></tr>
+        <tr class="key"><td>◆ 外延片（盈利最强 · 12 寸大硅片）</td><td class="num">6.10</td><td class="num">23.0%</td><td class="num up">+72.6%</td><td class="num">10.0%</td><td class="num">68.5%</td></tr>
+        <tr><td>其他</td><td class="num">0.13</td><td class="num">0.5%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">~0.0%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">26.49</td><td class="num">100%</td><td class="num">+24.9%</td><td class="num">~3.9%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">12 寸大硅片纯玩家，正片（抛光片 37.2%+外延片 23.0%）为核心；AI 直接敞口低——HBM 用抛光片尚处客户验证/联合研发，非直接算力受益，属<b>间接中等</b>弹性。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">硅片是芯片"地基"，位于半导体最上游；国内唯一专注 12 寸纯玩家，全球第六。客户含国内中芯/长存，海外台积电/美光/铠侠/格罗方德等批量供货。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">外延片毛利率 10.0%（+72.6% 增速最强）、抛光片 8.2% 为正片盈利主力；测试片约 -5%（卖越多亏越多）拖累整体毛利仅 3.9%，处产能爬坡+折旧高峰。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">二厂 2026 底满产→合并约 120 万片/月，正片/外延占比与单价提升，测试片负毛利收敛；管理层预计约 <b>2027 年盈利</b>。</div></div>
+      <div class="bl"><div class="t">价量口径利润</div><div class="x">正片（抛光+外延）2025 收入基数约 15.94 亿，为价格/稼动率敏感性主体（测算，见 §03）；亏损公司下涨价与产能爬坡对盈亏平衡高度杠杆。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝AI 存储超级周期＋12 寸国产替代＋二厂放量拐点预期；股价自上市（8.62 元）翻倍至 53.26 元、交易拥挤，现市值 2,151 亿已隐含 2028E 乐观盈利（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价 / 稼动率 · 产能爬坡敏感性</h2></div>
+      <div class="p"><b>逻辑：</b>公司自身价格偏谨慎（管理层称与去年基本持平、处低位，未官宣涨价）；盈利拐点主要靠<b>二厂产能爬坡放量 + 正片/外延结构与单价提升 + 折旧摊薄</b>。行业"涨价 5–10%"多指沪硅等同业，不可直接套用于奕材。</div>
+      <div class="p"><b>弹性假设：</b>以正片（抛光+外延）2025 收入基数约 15.94 亿为敏感性主体，涨价增量约 70% 落净利（测算），叠加 2025 基准亏损 -7.4 亿。</div>
+      <table>
+        <thead><tr><th>正片涨价 / 稼动率</th><th class="num">弹性段增量净利</th><th class="num">公司总净利</th><th class="num">对应市值(参考)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 年报口径 · 战略亏损）</td><td class="num">—</td><td class="num dn">~-7.4 亿</td><td class="num">现价 2,151 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num up">+1.1 亿</td><td class="num dn">~-6.3 亿</td><td class="num">—（仍亏）</td></tr>
+          <tr><td class="base">+20%</td><td class="num up">+2.2 亿</td><td class="num dn">~-5.2 亿</td><td class="num">—（仍亏）</td></tr>
+          <tr><td class="base">+30%</td><td class="num up">+3.3 亿</td><td class="num dn">~-4.1 亿</td><td class="num">—（仍亏）</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（量不变，测算）；弹性段＝正片收入 15.94 亿×涨幅×70% 落净利；公司净利基数取 2025 归母 -7.4 亿。单纯涨价难以扭亏，盈利拐点更依赖二厂满产放量摊薄折旧（约 2027 年）——故本表仅示价格弹性方向。全部（测算）。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">国内 12 寸厂商持续扩产、公司自身产能爬坡，全球硅片供给一直有所增长；二厂 2026 底满产→合并约 120 万片/月。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">当前供给紧平衡、尚未出现明显缺口；涨价由龙头提价诉求＋结构性紧缺驱动，公司自身逐季小幅涨价。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">全面缺口需 AI 需求持续兑现方现，时点未明。关键变量：HBM/先进制程扩产是否兑现、原厂 12 寸大硅片采购是否放量。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 正片（抛光/外延）·主体</td><td class="cn as">二厂满产、正片放量+单价升（测算）</td><td class="cn num nn">40</td><td class="op as bd">涨价+外延占比升+毛利上行（测算）</td><td class="op num no">65</td></tr>
+        <tr><td>测试片 / 其他</td><td class="cn as">负毛利收敛、随量增贡献（测算）</td><td class="cn num nn">10</td><td class="op as bd">结构优化超预期（测算）</td><td class="op num no">15</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">正片 40 / 测试片等 10</span></td><td class="cn num">~50</td><td class="op bd"><span class="sub">正片 65 / 测试片等 15</span></td><td class="op num">~80</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 2,151 亿</td><td class="cn"><span class="sub">整体 20x（研究员给定）</span></td><td class="cn num dn">~1,000亿 (-53%)</td><td class="op bd"><span class="sub">整体 30x（研究员给定）</span></td><td class="op num up">~2,400亿 (+12%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 50 亿 / 乐观 80 亿，均为周期高点情景）× 假设 PE（中性 20x / 乐观 30x）。分段净利按 2025 正片/非正片贡献比例拆分为情景测算，仅供参考。<b>结论：</b>公司已开始逐季涨价，但乐观情景（约 100% 涨价+满产满利）兑现度低；<b>股价自上市翻倍后，中性情景市值 1,000 亿已低于现价约 -53%，乐观情景亦仅 +12%，估值透支明显</b>（老 PDF 于 23.8 元/961 亿时测得 +4%/+150%，现价已大幅上移）。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 二厂 2026 底满产、合并产能爬坡至 ~120 万片/月，折旧摊薄→2027 走向盈利；② 正片（抛光/外延）占比与单价提升、外延片放量（+72.6%）；③ HBM/先进制程扩产拉动 12 寸大硅片需求兑现，公司 HBM 用抛光片验证通过放量；④ 国产替代加速、海外大客户批量导入。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① <b>当前仍亏损</b>（2025 归母 -7.4 亿、综合毛利率 3.9%），扭亏依赖满产，PE-TTM 为负、PB ~17.5x 已高；② 估值透支——中性 2028E 情景市值 1,000 亿低于现价约 -53%；③ AI 敞口偏间接，HBM 用片尚在验证、非直接算力受益；④ 全球硅片供给持续增长、需求兑现不及→价格/稼动率承压；⑤ 次新股、股价上市翻倍、交易拥挤，波动放大。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 股本 / IPO，截至 2026-07-07 收盘）；西安奕材 2025 年年度报告及 2026 年一季报（分产品营收/毛利率为 2025 年报口径：抛光片 8.16%、外延片 10.03%，测试片毛利率约 -5% 参考公司披露"部分产品负毛利"及研究员口径）；招股书及问询函回复、中信证券半导体硅片研究、集邦咨询等公开研报与调研纪要。2028E 归母（研究员给定中性/乐观值）、价格弹性与市值空间为情景测算，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

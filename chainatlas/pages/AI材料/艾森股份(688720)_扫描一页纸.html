@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>艾森股份(688720)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">艾森股份</span><span class="code">688720</span><div class="tags">先进封装电镀液龙头 · 先进封装光刻胶/PSPI 全品类国产替代 · 长存长鑫链 · CoWoS/HBM/玻璃基板</div></div><div class="r"><div class="px">现价 ¥86.75　总市值 106.4 亿</div><div class="meta">PE-TTM ~200x · PB 10.2x · 1.23 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>昆山的半导体“电子化学品”专业厂：把铜、锡、钴等金属做成电镀液（给芯片镀线路、填孔、长铜柱），再加上光刻胶（把电路图“印”到晶圆/封装上的感光胶水），卖给做晶圆制造、芯片封装、PCB/IC 载板、面板的下游。两大基本盘——电镀液及配套试剂（2025 营收 2.88 亿、毛利率约 39%，含先进封装铜/锡电镀液）、光刻胶及配套试剂（1.36 亿、毛利率约 36%，含 PSPI/KrF/厚膜负胶）；外加薄利的电镀配套材料（1.48 亿）。AI 弹性来自“先进封装电镀液+先进封装光刻胶”双卡位：CoWoS/2.5D-3D、HBM 堆叠、TSV/RDL/Bumping、玻璃基板 TGV 的国产替代，绑定长电、通富、盛合晶微、长存、长鑫。客户含中芯、华虹、京东方、长电、通富、华天等。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">5.93 亿</div><div class="s" style="color:var(--up)">同比 +37.1%</div></div><div class="stat"><div class="k">2025A 归母</div><div class="v">0.512 亿</div><div class="s" style="color:var(--up)">同比 +53.0%</div></div><div class="stat"><div class="k">2026Q1 营收</div><div class="v">1.616 亿</div><div class="s" style="color:var(--up)">同比 +28.1%</div></div><div class="stat"><div class="k">2026Q1 扣非</div><div class="v">0.081 亿</div><div class="s" style="color:var(--up)">同比 +24.5%</div></div><div class="stat"><div class="k">综合毛利率</div><div class="v">~30%</div><div class="s" style="color:var(--ink)">电镀液/光刻胶 35-39%</div></div><div class="stat"><div class="k">电子化学品产能</div><div class="v">1.6 万吨/年</div><div class="s" style="color:var(--ink)">支撑电镀液+光刻胶</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 电镀液及配套试剂</td><td class="num">2.88</td><td class="num">48.6%</td><td class="num up">+46.8%</td><td class="num">38.8%</td><td class="num">64.9%</td></tr><tr><td>电镀配套材料</td><td class="num">1.48</td><td class="num">25.0%</td><td class="num up">+17.0%</td><td class="num">3.5%</td><td class="num">3.0%</td></tr><tr class="key"><td>◆ 光刻胶及配套试剂</td><td class="num">1.36</td><td class="num">22.9%</td><td class="num up">+43.5%</td><td class="num">35.5%</td><td class="num">28.1%</td></tr><tr><td>其它电子化学品</td><td class="num">0.02</td><td class="num">0.4%</td><td class="num up">+32.6%</td><td class="num">24.4%</td><td class="num">0.3%</td></tr><tr><td>其他业务</td><td class="num">0.19</td><td class="num">3.2%</td><td class="num up">+42.2%</td><td class="num">33.9%</td><td class="num">3.7%</td></tr><tr class="total"><td>合计</td><td class="num">5.93</td><td class="num">100%</td><td class="num">+37.1%</td><td class="num">29.0%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">2025 营收 5.93 亿、归母仅 0.51 亿，AI 弹性仍在导入早期：先进封装电镀液/光刻胶多产品刚量产或处客户端测试，绝对利润占比小，故 PE-TTM 高达 ~204x、PB ~10.4x——市场买的是先进封装材料国产替代+放量斜率，而非当期利润。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">国内极少数同时在“半导体电镀液+先进封装光刻胶”双卡脖子环节量产落地、过头部认证的本土平台：电镀液端是国内先进封装电镀液龙头；光刻胶端是国内唯一先进封装光刻胶全品类国产替代厂商、负性光刻胶独家量产。客户覆盖长电、通富、华天、盛合晶微（封测）+长存、长鑫（存储）+中芯、华虹（晶圆）+京东方（面板/玻璃基板）。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">电镀液毛利率约 39%、光刻胶约 36%（高附加值卡脖子品种），显著高于薄利的电镀配套材料（~3.5%）。先进封装材料随堆叠层数/工艺步骤增加单位用量提升，叠加上游石化衍生品（光刻胶/电镀液原料）涨价周期与对日替代溢价，单价与毛利有上行弹性；公司具备从基液到添加剂、从厚膜胶到 PSPI 的全配方能力。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入结构从“薄利电镀配套+成熟材料”向“高毛利先进封装电镀液+光刻胶/PSPI”迁移：先进封装材料占比 2028E 升至 60%+。HBM 由 8 层→12/16 层，每层 DRAM 堆叠需独立光刻，光刻次数随层数翻倍——光刻胶需求从线性转向以堆叠层数为自变量的超线性扩张；CoWoS/玻璃基板放量同步拉动 TSV/TGV 电镀液。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">市占率法（2028E）：单万片 CoWoS 所需电镀+光刻材料约 10-15 亿元（卖方口径），国产算力扩产后先进封装材料市场约 80-120 亿；中性 TAM 80 亿×份额 35%=28 亿收入×净利率 25%≈7.0 亿，乐观 TAM 120 亿×份额 40%=48 亿×净利率 30%≈14.4 亿。1.6 万吨产能+扩产支撑满产，PSPI 满产后收入可看 30 亿（卖方）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">①先进封装材料国产替代——电镀液+光刻胶双龙头，绑定长电/通富/盛合晶微+长存/长鑫，CoWoS/HBM/玻璃基板放量驱动超线性需求；②对日替代弹性——PSPI 全球 90% 靠日本、日企曾限供，国内 20 亿市场翻倍空间；③涨价周期——半导体材料上游石化衍生品涨价、对日替代溢价。绝对利润占比小、估值高，需求验证与量产放量节奏是核心变量。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>先进封装电镀液+光刻胶随 CoWoS/HBM/玻璃基板放量量价齐升：HBM 堆叠层数翻倍→光刻次数与光刻胶用量超线性扩张；TSV/TGV/RDL 电镀液单万片 CoWoS 材料价值量 10-15 亿；半导体材料上游石化衍生品涨价+对日（PSPI/光刻胶）替代溢价，公司作国内双龙头具备议价权。</div><div class="p"><b>弹性假设：</b>以中性先进封装材料段净利 7.0 亿为基准（≈TAM 80 亿×份额 35%=收入 28 亿×净利率 25%）；涨价增量约 70% 落入净利（原料为成本传导项、配方加工与替代溢价为利润项）。其他各段净利与市值固定。</div><table><thead><tr><th>先进封装材料涨价</th><th class="num">先进封装材料段净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 先进封装电镀液+光刻胶 基准均价口径</td><td class="num">7.0 亿</td><td class="num">8.5 亿</td><td class="num up">240 亿</td></tr><tr><td class="base">+10%</td><td class="num">9.0 亿</td><td class="num">10.5 亿</td><td class="num up">299 亿</td></tr><tr><td class="base">+20%</td><td class="num">10.9 亿</td><td class="num">12.4 亿</td><td class="num up">358 亿</td></tr><tr><td class="base">+30%</td><td class="num">12.9 亿</td><td class="num">14.4 亿</td><td class="num up">416 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性：中性量不变、仅先进封装材料提价；乐观情景为量（满产+先进封装占比升）、价、净利率三者齐升，见 §04 乐观列。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">环节海外主导（欣兴/Ibiden/三星电机/TOK/JSR）、国产加速渗透；艾森华东基地拟投 20 亿、年产 2.3 万吨光刻胶+电镀液（现 1.6 万吨）</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">华东基地 26/1 分期投放；大马士革电镀液 26/5 进长存测试；PSPI 26 华天/通富小批量、27-30 国产渗透提升</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">「供给从 0 补位」非传统反转、<b>26-28 渗透爬升、29-30 国产替代成熟放量</b>（CoWoS 25 末 7-8 万→27 年 17 万片/月到 30 续增）。盯：先封投片、PSPI 验证</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ ◆ 先进封装电镀液(铜/锡/钴·Bumping/RDL/TSV/TGV) ·30x</td><td class="cn as">TAM 80 亿×份额 35% 中归电镀部分·净利率 25%</td><td class="cn num nn">4.5</td><td class="op as bd">TAM 120 亿×份额 40%·净利率 30%(满产+涨价)</td><td class="op num no">9.0</td></tr><tr class="ai-row"><td>◆ ◆ 先进封装光刻胶+PSPI(HBM/2.5D-3D) ·30x</td><td class="cn as">PSPI/负胶放量·对日替代·净利率 25%</td><td class="cn num nn">2.5</td><td class="op as bd">PSPI 满产收入看 30 亿·净利率 30%</td><td class="op num no">5.4</td></tr><tr><td>电镀配套材料(MSAP/IC 载板) ·20x</td><td class="cn as">规模增长×薄利净利率修复</td><td class="cn num nn">0.9</td><td class="op as bd">IC 载板放量+份额提升</td><td class="op num no">1.3</td></tr><tr><td>成熟材料+面板/海外 ·20x</td><td class="cn as">晶圆成熟制程电镀+面板湿化学+海外</td><td class="cn num nn">0.6</td><td class="op as bd">东南亚出海+成熟制程扩面</td><td class="op num no">0.7</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 7.0 / 其他 1.5</span></td><td class="cn num">~8.5</td><td class="op bd"><span class="sub">AI 段 14.4 / 其他 2.0</span></td><td class="op num">~16.4</td></tr><tr class="mc"><td>对应市值 vs 现价 106 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~240亿 (+126%)</td><td class="op bd"></td><td class="op num up">~472亿 (+344%)</td></tr></tbody></table><div class="note"><b>估值法：</b>2028E 情景测算（非目标价、可证伪）：先进封装电镀液、先进封装光刻胶/PSPI 按市占率法（TAM×份额×净利率）给 30x；电镀配套材料、成熟材料/面板/海外按 20x。中性合计归母 ~8.5 亿（AI 段 7.0+其他 1.5），乐观 ~16.4 亿（AI 段 14.4+其他 2.0）。先进封装材料毛利率 35-39%，故净利率取 25-30%。单万片 CoWoS 材料价值量及 80-120 亿市场为卖方口径（国泰海通/银河/平安），不背书。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">先进封装电镀铜添加剂由关键批量转量产、大马士革电镀液 2026年5月进长存产线测试后放量；先进封装负性光刻胶盛合晶微认证落地、HBM 光刻胶长存基线供货上量；玻璃基板 TGV 镀铜添加剂/TSV 高速镀铜客户端验证通过；PSPI 对日替代订单兑现、东南亚产能投产；卖方平安证券 2026E 营收 8.05 亿/归母 0.73 亿、2027E 10.96 亿/1.10 亿，国泰海通先进封装乐观口径看 26/27 净利 3.2/6 亿。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 弹性绝对占比仍小、当期利润薄（2025 归母仅 0.51 亿），估值极高（PE-TTM ~204x、PB ~10.4x）透支放量预期；电镀配套材料毛利率仅约 3.5% 拖累综合毛利；先进封装电镀液/光刻胶多产品仍处客户端测试/小批量，量产放量节奏与认证进度不确定；CoWoS/HBM 国产放量、玻璃基板产业化时点存变数；原料（金属/石化衍生品）价格波动；股东减持与限售解禁压力。</div></div></div><div class="src"><b>数据来源：</b>数据来源：公司 2025 年报/2026 一季报、业绩说明会与投资者关系活动记录、互动易、iFinD、Wind、卖方研究（银河/平安/国泰海通/华创等）及产业链调研。2028E 为本人测算，单万片 CoWoS 材料价值量与 80-120 亿市场属卖方口径。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

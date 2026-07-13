@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>金安国纪(002636)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">金安国纪</span><span class="code">002636</span>
+<div class="tags">纯血 CCL 弹性股 · 涨价传导直接 · 年内涨 10 倍</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥93.71　总市值 682.21 亿</div>
+<div class="meta">PE-TTM ~142.36x · PB 17.89x · 7.28 亿股</div>
+<div class="date">数据截至 2026-07-08 17:00:15</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>金安国纪是国内纯血覆铜板（PCB 电路板"板材"，CCL）制造商，主打 FR-4 常规板 + M4/M6 高频高速板，是本轮 CCL 涨价周期弹性最锐利的标的。核心看点是<b>2025 年归母 3.01 亿+711%、扣非 +422%，Q4 单季毛利率提至 19.68%</b>；铜箔+玻纤布涨价顺畅传导，2025 年内股价涨超 10 倍，2026 年 Q1 净利再增 7 倍以上。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">44.80 亿</div><div class="s up">+10.7% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">3.01 亿</div><div class="s up">+711.5% YoY</div></div>
+<div class="stat"><div class="k">扣非归母</div><div class="v">2.66 亿</div><div class="s up">+422.9% YoY</div></div>
+<div class="stat"><div class="k">2025 毛利率</div><div class="v">14.18%</div><div class="s up">+6.76pct</div></div>
+<div class="stat"><div class="k">Q4 毛利率</div><div class="v">19.68%</div><div class="s up">季度环比大幅提升</div></div>
+<div class="stat"><div class="k">年内涨幅</div><div class="v">超 400%</div><div class="s">CCL 板块弹性最强</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收降序 · 单一 CCL 板块 · 高端 M4/M6 占比拉动毛利</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 覆铜板 CCL（含 M4/M6 中高端）</td><td class="num">40.30</td><td class="num">90.0%</td><td class="num up">+11.0%</td><td class="num">14.5%</td><td class="num">92.0%</td></tr>
+<tr><td>粘结片 PP</td><td class="num">3.60</td><td class="num">8.0%</td><td class="num up">+8.0%</td><td class="num">12.0%</td><td class="num">6.8%</td></tr>
+<tr><td>其他业务</td><td class="num">0.90</td><td class="num">2.0%</td><td class="num up">+5.0%</td><td class="num">8.0%</td><td class="num">1.1%</td></tr>
+<tr class="total"><td>合计</td><td class="num">44.80</td><td class="num">100%</td><td class="num up">+10.7%</td><td class="num">14.18%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">90%+ 收入来自 CCL，其中 M4/M6 类中高端占比约 25%（测算），涨价对利润的弹性极为直接锐利。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">国内 CCL 出货量排名前五，与生益/南亚新材同处第二梯队；下游客户覆盖鹏鼎、深南、崇达等 PCB 大厂，与建滔积层板形成竞争。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">M6/M7 高速板已完成客户认证并开始批量出货，M8 处认证阶段；Q4 毛利率 19.68%（环比大幅上行）显示涨价传导顺畅。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">积极推进 M6+/M8 层级高速材料放量，中高端占比望 2027 年升至 40%+；无一体化玻纤/铜箔业务，纯 CCL 加工厂弹性直接。</div></div>
+<div class="bl"><div class="t">涨价（或满产）口径利润</div><div class="x">CCL 收入 40 亿基数，均价涨 10% × 60% 落净利 ≈ 2.4 亿增量（测算），铜箔涨价可完全传导。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是"CCL 涨价周期利润率弹性最强"，年内涨 400%+，交易高度拥挤，PE-TTM 数百倍。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>AI 服务器 M6+/M8 类高速 CCL 严重紧缺、上游电子玻纤纱 + LowDk 玻纤布同步涨价并向 CCL 传导；扩产周期 1-2 年，2026 年加速释放，2027 年供需反转、ASP 与产能利用率共振上行；公司作为纯 CCL 制造商弹性最锐利。</div>
+<div class="p">弹性假设：以 2027E 中性中高端 CCL(M4/M6) 收入 30 亿为基数，涨价增量按 60% 落到净利（M6/M8 议价强，测算）。</div>
+<table>
+<thead><tr><th>高速 CCL 涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准（2027E 中性）</td><td class="num">27.0 亿</td><td class="num">40.3 亿</td><td class="num up">804 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">32.5 亿</td><td class="num">45.8 亿</td><td class="num up">914 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">38.1 亿</td><td class="num">51.3 亿</td><td class="num up">1025 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">43.6 亿</td><td class="num">56.8 亿</td><td class="num up">1135 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按 20x 计入对应市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">CCL 环节扩产周期 1-2 年，公司自身扩产节奏中等，同业生益/建滔/南亚新材同步扩产。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">新产能 2026 年加速投放，2027 年放量爬坡；上游电子玻纤纱/LowDk 玻纤布 2026H2 新产能同步释放。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">预计 2027 年前后高速 CCL 供需反转、ASP 上行；关键跟踪变量为 M6/M8 客户认证、铜箔价格与季度毛利率走势。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心看点业务 20x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 中高端 CCL（M4/M6/M8） ·20x</td><td class="cn as">收入 92.0 亿 · 净利率 29.4%（测算）</td><td class="cn num nn">~27</td><td class="op as bd">收入 110.6 亿 · 净利率 31.6%（测算）</td><td class="op num no">~34.9</td></tr>
+<tr><td>常规 CCL/PP 及其他 ·20x</td><td class="cn as">收入 41.8 亿 · 净利率 31.7%（测算）</td><td class="cn num nn">~13.2</td><td class="op as bd">收入 41.6 亿 · 净利率 33.0%（测算）</td><td class="op num no">~13.7</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 4.5 / 其他 2.2</span></td><td class="cn num">~40.3</td><td class="op bd"><span class="sub">核心 8.1 / 其他 3.2</span></td><td class="op num">~48.6</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 843 亿</td><td class="cn"><span class="sub">4.5×20 + 2.2×20</span></td><td class="cn num up">~804亿 (+17.9%)</td><td class="op bd"><span class="sub">8.1×20 + 3.2×20</span></td><td class="op num up">~972亿 (+42.5%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>中高端 CCL 与常规 CCL/PP 均按 20x 目标 PE（纯 CCL 制造商传统给予 20x 中枢）；分段净利×倍数加总。当前市值显著高于中性/乐观情景对应市值，反映"CCL 涨价 + AI 服务器需求"的短期定价，情景推演仅供参考、可证伪。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">2026 年 Q1/Q2 单季毛利率延续上行；M6/M8 大客户认证突破；CCL 均价再涨价；铜箔涨价传导；同业涨价共振；扩产项目投产节点。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">§04 中性/乐观对应市值均显著低于现价（-84%/-73%），年内涨 400%+，估值透支严重；铜价大幅回落风险；行业扩产 2027 后可能供过于求；无一体化玻纤/铜箔对冲能力。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年报（巨潮、深交所）；iFinD、Wind、同花顺 F10（行情 / 估值 / 主营构成，截至 2026-07-07）；进门财经研报及会议纪要（天风证券等）、财联社；公开网络资料。分产品营收细分为测算，公司仅披露整体营收/毛利率与部分分产品毛利率；2027E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，暂无卖方盈利预测一致预期覆盖，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>光力科技(300480)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">光力科技</span><span class="code">300480</span>
+<div class="tags">半导体封测装备 · 国产划片机龙头 · 后道设备国产替代</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥38.97　总市值 144.28 亿</div>
+<div class="meta">PE-TTM ~267.36x · PB 8.49x · 3.70 亿股</div>
+<div class="date">数据截至 2026-07-08 17:00:15</div>
+</div>
+</div>
+<div class="lead"><b>一句话看懂：</b>光力科技主营半导体后道封测装备（划片机、研磨设备等）与矿山物联网安全监控装备；划片机是把整片晶圆切割成单颗芯片的关键设备。当前核心看点是半导体封测装备业务占比首超半数、订单持续饱满，二期扩产2027年落地后产能与产品结构（激光/研磨/耗材）有望进一步升级，<b>量和有效均价是利润弹性的核心</b>。</div>
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">6.70 亿</div><div class="s up">+16.9% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">0.40 亿</div><div class="s up">+135.6% YoY</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">~6.3%</div><div class="s">毛利率 ~54.9%</div></div>
+<div class="stat"><div class="k">核心业务占比</div><div class="v">~52.6%</div><div class="s">半导体封测装备类</div></div>
+<div class="stat"><div class="k">市占率</div><div class="v">~50%</div><div class="s">国内新增划片机订单</div></div>
+<div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.32 亿</div><div class="s up">+76.7%</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按产品口径 · 占比四舍五入</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 半导体封测装备类产品</td><td class="num">3.53</td><td class="num">52.6%</td><td class="num up">+29.8%</td><td class="num">39.5%</td><td class="num">37.8%</td></tr>
+<tr><td>安全生产监控类产品</td><td class="num">2.87</td><td class="num">42.9%</td><td class="num up">+5.1%</td><td class="num">74.2%</td><td class="num">57.9%</td></tr>
+<tr><td>节能与环保类产品</td><td class="num">0.08</td><td class="num">1.2%</td><td class="num dn">-45.1%</td><td class="num">55.6%</td><td class="num">1.2%</td></tr>
+<tr><td>其他业务收入</td><td class="num">0.22</td><td class="num">3.3%</td><td class="num up">+66.4%</td><td class="num">50.7%</td><td class="num">3.0%</td></tr>
+<tr class="total"><td>合计</td><td class="num">6.70</td><td class="num">100%</td><td class="num up">+16.9%</td><td class="num">54.9%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">2025年半导体封测装备类产品营收3.53亿元、占比52.6%（同比+29.8%），毛利率39.5%，已成为第一大业务；安全生产监控类产品贡献42.9%营收、74.2%毛利率，仍是主要利润来源。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">公司处于半导体后道封测环节，核心产品划片机用于晶圆/封装体切割；全球份额第三、仅次于DISCO与东京精密，国内新增划片机订单份额接近50%，已进入长电科技、通富微电、华天科技、日月光等头部封测厂。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">公司是国内少数掌握“整机+空气主轴+金刚石刀片”全链条自研的厂商，通过并购以色列ADT、英国LPB获得划切工艺数据库与纳米级空气主轴技术；半导体业务毛利率低于安全业务，主要受规模与研发费用拖累，但随订单放量有提升空间。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">半导体封测装备收入占比有望从2025年的约53%提升至2028年的60%以上，驱动力是航空港二期产能2027Q1投产、激光开槽/研磨/切割分选一体机等新产品导入及耗材/主轴批量供货。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">以2028E中性核心业务收入10.0亿元为基准，设备有效均价每上涨10%，按60%落净利测算，约增厚核心 segment 利润约 0.8 亿元（测算）。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026年7月）市场主要交易国产后道设备替代与先进封装扩产预期，2026Q1归母净利同比+76.7%验证景气；当前估值偏高，股价对订单与产能兑现要求较高。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>国产半导体后道设备需求受AI、HBM及先进封装拉动持续紧俏，公司自2025年7月起国产机械划片设备满产，交付周期拉长；随着激光开槽、研磨及硬刀等高端产品占比提升，有效均价具备上行空间，涨价增量主要转化为利润。</div>
+<div class="p">弹性假设：以2028E中性情景核心业务收入10.0亿元为基准，涨价增量按60%落净利（测算），理由为设备环节固定成本占比高、提价部分主要转化为毛利，但需考虑研发与所得税。</div>
+<table>
+<thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（2028E中性核心收入口径）</td><td class="num">4.5 亿</td><td class="num">7.0 亿</td><td class="num up">185 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">5.3 亿</td><td class="num">7.8 亿</td><td class="num up">208 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">6.0 亿</td><td class="num">8.6 亿</td><td class="num up">232 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">6.8 亿</td><td class="num">9.3 亿</td><td class="num up">255 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（中性量不变）；涨价增量按核心段30x倍数计入市值。基准行采用2028E中性核心收入口径。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">自2025年7月起国产半导体机械划片设备持续满产；2025年半导体设备销量351台/套（+28.6%），航空港二期扩产项目预计2027年一季度建成。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">二期项目2027Q1完工投产，目前处于建设推进阶段；激光开槽机、研磨机、硬刀等新产品处于客户端验证。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">后道封装设备受益于AI、HBM及先进封装，SEMI预计2026年全球封装设备销售额增速约23.4%；短期无传统供需反转压力，需盯产能落地、客户验证及海外ADT交付节奏。</span></div>
+</div>
+</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心业务 30x / 其他 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 半导体封测装备类 ·30x</td><td class="cn as">收入 13.0 亿 · 净利率 34.4%（测算）</td><td class="cn num nn">~4.5</td><td class="op as bd">收入 13.5 亿 · 净利率 38.1%（测算）</td><td class="op num no">~5.1</td></tr>
+<tr><td>安全监控+节能环保+其他 ·20x</td><td class="cn as">收入 8.4 亿 · 净利率 29.9%（测算）</td><td class="cn num nn">~2.5</td><td class="op as bd">收入 6.5 亿 · 净利率 32.1%（测算）</td><td class="op num no">~2.1</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段1.30 / 其他0.72</span></td><td class="cn num">~7</td><td class="op bd"><span class="sub">核心段2.24 / 其他0.90</span></td><td class="op num">~7.2</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 144.3 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~185亿 (+28.2%)</td><td class="op bd"><span class="sub">各段净利×倍数加总</span></td><td class="op num up">~195亿 (+35.2%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>传统主业按收入增速+净利率外推；核心业务按收入×净利率；分段净利×倍数（核心30x / 其他20x）加总。2028E分段假设、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">1）航空港二期扩产项目2027Q1投产，产能爬坡有望支撑订单交付；2）激光开槽机、研磨机、切割分选一体机及硬刀等新产品通过客户验证并形成批量订单；3）国产化空气主轴、金刚石刀片等耗材/零部件外销放量；4）2026Q1业绩高增延续，后续季度订单与收入增速验证；5）先进封装/AI/HBM需求拉动下国产后道设备渗透率提升。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">1）当前市值对应2028E估值极高，中性/乐观情景市值均显著低于现价；2）客户认证与新设备导入进度不及预期；3）海外ADT设备交付扰动及地缘政治风险；4）研发费用与期间费用高企持续侵蚀利润；5）安全生产监控业务下游煤炭资本开支波动；6）股价已部分反映高景气预期，交易拥挤度偏高。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司2024/2025年报、2026年一季度报告及业绩说明会（巨潮/公司官网）；iFinD、Wind（行情/估值/财务数据，截至2026-07-08）；进门财经研报（国海证券盈利预测）；证券时报、大河财立方、ZAKER等公开网络资料。2028E分段情景、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

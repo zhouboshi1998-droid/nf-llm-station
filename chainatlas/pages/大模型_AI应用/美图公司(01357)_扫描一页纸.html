@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>美图公司(01357)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;
+  --zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;
+  --red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">美图公司</span><span class="code">01357.HK</span>
+      <div class="tags">AI影像应用龙头 · 订阅制SaaS转型 · 设计生产力工具出海</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 HK$4.29　总市值 194 亿港元</div>
+      <div class="meta">PE-TTM ~27.8x · PB ~3.14x · 45.23 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>美图是一家从"修图工具"转型为"AI影像与设计SaaS（即按年/月订阅付费的软件服务）平台"的公司，旗下产品包括美图秀秀（图片美化）、美颜相机（自拍美颜）、Wink（视频编辑）等。2025年营收38.9亿元（+16.5%），经调整净利润9.65亿元（+64.7%），<b>核心看点是影像与设计产品（占总收入76.6%）的订阅制转型：付费用户1,691万（+34.1%）、订阅渗透率仅6.1%，在AI修图/AI设计/AI视频编辑的生产力场景中，量（用户增长）×价（ARPU提升）×品类（从生活场景向生产力场景延伸）三重弹性并存</b>，是一个"小市值+高成长+AI应用落地"的稀缺标的。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">38.9 亿</div><div class="s up">+16.5% YoY</div></div>
+    <div class="stat"><div class="k">2025 经调整净利</div><div class="v">9.65 亿</div><div class="s up">+64.7% YoY</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">~73.6%</div><div class="s">同比 -2.4pct</div></div>
+    <div class="stat"><div class="k">付费用户数</div><div class="v">1,691 万</div><div class="s up">+34.1% YoY</div></div>
+    <div class="stat"><div class="k">订阅渗透率</div><div class="v">~6.1%</div><div class="s">MAU ~2.77亿</div></div>
+    <div class="stat"><div class="k">影像设计收入占比</div><div class="v">~76.6%</div><div class="s up">+41.6% YoY</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 影像与设计产品（订阅+SaaS）</td><td class="num">29.50</td><td class="num">76.6%</td><td class="num up">+41.6%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>广告</td><td class="num">8.40</td><td class="num">21.8%</td><td class="num dn">-1.3%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>其他（美业解决方案等）</td><td class="num">0.62</td><td class="num">1.6%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr class="total"><td>合计</td><td class="num">38.91</td><td class="num">100%</td><td class="num up">+16.5%</td><td class="num">~73.6%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">影像与设计产品是绝对核心（收入占比76.6%、增速41.6%），广告业务处于战略性收缩（-1.3%）。公司从"流量→广告"模式转型为"产品→订阅"模式，收入质量显著提升（订阅收入可预测、高留存）。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">在中国图片美化赛道（美图秀秀）和拍照摄影赛道（美颜相机）连续9年用户规模第一。Wink全球MAU突破4,000万，成为第三大应用。在AI影像应用层卡位"生活场景（修图/自拍）→生产力场景（AI设计/视频编辑）"的升级路径。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">美图自研AI视觉大模型MiracleVision（奇想智能），聚焦影像与设计垂直领域。整体毛利率73.6%，SaaS属性强。经调整净利率从2024年的17.2%升至2025年的24.8%，规模效应驱动利润率持续改善。对标Canva（估值约260亿美元），美图在设计工具赛道的产品力正在提升。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">订阅渗透率仅6.1%（MAU 2.77亿），对比海外Canva/Adobe付费率10-15%，有翻倍空间。ARPU按影像设计收入÷（去年+今年付费用户）口径约100元（测算：29.5亿÷(1,261万+1,691万)≈100元）。若渗透率升至10%、ARPU提升至120元（最乐观假设），影像设计产品收入可达33.2亿（2.77亿×10%×120元），为当前1.1倍。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">ARPU口径（影像收入÷两年付费用户和）每提升10%（约10元/年），按1,691万付费用户计算，增量收入约1.7亿（测算：1,691万×10元），其中约60%落净利（测算，扣除渠道分成及带宽成本），对应增量净利约1.0亿。量价双击下利润弹性显著。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场给予美图PE 27.8x，高于传统工具软件但低于高增长SaaS（如Canva概念股50-100x），反映"转型进行中但尚未完全定价"的状态。核心分歧在于：订阅增速能否维持40%+？设计生产力工具能否在海外（对标Canva/Adobe）打开空间？</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>订阅量价弹性与AI赋能</h2></div>
+      <div class="p"><b>弹性逻辑：</b>AI能力（一键修图/AI设计/AI视频编辑）降低了用户创作门槛，扩大了付费场景：从"偶尔P图"到"日常内容创作"，频次和付费意愿提升。美图正从生活场景（美图秀秀/美颜相机）向生产力场景（Wink视频编辑/AI设计工具）延伸，后者ARPU可达前者的2-3倍。</div>
+      <div class="p"><b>弹性假设：</b>ARPU口径（影像收入÷两年付费用户和）基准约100元，最乐观情形120元。增量收入约60%落净利（测算），扣除渠道分成及带宽等边际成本。以2025年影像与设计产品收入29.5亿为基准。</div>
+      <table>
+        <thead><tr><th>量价假设</th><th class="num">影像产品净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准·2025 ARPU~100元 付费1,691万</td><td class="num">~5.8 亿</td><td class="num">~7.0 亿</td><td class="num">194 亿港元</td></tr>
+          <tr><td class="base">ARPU~107元(+7%)·付费1,800万(+6%)</td><td class="num">~8.3 亿</td><td class="num">~9.5 亿</td><td class="num up">237 亿港元</td></tr>
+          <tr><td class="base">ARPU~113元(+13%)·付费1,950万(+15%)</td><td class="num">~11.2 亿</td><td class="num">~12.4 亿</td><td class="num up">310 亿港元</td></tr>
+          <tr><td class="base">ARPU~120元(+20%)·付费2,100万(+24%)</td><td class="num">~14.5 亿</td><td class="num">~15.7 亿</td><td class="num up">393 亿港元</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">订阅量价弹性分析（固定25x PE）；增量收入60%落净利为测算。ARPU口径=影像设计收入÷(去年+今年付费用户数)，基准约100元（29.5亿÷(1,261万+1,691万)），乐观上限120元。实际取决于产品迭代、AI功能吸引力和竞争格局。</div>
+      <div class="exp">
+        <div class="eh">▪ AI影像应用·品类拓展研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">美图设计室（生产力工具）和Wink（视频编辑）是当前增长最快的子产品，AI修图/AI设计/AI视频编辑三大功能持续迭代。海外市场通过App Store/Google Play自然分发，本地化运营逐步展开。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">2026年AI设计工具预计成为第二增长极，Wink全球MAU突破5,000万后有望进入商业化加速期。美图设计室对标Canva，当前处于早期获客阶段。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">AI影像应用市场处于早期高速增长阶段，短期无供给过剩风险。需盯的变量：美图设计室MAU增速和付费转化率、海外收入占比（当前约30%+，测算）、竞品（字节醒图/剪映Canva）的AI功能迭代节奏。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（影像设计 25x / 其他业务 10x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（估值倍数）</th><th class="cnh">中性 · FY26E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · FY27E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 影像与设计产品 ·25x</td><td class="cn as">付费2,050万·ARPU~106元(等效)→收入37.9亿·净利率28%</td><td class="cn num nn">10.6</td><td class="op as bd">付费2,400万·ARPU~120元(等效)→收入50.2亿·净利率32%</td><td class="op num no">16.1</td></tr>
+        <tr><td>广告+其他 ·10x</td><td class="cn as">收入~9.5亿·净利率15%（广告持续收缩）</td><td class="cn num nn">1.4</td><td class="op as bd">收入~11.0亿·净利率18%（AI赋能广告效率）</td><td class="op num no">2.0</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">影像10.6 + 广告1.4</span></td><td class="cn num">~12.0</td><td class="op bd"><span class="sub">影像16.1 + 广告2.0</span></td><td class="op num">~18.1</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 194亿港元</td><td class="cn"><span class="sub">影像10.6×25 + 广告1.4×10</span></td><td class="cn num up">~279亿人民币 (+34%)</td><td class="op bd"></td><td class="op num up">~421亿人民币 (+102%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>影像与设计产品按25x PE（增长型SaaS估值）；广告及其他按10x PE。ARPU口径=影像设计收入÷(上年底+当年底付费用户数)，基准约100元（29.5亿÷(1,261万+1,691万)），最乐观120元。中性FY26E/乐观FY27E均为情景测算、可证伪，非卖方一致预期。人民币兑港币约0.93。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 2026H1财报（8月）验证付费用户增速能否维持30%+、影像设计产品收入增速；② 美图设计室/Wink等生产力工具MAU突破关键节点（Wink 5,000万+）；③ 海外收入占比提升（当前~30%+）带来估值体系切换（从中国工具→全球SaaS）；④ AI视频编辑/ AI设计新功能上线后的付费转化率数据；⑤ 经调整净利率能否突破30%（规模效应释放）。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 当前PE 27.8x已经不便宜，若付费用户增速放缓至20%以下，估值可能快速压缩至15-20x；② 字节跳动旗下的醒图和剪映（CapCut）在影像编辑赛道构成强力竞争；③ 订阅渗透率提升存在天花板（工具类App付费率天然低于内容/社交类）；④ 海外拓展面临Canva/Adobe等巨头的生态壁垒；⑤ AI功能同质化风险——当所有竞品都具备AI修图能力，差异化将更多依赖品牌和用户习惯。中性市值远高于现价，但兑现路径高度取决于执行力和竞争格局。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年报及业绩说明会（美图公司投资者关系）；iFinD、Wind（行情/估值，截至2026-07-08）；公开网络资料。中性FY26E/乐观FY27E付费用户数、ARPU及收入假设为情景测算，非卖方一致预期，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

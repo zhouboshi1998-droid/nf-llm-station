@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>亨通光电(600487)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">亨通光电</span><span class="code">600487</span>
+      <div class="tags">全球光缆出货量第一 · 光棒-光纤-海缆全链 · 多元化综合线缆龙头</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥76.96　总市值 1898.14 亿</div>
+      <div class="meta">PE-TTM ~58.8x · PB(LF) 6.0x · 24.66 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>亨通光电是全球领先的光通信与线缆综合企业，业务涵盖光通信、海洋工程(海缆)、智能电网、工业特种线、铜导体等多元板块，光缆出货量已登顶全球第一。公司2025年营收668.55亿元、同比+11.5%，但归母净利润26.80亿元、同比-3.2%(主因铜导体等低毛利传统业务拖累整体盈利)；2026Q1业绩显著加速，归母净利润11.05亿元、同比+98.5%、环比大增260%创单季新高，光纤产销量同比增长35%以上、海外销量增速超55%，在手订单已排至2027年。公司正从"光纤供应商"向"高速光互联生态构建者"跃迁，首次披露CPO(共封装光学)赛道布局，<b>光通信+海洋工程两大板块合计仅占营收17.0%，是驱动本轮利润弹性的核心引擎，但公司整体收入结构远比纯光纤企业更为多元化</b>。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">668.55 亿</div><div class="s up">+11.5% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">26.80 亿</div><div class="s dn">-3.2% YoY，传统业务拖累</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">~4.3%</div><div class="s">毛利率 ~12.5%</div></div>
+    <div class="stat"><div class="k">光通信+海洋工程占比</div><div class="v">~17.0%</div><div class="s">光缆出货量全球第一</div></div>
+    <div class="stat"><div class="k">2026Q1 归母净利</div><div class="v">11.05 亿</div><div class="s up">+98.5% YoY，环比+260%创新高</div></div>
+    <div class="stat"><div class="k">2026Q1 光纤产销量</div><div class="v">+35%+</div><div class="s up">海外销量增速超55%</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>智能电网</td><td class="num">247.96</td><td class="num">37.1%</td><td class="num up">+11.8%</td><td class="num">13.0%</td><td class="num">38.8%</td></tr>
+        <tr><td>铜导体产品</td><td class="num">200.84</td><td class="num">30.0%</td><td class="num up">+33.8%</td><td class="num">1.4%</td><td class="num">3.5%</td></tr>
+        <tr><td>工业特种线产品</td><td class="num">73.08</td><td class="num">10.9%</td><td class="num up">+8.0%</td><td class="num">14.0%</td><td class="num">12.3%</td></tr>
+        <tr class="key"><td>◆ 海洋工程产品（海缆）</td><td class="num">57.37</td><td class="num">8.6%</td><td class="num">-0.0%</td><td class="num">33.7%</td><td class="num">23.2%</td></tr>
+        <tr class="key"><td>◆ 光通信板块</td><td class="num">56.09</td><td class="num">8.4%</td><td class="num dn">-14.5%</td><td class="num">27.5%</td><td class="num">18.5%</td></tr>
+        <tr><td>装卸仓储及其他</td><td class="num">25.70</td><td class="num">3.8%</td><td class="num">未披露</td><td class="num">11.4%</td><td class="num">3.5%</td></tr>
+        <tr><td>其他业务</td><td class="num">7.52</td><td class="num">1.1%</td><td class="num">未披露</td><td class="num">2.4%</td><td class="num">0.2%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">668.55</td><td class="num">100%</td><td class="num up">+11.5%</td><td class="num">12.5%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">光通信板块+海洋工程产品(海缆)2025年合计营收113.46亿元，占比仅17.0%；光通信板块全年同比-14.5%(反映AI驱动的涨价主要发生在2025Q4以来，全年数据低估当前动能)，2026Q1光纤产销量已同比+35%以上。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司光缆出货量已登顶全球第一，光棒国内市场份额约25%；已构建"光棒—光纤—光缆—光网络"全产业链自主可控体系，唯一具备端到端海洋通信系统服务能力，在手订单已排至2027年，与华为签署战略合作协议深化光纤通讯合作。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">公司已完全掌握光棒预制棒核心技术(采用有机硅工艺打造绿色光棒)，产品覆盖单模光纤、超低损耗光纤、海洋光纤、多芯光纤、空芯光纤等全系列；首次披露CPO(共封装光学)赛道战略布局，产业链正向高附加值下游环节延伸。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">内蒙古光棒基地启动二期扩产，产能较一期提升1.5倍(新增约800吨光棒产能)；截至2026Q1末公司手握220亿元能源互联领域订单，其中海洋通信业务订单70亿元，该业务毛利率高于光通信、对未来利润率改善形成支撑(与§04情景假设勾稽)。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">假设光通信+海洋工程板块(2028E中性情景)收入较基准每上升10%且约58%落净利(光棒产能刚性支撑高传导效率)，对应公司总净利较基准增厚约19.0亿元（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场交易的是光纤/海缆双引擎驱动的AI基础设施景气度与Q1业绩加速释放；但近一周股价大幅回落(7月1日101.93元→7月8日76.96元，累计跌约24.5%)，波动极为剧烈，反映资金对涨价持续性及行业扩产潮的分歧正在加大。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>AI算力集群内部互联光纤用量是传统数据中心的5-10倍，据CRU统计2025年全球数据中心光纤光缆需求同比增速达75.9%，2026年行业供需缺口率约16%；公司作为全球光棒/光纤龙头，充分受益于现货价格持续上涨，且光棒扩产周期长达18-24个月、供给刚性强，涨价对净利润的传导效率高；海洋通信订单(70亿元)毛利率更高，进一步强化整体弹性。</div>
+      <div class="p"><b>弹性假设：</b>假设光通信+海洋工程板块(2028E中性情景)收入较基准整体上升10%，且约58%转化为增量净利（光棒产能刚性支撑高传导效率）。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E中性光通信/海缆定价，测算口径）</td><td class="num">61.1 亿</td><td class="num">95.1 亿</td><td class="num up">2513 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">80.1 亿</td><td class="num">114.0 亿</td><td class="num up">3082 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">99.1 亿</td><td class="num">133.0 亿</td><td class="num up">3651 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">118.0 亿</td><td class="num">152.0 亿</td><td class="num up">4220 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯光通信/海缆定价敏感性（中性量不变，智能电网/铜导体等传统板块净利固定约34.0亿）；乐观情形为量+价+净利率齐升，见§04。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">内蒙古基地光棒二期扩产已启动，产能在一期基础上提升1.5倍；同时加快海外产业基地布局(已有12个海外基地，覆盖欧洲、南美、南亚、东南亚、非洲、中北美洲)，"国内扩产+海外布局"双管齐下。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">光棒扩产周期长达18-24个月，短期供给限制预计持续；公司全线设备满负荷运转，自2025Q4起全力保交付，在手订单已直接排至2027年。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">国内同业(长飞光纤、烽火通信、中天科技等)及海外康宁均在积极扩产；需重点跟踪全球光棒新增产能落地节奏、以及行业价格能否维持当前高位。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（光通信+海洋工程 30x / 智能电网+铜导体等传统业务 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 光通信+海洋工程 ·30x</td><td class="cn as">收入CAGR~42%(25-28E)至326.9亿·净利率18.7%(光棒紧缺+海洋通信高毛利订单放量)</td><td class="cn num nn">61.1</td><td class="op as bd">收入CAGR~52%·净利率20.9%(AI/海缆订单超预期兑现)</td><td class="op num no">82.9</td></tr>
+        <tr><td>智能电网+铜导体等传统业务 ·20x</td><td class="cn as">收入CAGR~12%至771.5亿·净利率4.4%(结构优化)</td><td class="cn num nn">34.0</td><td class="op as bd">收入CAGR~15%·净利率5.0%</td><td class="op num no">42.7</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段61.1 / 其他34.0</span></td><td class="cn num">~95.1</td><td class="op bd"><span class="sub">核心段82.9 / 其他42.7</span></td><td class="op num">~125.7</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价1898.14亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~2513亿 (+32.4%)</td><td class="op bd"></td><td class="op num up">~3343亿 (+76.1%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>光通信+海洋工程(AI/全球连接双引擎)、智能电网+铜导体+工业特种线等传统业务均按收入CAGR+净利率假设外推，中性情景对应目标市值约2504亿元、乐观情景约3339亿元(误差±20亿)；分段净利×倍数(核心业务30x/传统主业20x)加总。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">持续：内蒙古光棒二期扩产及海外产能落地推进，2026-2027年逐步释放；持续：220亿元能源互联在手订单(含70亿元海洋通信订单)有序交付，海洋通信高毛利订单占比提升；技术端：CPO(共封装光学)赛道布局及空芯光纤等新一代产品商业化落地；行业端：字节跳动等国内头部AI智算中心2026年规模化交付，带动国内数据中心光纤市场持续扩容。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">本情景中性净利润(95.1亿元)略低于Wind卖方一致预期2028E(103.66亿元)、乐观(125.7亿元)高于一致预期，整体处于合理区间；但现价对应PE-TTM高达58.8x，近一周股价累计大幅回落(约-24.5%)，波动极为剧烈，反映涨价持续性预期已出现分歧；公司收入结构多元(光通信+海洋工程合计仅占17.0%)，智能电网、铜导体等传统板块毛利率极低(铜导体仅1.4%)，2025年归母净利润同比仍为负增长，AI相关业务对公司整体业绩的拉动效应需持续观察是否兑现；国内外同业密集扩产光棒产能，行业可能从供给紧张逐步回归均衡，涨价持续性存在不确定性；光通信板块2025年全年收入同比下滑，需警惕Q1单季高增长的可持续性。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年年度报告及公告（巨潮）；iFinD、Wind（行情/估值/主营构成/一致预期，截至2026-07-08）；进门财经研报（国盛证券、东兴证券等）及公开网络资料（含央视财经访谈、CRU行业报告数据）。Wind卖方一致预期2026E/2027E/2028E归母净利润分别为72.43/86.97/103.66亿元，本情景中性(95.1亿)略低于一致预期，乐观(125.7亿)高于一致预期，供参考。装卸仓储及其他/其他业务2025年同比因2024年年报未单独披露对应分部，标注为"未披露"。2028E分段情景、净利率档位、定价弹性与市值空间为对应目标市值（中性约2504亿元/乐观约3339亿元，误差±20亿）校准的情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

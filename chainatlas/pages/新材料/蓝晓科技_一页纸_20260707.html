@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>蓝晓科技(300487)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;--zebra:#F2F6FB;
+  --ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;--red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">蓝晓科技</span><span class="code">300487</span>
+      <div class="tags">吸附分离树脂平台 · 小核酸/超纯水/提锂看点 · 国产替代龙头</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥69.55　总市值 354.1 亿</div>
+      <div class="meta">PE-TTM ~39.5x · PB ~7.9x · 5.09 亿股</div>
+      <div class="date">数据截至 2026-07-07</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>蓝晓科技是国内<b>吸附分离树脂</b>（用于分离提纯的功能高分子"小球"）龙头、平台型公司，自制苯乙烯系树脂并向下游做应用与制品：生命科学（GLP-1 多肽/小核酸药物的<b>固相合成载体</b>——合成这些药物的"树脂骨架"、层析介质）、水处理（饮用水/半导体超纯水）、金属资源（镓/铀提取）、盐湖提锂系统装置。核心看点是各细分领域的<b>国产替代</b>放量——小核酸载体全球仅蓝晓与日本一家、研发覆盖率 80-90%；半导体超纯水树脂替代陶氏（近期因半导体景气涨价）；叠加国能矿业盐湖提锂分成。现价对应 PE-TTM 约 40 倍。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">27.86 亿</div><div class="s up">+9.1% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">8.97 亿</div><div class="s up">+14.0% YoY</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">51.5%</div><div class="s">净利率 ~32.2%</div></div>
+    <div class="stat"><div class="k">吸附材料营收占比</div><div class="v">77.2%</div><div class="s">树脂平台</div></div>
+    <div class="stat"><div class="k">核心看点营收占比</div><div class="v">34.2%</div><div class="s">生科+金属资源</div></div>
+    <div class="stat"><div class="k">2028E 归母·中性</div><div class="v">13.0 亿</div><div class="s">26-28E CAGR ~13%</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 占比四舍五入 · 材料含生科/水处理/金属等下游应用</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 吸附分离材料（生科/水处理/金属/化工环保食品树脂）</td><td class="num">21.51</td><td class="num">77.2%</td><td class="num up">+8.3%</td><td class="num">54.2%</td><td class="num">81.3%</td></tr>
+        <tr><td>系统装置（盐湖提锂系统集成）</td><td class="num">5.00</td><td class="num">17.9%</td><td class="num up">+6.6%</td><td class="num">34.6%</td><td class="num">12.1%</td></tr>
+        <tr><td>技术服务</td><td class="num">0.98</td><td class="num">3.5%</td><td class="num up">+55.6%</td><td class="num">76.5%</td><td class="num">5.2%</td></tr>
+        <tr><td>其他</td><td class="num">0.37</td><td class="num">1.3%</td><td class="num up">+5.7%</td><td class="num">51.4%</td><td class="num">1.3%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">27.86</td><td class="num">100%</td><td class="num">+9.1%</td><td class="num">51.5%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">吸附树脂材料占营收 77%（2025 年 21.5 亿、毛利率 54%），按下游分：水处理 7.5 亿、生命科学 6.4 亿、化工/环保/食品 4.1 亿、金属资源 3.2 亿；系统装置（盐湖提锂集成）5.0 亿。核心弹性在生科+金属+超纯水。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">国内吸附分离树脂龙头、平台型：自制苯乙烯系树脂"小球"向下游做应用。小核酸固相合成载体全球仅蓝晓与日本 Nitto 两家；多肽/层析对标斯托梵、赛多利斯；超纯水对标陶氏。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">综合毛利率 51.5%；生命科学 59%、金属资源 61.5% 最高，其中小核酸毛利率约 90%、软胶 80%、多肽 60-70%。国产替代下高端品种放量带动结构改善。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">小核酸载体 2025 年 2 千万→2027E 3-5 亿（诺华/GSK 商业化）；多肽随 GLP-1 量增 40-50%；超纯水半导体/核电国产替代（26Q1 新签 +80-90%）；国能矿业盐湖提锂 26H1 许可证。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">超纯水树脂因半导体景气供需失衡涨价（陶氏领涨、苯乙烯原料价格下行→价差扩大）；直接影响小（超纯水约 1-2 亿收入），意义在国产替代提价能力；弹性详见右栏。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）交易小核酸/多肽创新药 β、半导体超纯水国产替代与涨价、盐湖提锂分成兑现；平台型公司按"终局定价法"博弈远期 TAM，现价 PE-TTM ~40x、处历史中枢。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>半导体材料景气→超纯水树脂供需失衡，竞争对手陶氏率先涨价；上游苯乙烯（石化产品）价格下行，价差有望扩大。蓝晓超纯水已进入长存/长鑫等关键 Fab、面板与核电，产品性能对标陶氏、价格略低，涨价与国产替代共振可较顺畅传导至利润。</div>
+      <div class="p"><b>弹性假设：</b>超纯水直接体量尚小（2025 年约 1 亿收入，涨价 30% 仅增厚约 0.06 亿）；表中以核心高端材料（生科/超纯水/金属资源）2028E 收入约 26 亿为基准，测算国产替代提价能力广泛兑现的敏感性，增量按 57% 落净利（测算）。</div>
+      <table>
+        <thead><tr><th>核心材料提价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E 中性）</td><td class="num">9.0 亿</td><td class="num">13.0 亿</td><td class="num">350 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">10.5 亿</td><td class="num">14.5 亿</td><td class="num">395 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">12.0 亿</td><td class="num">16.0 亿</td><td class="num">440 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">13.5 亿</td><td class="num">17.5 亿</td><td class="num">485 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（中性量不变）；基准以核心高端材料 2028E 收入约 26 亿为口径，增量按 57% 落净利、记入核心 30x（26 亿×10%×57%≈1.5 亿→×30x=45 亿）。当前涨价由超纯水领涨、直接增厚小，表示广泛提价情形。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">西安生科园区设计中，满产远期对应 40-50 亿收入增量；国内产能 2-3 年投入约 11 亿、海外 2 个基地各约 2 亿。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">生科新产能一期 2026 年底调试；超纯水随 Fab 验证逐步放量；国能矿业 6700 吨待 26H1 许可证。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">半导体超纯水供需偏紧（陶氏涨价）26-27 或延续；小核酸 2027E 商业化放量；要盯 Fab 国产化率、创新药管线进度与碳酸锂价。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>中性 / 乐观 市值空间（中性：核心 30x/传统 20x；乐观：终局定价法·分部 TAM）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>估值分部（方法）</th><th class="cnh">中性 · 严格框架</th><th class="cnh num">估值</th><th class="oph bd">乐观 · 终局定价法</th><th class="oph num">估值</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 吸附树脂主业（生科/水处理/金属/化工环保食品）</td><td class="cn as">全公司 2028E 归母 13.0 亿 · 核心 9.0×30 + 传统 4.0×20</td><td class="cn num nn">~350</td><td class="op as bd">主业稳增 · 27E 归母 11 亿×25x（历史 PE 底部）</td><td class="op num no">280</td></tr>
+        <tr class="ai-row"><td>◆ 超纯水（半导体/核电国产替代）</td><td class="cn as">2025 年约 1 亿 · 涨价直接增厚小，计入主业</td><td class="cn num nn">期权</td><td class="op as bd">远期国内 50 亿市场×70% 份额×40% 净利率=14 亿×25x</td><td class="op num no">350</td></tr>
+        <tr class="ai-row"><td>◆ 小核酸载体（生命科学·全球双寡头）</td><td class="cn as">2026 年 ~1 亿起量，计入主业</td><td class="cn num nn">期权</td><td class="op as bd">2032 年小核酸药 400 亿美元→树脂 TAM 40 亿×70% 份额×30% 净利率=8 亿×20x</td><td class="op num no">160</td></tr>
+        <tr><td>碳酸锂/提锂（国能矿业分成）·10x</td><td class="cn as">系统装置内 ~1 亿，计入主业</td><td class="cn num nn">期权</td><td class="op as bd">1 万吨×5 万元/吨利润×40% 分成=5 亿×10x</td><td class="op num no">50</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 354 亿</td><td class="cn"><span class="sub">严格框架加总</span></td><td class="cn num dn">~350亿 (-1%)</td><td class="op bd"><span class="sub">终局分部加总 · 终局区间约 600-800 亿</span></td><td class="op num up">~840亿 (+137%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>两种口径：</b>中性按严格框架——2028E 归母 13.0 亿拆核心看点（生科/超纯水/金属资源约 9.0 亿·测算）×30x + 传统主业（系统装置/化工/环保/食品/技服约 4.0 亿）×20x ≈ <b>350 亿（−1%）</b>，与报告"主业底部约 300 亿"一致。乐观按平台型新材料的<b>终局定价法（分部 TAM）</b>：吸附树脂主业 280 + 超纯水 350 + 小核酸 160 + 碳酸锂/提锂 50 ≈ <b>840 亿</b>（终局区间约 600-800 亿）——其中主业按 27E 11 亿×25x 保守底仓，超纯水/小核酸/提锂按远期终局市场×份额×净利率单列期权（中性情景下三者体量尚小、计入主业）。数字为情景测算、可证伪。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 2026-2027 小核酸载体商业化放量（诺华英克斯兰/GSK），2027E 收入 3-5 亿；② 多肽随 GLP-1 减肥药量增 40-50%；③ 半导体超纯水国产替代+涨价（26Q1 新签 +80-90%）、进入长存/长鑫等 Fab；④ 国能矿业盐湖提锂 26H1 一期许可证、按碳酸锂价分成 30-40%；⑤ 金属资源（镓/铀）保持 30% 增速。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 估值：现价 PE-TTM ~40x、PB ~8x，严格框架下 2028E 中性对应约 350 亿（与现价基本持平）；乐观 840 亿建立在超纯水/小核酸/提锂"终局 TAM"假设上，兑现周期长、可证伪；② 放量/涨价证伪：小核酸下游创新药进度、超纯水 Fab 验证与提价节奏、碳酸锂价格下跌拖累国能矿业；③ 业绩噪音：系统装置订单与项目可持续性、汇兑损益、出口管制（提锂设备/镓）。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2025 年年报及公告（巨潮）；iFinD、Wind（行情 / 财务 / 主营构成，截至 2026-07-07）；进门财经及券商研报；公开网络资料及内部提供资料（内部经营模型、调研纪要、树脂涨价点评）。2026-2028E 盈利预测与 2028E 乐观终局分部估值采用内部提供资料并结合调研，暂无统一卖方盈利预测一致预期口径；终局定价法、分段净利率与价格弹性为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

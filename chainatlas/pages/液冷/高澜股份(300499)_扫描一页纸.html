@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>高澜股份(300499)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">高澜股份</span><span class="code">300499</span>
+      <div class="tags">特高压水冷龙头 · DC液冷全链条方案商 · 谷歌链份额≥15%</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥42.50　总市值 129.6 亿</div>
+      <div class="meta">PE-TTM ~425x（利润基数低失真）· PB 未披露 · 3.05 亿股</div>
+      <div class="date">数据截至 2026-06-24</div>
+    </div>
+  </div>
+  <div class="lead"><b>一句话看懂：</b>高澜是国内<b>特高压直流输电纯水冷却设备龙头</b>（产品用于 40+ 条高压直流工程），近两年以数据中心液冷为第二成长曲线，是少数能同时做冷板式+浸没式、覆盖“架构设计→设备集成→系统运维”的全链条方案商。核心看点：AIDC 液冷 0→1，华为全域液冷协议、谷歌链（份额≥15%）验证放量；<b>弹性在未来而非当下</b>（2025 液冷占比仅约 10–15%）。</div>
+  <div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">9.89 亿</div><div class="s up">+43.1% YoY</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">0.28 亿</div><div class="s up">+156% 扭亏</div></div><div class="stat"><div class="k">2025 净利率</div><div class="v">~2.8%</div><div class="s">刚走出亏损</div></div><div class="stat"><div class="k">液冷占比</div><div class="v">~10–15%</div><div class="s">2025 测算</div></div><div class="stat"><div class="k">谷歌链份额</div><div class="v">≥15%</div><div class="s">验证/小批量</div></div><div class="stat"><div class="k">26Q1 营收</div><div class="v">2.12 亿</div><div class="s dn">-2.8% 未确认</div></div></div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 液冷载体板块高亮 · 分部同比/毛利率未单列</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody><tr class="key"><td>◆ 纯水冷却设备（特高压主业+DC液冷整机）</td><td class="num">5.73</td><td class="num">57.9%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td>高功率密度装置热管理产品</td><td class="num">2.64</td><td class="num">26.7%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td>备品备件及技改维护服务</td><td class="num">1.15</td><td class="num">11.6%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td>其他</td><td class="num">0.37</td><td class="num">3.8%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr class="total"><td>合计</td><td class="num">9.89</td><td class="num">100%</td><td class="num up">+43.1%</td><td class="num">—</td><td class="num">—</td></tr></tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">纯水冷却设备（含特高压主业+DC 液冷整机）占比 57.9%；纯液冷 2025 占比约 10–15%，弹性主要在 2H26-2027 兑现。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">冷板式+浸没式双路线全链条（冷板/CDU/TANK/Manifold/换热单元+系统集成），与英维克、申菱同列整线方案阵营，PUE 可控 1.1 以内。</div></div><div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">特高压纯水冷却 20 余年积淀、份额领先；国内首批通过日立能源/GE/西门子全球供应商认证；2025 刚扭亏、利润基数极低。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">华为签 2026–2027 AIDC 全域液冷供货协议；谷歌通过审厂进入小批量试产、链内份额≥15%，2026Q3 扩产。</div></div><div class="bl"><div class="t">放量口径利润</div><div class="x">谷歌 V7 单柜 ~25 万元；2026 谷歌约 7 万柜×15% 份额×25 万 ≈ 26 亿收入增量（乐观测算）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）市场定价 AIDC 订单兑现；PE-TTM ~425x（利润基数极低失真），真实锚是 2027 AIDC 利润弹性预期。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与收入弹性</h2><span class="tip">渗透/放量型 · 非涨价</span></div>
+      <div class="p"><b>放量逻辑：</b>AI 机房风冷转液冷渗透，华为全域协议（国内）+谷歌链（海外）+字节浸没订单放量；公司作冷板/浸没全链条方案商，AIDC 液冷收入从低基数放量。</div>
+      <div class="p"><b>弹性假设：</b>以中性 2027E AIDC 液冷收入 15 亿为基准、净利率 12%（爬坡期），收入每 +10% 增厚净利，增量按液冷 PE 40x 计入市值（测算）。</div>
+      <table>
+        <thead><tr><th>AIDC液冷收入放量</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody><tr><td class="base">基准 15 亿（27E 中性）</td><td class="num">1.8 亿</td><td class="num">2.4 亿</td><td class="num dn">~90 亿</td></tr><tr><td class="base">+10%</td><td class="num">2.0 亿</td><td class="num">2.6 亿</td><td class="num up">~97 亿</td></tr><tr><td class="base">+20%</td><td class="num">2.2 亿</td><td class="num">2.8 亿</td><td class="num up">~104 亿</td></tr><tr><td class="base">+30%</td><td class="num">2.3 亿</td><td class="num">2.9 亿</td><td class="num up">~112 亿</td></tr></tbody>
+      </table>
+      <div class="el-cap">收入放量敏感性（测算，非涨价）；净利率按 12% 假设，增量净利按液冷 PE 40x 计入。中性目标市值低于现价（-31%）。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">谷歌链 2026Q3 扩产；华为全域液冷协议 2026-2027 供货；冷板/浸没双线批量供货能力已具备。</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">AIDC 收入兑现节点在 2H26-2027（华为协议、谷歌量产、字节放量）。</span></div><div class="er rv"><span class="lb">渗透拐点</span><span class="vv">液冷渗透起量型；拐点看华为协议季度收入确认与谷歌小批量转批量；份额 15% 待公司确认。</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（SOTP：特高压主业 + AIDC 液冷分部）</h2><span class="tip">第二曲线 · 目标年 2027E</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>口径一 · 盈利预测法（SOTP · 目标年 2027E）</th><th class="cnh num">中性</th><th class="oph bd num">乐观</th>
+      </tr></thead>
+      <tbody><tr><td><b>AIDC 液冷分部</b></td><td class="cn"></td><td class="op bd"></td></tr><tr><td>液冷收入（亿元）</td><td class="cn num">15</td><td class="op num bd">30</td></tr><tr><td>液冷净利率</td><td class="cn num">12%</td><td class="op num bd">18%</td></tr><tr class="ai-row"><td>液冷净利润（= 收入×净利率，亿元）</td><td class="cn num nn">1.8</td><td class="op num no bd">5.4</td></tr><tr><td>给予 PE（x）</td><td class="cn num">40</td><td class="op num bd">50</td></tr><tr class="sum"><td>液冷分部估值（亿元）</td><td class="cn num">~72</td><td class="op num bd">~270</td></tr><tr><td><b>特高压主业</b></td><td class="cn"></td><td class="op bd"></td></tr><tr><td>主业净利润（亿元）</td><td class="cn num">0.6</td><td class="op num bd">0.6</td></tr><tr><td>主业 PE（x）</td><td class="cn num">30</td><td class="op num bd">30</td></tr><tr class="sum"><td>主业估值（亿元）</td><td class="cn num">~18</td><td class="op num bd">~18</td></tr><tr class="sum"><td>目标总市值（亿元）</td><td class="cn num">~90</td><td class="op num bd">~288</td></tr><tr class="mc"><td>对应上行空间（vs 现价 129.6 亿）</td><td class="cn num dn">-31%</td><td class="op num up bd">+122%</td></tr></tbody>
+    </table>
+    <div class="note"><b>口径二 · 满产法（弹性天花板）：</b>谷歌 7 万柜×15% 份额×25 万 ≈ 26 亿 + 华为/字节 ~10 亿，满产液冷收入 ~36 亿×净利率 20%×45x ≈ ~324 亿 + 主业 18 亿 ≈ <b>~340 亿（+162%）</b>；份额/柜数/净利率均为单一纪要乐观假设、未折现。<b>估值提示：</b>PE-TTM ~425x 系 2025 利润基数仅 0.28 亿（刚扭亏）所致、非传统意义的贵，真实锚是 2027 AIDC 利润弹性；中性目标市值低于现价（-31%）。均为情景测算、可证伪。</div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">华为 2026-2027 全域液冷供货协议的季度收入确认；谷歌小批量试产→批量供货（2026Q3 扩产）转化；字节浸没式模组放量；季度归母净利能否从 0.28 亿台阶式跃升。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">估值 PE-TTM ~425x（利润基数极低），中性目标市值低于现价（-31%）、回调风险大；AIDC 收入兑现严重滞后（26Q1 营收仍 -2.8%）；15% 谷歌链份额为高频测算、公司未确认；液冷价格战压制净利率；特高压主业增长平缓、下行保护薄。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及公告（巨潮）；iFinD、Wind（行情/估值/主营构成，截至 2026-06-24）；进门财经研报及会议纪要（列券商名）；公开网络资料及内部提供资料。因无连续卖方一致预期，中性档采行业可比与调研口径审慎测算；2027E 及满产口径、净利率与份额、市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+</div>
+</body>
+</html>

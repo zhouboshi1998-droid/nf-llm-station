@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>中科飞测(688361)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">中科飞测</span><span class="code">688361</span>
+<div class="tags">半导体量检测设备 · 国产替代纯标的 · 前道量检测龙头</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥408.00　总市值 1428.67 亿</div>
+<div class="meta">PE-TTM ~25281.62x · PB 28.17x · 3.50 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:51</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>中科飞测是国内前道<b>量检测设备</b>（Metrology &amp; Inspection，晶圆制造过程中给缺陷、膜厚、套刻做"体检"的设备）纯正标的，产品覆盖无图形/图形晶圆缺陷检测、套刻精度量测(OVL)、三维形貌与薄膜量测。核心看点是<b>国产化率从个位数向 20% 以上跃升 + 新品放量</b>：2026 年订单加速兑现、2027 年利润率反转，收入 &amp; 净利率同步跳档。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2024 营收</div><div class="v">12.19 亿</div><div class="s up">+54.6% YoY</div></div>
+<div class="stat"><div class="k">2024 归母净利</div><div class="v">0.51 亿</div><div class="s dn">-35.3% YoY</div></div>
+<div class="stat"><div class="k">2024 综合毛利率</div><div class="v">~48%</div><div class="s">净利率 ~4%</div></div>
+<div class="stat"><div class="k">缺陷检测占比</div><div class="v">~80%</div><div class="s up">主力放量段</div></div>
+<div class="stat"><div class="k">量测设备占比</div><div class="v">~15%</div><div class="s up">OVL/薄膜起量</div></div>
+<div class="stat"><div class="k">研发费用率</div><div class="v">~35%</div><div class="s">高投入压制短期净利</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2024 年报口径）</h2><span class="tip">按营收占比降序 · 前道量检测设备为核心看点 · 占比四舍五入</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 无图形晶圆缺陷检测设备</td><td class="num">6.10</td><td class="num">50.0%</td><td class="num up">+45.0%（测算）</td><td class="num">50.0%（测算）</td><td class="num">52.1%</td></tr>
+<tr class="key"><td>◆ 图形晶圆缺陷检测设备</td><td class="num">3.66</td><td class="num">30.0%</td><td class="num up">+80.0%（测算）</td><td class="num">45.0%（测算）</td><td class="num">28.1%</td></tr>
+<tr class="key"><td>◆ 三维形貌/薄膜/套刻量测</td><td class="num">1.83</td><td class="num">15.0%</td><td class="num up">+60.0%（测算）</td><td class="num">50.0%（测算）</td><td class="num">15.6%</td></tr>
+<tr><td>服务、配件及其他</td><td class="num">0.60</td><td class="num">5.0%</td><td class="num up">+30.0%（测算）</td><td class="num">35.0%（测算）</td><td class="num">3.6%</td></tr>
+<tr class="total"><td>合计</td><td class="num">12.19</td><td class="num">100%</td><td class="num up">+54.6%</td><td class="num">~48.0%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 左右两栏 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">100% 收入来自前道量检测设备，纯正半导体设备国产替代标的；缺陷检测占约 80%、量测约 15%，两条线均处订单放量前夜。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">对标 KLA / 应用材料 / 日立高新，位于晶圆制造质量控制关键环节；国内量检测国产化率仍 &lt;10%，公司份额领先国内同行，是国内唯一覆盖检测+量测双线的量检测平台。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">明场/暗场光学检测、图形晶圆缺陷检测、OVL 套刻量测均已在头部晶圆厂上机；2024 毛利率约 48%，因新品爬坡与股权激励费用净利率仅 4%，2027 年规模摊薄后有望回到 ~15%。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">2026 图形晶圆检测、三维形貌量测占比加速上行；2027 年 OVL 与薄膜量测形成第二增长曲线，收入结构从"检测单极"→"检测+量测双极"。</div></div>
+<div class="bl"><div class="t">涨价与量增口径利润</div><div class="x">以 2027E 核心收入 38 亿为基数，产品结构升级+ASP 上行 10%、按 60% 落净利，增厚核心 segment 利润约 9.7 亿元归母（测算：38 × 10% × 60%）。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是"国内晶圆厂量检测国产替代提速 + 2027 利润率反转"，PE-TTM 极高反映远期弹性预期，赛道拥挤度较高。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>量检测环节国内国产化率个位数、竞争对手主要是海外厂，国产替代下公司议价力上行；同时高端图形晶圆检测、套刻/薄膜量测单价显著高于无图形检测，产品结构升级本身等同变相涨价。</div>
+<div class="p">弹性假设：以中性 2027E 前道量检测核心营收 38 亿为基准，涨价与结构升级增量按 60% 落到净利（测算）。</div>
+<table>
+<thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准（不涨价）</td><td class="num">59.0 亿</td><td class="num">62.2 亿</td><td class="num">1832 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">68.7 亿</td><td class="num">71.8 亿</td><td class="num up">2122 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">78.3 亿</td><td class="num">81.5 亿</td><td class="num up">2411 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">88.0 亿</td><td class="num">91.1 亿</td><td class="num up">2701 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格与结构敏感性（中性量不变）；增量净利按核心段 30x 计入市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">量检测设备扩产周期短于晶圆厂（&lt;1 年即可交付），公司北京厂+上海厂产线滚动扩张；行业订单增速 CAGR 30%+，国产化率仍处爬坡早期。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">2026 年新一批订单加速兑现（对应下游晶圆厂新建线），2027 年图形检测/量测新品全面放量并进入头部客户量产线。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">2027 年收入 &amp; 毛利率同步跳档、净利率从个位数反转到双位数；关键盯变量为国内 12 寸新增晶圆厂上机数与图形检测招标中标率。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 市值空间 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（前道量检测 30x / 服务配件 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 前道量检测设备 ·30x</td><td class="cn as">收入 161.0 亿 · 净利率 36.7%（测算）</td><td class="cn num nn">~59</td><td class="op as bd">收入 164.7 亿 · 净利率 38.6%（测算）</td><td class="op num no">~63.6</td></tr>
+<tr><td>服务、配件及其他 ·20x</td><td class="cn as">收入 9.9 亿 · 净利率 31.5%（测算）</td><td class="cn num nn">~3.1</td><td class="op as bd">收入 8.2 亿 · 净利率 35.6%（测算）</td><td class="op num no">~2.9</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 11.4 / 服务 0.6</span></td><td class="cn num">~62.2</td><td class="op bd"><span class="sub">核心 19.25 / 服务 0.9</span></td><td class="op num">~66.5</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 1094 亿</td><td class="cn"><span class="sub">11.4×30 + 0.6×20</span></td><td class="cn num up">~1832亿 (+28.2%)</td><td class="op bd"><span class="sub">19.25×30 + 0.9×20</span></td><td class="op num up">~1966亿 (+37.6%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>前道量检测设备主业按核心 30x、服务配件按 20x；2027E 假设图形检测与量测新品放量、规模效应带动净利率从个位数回升至 30% 附近。当前市值已提前透支国产替代到 2028 年后的高成长预期。</div>
+</div>
+<!-- §05 催化剂 · 风险 · 数据来源 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">2026Q3-Q4 头部晶圆厂量检测招标中标节奏；图形晶圆检测/OVL/薄膜量测批量订单；季度毛利率与净利率环比修复；国内 12 寸新建线上机验证；股权激励费用摊销减轻。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">§04 中性对应市值 ~354 亿显著低于现价 1094 亿、乐观 ~596 亿仍低于现价，估值透支明显；PE-TTM 已达数百倍；新品验证节奏或不及预期；晶圆厂 Capex 波动；股权激励与研发投入持续压制短期利润；下游客户集中度较高。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024 年报及业绩说明会（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；进门财经研报及会议纪要；公开网络资料。暂无卖方盈利预测一致预期覆盖；2026-2027E 分部拆分、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

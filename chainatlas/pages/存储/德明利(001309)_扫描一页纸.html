@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>德明利(001309)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">德明利</span><span class="code">001309</span>
+      <div class="tags">国产存储模组厂（U盘/存储卡/SSD/嵌入式）· 自研主控 · 存储超级周期高弹性 · AI 间接敞口（涨价×库存剪刀差）</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥851.00　总市值 ≈1,930 亿</div>
+      <div class="meta">PE-TTM ~47x · PB ~27.2x · 2.27 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>德明利是国内<b>存储模组</b>厂商（U盘/存储卡、SSD、嵌入式 eMMC/UFS、内存条四大产品线），差异化在于<b>自研存储主控芯片</b>——同时掌握主控设计、固件算法与颗粒测试筛选，向上直采存储晶圆、向下适配多场景。核心看点：AI 拉动数据中心/企业级存储需求→存储原厂涨价→公司凭<b>周期底部囤积的低价库存×涨价售价剪刀差</b>放出巨大利润弹性，2026Q1 单季归母 33.46 亿（+4943%）、毛利率跃升至 57.4%；但公司本质处产业链中游、上游议价权弱，弹性来自<b>一次性周期涨价+库存红利</b>，持续性高度依赖存储景气延续，现估值（PB ~27x、股价一年涨超 800%）已隐含较强乐观假设。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">107.89 亿</div><div class="s up">+126.1% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">6.88 亿</div><div class="s up">+96.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">14.81%</div><div class="s dn">-2.94pct（料价上行拖累）</div></div>
+    <div class="stat"><div class="k">SSD 占比</div><div class="v">42.5%</div><div class="s">含企业级 · 营收第一大</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">33.46 亿</div><div class="s up">+4943%</div></div>
+    <div class="stat"><div class="k">2026Q1 毛利率</div><div class="v">57.42%</div><div class="s up">库存×涨价红利</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 分产品毛利率年报未单列 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 固态硬盘 SSD（含企业级）</td><td class="num">45.82</td><td class="num">42.5%</td><td class="num up">+99.2%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr class="key"><td>◆ 嵌入式存储（eMMC / UFS / LPDDR）</td><td class="num">36.63</td><td class="num">34.0%</td><td class="num up">+334.4%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr><td>移动存储（U盘 / 存储卡 / PSSD）</td><td class="num">14.74</td><td class="num">13.7%</td><td class="num up">+10.3%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr><td>内存条 / DRAM 模组</td><td class="num">10.51</td><td class="num">9.7%</td><td class="num up">+263.7%</td><td class="num">未披露</td><td class="num">—</td></tr>
+        <tr class="total"><td>合计（存储主业）</td><td class="num">107.70</td><td class="num">100%</td><td class="num up">+126.1%</td><td class="num">14.81%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">四大产品线全为存储模组：SSD 42.5%（含企业级）、嵌入式 34.0%、移动存储 13.7%、内存条 9.7%。AI 为<b>间接</b>敞口——企业级 SSD/嵌入式量价齐升+原厂涨价，是本轮弹性主线。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">存储模组 + <b>自研主控</b>（SATA SSD、SD6.0 存储卡主控量产，PCIe 5.0 企业级主控过头部云厂商认证）；处产业链中游，晶圆颗粒依赖三星/海力士/长江存储/长鑫等原厂直采。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">自研主控毛利较高、可降模组成本约 8–12%（研报口径）；2025 综合毛利率仅 14.81%（前三季料价上行滞后拖累），26Q1 因涨价+低价库存释放跳升至 57.4%。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">企业级 PCIe SSD、车规嵌入式放量，高端占比提升，逐步由「模组厂」向「存储方案商」升级，弱化纯周期属性——但兑现度待验证。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">存储模组收入基数大（107.7 亿），价格弹性极高：涨价×低价库存剪刀差是 26Q1 单季净利超过去十年总和的核心（测算逻辑见 §03）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝存储超级周期＋AI 供给挤出＋囤货红利；股价年内暴涨（一年 +800%，6 月末冲 ~980 元，现 851 元），交易极度拥挤；现市值 1,930 亿已隐含 2026 全年高景气延续（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>AI 服务器/数据中心需求爆发→原厂产能转向 HBM/企业级、收缩 DDR4/eMMC 等消费类→供给结构性紧缺涨价。据 CFM，2025 年 DRAM/NAND 全年涨幅达 386%/207%，26Q1 一般型 DRAM 合约价季增 55–60%、NAND +33–38%。</div>
+      <div class="p"><b>弹性假设：</b>模组厂盈利对存储现货价高度敏感；凭充足低价原料库存享「低成本库存×涨价售价」剪刀差，涨价增量约 70% 落净利，以 2025 存储模组收入 107.70 亿为基准（测算）。</div>
+      <table>
+        <thead><tr><th>存储再涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值(10x)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（26Q1 单季 33.46 亿年化口径）</td><td class="num">—</td><td class="num">~130 亿</td><td class="num up">~1,300 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">+7.5 亿</td><td class="num">~138 亿</td><td class="num up">~1,380 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">+15.1 亿</td><td class="num">~145 亿</td><td class="num up">~1,450 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">+22.6 亿</td><td class="num">~153 亿</td><td class="num up">~1,530 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（量不变，测算）；弹性段＝存储收入 107.70 亿×涨幅×70% 落净利；公司净利基数按 26Q1 单季 33.46 亿年化取 ~130 亿（测算，含大量一次性库存红利，非常态）；给周期存储 10x。注：情景市值均低于现市值 1,930 亿，反映市场已定价更高/更持久的周期高点盈利。</div>
+      <div class="exp">
+        <div class="eh">▪ 扩产节奏 · 供需反转研判（沿用老版）</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">利润弹性来自上游原厂涨价 + 低价库存重估；原厂自 26 年起逐步扩产，涨价红利集中在 26 年兑现。</span></div>
+        <div class="er"><span class="lb">延续性</span><span class="vv">涨价潮预期延续至 2026，27 年预计回落；模组厂盈利对存储现货价高度敏感。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">27 年随原厂供给释放 + 需求边际回落，供需转松、模组利润预计下滑（囤货红利 26 年赚完）。关键变量：存储现货价、库存跌价、企业级/车规放量兑现。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ SSD+嵌入式（存储弹性主线）·10x/15x</td><td class="cn as">涨价回落、囤货红利消退（测算）</td><td class="cn num nn">39</td><td class="op as bd">企业级/车规放量、涨价延续（测算）</td><td class="op num no">77</td></tr>
+        <tr><td>其他（移动存储/内存条）·10x/15x</td><td class="cn as">传统基本盘稳态（测算）</td><td class="cn num nn">11</td><td class="op as bd">内存条放量补充（测算）</td><td class="op num no">23</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">存储 39 / 其他 11</span></td><td class="cn num">~50</td><td class="op bd"><span class="sub">存储 77 / 其他 23</span></td><td class="op num">~100</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 1,930 亿</td><td class="cn"><span class="sub">整体 10x（研究员给定）</span></td><td class="cn num dn">~500亿 (-74%)</td><td class="op bd"><span class="sub">整体 15x（研究员给定）</span></td><td class="op num dn">~1,500亿 (-22%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 50 亿 / 乐观 100 亿）× 假设 PE（中性 10x / 乐观 15x）。分段净利按 2025 存储弹性主线（SSD+嵌入式 ~76%）/ 其他贡献比例拆分为情景测算，仅供参考。<b>结论：</b>模组厂周期高点，囤货的钱 26 年赚完、27 年预计下滑；<b>中性、乐观两种情景对应市值均低于现价</b>（-74% / -22%），逻辑上现估值透支明显、周期高点持续性看不太清。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 存储涨价持续落地（26Q1 DRAM 合约价季增 55–60%、NAND +33–38%）、低价库存持续转化利润；② 企业级 PCIe SSD 进阿里/腾讯/字节供应链放量；③ 自研高端主控（PCIe 5.0）落地、车规嵌入式导入头部车企；④ 2025 年定增募投推进、PCIe SSD 产能扩张。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① <b>中性/乐观 2028E 情景市值 500/1,500 亿均低于现价（-74%/-22%）</b>，估值透支明显；② 强周期+高存货（26Q1 末存货 121.9 亿、占总资产 66%）——价格回落将触发跌价减值，业绩或由盈转亏；③ 上游议价权弱、经营现金流持续为负、资产负债率 ~64%；④ 当前利润含大量一次性囤货红利，27 年供需转松红利回吐；⑤ 股价一年涨超 800%、交易拥挤，波动放大。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07 收盘）；德明利 2025 年年度报告及 2026 年一季报（主营分部为 2025 年报口径，<b>分产品毛利率年报未单列，标「未披露」</b>）；CFM 闪存市场、TrendForce、公开券商研报及深度分析。2028E 归母（研究员给定中性/乐观值）、价格弹性与市值空间为情景测算，含较强假设，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

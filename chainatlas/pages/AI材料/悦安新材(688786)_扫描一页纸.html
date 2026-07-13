@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>悦安新材(688786)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">悦安新材</span><span class="code">688786</span><div class="tags">羰基铁粉全球第二 · 金属软磁粉(铁硅/铁镍) · AI 电感磁粉上游 · 吸波/雾化合金粉</div></div><div class="r"><div class="px">现价 ¥41.06　总市值 70.9 亿</div><div class="meta">PE-TTM ~83.2x · PB 8.9x · 1.73 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>坐落江西大余的金属粉末专精特新厂：用羰基法把铁做成微米/亚微米级超细羰基铁粉（产能 5000 吨/年，全球第二、仅次于德国巴斯夫），并向下游做成金属软磁粉（铁硅、铁镍等合金磁粉）、雾化合金粉、注射成型(MIM)喂料、吸波材料。下游是电感/磁芯、粉末冶金件、金刚石工具、电子屏蔽。三块基本盘——金属软磁粉（2025 营收 1.78 亿、第一大）、羰基铁粉（1.36 亿）、MIM 精密零部件（1.58 亿）；AI 弹性来自“AI 服务器供电功率通胀”拉动的金属软磁粉与细羰基铁粉（电感/TLVR 用磁性材料），台达核心供应商、并供三星电机、TDK。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">4.38 亿</div><div class="s" style="color:var(--up)">同比 +4.7%</div></div><div class="stat"><div class="k">2025A 归母</div><div class="v">0.87 亿</div><div class="s" style="color:var(--up)">同比 +24.0%</div></div><div class="stat"><div class="k">2026Q1 营收</div><div class="v">1.11 亿</div><div class="s" style="color:var(--up)">同比 +15.4%</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.19 亿</div><div class="s" style="color:var(--up)">扣非 +14%</div></div><div class="stat"><div class="k">综合毛利率</div><div class="v">41.4%</div><div class="s" style="color:var(--ink)">2026Q1 · 偏高</div></div><div class="stat"><div class="k">羰基铁粉产能</div><div class="v">5000 吨/年</div><div class="s" style="color:var(--ink)">全球第二</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 合金软磁粉</td><td class="num">1.78</td><td class="num">40.6%</td><td class="num up">+16.2%</td><td class="num">45.3%</td><td class="num">46.3%</td></tr><tr><td>羰基铁粉</td><td class="num">1.36</td><td class="num">31.1%</td><td class="num up">+11.7%</td><td class="num">46.4%</td><td class="num">36.3%</td></tr><tr><td>注射成型喂料粉</td><td class="num">0.75</td><td class="num">17.1%</td><td class="num up">+1.2%</td><td class="num">23.1%</td><td class="num">10.0%</td></tr><tr><td>合金粉</td><td class="num">0.36</td><td class="num">8.3%</td><td class="num dn">-22.0%</td><td class="num">20.9%</td><td class="num">4.4%</td></tr><tr><td>吸波材料</td><td class="num">0.05</td><td class="num">1.2%</td><td class="num up">+20.6%</td><td class="num">60.5%</td><td class="num">1.8%</td></tr><tr><td>气体产品</td><td class="num">0.00</td><td class="num">0.0%</td><td class="num dn">-71.7%</td><td class="num dn">-307.4%</td><td class="num dn">-0.3%</td></tr><tr><td>其他业务</td><td class="num">0.07</td><td class="num">1.7%</td><td class="num dn">-58.2%</td><td class="num">36.2%</td><td class="num">1.5%</td></tr><tr class="total"><td>合计</td><td class="num">4.38</td><td class="num">100%</td><td class="num">+4.7%</td><td class="num">39.7%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">2025 营收 4.38 亿、归母仅 0.87 亿，体量小。金属软磁粉 1.78 亿（第一大、+16%）+ 羰基铁粉 1.36 亿是 AI 弹性所在，但 AI 服务器电感专用磁粉绝对收入仍在导入早期；故 PE-TTM ~95x、PB ~10.1x，市场买的是“AI 功率通胀拉动软磁粉量价齐升”的斜率与全球第二的稀缺卡位，不是当期利润。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">公司只做‘磁性材料’这一上游，不做电感成品：明确表态不直接涉足 TLVR 电感、仅向下游电感厂供基础磁粉。羰基铁粉全球第二（仅次巴斯夫）、国内第一；台达核心供应商，并供三星电机、TDK。对标关系：铂科新材（市值约 357 亿）/龙磁科技自产粉做电感、卡位英伟达 GB200/300，悦安是更上游的‘卖粉’环节，对应英飞凌/MPS/台达供电链。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">羰基法高压气体循环工艺、PLC 自动控制为国内领先，六项国标主要起草单位。2026Q1 综合毛利率 41.4%、偏高，细羰基铁粉/电子级软磁粉加工费与单吨净利显著高于普通金属粉；柔性产线可由常规粉转产高端电感料，超细/电子级放量将拉升毛利率。但单吨净利绝对值仍低于做电感成品的铂科/龙磁。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入结构由‘MIM 喂料 + 通用粉’向‘高毛利 AI 软磁粉 + 细羰基铁粉’迁移：金属软磁粉随 AI 服务器供电从铁氧体切金属软磁而量价齐升，细羰基铁粉受益 TLVR/高频电感放量；宁夏 3000 吨羰基铁粉 2026Q4 投产打开量的天花板。两类磁粉合计占比由 2025 约 72% 中‘AI 专用’部分快速提升，毛利率与单吨净利同步上台阶。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">量价利法（2028E 满产，中性/乐观）：金属软磁粉(AI 电感)收入约 4.0/6.3 亿 × 净利率 30%/35% → 1.2/2.2 亿；细羰基铁粉(电感/吸波料)收入约 3.0/4.6 亿 × 净利率 30%/35% → 0.9/1.6 亿；两段 AI 磁粉满产峰值净利约 2.1/3.8 亿（中性/乐观）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">①AI 服务器供电‘功率通胀’（Blackwell GB300 单颗 1400W → Rubin VR200 约 2300W）逼迫铁氧体让位金属软磁，软磁粉量价齐升、悦安是上游磁粉环节；②羰基铁粉全球第二、绑定台达/三星电机/TDK，宁夏新产能 2026Q4 投产；③AI 芯片电感市场 2024 约 9.9 亿 → 2027 约 31.3 亿（CAGR 约 47%，卖方口径）。需求验证、电子级磁粉放量节奏与电感厂导入进度是核心变量。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>AI 服务器供电从铁氧体切向金属软磁（饱和磁通密度约 2 倍、耐大电流），叠加村田/太阳诱电功率电感 7 月起涨价、行业稼动率约 90%，上游金属软磁粉与细羰基铁粉需求量价齐升；公司羰基铁粉全球第二、电子级软磁粉柔性产线转产、毛利率约 41%，对高端电感料具备议价权。</div><div class="p"><b>弹性假设：</b>以中性‘金属软磁粉(AI 电感)’段净利 1.2 亿为基准（≈收入 4.0 亿 × 净利率 30%）；涨价增量约 70% 落入净利（原料铁价为成本传导项、加工费为利润项）。细羰基铁粉等其余各段净利与市值固定。</div><table><thead><tr><th>AI 软磁粉涨价</th><th class="num">AI 软磁粉段净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 金属软磁粉(AI) ¥3 万/吨</td><td class="num">1.2 亿</td><td class="num">3.0 亿</td><td class="num up">81 亿</td></tr><tr><td class="base">+10%</td><td class="num">1.5 亿</td><td class="num">3.3 亿</td><td class="num up">90 亿</td></tr><tr><td class="base">+20%</td><td class="num">1.8 亿</td><td class="num">3.6 亿</td><td class="num up">99 亿</td></tr><tr><td class="base">+30%</td><td class="num">2.1 亿</td><td class="num">3.9 亿</td><td class="num up">108 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性：中性量不变、仅 AI 软磁粉提价；乐观情景为量（满产+电子级占比升）、价、净利率三者齐升，见 §04 乐观列。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">羰基铁粉小体量（全球~2.5 万吨、中国~1.5 万吨）、磁粉芯~20%/年增；悦安现 5000 吨/年（全球第二）、宁夏一期+3000 吨示范线</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">宁夏一期 3000 吨 26 试产、Q4 投产；原 6000 吨募投 25 转固爬坡；27-30 二三期视需求扩</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">26 偏紧、<b>27-28 随宁夏新线达产趋缓</b>；<b>AI 电感需求到 30 高增（芯片电感 24 年 9.9 亿→27 年 31.3 亿/CAGR47%）则维持紧平衡</b>。盯：稼动~90%、村田涨价〔置信度中〕</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ ◆ 金属软磁粉(AI 电感) ·30x</td><td class="cn as">收入 4.0 亿×净利率 30%</td><td class="cn num nn">1.2</td><td class="op as bd">收入 6.3 亿×净利率 35%(满产+电子级占比升)</td><td class="op num no">2.2</td></tr><tr class="ai-row"><td>◆ ◆ 羰基铁粉(细粉/电感·吸波料) ·30x</td><td class="cn as">收入 3.0 亿×净利率 30%(宁夏达产)</td><td class="cn num nn">0.9</td><td class="op as bd">收入 4.6 亿×净利率 35%(高端料放量)</td><td class="op num no">1.6</td></tr><tr><td>MIM 精密零部件+喂料 ·20x</td><td class="cn as">规模增长×净利率</td><td class="cn num nn">0.7</td><td class="op as bd">消费/汽车精密件放量</td><td class="op num no">1.0</td></tr><tr><td>雾化合金粉+吸波+其他 ·20x</td><td class="cn as">软磁粉上游+吸波修复</td><td class="cn num nn">0.2</td><td class="op as bd">吸波(军工/EMC)放量</td><td class="op num no">0.3</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 2.1 / 其他 0.9</span></td><td class="cn num">~3.0</td><td class="op bd"><span class="sub">AI 段 3.8 / 其他 1.3</span></td><td class="op num">~5.1</td></tr><tr class="mc"><td>对应市值 vs 现价 71 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~81亿 (+14%)</td><td class="op bd"></td><td class="op num up">~140亿 (+98%)</td></tr></tbody></table><div class="note"><b>估值法：</b>2028E 情景测算（非目标价、可证伪）：AI 相关磁粉（金属软磁粉、细羰基铁粉）按满产量价利法给 30x；MIM 精密件/喂料、雾化/吸波按 20x。中性合计归母 ~3.0 亿（AI 段 2.1+其他 0.9），乐观 ~5.1 亿（AI 段 3.8+其他 1.3）。净利率取整、电子级磁粉毛利较高故净利率档较高；公司只供上游磁粉、不做电感成品，单吨净利低于铂科/龙磁，故倍数同口径但绝对净利更克制。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">金属软磁粉随 AI 服务器供电(铁氧体→金属软磁)放量、电子级料导入电感厂；村田/太阳诱电 7 月功率电感涨价传导上游磁粉；细羰基铁粉随 TLVR/高频电感上量、台达/三星电机/TDK 订单兑现；宁夏 3000 吨羰基铁粉 2026Q4 投产爬坡；吸波(军工/EMC)放量。卖方(华鑫/东方财富等)给予买入并上修盈利预测(2026E 归母 1.30 亿、2027E 1.68 亿)。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 专用磁粉绝对收入仍小、估值已高（PE-TTM ~95x），透支放量预期；公司只供上游磁粉、不做电感成品，单吨净利与议价权弱于铂科/龙磁，且 TLVR 耦合电感料尚处试样阶段；MIM/通用粉占比仍大、毛利中等；铁/原料价格波动；宁夏新产能投产爬坡与电子级软磁粉客户验证节奏不及预期；非晶粉末等新品仍处研发储备阶段。</div></div></div><div class="src"><b>数据来源：</b>数据来源：公司 2025 年报/业绩快报、2026 一季报、业绩说明会与投资者互动、iFinD、Wind、卖方研究（华鑫/东方财富/天风等）及产业链调研。2028E 为本人测算。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>晶合集成(688249)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">晶合集成</span><span class="code">688249</span>
+<div class="tags">12英寸纯代工 · DDIC全球第一 · CIS/PMIC快速起量</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥58.51　总市值 1174.64 亿</div>
+<div class="meta">PE-TTM ~189.64x · PB 5.36x · 20.08 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:59</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>晶合集成是国内以 12 英寸成熟制程为主的纯晶圆代工厂（按客户图纸做芯片的「代工厂」），主打 DDIC（显示驱动芯片）代工全球第一，同时 CIS（图像传感器）/PMIC（电源管理）等新平台快速起量。核心看点是<b>CIS/PMIC/MCU 平台带动 ASP 与毛利率上行</b>；晶圆厂扩产周期 2 年以上，2028 年供需反转。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">108.9 亿</div><div class="s up">+17.7% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">7.04 亿</div><div class="s up">+32.2% YoY</div></div>
+<div class="stat"><div class="k">2025 毛利率</div><div class="v">25.52%</div><div class="s up">+2.0pct</div></div>
+<div class="stat"><div class="k">DDIC 占比</div><div class="v">58.06%</div><div class="s">主营应用口径</div></div>
+<div class="stat"><div class="k">CIS 占比</div><div class="v">22.64%</div><div class="s">第二大平台</div></div>
+<div class="stat"><div class="k">境外收入占比</div><div class="v">36.8%</div><div class="s">出口逐年提升</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">分产品官方口径 · 应用平台分布见 KPI/§02</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 集成电路晶圆制造代工</td><td class="num">103.57</td><td class="num">95.1%</td><td class="num up">+13.6%</td><td class="num">23.56%</td><td class="num">87.8%</td></tr>
+<tr><td>其他主营业务</td><td class="num">4.97</td><td class="num">4.6%</td><td class="num up">+282.3%</td><td class="num">65.48%</td><td class="num">11.7%</td></tr>
+<tr><td>其他</td><td class="num">0.32</td><td class="num">0.3%</td><td class="num up">+24.4%</td><td class="num">39.80%</td><td class="num">0.5%</td></tr>
+<tr class="total"><td>合计</td><td class="num">108.85</td><td class="num">100%</td><td class="num up">+17.7%</td><td class="num">25.52%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">DDIC 占 58.1%、CIS 22.6%、PMIC/MCU/Logic 合计 18.9%；CIS/PMIC 是弹性最大的期权，毛利率高于 DDIC。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">半导体中游 12 英寸纯代工，DDIC 环节全球产能第一（对标世界先进/联电），承接国内显示驱动 IC 大客户。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">90/110nm 合计占主营 70%，40nm 已流片；2025 毛利率 25.52%（同比+2.0pct）、净利率 6.5%；ASP 与稼动率同步回升。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">CIS 与 PMIC 占比持续提升；MCU/Logic 起量；40nm/28nm 制程推进后有望切入更高附加值应用。</div></div>
+<div class="bl"><div class="t">满产口径利润</div><div class="x">晶圆代工收入 103.57 亿为基数，ASP 涨 10% 按 60% 落净利增厚约 6.2 亿（测算），相对当前净利 7.04 亿弹性达 88%。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是"12 英寸成熟制程满产涨价 + CIS/PMIC 新平台起量"，PE-TTM 约 163x 反映高预期。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>晶圆厂扩产周期 2 年以上，2025 年 12 英寸成熟制程稼动率满载；显示驱动、CIS、PMIC 需求端持续拉动，2026 年 ASP 进入上行通道，可直接传导为毛利率改善。</div>
+<div class="p">弹性假设：以晶圆代工 103.57 亿收入为基准，涨价增量按 60% 落到净利（测算，折旧摊薄）。</div>
+<table>
+<thead><tr><th>晶圆代工涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">33.8 亿</td><td class="num">59.7 亿</td><td class="num">1534 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">39.6 亿</td><td class="num">65.6 亿</td><td class="num up">1709 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">45.4 亿</td><td class="num">71.4 亿</td><td class="num up">1884 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">51.2 亿</td><td class="num">77.2 亿</td><td class="num up">2059 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按 CIS/PMIC 及 DDIC 综合 30x 计入对应市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">12 英寸建设周期 2-3 年；晶合 N1/N2 厂总规划月产超 15 万片，N3/N4 陆续规划中；行业内华虹、粤芯等 12 英寸同期扩产。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">N1/N2 厂已满产，新增 40nm/28nm 平台 2026-2027 年爬坡；CIS/PMIC 专线陆续投放；行业成熟制程新产能 2027 年集中释放。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">预计 2028 年前后 12 英寸成熟制程供需再度收紧，前提是显示/CIS/AI 相关驱动持续；关键跟踪变量为月度稼动率、ASP 指引、CIS 高端订单。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心看点业务 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ CIS/PMIC/MCU/AI 相关新平台 ·30x</td><td class="cn as">收入 97.2 亿 · 净利率 34.7%（测算）</td><td class="cn num nn">~33.8</td><td class="op as bd">收入 120.2 亿 · 净利率 35.9%（测算）</td><td class="op num no">~43.1</td></tr>
+<tr><td>DDIC 显示驱动+其他 ·20x</td><td class="cn as">收入 68.3 亿 · 净利率 38.0%（测算）</td><td class="cn num nn">~26</td><td class="op as bd">收入 70.1 亿 · 净利率 39.0%（测算）</td><td class="op num no">~27.4</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 6.5 / 其他 5.0</span></td><td class="cn num">~59.7</td><td class="op bd"><span class="sub">核心 11.0 / 其他 7.0</span></td><td class="op num">~70.4</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 1,148 亿</td><td class="cn"><span class="sub">6.5×30 + 5.0×20</span></td><td class="cn num up">~1534亿 (+30.6%)</td><td class="op bd"><span class="sub">11.0×30 + 7.0×20</span></td><td class="op num up">~1841亿 (+56.7%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>CIS/PMIC/新平台按 30x，DDIC+其他按 20x；分段净利×倍数加总。当前市值显著高于中性/乐观情景对应市值，反映市场对 12 英寸成熟制程龙头 + CIS 平台起量给予高溢价，估值透支明显。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">2026Q2/Q3 稼动率与 ASP 指引超预期；CIS 高像素/PMIC 高压平台量产；40nm 制程流片进度；显示驱动/CIS 大客户订单；AI 相关新平台 (逻辑/MCU) 起量。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM 约 163x，§04 中性/乐观对应市值均显著低于现价（-74%/-59%），估值透支明显；DDIC 单一敞口过大；成熟制程扩产过快导致 ASP 二次下行；出口环境。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；同花顺 F10；进门财经研报及会议纪要；公开网络资料。DDIC/CIS/PMIC 应用占比引自 2025 年报经营评述；分应用平台营收为该占比×主营收入测算。暂无卖方盈利预测一致预期完整披露；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

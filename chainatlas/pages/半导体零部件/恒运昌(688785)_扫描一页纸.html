@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>恒运昌(688785)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">恒运昌</span><span class="code">688785</span>
+<div class="tags">半导体射频电源 · 国产替代旗手 · 拓荆核心供应商</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥385.77　总市值 261.17 亿</div>
+<div class="meta">PE-TTM ~270.94x · PB 11.70x · 0.68 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:53</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>恒运昌是国产<b>等离子体射频电源系统</b>（半导体前道 PECVD/PVD/刻蚀设备用来激发和维持工艺腔体等离子体的核心零部件，历来由 AE/MKS/Comet 等海外厂商垄断）龙头，产品含射频电源、匹配器、直流电源、远程等离子体源。核心看点是<b>国产替代率不足 12%、绑定拓荆等国内前道设备龙头</b>，2026 年新产能开始释放订单加速兑现，2028 年产能集中投放后行业竞争加剧。</div>
+<!-- KPI 条：6 格关键指标 -->
+<div class="stats">
+<div class="stat"><div class="k">2024 营收</div><div class="v">5.41 亿</div><div class="s up">+77.4% YoY（测算）</div></div>
+<div class="stat"><div class="k">2024 扣非归母</div><div class="v">1.29 亿</div><div class="s up">高速增长</div></div>
+<div class="stat"><div class="k">2024 综合毛利率</div><div class="v">48.7%</div><div class="s up">+2.6pct</div></div>
+<div class="stat"><div class="k">自研产品占比</div><div class="v">84.3%</div><div class="s up">+10.8pct</div></div>
+<div class="stat"><div class="k">拓荆客户占比</div><div class="v">63.1%</div><div class="s">前五 90.6%</div></div>
+<div class="stat"><div class="k">国内 RF 电源市占</div><div class="v">第一</div><div class="s">国产化率&lt;12%</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2024 年报口径）</h2><span class="tip">按营收占比降序 · 自研射频电源为核心看点 · 分产品毛利率未直接披露</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 自研产品（射频电源/匹配器/直流电源/等离子体激发装置）</td><td class="num">4.56</td><td class="num">84.3%</td><td class="num up">+103.6%（测算）</td><td class="num">52.0%（测算）</td><td class="num">90.0%</td></tr>
+<tr><td>引进及配件（真空泵、质量流量计等）</td><td class="num">0.85</td><td class="num">15.7%</td><td class="num up">+5.0%（测算）</td><td class="num">30.0%（测算）</td><td class="num">10.0%</td></tr>
+<tr class="total"><td>合计</td><td class="num">5.41</td><td class="num">100%</td><td class="num up">+77.4%（测算）</td><td class="num">48.7%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 左右两栏 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">几乎 100% 收入来自半导体前道设备用射频电源系统；自研占比升至 84.3%，是利润主要贡献段，非期权而是当期利润主力。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">位于前道薄膜/刻蚀设备最卡脖子的零部件环节，卡在设备厂上游第一梯队；深度绑定拓荆（第一大客户 63%），并进入中微、北方华创、微导纳米、盛美等主流设备厂。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">对标海外 AE/MKS/Comet；已量产 13.56MHz/40.68MHz/60MHz 全频段产品并进入 PECVD/PVD/RIE 主流工艺；综合毛利率 48.7%，自研段毛利显著高于对标海外龙头。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">国内 RF 电源国产化率 2024 年不足 12%，2027-2028 有望向 30%+ 演进；公司自研产品占比若维持 84%+ 并进入刻蚀/CVD 更高频段，收入结构进一步向高毛利集中。</div></div>
+<div class="bl"><div class="t">涨价与量增口径利润</div><div class="x">以 2024 自研 4.56 亿为基数，ASP + 结构升级涨 10%、按 60% 落净利，增厚核心 segment 利润约 2.7 亿元归母（测算：4.56 × 10% × 60%）；量增弹性远大于价。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是"国内前道扩产 + RF 电源国产替代空间大 + 单一客户高粘性"，PE-TTM 数百倍反映远期高增预期，交易拥挤度高。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>海外厂长期垄断给出高价基线，国产替代阶段公司以性价比 + 服务响应切入份额；随着高频段/多路输出等高阶产品放量，产品结构升级带来隐性提价，同时议价力随份额提升趋强。</div>
+<div class="p">弹性假设：以中性 2028E 核心射频电源系统营收 15 亿为基准，价格 + 结构改善增量按 60% 落到净利（测算）。</div>
+<table>
+<thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">11.2 亿</td><td class="num">12.2 亿</td><td class="num">356 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">13.9 亿</td><td class="num">14.9 亿</td><td class="num up">436 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">16.6 亿</td><td class="num">17.6 亿</td><td class="num up">517 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">19.3 亿</td><td class="num">20.3 亿</td><td class="num up">597 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（中性量不变）；增量净利按核心射频电源段 30x 计入市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">半导体射频电源环节扩产周期长（洁净车间 + 设备厂端认证周期 2 年以上），行业整体新增产能 CAGR ~25%，慢于国内设备厂 Capex 增速。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">2026 年国产 RF 电源渗透加速兑现订单，2027 年公司募投产能爬坡；对应 2027 年目标 PE 50x 是中性锚。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">2028 年前后国内 RF 电源新增供给集中释放，若国内前道 Capex 增速回落 + 海外产品价格下探，价格与稼动率同时承压；关键盯变量为国内 12 寸新增线数、RF 电源招标价与拓荆自研化进展。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 市值空间 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（半导体射频电源 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 自研射频电源系统 ·30x</td><td class="cn as">收入 44.7 亿 · 净利率 25.1%（测算）</td><td class="cn num nn">~11.2</td><td class="op as bd">收入 52.0 亿 · 净利率 26.0%（测算）</td><td class="op num no">~13.5</td></tr>
+<tr><td>引进及配件 ·20x</td><td class="cn as">收入 4.7 亿 · 净利率 21.6%（测算）</td><td class="cn num nn">~1</td><td class="op as bd">收入 4.4 亿 · 净利率 23.4%（测算）</td><td class="op num no">~1</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 4.2 / 引进 0.38</span></td><td class="cn num">~12.2</td><td class="op bd"><span class="sub">核心 7.0 / 引进 0.54</span></td><td class="op num">~14.6</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 307 亿</td><td class="cn"><span class="sub">4.2×30 + 0.38×20</span></td><td class="cn num up">~356亿 (+36.3%)</td><td class="op bd"><span class="sub">7.0×30 + 0.54×20</span></td><td class="op num up">~425亿 (+62.7%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>自研射频电源按核心 30x、引进及配件按 20x；2028E 假设行业新增产能集中释放，稼动率与价格阶段性承压，净利率较 2026-2027 年阶段峰值略回落。2027 年目标 PE 50x 对应中性净利约 4.58 亿、目标市值约 229 亿；当前市值已提前透支 2027 年国产替代高成长预期。</div>
+</div>
+<!-- §05 催化剂 · 风险 · 数据来源 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">2026 年拓荆/中微 PECVD 新机型放量带动 RF 电源订单加速；北方华创刻蚀新平台导入；高频段 40.68/60MHz 产品认证突破；募投产能 2026 下半年爬坡；季度毛利率上行。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">§04 中性对应市值 ~134 亿显著低于现价 307 亿、乐观 ~221 亿仍低于现价，估值透支明显；PE-TTM 数百倍；拓荆客户集中度 63% 存在单一客户依赖；拓荆若加大射频电源自研自制；2028 年国产 RF 电源新增供给集中释放导致价格战。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024 年报及招股说明书、上市公告书（巨潮/上交所）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；华金证券、证券时报、同花顺 F10；公开网络资料。暂无卖方盈利预测一致预期覆盖；2027-2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

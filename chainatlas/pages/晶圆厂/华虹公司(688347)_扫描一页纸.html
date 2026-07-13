@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>华虹公司(688347)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">华虹公司</span><span class="code">688347</span>
+<div class="tags">大陆晶圆代工第二 · 12英寸特色工艺 · 国资背景A+H</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥358.40　总市值 6228.01 亿</div>
+<div class="meta">PE-TTM ~1262.24x · PB 13.76x · 17.38 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:43</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>华虹公司是国内以特色工艺见长的晶圆代工厂（按客户图纸做芯片的「代工厂」），拥有 3 条 8 英寸线 + 华虹无锡/华虹制造 2 条 12 英寸线。核心看点是<b>12 英寸特色工艺（功率、eNVM、模拟/PMIC）满产爬坡与 AI/汽车/新能源需求带动 ASP 回升</b>，供给侧扩产周期 2 年以上，2028 年前后供需反转。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">172.9 亿</div><div class="s up">+20.2% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">3.77 亿</div><div class="s dn">-1.0% YoY</div></div>
+<div class="stat"><div class="k">2025 毛利率</div><div class="v">18.72%</div><div class="s up">+8.3pct</div></div>
+<div class="stat"><div class="k">12英寸营收占比</div><div class="v">~60%</div><div class="s">经营评述口径</div></div>
+<div class="stat"><div class="k">产能利用率</div><div class="v">&gt;100%</div><div class="s">8/12英寸均满产</div></div>
+<div class="stat"><div class="k">FAB9 月投片</div><div class="v">&gt;4 万片</div><div class="s">2025年末达产爬坡</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收降序 · 晶圆代工为核心看点板块</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 集成电路晶圆代工</td><td class="num">164.26</td><td class="num">95.0%</td><td class="num up">+21.5%</td><td class="num">17.87%</td><td class="num">90.7%</td></tr>
+<tr><td>其他（掩模/测试等配套）</td><td class="num">7.64</td><td class="num">4.4%</td><td class="num dn">-0.1%</td><td class="num">28.87%</td><td class="num">6.8%</td></tr>
+<tr><td>租赁</td><td class="num">1.01</td><td class="num">0.6%</td><td class="num up">+1.0%</td><td class="num">80.46%</td><td class="num">2.5%</td></tr>
+<tr class="total"><td>合计</td><td class="num">172.91</td><td class="num">100%</td><td class="num up">+20.2%</td><td class="num">18.72%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">晶圆代工贡献 95.0% 营收与 90.7% 毛利；12 英寸营收占比约 60%，其中特色工艺（功率/eNVM/模拟）满产，是利润弹性最大的环节。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">半导体中游制造环节的特色工艺代工，避开先进逻辑赛道正面竞争；全球特色工艺代工前五、大陆特色工艺第一，客户覆盖国内主要功率与 MCU 设计公司。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">主打嵌入式非易失存储、超级结/IGBT 功率、模拟/PMIC、CIS/RF 五大平台；2025 毛利率 18.72%（同比+8.3pct），净利率仅 2.2%，处于爬坡起点。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">华虹制造 FAB9（12英寸）2025 年末月投片超 4 万片，2026-2027 年爬向 8 万片以上；12 英寸营收占比有望升至 70%+，驱动 ASP 与毛利率上行。</div></div>
+<div class="bl"><div class="t">满产口径利润</div><div class="x">晶圆代工收入 164 亿为基数，ASP 涨 10% 按 60% 落净利增厚约 9.9 亿（测算），相对当前净利 3.77 亿弹性达 2.6 倍。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是"国产晶圆代工二哥 + AI/汽车带动特色工艺紧缺"，PE-TTM 约 1457x 反映极高预期，估值透支明显。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>晶圆厂环节扩产周期 2 年以上，2024 年行业价格触底，2025 年 8/12 英寸产能利用率均超 100%；AI 服务器电源、新能源车功率半导体、国产 MCU/PMIC 需求持续拉动，ASP 触底回升可直接传导为毛利改善。</div>
+<div class="p">弹性假设：以 2025 年晶圆代工收入 164.26 亿为基准，涨价增量按 60% 落到净利（测算，成本相对刚性）。</div>
+<table>
+<thead><tr><th>晶圆代工涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">187.6 亿</td><td class="num">312.7 亿</td><td class="num">8130 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">224.5 亿</td><td class="num">349.6 亿</td><td class="num up">9237 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">261.4 亿</td><td class="num">386.5 亿</td><td class="num up">10343 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">298.3 亿</td><td class="num">423.3 亿</td><td class="num up">11450 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按 12 英寸特色工艺 30x 计入对应市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">全球晶圆代工新产能建设周期 2 年以上，2024-2025 年成熟制程扩产偏谨慎；华虹制造 FAB9 单期规划 8.3 万片/月，为国内特色工艺最大 12 英寸线。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">FAB9 一期 2025 年底达 4 万片，2026 年加速爬坡；同业中芯京城、粤芯、积塔等 12 英寸产能亦集中于 2026-2027 年释放。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">预计 2028 年前后特色工艺供需再度收紧，前提是新能源车/AI/国产 MCU 需求持续；关键跟踪变量为月度产能利用率、ASP 指引与在建产能兑现进度。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心看点业务 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 12英寸特色工艺/AI代工 ·30x</td><td class="cn as">收入 614.7 亿 · 净利率 30.5%（测算）</td><td class="cn num nn">~187.6</td><td class="op as bd">收入 732.7 亿 · 净利率 32.0%（测算）</td><td class="op num no">~234.5</td></tr>
+<tr><td>8英寸+其他配套 ·20x</td><td class="cn as">收入 358.9 亿 · 净利率 34.8%（测算）</td><td class="cn num nn">~125.1</td><td class="op as bd">收入 319.1 亿 · 净利率 38.2%（测算）</td><td class="op num no">~122</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 15.0 / 其他 10.0</span></td><td class="cn num">~312.7</td><td class="op bd"><span class="sub">核心 25.0 / 其他 13.0</span></td><td class="op num">~356.5</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 5,491 亿</td><td class="cn"><span class="sub">15.0×30 + 10.0×20</span></td><td class="cn num up">~8130亿 (+30.5%)</td><td class="op bd"><span class="sub">25.0×30 + 13.0×20</span></td><td class="op num up">~9475亿 (+52.1%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>12 英寸特色工艺/AI 代工与 8 英寸+其他分别按收入×净利率外推；分段净利×倍数（核心 30x / 传统 20x）加总。当前市值显著高于中性/乐观情景对应市值，反映市场对国产晶圆代工龙二给予极高估值溢价，估值透支明显。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">2026Q2/Q3 毛利率与产能利用率指引超预期；FAB9 达产节点与折旧摊薄；特色工艺 ASP 涨价落地；国产 MCU/功率大客户订单；A+H 融资/资本运作预期。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM 约 1457x，§04 中性/乐观对应市值均显著低于现价（-88%/-82%），估值透支极为明显；FAB9 折旧压制利润；成熟制程扩产过快导致 ASP 二次下行；海外设备管制升级。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；同花顺 F10；进门财经研报及会议纪要；公开网络资料。暂无卖方盈利预测一致预期覆盖完整披露；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

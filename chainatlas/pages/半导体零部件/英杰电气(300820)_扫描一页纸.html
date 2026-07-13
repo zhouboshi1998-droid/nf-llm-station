@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>英杰电气(300820)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">英杰电气</span><span class="code">300820</span>
+<div class="tags">工业电源平台 · 半导体射频电源国产替代 · 光伏+充电桩+半导体三足</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥70.61　总市值 156.95 亿</div>
+<div class="meta">PE-TTM ~75.20x · PB 6.08x · 2.22 亿股</div>
+<div class="date">数据截至 2026-07-08 17:00:03</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>英杰电气是国内工业电源平台厂商，2024 年三大主业为<b>光伏电源</b>（49%）、<b>充电桩及新能源汽车电源</b>（31%）与<b>半导体及电子材料用电源</b>（20%，含 CVD/PVD/刻蚀设备用射频电源等）。核心看点是<b>半导体高端电源国产替代</b>——子公司英杰晨晖 2024 净利率 ~34%、板块毛利率 54%，是利润最锋利的一段；光伏 2025 触底、2026 环比修复；2028 年产能集中投放，行业价格阶段承压。</div>
+<!-- KPI 条：6 格关键指标 -->
+<div class="stats">
+<div class="stat"><div class="k">2024 营收</div><div class="v">17.80 亿</div><div class="s up">+0.6% YoY</div></div>
+<div class="stat"><div class="k">2024 归母净利</div><div class="v">3.23 亿</div><div class="s dn">-25.2% YoY</div></div>
+<div class="stat"><div class="k">2024 综合毛利率</div><div class="v">~38%（测算）</div><div class="s">净利率 18.1%</div></div>
+<div class="stat"><div class="k">半导体电源毛利率</div><div class="v">54.0%</div><div class="s up">+11.1pct</div></div>
+<div class="stat"><div class="k">半导体子公司净利</div><div class="v">0.63 亿</div><div class="s">净利率 ~34%</div></div>
+<div class="stat"><div class="k">经营现金流净额</div><div class="v">6.0 亿</div><div class="s up">+330.7% YoY</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2024 年报口径）</h2><span class="tip">按营收占比降序 · 半导体电源为核心看点 · 占比四舍五入</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr><td>光伏行业电源</td><td class="num">8.74</td><td class="num">49.1%</td><td class="num dn">-10.3%</td><td class="num">28.5%</td><td class="num">37.0%</td></tr>
+<tr><td>充电及新能源汽车电源</td><td class="num">5.53</td><td class="num">31.1%</td><td class="num up">+18.9%</td><td class="num">44.6%</td><td class="num">36.7%</td></tr>
+<tr class="key"><td>◆ 半导体及电子材料用电源</td><td class="num">3.51</td><td class="num">19.7%</td><td class="num up">+6.4%</td><td class="num">54.0%</td><td class="num">28.2%</td></tr>
+<tr><td>其他行业</td><td class="num">0.03</td><td class="num">0.2%</td><td class="num up">+95.6%</td><td class="num">30.0%（测算）</td><td class="num">0.1%</td></tr>
+<tr class="total"><td>合计</td><td class="num">17.80</td><td class="num">100%</td><td class="num up">+0.6%</td><td class="num">37.8%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 左右两栏 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">半导体电源 2024 营收 3.51 亿、占比 20%，毛利占比 28%；子公司英杰晨晖 0.63 亿净利，是弹性最大、利润率最高的一段（净利率 34%）。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">位于国内 CVD/PVD/刻蚀设备的关键电源零部件环节，对标海外 AE/MKS/Advanced Energy；下游客户包括拓荆、北方华创、中微、盛美等主流前道设备厂，同时供应中电科等电子材料厂。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">工业电源平台起家，射频电源为核心壁垒；半导体电源毛利率 2021 至 2024 从 51% → 42% → 54%，随高端产品放量 + 汇率影响消退，2026 有望维持 50%+。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">半导体电源收入占比若从 20% 提升至 2028 年 40%+，收入结构显著优化；光伏 2025 触底、2026 加速修复；充电桩产能 2025 底至交流 40 万台/直流 1.2 万台。</div></div>
+<div class="bl"><div class="t">涨价与量增口径利润</div><div class="x">以 2024 半导体电源 3.51 亿为基数，ASP + 结构升级涨 10%、按 60% 落净利，增厚核心 segment 利润约 1.3 亿元归母（测算：3.51 × 10% × 60%）；量增 3-4 倍才是弹性主力。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是"半导体射频电源国产替代 + 光伏边际改善 + 充电桩出海"，PE-TTM 55x 已反映高增预期；市场持续观察季度半导体订单结构。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>海外 RF 电源长期高价，公司国产替代阶段以性价比切入份额；高频段/多路输出产品占比上行带动隐性提价，同时下游前道设备厂扩产使供不应求，议价力上行。</div>
+<div class="p">弹性假设：以中性 2028E 半导体电源营收 12 亿为基准，价格 + 结构改善增量按 60% 落到净利（测算）。</div>
+<table>
+<thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">4.8 亿</td><td class="num">7.4 亿</td><td class="num">198 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">6.0 亿</td><td class="num">8.7 亿</td><td class="num up">236 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">7.3 亿</td><td class="num">9.9 亿</td><td class="num up">274 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">8.6 亿</td><td class="num">11.2 亿</td><td class="num up">312 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（中性量不变）；增量净利按半导体电源段 30x 计入市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">工业射频电源新增产能受产线、认证周期限制，公司四川新工厂在建；行业整体扩产 CAGR ~25%，慢于国内设备厂 Capex 增速。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">2026 年公司半导体电源产能翻倍并加速兑现在手订单；2027 年新平台产品放量，对应 2027 目标 PE 50x 是中性锚。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">2028 年前后国产电源新增供给集中释放，若前道 Capex 增速回落 + 海外产品价格下探，价格与稼动率同时承压；关键盯变量为国内 12 寸新增线数、半导体电源招标价与光伏行业景气度。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 市值空间 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（半导体电源 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 半导体及电子材料用电源 ·30x</td><td class="cn as">收入 21.2 亿 · 净利率 22.5%（测算）</td><td class="cn num nn">~4.8</td><td class="op as bd">收入 23.6 亿 · 净利率 25.8%（测算）</td><td class="op num no">~6.1</td></tr>
+<tr><td>光伏电源 ·20x</td><td class="cn as">收入 3.3 亿 · 净利率 32.9%（测算）</td><td class="cn num nn">~1.1</td><td class="op as bd">收入 3.7 亿 · 净利率 36.3%（测算）</td><td class="op num no">~1.3</td></tr>
+<tr><td>充电及新能源汽车电源 ·20x</td><td class="cn as">收入 4.7 亿 · 净利率 33.1%（测算）</td><td class="cn num nn">~1.6</td><td class="op as bd">收入 5.4 亿 · 净利率 37.3%（测算）</td><td class="op num no">~2</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">半导体 3.6 / 光伏 0.8 / 充电 1.2</span></td><td class="cn num">~7.4</td><td class="op bd"><span class="sub">半导体 7.0 / 光伏 1.56 / 充电 2.25</span></td><td class="op num">~9.4</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 176 亿</td><td class="cn"><span class="sub">3.6×30 + 2.0×20</span></td><td class="cn num up">~198亿 (+26.2%)</td><td class="op bd"><span class="sub">7.0×30 + 3.81×20</span></td><td class="op num up">~249亿 (+58.6%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>半导体电源按核心 30x、光伏与充电桩按 20x；2028E 假设扩产集中释放且供需从紧转平，净利率较 2026-2027 阶段峰值略回落。2027 目标 PE 50x 对应中性净利约 5.6 亿、目标市值约 280 亿是中性锚；2028 年因新增供给冲击回落至 ~148 亿。</div>
+</div>
+<!-- §05 催化剂 · 风险 · 数据来源 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">2026 年半导体电源订单加速兑现（英杰晨晖新平台放量）；光伏板块 2026 年收入环比修复；充电桩海外订单放量（60+ 国家出口）；季度毛利率上行；四川新工厂 2026H2 投产。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">§04 中性对应市值 ~148 亿低于现价 176 亿，估值需靠乐观情景兑现才能上行；光伏板块 2025-2026 若持续下滑拖累现金流；半导体客户集中于头部前道厂；2028 年国产电源集中扩产致价格战；充电桩海外贸易摩擦。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024 年报及业绩说明会（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；东方财富证券、长城证券、每日经济新闻、同花顺 F10；公开网络资料。暂无卖方盈利预测一致预期覆盖；2027-2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

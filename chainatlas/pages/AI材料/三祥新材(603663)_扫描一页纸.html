@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>三祥新材(603663)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">三祥新材</span><span class="code">603663</span><div class="tags">全球电熔氧化锆龙头 · 半导体高纯氧化铪(High-K) · 核级海绵锆</div></div><div class="r"><div class="px">现价 ¥80.68　总市值 342.1 亿</div><div class="meta">PE-TTM ~243x · PB 24.6x · 4.24 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>做'锆'起家的福建材料厂:把锆英砂提纯成电熔氧化锆(耐火/陶瓷/研磨)做到全球第一,30 年前就超过日本旭硝子。真正让市场重估的是'锆的伴生金属铪'——独家盐酸萃取工艺分出 5N 级氧化铪(HfO₂),正是 28nm 以下先进芯片栅极、DRAM/HBM/3D NAND 存储里替代二氧化硅的 High-K 介质,全球被海外卡脖子、海外报价已到 ¥8000 万/吨。另有核级海绵锆(核电燃料包壳)放量。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">11.66 亿</div><div class="s" style="color:var(--up)">同比 +10.6%</div></div><div class="stat"><div class="k">2025A 归母</div><div class="v">1.18 亿</div><div class="s" style="color:var(--up)">同比 +55.2%</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.37 亿</div><div class="s" style="color:var(--up)">同比 +288.7%</div></div><div class="stat"><div class="k">综合毛利率</div><div class="v">~28.0%</div><div class="s" style="color:var(--up)">Q1 同口径</div></div><div class="stat"><div class="k">PE-TTM</div><div class="v">301.8x</div><div class="s" style="color:var(--ink)">重估进行中</div></div><div class="stat"><div class="k">资产负债率</div><div class="v">30.4%</div><div class="s" style="color:var(--ink)">低杠杆</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 锆产品</td><td class="num">9.74</td><td class="num">83.6%</td><td class="num up">+11.2%</td><td class="num">28.5%</td><td class="num">89.4%</td></tr><tr><td>铸造改性材料</td><td class="num">1.24</td><td class="num">10.6%</td><td class="num up">+4.3%</td><td class="num">16.7%</td><td class="num">6.6%</td></tr><tr><td>其他业务</td><td class="num">0.67</td><td class="num">5.7%</td><td class="num up">+13.8%</td><td class="num">18.3%</td><td class="num">3.9%</td></tr><tr class="total"><td>合计</td><td class="num">11.66</td><td class="num">100%</td><td class="num">+10.6%</td><td class="num">26.7%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">直接、且属真·AI 硬件稀缺材料——不是蹭概念。氧化铪 HfO₂ 是 28nm 以下先进逻辑栅极 High-K 介质、DRAM/HBM/3D NAND 存储介质的必选项;但 2025 营收里氧化铪≈0(产线 2026/8 才投产),敞口在'预期'不在'报表'。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">全球电熔氧化锆龙头(纯度 >99%、30 年前超日本旭硝子);锆铪同源 50:1 伴生,公司用自产氧氯化锆摊薄铪成本,国内独家跑通 5N 级氧化铪连续出料,卡在'前驱体厂(雅克科技等)→晶圆厂'上游最稀缺一环。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">独家盐酸单体系耦合萃取,避开 MIBK(剧毒硫氰酸)/TBP(高氮废水)环保红线,海外因此扩产谨慎。氧化铪生产成本仅 ¥1-2 百万/吨,国内售价 ¥1000 万+/吨、海外 ¥8000 万/吨,毛利率可达大几十%。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入结构从'锆系列 84% 单极'→'锆系列+核级锆+氧化铪'三极。氧化铪 2026 产 20-30 吨、2027 达 50 吨、上限 140 吨;核级锆 2026 出货 500-600 吨、规划 2000 吨。从周期耐材向战略/半导体材料切换。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">氧化铪 140 吨打满:按国内 ¥1000 万/吨保守口径、单吨净利~700 万→约 9.8 亿(本表口径);若按海外 ¥8000 万/吨价、卖方激进拍法可达 80-100 亿(本表不采用、仅作弹性上限提示)。核级锆满产另增 5-6 亿。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">交易'国产独家氧化铪 + 存储/HBM 大扩产 + 海外断供'三重稀缺逻辑,2 年市值翻 6 倍、PE-TTM 311x。本质是给'氧化铪 2027 起放量+涨价'的期权定价,现价已隐含较饱满预期,看兑现节奏。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>铪锆 50:1 伴生、海外为维护核级锆价拒绝扩产,叠加 HBM4/DRAM 用量翻倍+存储大扩产,电子级氧化铪结构性紧缺;国内 ¥1000 万/吨 vs 海外 ¥8000 万/吨、价差~8 倍,涨价弹性看不到天花板。</div><div class="p"><b>弹性假设：</b>以氧化铪段为弹性主体:中性产量 80 吨×国内 ¥1000 万/吨≈8 亿收入,涨价增量约 70% 落净利;其他段(锆系列+核级锆)净利固定。</div><table><thead><tr><th>氧化铪涨价</th><th class="num">氧化铪净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 国内 ¥1000 万/吨</td><td class="num">5.6 亿</td><td class="num">11.1 亿</td><td class="num up">248 亿</td></tr><tr><td class="base">+10%</td><td class="num">6.2 亿</td><td class="num">11.7 亿</td><td class="num up">265 亿</td></tr><tr><td class="base">+20%</td><td class="num">6.7 亿</td><td class="num">12.2 亿</td><td class="num up">282 亿</td></tr><tr><td class="base">+30%</td><td class="num">7.3 亿</td><td class="num">12.8 亿</td><td class="num up">298 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性(中性产量 80 吨不变);乐观情景为量(→140 吨)+价+净利率齐升。海外价口径(¥8000 万/吨)弹性更大、此处未采用。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">海外铪供给刚性（铪锆伴生、护核级锆价拒扩+环保红线）、法马通维持现状；三祥 2 万吨锆铪分离+140 吨氧化铪线为国内稀缺增量</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">氧化铪 140 吨线 26/8 投产，26 产 20-30 吨、27 达 50 吨、28-30 爬向上限 140 吨</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv"><b>结构性紧缺延续至 2030 难反转</b>（海外维持不扩+HBM4/DRAM 20nm 以下普用 HfO₂ 大扩）；三祥 140 吨是国内唯一缓解增量。盯：HBM4 爬坡、海外扩产意愿</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ 氧化铪 HfO₂ ·30x</td><td class="cn as">80 吨×¥1000万/吨×单吨净利700万</td><td class="cn num nn">5.6</td><td class="op as bd">140 吨打满×国内保守价口径</td><td class="op num no">9.8</td></tr><tr><td>锆系列(传统) ·20x</td><td class="cn as">量价齐升、收入小幅扩、毛利稳</td><td class="cn num nn">2.5</td><td class="op as bd">纳米/电容锆扩产+涨价兑现</td><td class="op num no">3.5</td></tr><tr><td>核级海绵锆 ·10x</td><td class="cn as">出货~1500 吨×单吨净利 20 万</td><td class="cn num nn">3.0</td><td class="op as bd">满产 3000 吨承接全球+收储</td><td class="op num no">6.0</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 5.6 / 其他 5.5</span></td><td class="cn num">~11.1</td><td class="op bd"><span class="sub">AI 段 9.8 / 其他 9.5</span></td><td class="op num">~19.3</td></tr><tr class="mc"><td>对应市值 vs 现价 342 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~248亿 (-27%)</td><td class="op bd"></td><td class="op num up">~424亿 (+24%)</td></tr></tbody></table><div class="note"><b>估值法：</b>氧化铪给 30x(半导体 High-K 直接受益、国产独家),单价采国内 ¥1000 万/吨保守口径而非海外 ¥8000 万/吨;锆系列给 20x(传统材料量价齐升);核级海绵锆作核电战略增量给 10x(待放量、乐观更稳计入)。年份 2028E。氧化铪海外价口径下卖方测算可达 80-100 亿净利,弹性巨大但确定性低、本表不采用。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 锆铪分离 140 吨产线 2026/8 投产、下半年批量出货与客户验证落地;② 氧化铪 2027 产销率达 50%、向海外高价靠拢;③ 核级海绵锆法马通订单从 150→500 吨放量、国内收储落地;④ 氧化钇管制延续→纳米氧化锆量价齐升。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 氧化铪 2025 营收≈0、当前估值几乎全是'预期'——产线投产/客户验证/出货任一不及预期都将证伪;② PE-TTM 311x、2 年涨 6 倍,现价已隐含饱满预期,情绪退潮回撤风险大;③ 本表中性/乐观市值(248/424 亿)均低于现价(即市场已透支至 2028E 乐观以上),空间为负;④ 海外 ¥8000 万/吨价口径属乐观假设、能否兑现存疑;⑤ 价格大幅波动、固态电池/镁铝期权兑现尚早。</div></div></div><div class="src"><b>数据来源：</b>数据来源:公司 2025 年报 / 2026 一季报 / 投资者交流、业绩说明会,iFinD、Wind,浙商/东吴/国金/中信等卖方研究及产业链调研。2028E 情景为本人测算,非目标价、可证伪,决策权属 Ty。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

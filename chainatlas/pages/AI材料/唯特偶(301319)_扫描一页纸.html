@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>唯特偶(301319)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">唯特偶</span><span class="code">301319</span><div class="tags">微电子焊接材料龙头 · 国产锡膏龙一 · 光模块/先进封装高端锡膏 · 华为概念</div></div><div class="r"><div class="px">现价 ¥133.55　总市值 243.6 亿</div><div class="meta">PE-TTM ~281x · PB 20.0x · 1.82 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>深圳老牌电子化工厂（1998 年创立）：把锡、铅及助焊剂做成电子制造离不开的「工业味精」——锡膏（SMT 回流焊用，糊状锡粉+助焊剂，贴片元器件焊到 PCB 上）、焊锡条、焊锡丝、助焊剂/清洗剂。锡膏出货连续多年国产第一、全球第三，绑定 4000+ 客户（汽车/家电/通信）。微电子焊接材料占营收约 88%、辅助焊接材料约 10%。新长出的 AI 弹性来自高端锡膏：光模块 SMT（800G/1.6T/3.2T 用 T6-T8 超细粉）与先进封装（Chiplet/HBM/玻璃基板焊料），是国内唯一可批量产 T7+ 光模块锡膏的标的，量价齐升+国产替代。对标上游有研粉材（锡粉）。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">~15.0 亿</div><div class="s" style="color:var(--up)">同比 +24%</div></div><div class="stat"><div class="k">2026Q1 营收</div><div class="v">3.94 亿</div><div class="s" style="color:var(--up)">同比 +27%</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.30 亿</div><div class="s" style="color:var(--up)">同比 +37%</div></div><div class="stat"><div class="k">2026Q1 毛利率</div><div class="v">17.7%</div><div class="s" style="color:var(--ink)">通用锡膏为主、薄</div></div><div class="stat"><div class="k">锡膏国产市占</div><div class="v">~7-10%</div><div class="s" style="color:var(--ink)">内资第一、海外占 50%</div></div><div class="stat"><div class="k">月产能</div><div class="v">320+ 吨</div><div class="s" style="color:var(--ink)">产能充沛</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 微电子焊接材料</td><td class="num">13.33</td><td class="num">88.6%</td><td class="num up">+29.5%</td><td class="num">11.1%</td><td class="num">64.0%</td></tr><tr><td>微电子辅助焊接材料</td><td class="num">1.55</td><td class="num">10.3%</td><td class="num dn">-2.7%</td><td class="num">47.5%</td><td class="num">32.1%</td></tr><tr><td>其他业务</td><td class="num">0.16</td><td class="num">1.1%</td><td class="num dn">-31.4%</td><td class="num">56.6%</td><td class="num">3.9%</td></tr><tr class="total"><td>合计</td><td class="num">15.04</td><td class="num">100%</td><td class="num">+24.1%</td><td class="num">15.3%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">AI 弹性极早期、绝对占比很小：光模块 T7 锡膏 2026 年 1-5 月累计销售仅 134 万元（较 2025 全年 +252%），先进封装 2025 全年 1078 万元。但量价齐升斜率陡、稀缺性高——故 PE-TTM 高达 425x、PB 30x，市场买的是「钻针式」高通胀耗材的放量预期与重估，而非当期利润。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">处「锡粉→锡膏→光模块/封装」中游：国内锡膏出货连续多年内资第一、市占约 7-10%（海外铟泰/贺利氏/千住/阿尔法占约 50%）；国内唯一批量产 T7+ 光模块锡膏、T8 研发领先，空洞率/润湿率达国际先进，高速光模块锡膏研发周期 7-10 年、国内同行多停留 T6 以下（追赶需 2-3 年）。同时布局上游锡粉产能保供降本，一体化能力或被低估。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">价值量随料号升级倍增：T5≈2 元/g、T6≈10 元/g、T7≈25 元/g（最高 3 元/g）、T8≈35 元/g；普通锡膏毛利 40-50%，T6-T7 超细光模块锡膏毛利约 70%（公司公告口径）。商业模式由「成本加成」升级为高端料号「一口价」定价，盈利能力与质量显著抬升，是利润弹性主来源。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入结构从「量大利薄的通用焊料」向「高毛利 AI 高端锡膏」迁移：高端产品（T5 及以上）份额 2026Q1 已近 20%、月出货环比 +50%；随 1.6T/3.2T/CPO 光模块与先进封装放量，高端锡膏占比 2028E 有望升至 40-55%，毛利率与净利率同步上台阶，先进封装/HBM 锡膏与锡球贡献第二曲线。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">量价利法（2028E）：光模块高端锡膏 ~12-20 亿收入×净利率 40-45% → 4.5-9.0 亿；先进封装/HBM 锡膏·锡球 ~3-6 亿收入×净利率 35-40% → 1.0-2.5 亿；两段 AI 高端锡膏中性/乐观净利约 5.5-11.5 亿。传统焊料+辅助材料中性/乐观 2.0-2.5 亿。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">①光模块锡膏「三重通胀」（量×价×毛利率）随 800G→1.6T→3.2T→CPO 升级，单模块焊点 4000-5000 个、T7 单价较 T5 翻约 20 倍、毛利率 40-50%→70%+；②国产替代——海外高端锡膏保质期短、服务半径有限、有关税/运输风险，唯特偶国内唯一 T7+ 量产、客户验证加速；③华为/苹果链 EMS 配套。卖方喊第一目标市值 500 亿、中期 1000 亿（量价乐观外推），客户验证与放量节奏、当期占比小是核心变量。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>光模块高端锡膏随速率升级（800G→1.6T→3.2T→CPO）量价齐升：料号 T6→T7→T8 每升一代单价翻倍、T7 单价较 T5 约 20 倍、毛利率由 40-50% 提升至 70%+；先进封装升级用量倍增。公司国内唯一 T7+ 量产、研发卡位 7-10 年、海外产品保质期/服务半径受限，国产替代议价权强。</div><div class="p"><b>弹性假设：</b>以中性 AI 高端锡膏段（光模块+先进封装）净利 5.5 亿为基准（对应收入约 15 亿、净利率约 37%）；提价增量约 70% 落入净利（锡价为成本传导项、高端料号加工/配方为利润项）。其他各段净利与市值固定。</div><table><thead><tr><th>高端锡膏涨价</th><th class="num">AI 高端锡膏段净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 T7 光模块锡膏 ¥2500 万/吨（¥25/g）</td><td class="num">5.5 亿</td><td class="num">7.5 亿</td><td class="num up">205 亿</td></tr><tr><td class="base">+10%</td><td class="num">6.5 亿</td><td class="num">8.5 亿</td><td class="num up">235 亿</td></tr><tr><td class="base">+20%</td><td class="num">7.5 亿</td><td class="num">9.5 亿</td><td class="num up">265 亿</td></tr><tr><td class="base">+30%</td><td class="num">8.5 亿</td><td class="num">10.5 亿</td><td class="num up">295 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性：中性量不变、仅高端锡膏提价；乐观情景为量（满产+高端占比升）、价、净利率三者齐升，见 §04 乐观列。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">全球封装焊膏 CR5 达 58-62%（汉高/Alpha/贺利氏/铟泰）、国产化率低；高端超细锡膏唯特偶主导、月产 320+吨、高端 T5+份额 26Q1 近 20%</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">产能已充裕、瓶颈在高端牌号验证；上游锡粉保供；放量随 26-30 年 800G/1.6T/3.2T 上量</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">海外高端<b>27-28 供不应求、28-29 国产集中释放转松</b>；<b>高端 T7 随 1.6T/3.2T 到 30 保持结构性溢价</b>。盯：1.6T 导入、海外涨价/交期、年降</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ ◆ 光模块高端锡膏(T6-T8) ·30x</td><td class="cn as">收入 ~12 亿×净利率 40%（份额 ~30%）</td><td class="cn num nn">4.5</td><td class="op as bd">收入 ~20 亿×净利率 45%（1.6T/3.2T 满产）</td><td class="op num no">9.0</td></tr><tr class="ai-row"><td>◆ ◆ 先进封装/HBM 锡膏·锡球 ·30x</td><td class="cn as">收入 ~3 亿×净利率 35%</td><td class="cn num nn">1.0</td><td class="op as bd">收入 ~6 亿×净利率 40%（Chiplet/玻璃基板放量）</td><td class="op num no">2.5</td></tr><tr><td>传统 SMT 焊料(通用锡膏/锡条/锡丝) ·20x</td><td class="cn as">收入 ~18 亿×净利率 8%</td><td class="cn num nn">1.5</td><td class="op as bd">规模增长+结构改善×净利率 9%</td><td class="op num no">2.0</td></tr><tr><td>辅助焊接材料(助焊剂/清洗剂) ·20x</td><td class="cn as">收入 ~3 亿×净利率 15%</td><td class="cn num nn">0.5</td><td class="op as bd">配套放量×净利率 15%</td><td class="op num no">0.5</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 5.5 / 其他 2.0</span></td><td class="cn num">~7.5</td><td class="op bd"><span class="sub">AI 段 11.5 / 其他 2.5</span></td><td class="op num">~14.0</td></tr><tr class="mc"><td>对应市值 vs 现价 244 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~205亿 (-16%)</td><td class="op bd"></td><td class="op num up">~395亿 (+62%)</td></tr></tbody></table><div class="note"><b>估值法：</b>2028E 情景测算（非目标价、可证伪）：AI 高端锡膏（光模块、先进封装/HBM）按量价利法满产口径给 30x；传统 SMT 焊料、辅助材料按 20x。中性合计归母 ~7.5 亿（AI 段 5.5+其他 2.0）、对应 ~205 亿；乐观 ~14.0 亿（AI 段 11.5+其他 2.5）、对应 ~395 亿。高端锡膏毛利约 70% 故净利率取较高档；量纲：吨×万元/吨、元/g×1000=元/kg 已逐项核。当前 PE-TTM 425x，市值已显著领先中性测算。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">光模块 T7/T8 锡膏随 1.6T/3.2T/CPO 放量、新客户验证与订单落地（武汉/苏州等大客户开拓）；先进封装/HBM 锡膏与锡球收入及毛利率持续提升；上游锡粉产能投产保供降本；深交所问询回复已披露 T7 最高价 3 元/g、毛利约 70%、焊点 4000-5000 个等超预期数据；高端料号「一口价」定价向 2026 报表传导。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 弹性当期占比极小、估值已极高（PE-TTM 425x、PB 30x），透支放量预期，回撤风险大（4-6 月已涨超 300%、伴随股东减持）；光模块锡膏 2026 年 1-5 月仅 134 万元，放量节奏与客户验证不确定；卖方 500-1000 亿目标市值为量价乐观外推、需验证；通用焊料毛利薄、锡价波动；国产同行追赶 T7、份额假设有不确定性。</div></div></div><div class="src"><b>数据来源：</b>数据来源：公司 2025 年报/2026 一季报、深交所问询函回复、业绩说明会与机构调研纪要、iFinD、Wind、卖方研究（广发/中泰/东吴/国投/华西/天风机械等）及产业链调研。2028E 为本人测算。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>东山精密(002384)_扫描一页纸</title>
+<!-- ============================================================
+ scanner 模板页 · 本文件既是 CSS 模板也是结构范例
+ · 页内全部数字为【示例占位数据】，生成正式页时必须整页替换
+ · CSS 变量与版式骨架请勿改动；内容多时允许页面自然变长
+============================================================ -->
+<style>
+:root{
+ /* 主题色：蓝灰白红（南方基金主题色系） */
+ --navy:#1F497D; /* 深蓝：页眉/表头/合计行 */
+ --navy2:#17365D; /* 更深蓝：中性列表头/重点数字 */
+ --blue:#4F81BD; /* 中蓝：次级色块/图例 */
+ --lblue:#96C5FF; /* 浅蓝：页眉辅助文字 */
+ --panel:#EDF2F8; /* 浅蓝灰面板底 */
+ --zebra:#F2F6FB; /* 表格斑马纹 */
+ --ink:#333940; /* 正文 */
+ --gray:#595959; /* 次级文字 */
+ --gray2:#A5A5A5; /* 弱文字 */
+ --line:#D6DCE5; /* 边线 */
+ --red:#FD625E; /* 珊瑚红：强调/角标/核心板块 */
+ --redd:#C7362F; /* 深红：涨/正向数字 */
+ --dn:#1E8449; /* 绿：跌/负向数字 */
+ --keybg:#FDF0EF; /* 浅红底：核心板块行/乐观列 */
+ --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+ font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+ font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+ box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+ padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+ html,body{background:#fff;padding:0;margin:0}
+ .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+ *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+ <!-- 页眉 -->
+ <div class="hdr">
+ <div class="l">
+ <div class="kick">个股扫描 · 一页纸</div>
+ <span class="name">东山精密</span><span class="code">002384</span>
+ <div class="tags">索尔思光电 · 高速PCB · 苹果FPC · AI利润贡献超80%</div>
+ </div>
+ <div class="r">
+ <div class="px">现价 ¥224.46　总市值 4111.2亿</div>
+ <div class="meta">PE-TTM 92.6x · PB 18.16x · 18.32 亿股</div>
+ <div class="date">财报数据截至 2026-06-26 · 行情截至 2026-07-06</div>
+ </div>
+ </div>
+
+ <!-- 一句话看懂 -->
+ <div class="lead"><b>一句话看懂：</b>产业链路径为自研 CW/EML 光芯片 → 800G/1.6T/3.2T 高速光模块 + 算力 PCB → 全球 AI 智算集群；AI 相关收入 70%、<b>利润贡献超 80%</b>。2027 核心增量来自 <b>AWS 大额 1.6T 与 CW 光源订单落地、200G EML 批量外销、光芯片年产能达 5.6 亿颗</b>，中性 2027E 归母净利 320 亿、乐观 350 亿。</div>
+
+ <!-- KPI 条：6 格关键指标 -->
+ <div class="stats">
+ <div class="stat"><div class="k">2025 营收</div><div class="v">400.62 亿</div><div class="s">FPC+光电+精密组件+光模块</div></div>
+ <div class="stat"><div class="k">2025 归母净利</div><div class="v">15.94 亿</div><div class="s">净利率约 4.0%</div></div>
+ <div class="stat"><div class="k">2025 毛利率</div><div class="v">14.1%</div><div class="s">电子电路 17.6% 为利润主力</div></div>
+ <div class="stat"><div class="k">AI 敞口</div><div class="v">70.0%</div><div class="s up">利润贡献&gt;80%</div></div>
+ <div class="stat"><div class="k">核心业务占比</div><div class="v">55.0%</div><div class="s">苹果 FPC</div></div>
+ <div class="stat"><div class="k">2027E 中性归母</div><div class="v">320 亿</div><div class="s up">乐观 350 亿</div></div>
+ </div>
+
+ <!-- §01 业务构成（2025 年报口径） -->
+ <div class="sec">
+ <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">2025 年报口径 · 收入降序 · 核心业务高亮 · 来源：东方财富 F10 · 部分分部毛利率据 2025 年报补录</span></div>
+ <table class="biz">
+ <thead><tr>
+ <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+ </tr></thead>
+ <tbody>
+ <tr><td>电子电路产品</td><td class="num">256.2</td><td class="num">63.9%</td><td class="num"><span class="up">+3.3%</span></td><td class="num">17.6%</td><td class="num">79.7%</td></tr>
+ <tr><td>光电显示模组</td><td class="num">59.86</td><td class="num">14.9%</td><td class="num"><span class="dn">-6.0%</span></td><td class="num">5.2%</td><td class="num">5.5%</td></tr>
+ <tr><td>精密组件产品</td><td class="num">59.30</td><td class="num">14.8%</td><td class="num"><span class="up">+30.6%</span></td><td class="num">9.2%</td><td class="num">9.7%</td></tr>
+ <tr class="key"><td>◆ 光模块</td><td class="num">14.36</td><td class="num">3.6%</td><td class="num">—</td><td class="num">36.7%</td><td class="num">9.3%</td></tr>
+ <tr><td>其他</td><td class="num">11.53</td><td class="num">2.9%</td><td class="num"><span class="up">+8.9%</span></td><td class="num">-20.7%</td><td class="num">-4.2%</td></tr>
+ <tr class="total"><td>合计</td><td class="num">401.3</td><td class="num">100%</td><td class="num"><span class="up">+9.1%</span></td><td class="num">14.1%</td><td class="num">100%</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <!-- §02 | §03 左右两栏 -->
+ <div class="two">
+ <div class="sec">
+ <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+ <div class="bl"><div class="t">当前敞口</div><div class="x">AI 高速 PCB（120 亿）+ 索尔思光电（60 亿）=180 亿归属 AI，占比 45%；叠加苹果 FPC 部分算力配套，AI 敞口 70%、利润贡献&gt;80%。</div></div>
+ <div class="bl"><div class="t">产业链卡位</div><div class="x">自研 CW/EML 光芯片 → 高速光模块 + 算力 PCB → 全球 AI 智算集群、CPO/NPO 光引擎，同时覆盖苹果消费电子基本盘。</div></div>
+ <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">索尔思光电为全球 CW/EML 光芯片核心玩家之一，2027 光芯片年产能规划 5.6 亿颗；200G EML 具备量产能力。毛利率 PPT 未披露。</div></div>
+ <div class="bl"><div class="t">远期结构变化</div><div class="x">2026-2027 年索尔思光芯片总产能增速 180%；CW 扩产重心为 100mW/400mW 大功率型号，EML 优先扩充 200G 高端芯片，光通信占比快速抬升。</div></div>
+ <div class="bl"><div class="t">涨价口径利润</div><div class="x">以中性 2027 归母 320 亿为基准，价格弹性 70% 传导：产品价+30% 情景下净利约 387.20 亿（测算），20x PE 对应约 7744 亿（测算）。</div></div>
+ <div class="bl"><div class="t">市场在交易什么</div><div class="x">2026 上半年市场核心交易 AWS 1.6T 与 CW 光源订单兑现 + 200G EML 批量外销 + 常州产线满负荷爬坡至月 22KK。</div></div>
+ </div>
+ <div class="sec">
+ <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+ <div class="p"><b>涨价逻辑：</b>低端 CW、100G EML 价格较难持续涨价；<b>200G EML、400mW 大功率 CW 技术壁垒高、价格刚性强</b>；靠高端结构 mix。</div>
+ <div class="p"><b>弹性假设：</b>以 PPT 2027 中性归母 320 亿为基准，价格波动 70% 传导至净利，市值列按 20x PE（PPT 中性/乐观同口径）测算。</div>
+ <table>
+ <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+ <tbody>
+ <tr><td class="base">基准（2027E 中性）</td><td class="num">320.00 亿（测算）</td><td class="num">320.00 亿（测算）</td><td class="num up">6400 亿（测算）</td></tr>
+ <tr><td class="base">+10%</td><td class="num">342.40 亿（测算）</td><td class="num">342.40 亿（测算）</td><td class="num up">6848 亿（测算）</td></tr>
+ <tr><td class="base">+20%</td><td class="num">364.80 亿（测算）</td><td class="num">364.80 亿（测算）</td><td class="num up">7296 亿（测算）</td></tr>
+ <tr><td class="base">+30%</td><td class="num">387.20 亿（测算）</td><td class="num">387.20 亿（测算）</td><td class="num up">7744 亿（测算）</td></tr>
+ </tbody>
+ </table>
+ <div class="el-cap">纯价格敏感性，实际详见 §04 情景假设。</div>
+ <div class="exp">
+ <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+ <div class="er"><span class="lb">扩产节奏</span><span class="vv">索尔思 2026-2027 年光芯片总产能增速 180%；CW 扩产重心 100mW/400mW 大功率适配 CPO；EML 优先扩 200G 高端。</span></div>
+ <div class="er"><span class="lb">扩产时点</span><span class="vv">2026 全年常州产线满负荷爬坡至月 22KK；2027 上半年新增 MOCVD 全部到位；2027 全年泰国基地持续放量。</span></div>
+ <div class="er rv"><span class="lb">供需反转</span><span class="vv">70mW CW 2026 年底宽松；100mW/400mW 大功率 CPO 配套 CW 2027 紧平衡；100G EML 2027 年末平衡；200G EML 持续紧缺。</span></div>
+ </div>
+ </div>
+ </div>
+
+ <!-- §04 市值空间 -->
+ <div class="sec">
+ <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2027E 20x PE）</h2><span class="tip">以 PPT 2027 盈利预测外推 · 目标市值为锚</span></div>
+ <table class="val">
+ <thead><tr>
+ <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利（亿元）</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利（亿元）</th>
+ </tr></thead>
+ <tbody>
+ <tr class="ai-row"><td>◆ 索尔思光电 · 20x</td><td class="cn as">CW/EML 满产+200G 外销</td><td class="cn num nn">120.0（测算）</td><td class="op as bd">AWS 大额订单+400mW CW 大规模放量</td><td class="op num no">135.0（测算）</td></tr>
+ <tr class="ai-row"><td>◆ AI 高速 PCB · 20x</td><td class="cn as">1.6T/3.2T 交换机放量</td><td class="cn num nn">120.0（测算）</td><td class="op as bd">份额上行+高端占比提升</td><td class="op num no">130.0（测算）</td></tr>
+ <tr><td>苹果 FPC · 20x</td><td class="cn as">苹果基本盘温和</td><td class="cn num nn">80.0（测算）</td><td class="op as bd">苹果新机+份额提升</td><td class="op num no">85.0（测算）</td></tr>
+ <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">索尔思 120 / PCB 120 / FPC 80</span></td><td class="cn num">~320（测算）</td><td class="op bd"><span class="sub">索尔思 135 / PCB 130 / FPC 85</span></td><td class="op num">~350（测算）</td></tr>
+ <tr class="mc"><td>对应市值 vs 现价 4111.2亿</td><td class="cn"><span class="sub">净利×20x</span></td><td class="cn num nn">~6400 亿（<span class="up">+56%</span>，测算）</td><td class="op bd"><span class="sub">净利×20x</span></td><td class="op num no">~7000 亿（<span class="up">+70%</span>，测算）</td></tr>
+ </tbody>
+ </table>
+ <div class="note"><b>估值法：</b>中性/乐观均给 20x PE（PPT 口径），按 2027 中性/乐观归母净利直接外推，属情景测算，仅为情景推演、可证伪。</div>
+ </div>
+
+ <!-- §05 催化剂 · 风险 · 数据来源 -->
+ <div class="sec">
+ <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+ <div class="cos">
+ <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① AWS 1.6T 与 CW 光源大额订单落地；② 200G EML 批量外销；③ 常州产线月 22KK 满负荷；④ 2027 上半年 MOCVD 全部到位；⑤ 400mW 大功率 CW 切入 CPO；⑥ AI 高速 PCB 份额上行。</div></div>
+ <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 低端 CW/100G EML 价格战导致索尔思毛利承压；② AI 高速 PCB 竞争加剧；③ 苹果 FPC 单一客户波动；④ 常州/泰国扩产爬坡延后；⑤ 15.94 亿现利与 320 亿 2027E 差距大、执行风险高。</div></div>
+ </div>
+ <div class="src"><b>数据来源：</b>公司公告、业绩说明会；iFinD/Wind 行情估值（以东方财富公开行情为准，截至 2026-07-06）；进门财经研报；公开网络资料；及内部提供资料。2027E 为盈利预测汇总，2028E 为情景测算。</div>
+ </div>
+
+</div>
+</body>
+</html>

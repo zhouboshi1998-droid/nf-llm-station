@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>艾华集团(603989)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">艾华集团</span><span class="code">603989</span>
+<div class="tags">铝电解电容龙头 · 工控/新能源/AI电源 · 化成箔一体化</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥39.88　总市值 159.03 亿</div>
+<div class="meta">PE-TTM ~60.15x · PB 4.02x · 3.99 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:59</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>艾华集团是国内铝电解电容器（一种带极性的高容量电容，主要用在开关电源、变频器、逆变器里做储能和滤波）的头部厂商，产品自建化成箔到电容整机的一体化产业链。核心看点是<b>工控/新能源/AI 服务器与数据中心电源用高压大容量铝电解电容持续放量 + 单价与净利率共同回升</b>；行业扩产中等 1-2 年、2026 年加速，预计 2028 年前后完成新一轮供需反转。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">39.72 亿</div><div class="s up">+1.5% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">2.65 亿</div><div class="s up">+36.9% YoY</div></div>
+<div class="stat"><div class="k">2025 毛利率</div><div class="v">~21.0%</div><div class="s up">+2.3pct YoY</div></div>
+<div class="stat"><div class="k">工控/新能源占比</div><div class="v">~50.4%</div><div class="s">2024 年报口径</div></div>
+<div class="stat"><div class="k">研发投入</div><div class="v">2.08 亿</div><div class="s">占营收 5.25%</div></div>
+<div class="stat"><div class="k">2025 ROE</div><div class="v">~6.8%</div><div class="s up">利润拐点确认</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2024 年报应用口径）</h2><span class="tip">按营收降序 · 工控/新能源为核心看点 · 占比四舍五入</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 工控 / 新能源 / 车载 类铝电解电容</td><td class="num">19.71</td><td class="num">50.4%</td><td class="num up">+21.1%</td><td class="num">22.0%（测算）</td><td class="num">59.3%（测算）</td></tr>
+<tr><td>消费电源 / 电子类产品</td><td class="num">13.81</td><td class="num">35.3%</td><td class="num up">+9.3%</td><td class="num">16.0%（测算）</td><td class="num">30.2%（测算）</td></tr>
+<tr><td>照明类产品</td><td class="num">5.06</td><td class="num">12.9%</td><td class="num up">+23.2%</td><td class="num">14.0%（测算）</td><td class="num">9.7%（测算）</td></tr>
+<tr><td>化成箔及其他</td><td class="num">0.54</td><td class="num">1.4%</td><td class="num dn">-3.0%（测算）</td><td class="num">10.0%（测算）</td><td class="num">0.7%（测算）</td></tr>
+<tr class="total"><td>合计</td><td class="num">39.12</td><td class="num">100%</td><td class="num up">+15.8%</td><td class="num">~18.7%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">工控 / 新能源 / 车载 类高压大容量铝电解电容 2024 年 19.71 亿、占比 50.4%，是营收与利润增长主力；AI 服务器与数据中心电源用高压电容处于快速放量期，光伏 / 储能 / 充电桩需求持续外溢。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">自建化成箔—电极箔—电容器整机的一体化产业链，铝电解电容国内出货量位居前三、对标日本 Rubycon / Nichicon / 尼吉康；全球铝电解电容市占率约 6%（测算），车规与工控高端产品持续替代日系。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">化成箔自供比例约 70%（测算）构成成本壁垒；2025 年整体毛利率回升至 21.0%、同比 +2.3pct，工控 / 车载高压产品毛利率约 22-25%，显著高于消费类；利润拐点已在报表端确认。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">工控 / 新能源 / AI 电源用铝电解电容 2028 年占比有望从 50.4% 升至 65%+，AI 数据中心大功率电源、储能 PCS、800V 车载 OBC 是三大新增量。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">核心板块合计约 19.7 亿收入，ASP 涨 10% 按 60% 落净利，增厚核心 segment 利润约 1.1 亿元（测算 = 19.7×10%×60%），对应当前净利 2.65 亿弹性约 45%。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是「铝电解电容涨价+利润拐点+AI 数据中心电源用高压电容放量」，PE-TTM ~74x 反映利润复苏斜率与 AI 期权预期。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>铝电解电容行业过去三年经历深度出清，日系厂商退出低端并聚焦车规，国内二三线产能收缩；AI 服务器与数据中心大功率电源、光伏 / 储能 PCS、800V 车载 OBC 集中拉动高压大容量电容需求；铝价与化成箔环节偏紧支撑价格中枢上移。</div>
+<div class="p">弹性假设：以 2028E 中性核心板块（工控 / 新能源 / AI 电源 类铝电解电容）收入 40 亿为基准，ASP 涨价增量按 60% 落净利（测算）。</div>
+<table>
+<thead><tr><th>核心板块涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">5.3 亿</td><td class="num">6.8 亿</td><td class="num">189 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">6.4 亿</td><td class="num">7.9 亿</td><td class="num up">223 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">7.5 亿</td><td class="num">9.1 亿</td><td class="num up">257 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">8.7 亿</td><td class="num">10.2 亿</td><td class="num up">291 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按核心板块 30x 计入对应市值，基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">铝电解电容行业整体扩产中等，头部厂商（Nichicon、Rubycon、艾华、江海）2025 年产能同比 CAGR 约 8-12%；艾华湖南益阳与合肥基地车规 / 工控产线持续扩建，化成箔配套同步扩产。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">新产能主要在 2026-2027 年集中释放，建设周期约 12-18 个月；2026 年为行业加速年，AI 电源用高压电容需求与产能同步放量。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">在 AI 服务器 / 光伏储能 / 800V 车载 OBC 需求持续兑现前提下，预计 2028 年前后行业完成新一轮反转；关键跟踪变量为化成箔交期、AI 服务器电源出货、车规认证节奏与铝锭价格。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（工控/新能源/AI 电源电容 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 工控/新能源/AI 电源 类铝电解电容（核心） ·30x</td><td class="cn as">收入 18.9 亿 · 净利率 27.9%（测算）</td><td class="cn num nn">~5.3</td><td class="op as bd">收入 18.3 亿 · 净利率 30.5%（测算）</td><td class="op num no">~5.6</td></tr>
+<tr><td>消费电源 + 照明 + 化成箔 ·20x</td><td class="cn as">收入 4.9 亿 · 净利率 31.7%（测算）</td><td class="cn num nn">~1.5</td><td class="op as bd">收入 3.7 亿 · 净利率 35.9%（测算）</td><td class="op num no">~1.3</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 4.8 / 传统 1.4</span></td><td class="cn num">~6.8</td><td class="op bd"><span class="sub">核心 8.25 / 传统 2.0</span></td><td class="op num">~6.9</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 195 亿</td><td class="cn"><span class="sub">4.8×30 + 1.4×20</span></td><td class="cn num up">~189亿 (+18.8%)</td><td class="op bd"><span class="sub">8.25×30 + 2.0×20</span></td><td class="op num up">~194亿 (+22.0%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>核心业务按满产收入×净利率外推，传统主业按收入 CAGR + 净利率外推；分段净利×倍数（核心 30x / 传统 20x）加总。中性情景对应市值略低于现价，乐观情景对应约 +47% 空间，弹性主要来自铝电解电容涨价 + AI 数据中心电源用高压电容放量 + 净利率修复三条主线同频兑现。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">2026 年铝电解电容涨价函落地；AI 服务器与数据中心电源用高压大容量电容大单突破；800V 车载 OBC / 光伏储能 PCS 出货加速；化成箔自供比例进一步提升；季度毛利率与净利率持续环比抬升；工控 / 车规客户认证再上台阶。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM ~74x 已反映利润复苏与 AI 期权，§04 中性对应市值 -12%，涨价 / 放量证伪即回撤；消费类需求波动；铝锭 / 电极箔原材料价格上行侵蚀毛利；日系厂商车规产能加速释放挤压高端市场；一次性损益与汇兑对报表的季度扰动。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024 年年报、2025 年年报及业绩说明会（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；Paumanok、Prismark 全球铝电解电容及被动元件产值数据；公开网络资料。暂无卖方盈利预测一致预期覆盖；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>沃格光电(603773)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">沃格光电</span><span class="code">603773</span><div class="tags">显示玻璃减薄/精加工龙头 · 玻璃基TGV全制程量产 · 先进封装玻璃载板前沿期权</div></div><div class="r"><div class="px">现价 ¥120.69　总市值 271.3 亿</div><div class="meta">PE-TTM 亏损 · PB 25.7x · 2.25 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>国内平板显示（FPD）光电玻璃精加工龙头：把京东方、华星、深天马、群创等面板厂的玻璃做薄化（减薄）、镀膜、黄光、切割等精加工后用于手机/平板/显示器，这是公司二十年的基本盘（量大、毛利薄、随面板周期波动）。真正的故事在新长出的两条前沿期权——①玻璃基TGV（玻璃通孔）多层线路板：用玻璃替代有机ABF载板/硅中介层，做Chiplet垂直封装、2.5D/3D先进封装、CPO光互连的载板，是AI算力封装升级的核心新材料；②CPI膜：商业航天卫星太阳翼防护膜。两块当期收入都很小、几乎不在报表，市场买的是“从0到1”量产兑现的远期期权。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">25.51 亿</div><div class="s" style="color:var(--up)">同比 +14.9%</div></div><div class="stat"><div class="k">2025A 归母</div><div class="v">-1.58 亿</div><div class="s" style="color:var(--dn)">续亏、亏损扩大</div></div><div class="stat"><div class="k">2026Q1 营收</div><div class="v">5.94 亿</div><div class="s" style="color:var(--up)">同比 +8.5%</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">-0.51 亿</div><div class="s" style="color:var(--dn)">战略投入期续亏</div></div><div class="stat"><div class="k">综合毛利率(Q1)</div><div class="v">16.7%</div><div class="s" style="color:var(--ink)">显示薄利+精加工</div></div><div class="stat"><div class="k">TGV产线</div><div class="v">年产 10 万㎡</div><div class="s" style="color:var(--ink)">成都8.6代线在建</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr><td>光电显示器件</td><td class="num">13.36</td><td class="num">52.4%</td><td class="num up">+7.1%</td><td class="num">8.9%</td><td class="num">27.5%</td></tr><tr class="key"><td>◆ 光电玻璃精加工</td><td class="num">7.94</td><td class="num">31.1%</td><td class="num up">+28.5%</td><td class="num">31.1%</td><td class="num">57.1%</td></tr><tr><td>其他业务</td><td class="num">4.22</td><td class="num">16.5%</td><td class="num up">+18.5%</td><td class="num">15.7%</td><td class="num">15.3%</td></tr><tr class="total"><td>合计</td><td class="num">25.51</td><td class="num">100%</td><td class="num">+14.9%</td><td class="num">17.0%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">AI 玻璃基板/CPI膜当期收入几乎不在报表——2025 营收 25.51 亿主要是显示玻璃减薄（13.36 亿）与中高端精加工（7.94 亿），全年仍亏 1.58 亿（新型显示+泛半导体在建项目转固、折旧摊销与研发打样高投入）。PB 高达 36.6x、PE 为负，市场买的是玻璃基板“从0到1”量产兑现的斜率，期权属性极强、当期占比极小，需诚实看待。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">国内全制程玻璃基TGV量产稀缺标的：薄化-镀膜-黄光-TGV-精密镀铜-多层线路一条龙，深径比150:1、孔径3μm。与华为深度合作多年，湖北通格微专做玻璃基TGV多层线路板。卖方将其与京东方A、彩虹股份并列为玻璃基板“加工/制造”环节核心标的；显示玻璃减薄客户覆盖京东方/华星/深天马/群创。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">玻璃基板替代有机ABF载板/硅中介层是性能驱动（玻璃CTE 3.3 更近Si、平整度高、低介电损耗、数据处理速度+40%、功耗/厚度减半），非成本驱动，故良率爬坡不改替代大势。半导体级玻璃基板市场口径单价 8000-9000 美金/片（大尺寸）、远高于显示减薄；公司精加工段毛利率已达 31%，半导体级放量后毛利率有望进一步上台阶。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入结构从“量大利薄的显示玻璃减薄”向“高附加值半导体级玻璃基板+CPI膜”迁移：玻璃基TGV从送样/小批量→2026 成都8.6代线量产→MicroLED直显与半导体先进封装客户验证交付；CPI膜随卫星互联网放量。若兑现，AI 相关板块占比 2025 近 0 → 2028E 中性 40%、乐观 56%，并带动整体扭亏与毛利率抬升。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">远期市场×份额法（2028E）：①玻璃基板/载板远期可及产值中性约 25 亿×净利率 20% → 5.0 亿、乐观约 40 亿×净利率 25% → 10.0 亿；②CPI膜按卫星互联网放量（每年数千颗卫星×太阳翼面积×单价）中性 2.5 亿、乐观 5.0 亿。两段 AI 满产峰值净利中性约 7.5 亿、乐观约 15 亿。当期接近零，属远期期权测算。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">①玻璃基板“商用元年”叙事：英特尔/台积电/三星/京东方密集推进，玻璃替代ABF载板用于AI算力服务器（CPU/GPU）、CPO、HBM，公司是国内极少数全制程量产标的，英伟达/AMD布局打开远期空间；②CPI膜绑定商业航天卫星太阳翼、唯一批量供货；③成都8.6代线量产、客户验证落地节奏是核心变量。需求验证、良率爬坡、订单兑现决定期权能否兑付。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>玻璃基板替代有机ABF载板/硅中介层由性能瓶颈驱动（更大封装尺寸下有机载板翘曲/高频损耗加剧），AI算力芯片向Chiplet异构集成与大尺寸2.5D/3D封装演进，刚性需求拉动；半导体级玻璃基板单价（市场口径 8000-9000 美金/片）远高于显示减薄，公司全制程量产稀缺、议价权与价值量随渗透提升。</div><div class="p"><b>弹性假设：</b>以中性玻璃基板/载板段净利 5.0 亿为基准（≈远期可及产值 25 亿×净利率 20%）；涨价/提价增量约 70% 落入净利（精加工自给、成本相对刚性）。CPI膜与显示精加工各段净利与市值固定。注：该弹性为远期期权测算，当期玻璃基板收入几乎不在报表。</div><table><thead><tr><th>玻璃基板提价</th><th class="num">玻璃基板段净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 半导体级玻璃基板 ¥8000/片（市场口径）</td><td class="num">5.0 亿</td><td class="num">9.5 亿</td><td class="num up">265 亿</td></tr><tr><td class="base">+10%</td><td class="num">6.8 亿</td><td class="num">11.2 亿</td><td class="num up">318 亿</td></tr><tr><td class="base">+20%</td><td class="num">8.5 亿</td><td class="num">13.0 亿</td><td class="num up">370 亿</td></tr><tr><td class="base">+30%</td><td class="num">10.2 亿</td><td class="num">14.8 亿</td><td class="num up">422 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性（中性产值不变、仅玻璃基板提价）；乐观情景为量（产能爬坡满产）、价、净利率三者齐升，见 §04 乐观列。期权属性强、当期占比极小。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">行业「量产前夜」，海外英特尔/三星电机/台积/Absolics 领跑、国内京东方与沃格；沃格 10 万㎡/年已建+通格微规划 100 万㎡、成都 8.6 代线月 2.4 万片</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">成都 8.6 代线 26 量产；通格微 1.6T/CPO 载板小批量送样；行业量产 27-28、29-30 规模放量</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">「渗透起量」非传统反转、<b>量产拐点 27-28、29-30 规模化放量</b>（强期权）；需大尺寸 AI 封装（CoPoS/PLP）+CPO 共振。盯：英特尔 26 量产、台积 CoPoS</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ ◆ 玻璃基TGV/玻璃载板(先进封装/CPO) ·30x</td><td class="cn as">远期可及产值 25 亿×净利率 20%</td><td class="cn num nn">5.0</td><td class="op as bd">产值 40 亿×净利率 25%(满产+提价)</td><td class="op num no">10.0</td></tr><tr class="ai-row"><td>◆ ◆ CPI膜(商业航天太阳翼) ·30x</td><td class="cn as">卫星太阳翼放量×单价×份额</td><td class="cn num nn">2.5</td><td class="op as bd">卫星互联网加速放量、份额提升</td><td class="op num no">5.0</td></tr><tr><td>显示玻璃减薄+中高端精加工 ·20x</td><td class="cn as">收入 CAGR×净利率修复(扭亏)</td><td class="cn num nn">2.0</td><td class="op as bd">半导体级精加工占比升、毛利上台阶</td><td class="op num no">3.0</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 7.5 / 其他 2.0</span></td><td class="cn num">~9.5</td><td class="op bd"><span class="sub">AI 段 15.0 / 其他 3.0</span></td><td class="op num">~18.0</td></tr><tr class="mc"><td>对应市值 vs 现价 271 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~265亿 (-2%)</td><td class="op bd"></td><td class="op num up">~510亿 (+88%)</td></tr></tbody></table><div class="note"><b>估值法：</b>2028E 情景测算（非目标价、可证伪）：AI 相关（玻璃基TGV/玻璃载板、CPI膜）按远期市场×份额法给 30x；显示玻璃减薄+中高端精加工按 20x。中性合计归母 ~9.5 亿（AI 段 7.5+其他 2.0），乐观 ~18 亿（AI 段 15+其他 3.0）。当期 AI 收入几乎不在报表，故现价（PE 为负、PB 36.6x）显著高于中性测算——属“在预期不在报表”的远期期权，需诚实看待量产兑现风险。净利率取整、半导体级玻璃基板毛利较高故净利率给 20-25%。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">成都8.6代线（月产2.4万片）2026量产；玻璃基TGV多层线路板在MicroLED直显、半导体先进封装客户验证与交付；1.6T光模块基座放量、英伟达/英特尔/华为送样转订单；CPI膜随卫星互联网组网放量、批量订单兑现；卖方（国海/国信/兴业等）测算玻璃基板 80-100 亿市值基地 + CPI膜远期增量空间。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 弹性当期占比极小、几乎不在报表，估值（PB 36.6x、PE 为负）已大幅透支远期量产预期；玻璃基板良率爬坡与大批量量产保守预估仍需 2-3 年（台积电口径）；客户验证/订单兑现节奏不确定；显示玻璃减薄毛利薄、随面板周期波动；新型显示+泛半导体仍处战略投入期、持续亏损与折旧摊销压力；技术路线变更、AI 资本开支放缓、竞争加剧风险。</div></div></div><div class="src"><b>数据来源：</b>数据来源：公司 2025 年报/2026 一季报/业绩预告、业绩说明会与机构调研纪要、iFinD、Wind、卖方研究（国海/国信/兴业/方正/开源/国金建材等玻璃基板专题）及产业链调研。2028E 为本人测算，玻璃基板/CPI膜远期口径多为预期、当期收入几乎不在报表。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

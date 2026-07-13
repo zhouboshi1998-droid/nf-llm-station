@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>东威科技 · 基本面一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;
+  --panel:#EDF2F8;--zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;
+  --line:#D6DCE5;--red:#FD625E;--redd:#C7362F;--dn:#1E8449;
+  --keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto 18px;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even):not(.total) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.biz tbody tr.total td.up,.biz tbody tr.total td.dn{color:#fff}
+/* §02 拉长版：2 列小块 + 敞口表 + 综合卡位 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:8px}
+.bl{margin-bottom:4px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin:6px 0}
+.p b{color:var(--navy)}
+.expo tbody tr.key td:first-child{color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+.summary{background:var(--coolbg);border-left:3px solid var(--navy);border-radius:4px;padding:7px 10px;margin-top:8px;font-size:9.5px;line-height:1.55;color:#3C4A57}
+.summary b{color:var(--navy)}
+/* §03 市值空间：单情景 · 分段倍数加总 */
+.mv{width:100%;font-size:9.2px}
+.mv th{background:var(--navy);color:#fff}
+.mv tbody tr.key td{background:var(--keybg);font-weight:700}
+.mv tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.mv tbody tr.total td{background:var(--navy);color:#fff;font-weight:800}
+.mv tbody tr.total td.up,.mv tbody tr.total td.dn{color:#fff}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+/* §04 催化剂 / 风险 / 数据来源 */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0;page-break-after:always}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">东威科技</span><span class="code">688700</span>
+      <div class="tags">PCB 设备 · mSAP 移载式 VCP · 电镀设备龙一</div>
+    </div>
+    <div class="r">
+      <div class="px">总市值 221.1 亿</div>
+      <div class="meta">PE-TTM 149.17x · PB 11.78x</div>
+      <div class="date">数据截至 2026-07-07</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>国内 <b>PCB 电镀设备绝对龙头</b>，VCP（垂直连续电镀）市占率 50%+，与 AI 服务器高多层板深度绑定。25 年订单 22 亿（头部客户 20 亿）。<b>移载式 VCP 用于 mSAP（改良半加成法）线路成型</b>，单台 2000 万+，是 26-27 年 AIPCB 主板升级 mSAP 后的核心弹性设备；同时布局复合铜箔、HVLP5 铜箔与玻璃载板镀膜。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">10.98 亿</div><div class="s up">+46.5% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">1.21 亿</div><div class="s up">+74.6% YoY</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">11.0%</div><div class="s">毛利率 34.4%</div></div>
+    <div class="stat"><div class="k">核心业务占比</div><div class="v">~75%</div><div class="s">PCB VCP 电镀</div></div>
+    <div class="stat"><div class="k">市占率</div><div class="v">50%+</div><div class="s">VCP 国内龙头</div></div>
+    <div class="stat"><div class="k">26Q1 归母</div><div class="v">0.44 亿</div><div class="s up">+160.6%</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（25 年报口径）</h2><span class="tip">25A 口径 · mSAP 是核心弹性</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>PCB VCP 电镀（含 HDI/类载板）</td><td class="num">18.00</td><td class="num">75.0%</td><td class="num up">高增</td><td class="num">33.0%</td><td class="num">70.2%</td></tr>
+        <tr><td>维保及其他</td><td class="num">2.00</td><td class="num">9.0%</td><td class="num ">—</td><td class="num">50.0%</td><td class="num">11.8%</td></tr>
+        <tr class="key"><td>◆ 移载式 VCP（mSAP）</td><td class="num">2.00</td><td class="num">8.0%</td><td class="num up">高增</td><td class="num">40.0%</td><td class="num">9.5%</td></tr>
+        <tr class="key"><td>◆ 复合铜箔设备</td><td class="num">1.50</td><td class="num">6.0%</td><td class="num ">—</td><td class="num">36.0%</td><td class="num">6.4%</td></tr>
+        <tr class="key"><td>◆ HVLP5 铜箔/玻璃基板镀膜</td><td class="num">0.50</td><td class="num">2.0%</td><td class="num ">远期</td><td class="num">36.0%</td><td class="num">2.1%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">24.00</td><td class="num">100%</td><td class="num up">翻倍</td><td class="num">—</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">02</span><h2>核心敞口、卡位、弹性与产业链位置</h2><span class="tip">设备类不涉及涨价 · 拉长版</span></div>
+    <div class="grid2">
+      <div class="bl"><div class="t">当前敞口</div><div class="x">AI PCB 电镀敞口 75%（VCP 主机），mSAP 移载式 VCP 占 8% 但单台价值量最高；复合铜箔 + HVLP + 玻璃载板镀膜共占约 8%，是 27 年之后的增量储备。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">国内 VCP 电镀绝对龙头，胜宏/景旺/沪电核心供应，25 年头部客户订单 20 亿；mSAP 移载式 VCP 国内独家批产，vs 洪田速远技术领先 12-18 个月。</div></div>
+      <div class="bl"><div class="t">技术 & 盈利力</div><div class="x">VCP 通孔/盲孔电镀是 PCB 电镀核心工序；移载式 VCP 对应 AI 服务器主板 mSAP 工艺，单线价值量提升 3-4 倍；毛利率与净利率显著高于友商。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">26 年订单翻倍且确定性高，27 年利润弹性最大（10 亿）；HVLP 铜箔与玻璃基板镀膜提供远期百亿级空间。</div></div>
+      <div class="bl"><div class="t">客户与订单</div><div class="x">下游 AI 服务器板/HDI/类载板厂集中在胜宏/景旺；国际竞对为日本 Almex/上村工业等，公司在国产替代节奏中占据先发。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）交易 mSAP 移载式 VCP 放量与 26 年订单翻倍确定性；后续需盯 HVLP5 铜箔+玻璃基板镀膜订单落地。</div></div>
+    </div>
+    <table class="expo">
+      <thead><tr><th>方向</th><th>公司产品 / 卡位</th><th>市场空间</th><th>竞争格局 & 公司优势</th></tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ AI PCB 电镀（VCP）</td><td>PCB 通孔/盲孔垂直连续电镀，覆盖 HDI/类载板</td><td>26 年 VCP 需求 35-40 亿；28 年延续</td><td>国内绝对龙头 · 市占率 50%+ · 胜宏/景旺核心供应</td></tr>
+        <tr class="key"><td>◆ mSAP（移载式 VCP）</td><td>AI 服务器主板/类载板线路成型 · 单台 2000 万</td><td>26 年 mSAP 设备需求 20-30 亿；28 年 40-60 亿</td><td>国内首家批量出货 · 技术领先 12-18 个月</td></tr>
+        <tr><td>HVLP 铜箔/玻璃基板</td><td>高速覆铜板铜箔镀膜 + 玻璃载板镀膜</td><td>27-28 年空间 10-20 亿</td><td>对标日本三井 · 国内主要竞对三孚</td></tr>
+      </tbody>
+    </table>
+    <div class="summary"><b>综合卡位：</b>国内 PCB 电镀设备绝对龙头，<b>mSAP 移载式 VCP 国内独家批产</b>；26 年订单翻倍确定性高，2027 年利润弹性最大；HVLP 铜箔与玻璃基板镀膜提供远期增量。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">03</span><h2>目标市值空间（分段估值加总）</h2><span class="tip">情景测算 · 可证伪</span></div>
+    <table class="mv">
+      <thead><tr>
+        <th>板块 / 假设</th><th>利润 / 市场空间</th><th>份额 / 净利率</th><th>估值</th><th class="num">市值（亿元）</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>主业（PCB VCP+复合铜箔）</td><td>27E 净利润 8-10 亿</td><td>—</td><td>30×PE</td><td class="num up">≈300 亿</td></tr>
+        <tr class="key"><td>◆ mSAP 电镀增量</td><td>市场 60 亿</td><td>份额 40% × 净利率 25%</td><td>30×PE</td><td class="num up">≈100 亿</td></tr>
+        <tr class="key"><td>◆ 玻璃基板/HVLP5 铜箔</td><td>远期空间</td><td>—</td><td>—</td><td class="num up">≈50 亿</td></tr>
+        <tr class="total"><td>目标市值 vs 现价 221.1 亿</td><td></td><td></td><td></td><td class="num">≈450 亿（向上 104%）</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>27E 主业利润 8-10 亿 × 30×PE = 300 亿 + mSAP 增量 100 亿（60 亿市场 × 40% 份额 × 25% 净利率 × 30×PE） + 玻璃基板/HVLP5 铜箔 50 亿 ≈ 450 亿。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">26 年订单翻倍确认（35-40 亿）；mSAP 移载式 VCP 头部客户放量；HVLP5 铜箔设备国产化订单落地；玻璃基板镀膜导入英特尔/三星节点。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">胜宏/景旺 mSAP 上量节奏；洪田速远等追赶降低价格；复合铜箔量产延后；估值已反映高预期，需盯订单节奏证伪。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会；iFinD、Wind（行情/估值/主营构成，截至 2026-07-07）；进门财经研报及会议纪要；公开网络资料及内部整理。26-27E 为卖方一致预期；27-28E 分段情景、净利率档位、市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

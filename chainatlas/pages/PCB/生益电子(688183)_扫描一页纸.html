@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>生益电子(688183)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">生益电子</span><span class="code">688183</span>
+<div class="tags">AI 服务器 PCB 核心受益 · 服务器占比 60%+ · 智能算力中心 HDI 扩产</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥118.00　总市值 988.36 亿</div>
+<div class="meta">PE-TTM ~57.54x · PB 16.12x · 8.38 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:35</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>生益电子是覆铜板龙头生益科技（600183）旗下的高端 PCB 制造平台，聚焦「AI 服务器/算力 PCB + 高速通信 PCB + 汽车电子 PCB」三大赛道，2025 年服务器及算力产品收入占比已升至 60%+，其中 AI 服务器相关同比 +242%，是国内数通 PCB 弹性最大的标的之一。核心看点是<b>AI 服务器 PCB 高多层化 + 智能算力中心 HDI 项目 + 泰国基地一期</b>；扩产中等 1-2 年（东莞算力中心 2025Q4 试产、吉安/泰国 2026-2027 年爬坡），2025 年加速，行业景气反转预计落在 2027 年。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">94.94 亿</div><div class="s up">+102.6% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">14.73 亿</div><div class="s up">+343.8% YoY</div></div>
+<div class="stat"><div class="k">2025 毛利率</div><div class="v">28.62%</div><div class="s up">+9.20pct</div></div>
+<div class="stat"><div class="k">服务器/算力占比</div><div class="v">60%+</div><div class="s up">AI 同比 +242%</div></div>
+<div class="stat"><div class="k">加权 ROE</div><div class="v">29.74%</div><div class="s up">+21.50pct</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">15.51%</div><div class="s up">大幅上行</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收降序 · AI 服务器/算力 PCB 为核心看点段</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 服务器及算力 PCB（含 AI 服务器/HDI/高多层）</td><td class="num">56.96（测算）</td><td class="num">60.0%（测算）</td><td class="num up">+180.0%（测算）</td><td class="num">33.0%（测算）</td><td class="num">69.2%（测算）</td></tr>
+<tr><td>高速通信 PCB（含 1.6T 交换机/卫星/光模块）</td><td class="num">18.99（测算）</td><td class="num">20.0%（测算）</td><td class="num up">+60.0%（测算）</td><td class="num">25.0%（测算）</td><td class="num">17.5%（测算）</td></tr>
+<tr><td>汽车电子 PCB（自动驾驶域控/毫米波雷达）</td><td class="num">9.49（测算）</td><td class="num">10.0%（测算）</td><td class="num up">+40.0%（测算）</td><td class="num">22.0%（测算）</td><td class="num">7.7%（测算）</td></tr>
+<tr><td>工业控制及其他 PCB</td><td class="num">9.50（测算）</td><td class="num">10.0%（测算）</td><td class="num up">+15.0%（测算）</td><td class="num">20.0%（测算）</td><td class="num">7.0%（测算）</td></tr>
+<tr><td>其他业务</td><td class="num">0.00</td><td class="num">0.0%</td><td class="num">-</td><td class="num">-</td><td class="num">-</td></tr>
+<tr class="total"><td>合计</td><td class="num">94.94</td><td class="num">100%</td><td class="num up">+102.6%</td><td class="num">28.62%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">服务器及算力 PCB 收入约 57 亿元、占公司营收 60%，AI 服务器相关同比 +242%；外销收入同比 +151.2%，反映海外 AI 大客户直供逻辑，是利润与增速的第一驱动。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">PCB 制造中游高多层/HDI 细分环节，母公司生益科技（600183）为覆铜板龙头形成上下游协同；全球 PCB 40 强第 20 位，直接绑定海外 AI 大客户与国内交换机/光模块头部客户。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">2025 毛利率 28.62%（同比 +9.20pct）、净利率 15.51%，位居数通 PCB 行业前列；1.6T 高端交换机、光模块 HDI 已量产，处于国内第一梯队。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">东莞智能算力中心 HDI 项目（14 亿投资、25 万平/年）、吉安智能制造与泰国厂陆续投产，2027 年后服务器及算力 PCB 收入占比有望升至 70%+、毛利率 30%+。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">以服务器及算力 PCB 收入 57 亿为基数，ASP 涨 10% 按 60% 落净利，增厚核心 segment 利润约 5.6 亿元（测算），相对当前净利 14.73 亿弹性约 23%。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线定价「AI 服务器高多层 PCB 供不应求 + 定增智能算力中心 HDI + 海外大客户份额提升」，PE-TTM ~78x 已包含高预期。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>AI 服务器 PCB 层数由 22 层升至 30 层以上、超高速 M6/M7/M8 材料量产带来 ASP 翻倍；上游铜箔（沪铜及电解铜箔）、电子级玻纤 2025H2 集中涨价，公司凭借高多层与 HDI 结构升级具备最强顺价能力，1.6T 交换机主板则受益于高速率结构升级。</div>
+<div class="p">弹性假设：以 2028E 服务器及算力 PCB 收入 130 亿为基准，ASP 涨价增量按 60% 落到净利（测算），对齐 §04 中性情景。</div>
+<table>
+<thead><tr><th>AI/算力 PCB 涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">31.6 亿</td><td class="num">36.5 亿</td><td class="num">1044 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">37.2 亿</td><td class="num">42.1 亿</td><td class="num up">1212 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">42.9 亿</td><td class="num">47.7 亿</td><td class="num up">1380 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">48.5 亿</td><td class="num">53.3 亿</td><td class="num up">1548 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；核心 AI/HDI 段 30x、其他 20x 加总市值；基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">国内 AI 服务器/HDI PCB 环节 CR5 约 55%（沪电、胜宏、鹏鼎、生益电子、景旺等），2024-2025 年新增产能同比约 15-20%；公司东莞智能算力中心一期 15 万平/年、二期 10 万平/年、总投资 14 亿元，属于中等偏积极扩产节奏。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">东莞智能算力中心一期 2025Q4 试生产、2026 年上量；吉安智能制造与泰国工厂一期 2026-2027 年爬坡；建设周期约 12-18 个月，2025 年供给端加速。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">在 AI 服务器/算力需求持续上修前提下，预计 2027 年前后新产能与需求达到再平衡、行业景气高点；关键跟踪：海外 AI 大客户排产、AI 服务器 PCB 单价、公司月度产能利用率与毛利率修复。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 服务器 PCB/HDI/高多层 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 服务器及算力 PCB（AI/HDI/高多层） ·30x</td><td class="cn as">收入 93.4 亿 · 净利率 33.9%（测算）</td><td class="cn num nn">~31.6</td><td class="op as bd">收入 105.8 亿 · 净利率 35.0%（测算）</td><td class="op num no">~37</td></tr>
+<tr><td>高速通信 + 汽车 + 工业 PCB ·20x</td><td class="cn as">收入 16.6 亿 · 净利率 29.1%（测算）</td><td class="cn num nn">~4.8</td><td class="op as bd">收入 16.8 亿 · 净利率 32.0%（测算）</td><td class="op num no">~5.4</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 26.0 / 其他 4.0</span></td><td class="cn num">~36.5</td><td class="op bd"><span class="sub">核心 41.4 / 其他 6.0</span></td><td class="op num">~42.4</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 1,144 亿</td><td class="cn"><span class="sub">26.0×30 + 4.0×20</span></td><td class="cn num up">~1044亿 (+5.6%)</td><td class="op bd"><span class="sub">41.4×30 + 6.0×20</span></td><td class="op num up">~1218亿 (+23.2%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>服务器及算力 PCB 与高速通信/汽车/工业分别按 2028E 收入×净利率外推；分段净利×倍数（核心 30x / 其他 20x）加总。中性对应市值低于现价 25%，说明当前估值已隐含较高预期；乐观情形要求 2028E 核心业务收入达 180 亿量级、净利率 23%，则可对应 +19% 空间。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">东莞智能算力中心 2025Q4 试产及 2026 上量；吉安/泰国基地 2026-2027 爬坡；海外 AI 大客户订单持续放量；1.6T 交换机主板 + 卫星通信 + 光模块 HDI 落地；2025 年定增募资投产人工智能计算 HDI 基地。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM ~78x，§04 中性对应市值 -25%，估值消化仍需业绩兑现；AI 服务器排产节奏波动；铜箔/玻纤价格波动挤压毛利；海外产能爬坡与关税风险；服务器占比过高带来的客户与产品集中度风险。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年度报告及业绩说明会（新浪财经、巨潮）；东方财富、同花顺、新浪财经（行情 / 估值 / 主营构成，截至 2026-07-07）；证券时报 2025 年报解读（stcn.com）；财联社智能算力中心 HDI 项目报道；生益电子 2025 年度向特定对象发行 A 股股票募集说明书；Prismark 全球 PCB 产值数据；进门财经研报及会议纪要；公开网络资料。暂无卖方盈利预测一致预期完整披露；分部收入构成基于业绩说明会披露比例推算，标注（测算）；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

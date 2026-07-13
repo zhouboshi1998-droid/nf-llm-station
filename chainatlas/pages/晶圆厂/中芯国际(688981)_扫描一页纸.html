@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>中芯国际(688981)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">中芯国际</span><span class="code">688981</span>
+<div class="tags">晶圆代工龙头 · 国产AI芯片代工 · 全球纯晶圆代工第二</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥152.10　总市值 13020.99 亿</div>
+<div class="meta">PE-TTM ~258.07x · PB 8.69x · 85.61 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:48</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>中芯国际是中国大陆最大、全球第二的纯晶圆代工厂（按客户图纸制造芯片的「芯片制造工厂」）。核心看点是<b>国产AI芯片/先进制程代工</b>，先进制程产能利用率与ASP决定利润弹性。</div>
+<!-- KPI 条：6 格关键指标 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">673.2 亿</div><div class="s up">+16.5% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">50.4 亿</div><div class="s up">+36.3% YoY</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">~7.5%</div><div class="s">毛利率 21.6%</div></div>
+<div class="stat"><div class="k">晶圆代工占比</div><div class="v">93.3%</div><div class="s">绝对主业</div></div>
+<div class="stat"><div class="k">全球代工排名</div><div class="v">No.2</div><div class="s">仅次于台积电</div></div>
+<div class="stat"><div class="k">2026Q1 归母</div><div class="v">13.6 亿</div><div class="s up">+0.4% YoY</div></div>
+</div>
+<!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 晶圆代工为核心看点板块</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 集成电路晶圆代工</td><td class="num">627.94</td><td class="num">93.3%</td><td class="num up">+17.9%</td><td class="num">21.25%</td><td class="num">91.7%</td></tr>
+<tr><td>设计/IP/掩模/测试等配套</td><td class="num">37.86</td><td class="num">5.6%</td><td class="num dn">-2.0%</td><td class="num">31.99%</td><td class="num">8.3%</td></tr>
+<tr><td>其他业务</td><td class="num">7.43</td><td class="num">1.1%</td><td class="num up">+8.0%</td><td class="num">0.39%</td><td class="num">0.0%</td></tr>
+<tr class="total"><td>合计</td><td class="num">673.23</td><td class="num">100%</td><td class="num up">+16.5%</td><td class="num">21.62%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 左右两栏 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">晶圆代工贡献 93.3% 营收与 91.7% 毛利；先进制程/AI相关占比 15-23%，是利润弹性最大的期权。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">半导体中游「制造」环节，上游设备/材料/EDA，下游 AI芯片/手机/汽车。全球纯晶圆代工第二，大陆第一。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">成熟制程覆盖全面，先进制程持续推进；2025 毛利率 21.6%（同比+3.0pct），净利率 7.5%。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">AI 代工产能爬坡，先进制程收入占比有望从 15-23% 升至 30%+，带动 ASP 与毛利率上行。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">晶圆代工收入 628 亿为基数，均价涨 10% 按 60% 落净利增厚核心 segment 利润约 99.8 亿元（测算）。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是「国产 AI 芯片代工稀缺性 + 先进制程突破」，PE-TTM 约 247x 反映高预期。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>AI 服务器/国产算力芯片需求旺盛，先进制程产能接近满载；8 英寸 BCD/功率器件已涨价约 10%，ASP 提升直接传导至毛利。</div>
+<div class="p">弹性假设：以 2025 年晶圆代工收入 627.94 亿为基准，涨价增量按 60% 落到净利（测算）。</div>
+<table>
+<thead><tr><th>晶圆代工涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">356.9 亿</td><td class="num">624.6 亿</td><td class="num">16061 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">456.7 亿</td><td class="num">724.4 亿</td><td class="num up">19055 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">556.5 亿</td><td class="num">824.2 亿</td><td class="num up">22048 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">656.3 亿</td><td class="num">924.0 亿</td><td class="num up">25042 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按先进制程 30x 计入对应市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">晶圆厂扩产周期慢（2 年以上），2025 年资本开支维持高位；12 英寸新产线建设周期约 2-3 年，短期有效供给弹性有限。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">主要新产能 2026 年起陆续投放，2027-2028 年进入爬坡/达产期；8 英寸扩产相对谨慎，12 英寸先进制程为扩产重点。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">预计 2028 年前后供需关系出现分化：先进制程紧平衡延续，成熟制程若扩产过快可能转松。关键跟踪变量为 AI 芯片出货量与产能利用率。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 市值空间 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心看点业务 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 先进制程/AI代工 ·30x</td><td class="cn as">收入 1663.1 亿 · 净利率 21.5%（测算）</td><td class="cn num nn">~356.9</td><td class="op as bd">收入 2252.5 亿 · 净利率 22.4%（测算）</td><td class="op num no">~505.4</td></tr>
+<tr><td>成熟制程+其他 ·20x</td><td class="cn as">收入 1048.7 亿 · 净利率 25.5%（测算）</td><td class="cn num nn">~267.7</td><td class="op as bd">收入 1013.6 亿 · 净利率 27.4%（测算）</td><td class="op num no">~278</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 60.0 / 其他 45.0</span></td><td class="cn num">~624.6</td><td class="op bd"><span class="sub">核心 100.0 / 其他 55.0</span></td><td class="op num">~783.4</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 12,449 亿</td><td class="cn"><span class="sub">60.0×30 + 45.0×20</span></td><td class="cn num up">~16061亿 (+23.3%)</td><td class="op bd"><span class="sub">100.0×30 + 55.0×20</span></td><td class="op num up">~20722亿 (+59.1%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>先进制程/AI代工、成熟制程分别按收入×净利率外推；分段净利×倍数（核心 30x / 传统 20x）加总。当前市值显著高于中性/乐观情景对应市值，反映市场对国产替代与先进制程突破给予极高估值溢价。</div>
+</div>
+<!-- §05 催化剂 · 风险 · 数据来源 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">2026Q2/Q3 毛利率与产能利用率指引超预期；先进制程大客户订单/认证落地；国产 AI 芯片出货量上调；晶圆代工价格传导落地。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM 约 247x，§04 中性/乐观对应市值均显著低于现价，估值透支明显；先进制程良率爬坡不及预期；成熟制程竞争加剧；海外设备管制升级。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-07）；同花顺 F10 卖方一致预期（12 家机构，截至 2026-06-21）；进门财经研报及会议纪要；公开网络资料。2026-2027E 为卖方一致预期；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

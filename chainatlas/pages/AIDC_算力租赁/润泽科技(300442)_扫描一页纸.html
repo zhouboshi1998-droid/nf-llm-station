@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>润泽科技(300442)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">润泽科技</span><span class="code">300442</span>
+      <div class="tags">AIDC行业液冷龙头 · 字节跳动核心供应商 · REITs资产证券化</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥79.16　总市值 1299.05 亿</div>
+      <div class="meta">PE-TTM ~25.0x · PB(LF) 9.3x · 16.41 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>润泽科技是国内AIDC(人工智能数据中心)行业液冷技术领先企业，主营IDC(互联网数据中心)与AIDC两大板块，作为智算中心"链主方"为字节跳动等头部互联网及AI企业提供智算服务。2025年营收56.74亿元、同比+30.0%，AIDC业务收入占比已提升至44.2%(2023年仅28%)、同比+73.0%；归母净利润50.50亿元、同比+182.1%，但其中约37.5亿元来自"南方润泽科技数据中心REIT"资产处置的一次性收益，剔除后扣非归母净利润仅19.01亿元(+6.9%)，显著落后于营收增速，反映重资产扩张期"折旧前置、收入爬坡在后"的典型剪刀差。<b>新增220MW算力中心的上架爬坡速度是决定利润修复节奏的核心变量</b>。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">56.74 亿</div><div class="s up">+30.0% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">50.50 亿</div><div class="s up">+182.1%，含REITs一次性收益37.5亿</div></div>
+    <div class="stat"><div class="k">2025 扣非净利润</div><div class="v">19.01 亿</div><div class="s up">+6.9%，核心盈利质量；毛利率~46.0%</div></div>
+    <div class="stat"><div class="k">AIDC业务收入占比</div><div class="v">~44.2%</div><div class="s up">同比+73.0%</div></div>
+    <div class="stat"><div class="k">2026Q1 归母净利</div><div class="v">5.82 亿</div><div class="s up">+35.3% YoY（扣非+35.9%）</div></div>
+    <div class="stat"><div class="k">机柜资源储备</div><div class="v">~32万架</div><div class="s">6大核心区域7个AIDC集群</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>IDC业务</td><td class="num">31.64</td><td class="num">55.8%</td><td class="num up">+8.6%</td><td class="num">44.1%</td><td class="num">53.4%</td></tr>
+        <tr class="key"><td>◆ AIDC业务（人工智能数据中心）</td><td class="num">25.10</td><td class="num">44.2%</td><td class="num up">+73.0%</td><td class="num">48.5%</td><td class="num">46.6%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">56.74</td><td class="num">100%</td><td class="num up">+30.0%</td><td class="num">46.0%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">AIDC业务2025年营收25.10亿元，占比44.2%(2023年仅28%)，同比+73.0%，已快速逼近IDC业务；毛利率48.5%略高于IDC业务(44.1%)，但下半年受折旧摊销集中转固影响已从上半年54%降至46%。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司是AIDC行业液冷技术领先企业，作为智算中心"链主方"为字节跳动等头部互联网及AI企业提供智算服务；已建成7个AIDC智算基础设施集群，覆盖京津冀、长三角、大湾区等6大核心区域，累计约32万架机柜资源储备，基本完成全国"一体化算力中心体系"布局。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">2025年归母净利润50.50亿元(+182.1%)主要因将全资孙公司转让至"南方润泽科技数据中心REIT"产生约37.5亿元一次性股权处置收益，剔除后扣非归母净利润仅19.01亿元(+6.9%)，显著落后于营收增速(+30.0%)，主因新增算力中心集中转固带来折旧前置压力及股权激励/管理费用同比+69.3%。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">2025年新增交付算力中心约220MW(含单体100MW智算中心)，创历史新高；廊坊B区200MW智算中心、平湖D区等重点项目2026年陆续转固，折旧摊销绝对值将只增不减，上架爬坡速度是决定利润修复斜率的核心变量(与§04情景假设勾稽)。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">假设AIDC机柜租金/单柜价值量较基准每上升10%且约60%落净利(高固定成本运营杠杆)，对应公司总净利较基准增厚约5.3亿元（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场交易的是AIDC产能爬坡节奏与"剪刀差"(收入增速快于利润增速)能否收敛的预期；公司股价近两年累涨超500%后近一周明显回落(7月1日89.79元→7月8日79.16元，跌约12%)，反映资金对估值透支程度存在分歧。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>AI大模型训练与推理需求持续爆发，高功率、液冷化智算中心成为刚需，公司凭借液冷技术、高功率机柜部署先发优势及全国化核心区域布局，具备AIDC机柜租金/单柜价值量的上行议价空间；由于土地、建筑、电力增容等成本大部分已固定沉淀，租金上涨的增量收入对净利润具有较强的经营杠杆效应，但公司核心客户(如字节跳动等)集中度较高，实际议价能力受一定制约。</div>
+      <div class="p"><b>弹性假设：</b>假设AIDC业务收入(2028E中性情景)较基准整体上升10%，且约60%转化为增量净利（高固定成本运营杠杆）。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E中性AIDC租金，测算口径）</td><td class="num">28.2 亿</td><td class="num">41.3 亿</td><td class="num up">1107 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">33.5 亿</td><td class="num">46.6 亿</td><td class="num up">1266 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">38.8 亿</td><td class="num">51.8 亿</td><td class="num up">1425 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">44.1 亿</td><td class="num">57.1 亿</td><td class="num up">1583 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯AIDC租金敏感性（中性量不变，IDC业务净利固定约13.1亿）；乐观情形为量+价+净利率齐升，见§04。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">2025年新增交付算力中心约220MW(含单体100MW智算中心，行业领先)，累计约32万架机柜资源储备；2026年一季度末在建工程约83.27亿元，环比+18.05%，已连续三季度环比增长。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">廊坊B区200MW智算中心、平湖D区等重点项目2026年陆续转固，折旧摊销绝对值将只增不减；2025年下半年AIDC成本中折旧摊销占比已从上半年51%攀升至74%。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">AI算力需求延续高景气，头部互联网及大模型企业token消耗量高速增长；需重点跟踪新增产能上架爬坡速度能否追上收入增速，以及传统IDC业务(占收入55.8%)需求企稳节奏。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AIDC业务 30x / IDC业务 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ AIDC业务 ·30x</td><td class="cn as">收入CAGR~52%(25-28E)至88.2亿·净利率32%(上架爬坡+折旧压力边际缓解)</td><td class="cn num nn">28.2</td><td class="op as bd">收入CAGR~60%·净利率35%(液冷/高功率机柜溢价兑现超预期)</td><td class="op num no">36.0</td></tr>
+        <tr><td>IDC业务 ·20x</td><td class="cn as">收入CAGR~10%至42.1亿·净利率31%(传统IDC需求企稳)</td><td class="cn num nn">13.1</td><td class="op as bd">收入CAGR~13%·净利率33%</td><td class="op num no">15.1</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段28.2 / 其他13.1</span></td><td class="cn num">~41.3</td><td class="op bd"><span class="sub">核心段36.0 / 其他15.1</span></td><td class="op num">~51.1</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价1299.05亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~1107亿 (-14.8%)</td><td class="op bd"></td><td class="op num up">~1381亿 (+6.3%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>AIDC业务、IDC业务均按收入CAGR+净利率假设外推，中性情景对应目标市值约1100亿元、乐观情景约1375亿元(误差±20亿)；分段净利×倍数(核心业务30x/传统主业20x)加总。2025年归母净利润受南方润泽科技数据中心REIT处置收益约37.5亿元一次性增厚，本情景分部净利拆分以剔除该影响后的扣非归母净利润约19.01亿元为2025A基准起点。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">2026年内：廊坊B区200MW智算中心、平湖D区等重点项目陆续转固上架；持续：AIDC业务收入占比持续提升(2023年28%→2025年44.2%)，产能爬坡带动利润"剪刀差"逐步收敛；持续：液冷技术、高功率机柜部署先发优势吸引头部AI客户深度覆盖，客户结构持续优化；融资端：拟发行可转债及推进REITs扩募，"重资产+轻资产"双轮驱动资本运作模式，若成功落地有望继续盘活存量资产。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">本情景中性情景对应净利润(41.26亿元)低于Wind卖方一致预期2028E(52.22亿元)，反映目标市值设定相对当前市场预期更为保守；中性情景对应市值(~1107亿)较现价(1299.05亿)仍有下行空间(-14.8%，测算)，若产能爬坡不及预期估值面临进一步压缩，公司股价近两年累涨超500%后近一周明显回落(跌约12%)，波动加大；2025年归母净利润中37.5亿元来自REITs一次性资产处置收益，扣非归母净利润仅19.01亿元(+6.9%)，"剪刀差"尚未扭转，2025年下半年AIDC毛利率已从上半年54%降至46%；数据中心主要为字节跳动等大型科技企业服务，议价能力存在劣势，单一大客户依赖度较高；重资产扩张模式下负债规模持续上升，2025年末固定资产246.47亿元(同比+88.89%)，折旧摊销压力将持续攀升。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年年度报告及公告（巨潮）；iFinD、Wind（行情/估值/主营构成/一致预期，截至2026-07-08）；进门财经研报及财经资讯及公开网络资料。Wind卖方一致预期2026E/2027E/2028E归母净利润分别为32.90/41.79/52.22亿元，本情景中性(41.26亿)低于一致预期，乐观(51.05亿)接近一致预期，供参考。2025年归母净利润50.50亿元中约37.5亿元为南方润泽科技数据中心REIT处置产生的非经常性损益，扣非归母净利润为19.01亿元，本情景分部净利拆分以扣非口径为2025A基准。2028E分段情景、净利率档位、租金弹性与市值空间为对应目标市值（中性约1100亿元/乐观约1375亿元，误差±20亿）校准的情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

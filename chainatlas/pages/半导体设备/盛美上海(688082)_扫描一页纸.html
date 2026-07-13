@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>盛美上海(688082.SH)_扫描一页纸</title>
+<style>
+
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">盛美上海</span><span class="code">688082.SH</span>
+<div class="tags">国产清洗设备龙头 · 平台化湿法设备 · 先进封装受益</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥415.00　总市值 2002.78 亿</div>
+<div class="meta">PE-TTM ~159.73x · PB 14.68x · 4.83 亿股</div>
+<div class="date">数据截至 2026-07-08 16:30:00</div>
+</div>
+</div>
+<div class="lead"><b>一句话看懂：</b>盛美上海是国内半导体清洗设备龙头，产品覆盖单片/槽式清洗、电镀、立式炉管、无应力抛铜等设备，客户以逻辑/存储/功率晶圆厂和先进封装厂为主。2025 年营收与归母净利均同比增长约 21%，清洗设备稳健放量、其他半导体设备高增。当前最有弹性的是<b>清洗+电镀/炉管/无应力抛铜等核心设备在存储与先进封装扩产中的量价</b>。</div>
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">67.86 亿元</div><div class="s up">+20.8% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">13.96 亿元</div><div class="s up">+21.1% YoY</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">~20.6%</div><div class="s">毛利率 ~48.3%</div></div>
+<div class="stat"><div class="k">核心业务占比</div><div class="v">~90.9%</div><div class="s">清洗+其他半导体设备</div></div>
+<div class="stat"><div class="k">市占率</div><div class="v">国产清洗设备龙头</div><div class="s">国内市占率领先</div></div>
+<div class="stat"><div class="k">2026Q1 归母</div><div class="v">1.04 亿</div><div class="s dn">-57.7%</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 半导体清洗设备</td><td class="num">45.06</td><td class="num">66.4%</td><td class="num up">+11.1%</td><td class="num">44.54%</td><td class="num">61.2%</td></tr>
+<tr class="key"><td>◆ 其他半导体设备（电镀/立式炉管/无应力抛铜等）</td><td class="num">16.61</td><td class="num">24.5%</td><td class="num up">+46.0%</td><td class="num">60.04%</td><td class="num">30.4%</td></tr>
+<tr><td>先进封装湿法设备</td><td class="num">3.37</td><td class="num">5.0%</td><td class="num up">+37.0%</td><td class="num">24.93%</td><td class="num">2.6%</td></tr>
+<tr><td>其他业务</td><td class="num">2.83</td><td class="num">4.2%</td><td class="num up">+59.0%</td><td class="num">67.60%</td><td class="num">5.8%</td></tr>
+<tr class="total"><td>合计</td><td class="num">67.86</td><td class="num">100%</td><td class="num">+20.8%</td><td class="num">48.32%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">半导体清洗+其他半导体设备 2025 营收占比 90.9%，毛利占比 91.6%，是收入和利润的核心；先进封装湿法设备占比 5.0%、增速 37%，为弹性品种。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">位于半导体前道/先进封装湿法工艺，产品销往国内逻辑/存储/功率 IDM 与晶圆厂；前五大客户收入占比约 60%，客户集中度高。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">掌握单片/槽式清洗、电镀、炉管、无应力抛铜等核心技术，2025 年综合毛利率 48.3%、净利率 20.6%，处于设备细分较高水平。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">预计 2026-2028 年核心设备收入 CAGR 约 11-15%，先进封装湿法设备占比有望提升；平台化设备布局带动单客户价值量提升。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">以 2028E 核心设备收入 85 亿元为基准，若均价上涨 10%、70% 增量落到净利，可增厚核心 segment 利润约 14.4 亿元（测算）。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）市场主要交易存储与先进封装扩产带来的设备需求、国产替代及平台化新品放量；短期需消化高估值。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>存储与先进封装资本开支回暖，清洗及电镀/炉管/无应力抛铜等设备供不应求；高端单片清洗设备单价高、国产替代空间大，价格每提升 10%，高毛利订单占比改善将直接增厚核心利润。</div>
+<div class="p">弹性假设：以 §04 中性核心板块净利 17.00 亿元为弹性段基准，涨价增量按 70% 落到该板块净利（测算）。</div>
+<table>
+<thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（2028E 中性量）</td><td class="num">76.8 亿</td><td class="num">83.2 亿</td><td class="num up">2434 亿</td></tr>
+<tr><td class="">+10%</td><td class="num">91.2 亿</td><td class="num">97.6 亿</td><td class="num up">2866 亿</td></tr>
+<tr><td class="">+20%</td><td class="num">105.6 亿</td><td class="num">112.0 亿</td><td class="num up">3298 亿</td></tr>
+<tr><td class="">+30%</td><td class="num">120.0 亿</td><td class="num">126.4 亿</td><td class="num up">3730 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（中性量不变）；涨价增量按 70% 落到核心板块净利（测算）。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">存储厂商扩产及先进封装湿法设备需求旺盛，公司 2025 年其他半导体设备收入同比 +46%、先进封装湿法设备同比 +37%。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">清洗/电镀/炉管新产能已在爬坡，预计 2026-2027 年为存储与先进封装设备交付高峰。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">若 2026-2027 年存储/先进封装扩产节奏放缓，或海外龙头降价竞争，核心设备价格与毛利率可能承压；需跟踪晶圆厂资本开支及订单转化。</span></div>
+</div>
+</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心业务 30x / 其他 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 半导体清洗+其他半导体设备 ·30x</td><td class="cn as">收入 240.0 亿 · 净利率 32.0%（测算）</td><td class="cn num nn">~76.8</td><td class="op as bd">收入 243.5 亿 · 净利率 33.6%（测算）</td><td class="op num no">~81.9</td></tr>
+<tr><td>先进封装+其他业务 ·20x</td><td class="cn as">收入 16.3 亿 · 净利率 39.6%（测算）</td><td class="cn num nn">~6.5</td><td class="op as bd">收入 18.7 亿 · 净利率 39.7%（测算）</td><td class="op num no">~7.4</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 17.00 / 其他 1.44</span></td><td class="cn num">~83.2</td><td class="op bd"><span class="sub">核心 24.20 / 其他 2.20</span></td><td class="op num">~89.3</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 2002.8 亿</td><td class="cn"><span class="sub">核心 510 + 其他 28.8</span></td><td class="cn num up">~2434亿 (+21.5%)</td><td class="op bd"><span class="sub">核心 726 + 其他 44.0</span></td><td class="op num up">~2605亿 (+30.1%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>传统主业按收入增速+净利率外推；核心业务按需求空间×市占率×单价×净利率；分段净利×倍数（核心 30x / 其他 20x）加总。当前估值对应 PE-TTM 约 160x，中性/乐观市值均显著低于现价，显示市场对国产设备主线预期已较为充分。</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">1) 存储/先进封装客户扩产带动清洗/电镀/炉管设备订单；2) 单片清洗设备在先进制程客户导入放量；3) 先进封装湿法设备收入持续高增；4) 平台化新品（立式炉管、无应力抛铜）通过头部客户验证；5) 海外客户拓展取得突破。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">1) 当前 PE-TTM 约 160x，市值显著高于中性/乐观情景估值；2) 存储/先进封装资本开支波动；3) 海外设备龙头降价竞争；4) 客户集中度较高；5) 新产品验证与交付进度不及预期。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2025 年度报告（巨潮资讯网）；iFinD 行情及财务快照（截至 2026-07-08）；进门财经研报盈利预测显示盛美上海暂无卖方一致预期覆盖；公开网络资料。2028E 分段情景、涨价弹性与市值空间为情景测算，仅为推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

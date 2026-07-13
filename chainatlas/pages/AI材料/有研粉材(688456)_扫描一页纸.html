@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>有研粉材(688456)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">有研粉材</span><span class="code">688456</span><div class="tags">国内有色金属粉体龙头 · AI 超细锡粉全球龙一 · 散热/PCB 铜粉 · 央企背景</div></div><div class="r"><div class="px">现价 ¥113.00　总市值 117.1 亿</div><div class="meta">PE-TTM ~130x · PB 9.1x · 1.04 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>脱胎于北京有色金属研究总院、央企有研集团旗下的金属粉末专业厂：把铜、锡、银、铁等做成微米/亚微米级超细粉，卖给做电子焊接、PCB、散热、金刚石工具、粉末冶金件的下游。三块基本盘——铜基粉体（2025 营收 21.7 亿、国内市占约四成）、微电子锡基焊粉（12.6 亿、锡膏核心原料）、粉末冶金/超硬工具等传统件；新长出的 AI 弹性来自超细锡粉（光模块/先进封装）与散热·PCB 铜粉（华为 GPU/昇腾、AI 服务器 PCB）。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">~38.8 亿</div><div class="s" style="color:var(--up)">同比 +20%</div></div><div class="stat"><div class="k">2026Q1 营收</div><div class="v">12.65 亿</div><div class="s" style="color:var(--up)">同比 +59%</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.30 亿</div><div class="s" style="color:var(--up)">同比 +193%</div></div><div class="stat"><div class="k">综合毛利率</div><div class="v">7.5%</div><div class="s" style="color:var(--ink)">薄利、量大为主</div></div><div class="stat"><div class="k">铜基粉体产能</div><div class="v">近 4 万吨</div><div class="s" style="color:var(--ink)">国内市占 ~40%</div></div><div class="stat"><div class="k">锡粉产能</div><div class="v">5000 吨</div><div class="s" style="color:var(--ink)">超细占比 ~20%</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 先进铜基金属粉体材料</td><td class="num">21.72</td><td class="num">55.6%</td><td class="num up">+13.9%</td><td class="num">8.2%</td><td class="num">56.9%</td></tr><tr class="key"><td>◆ 微电子类</td><td class="num">12.59</td><td class="num">32.2%</td><td class="num up">+32.7%</td><td class="num">6.3%</td><td class="num">25.4%</td></tr><tr><td>电子浆料</td><td class="num">1.59</td><td class="num">4.1%</td><td class="num up">+93.5%</td><td class="num">13.5%</td><td class="num">6.9%</td></tr><tr><td>3D打印材料</td><td class="num">0.58</td><td class="num">1.5%</td><td class="num up">+20.3%</td><td class="num">23.3%</td><td class="num">4.3%</td></tr><tr><td>其他业务</td><td class="num">2.56</td><td class="num">6.6%</td><td class="num up">+5.1%</td><td class="num">7.9%</td><td class="num">6.5%</td></tr><tr class="total"><td>合计</td><td class="num">39.04</td><td class="num">100%</td><td class="num">+20.9%</td><td class="num">8.0%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">2025 营收已超 38 亿，但 AI 弹性仍在早期：超细锡粉 2025 销量仅 50-60 吨（以 4 号粉为主，总锡粉 4000 吨），散热/氧化/超细铜粉刚实现批量销售。AI 是利润弹性最大、估值想象空间所在，但绝对占比尚小——故 PE-TTM 高达 167x、PB 11.9x，市场买的是放量斜率。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">锡粉端：康普锡威占全球第三方超细锡粉市场约 40%、龙一，国内唯一 T6+ 产业化，T6~T9/T10 已批量，海外铟泰/阿尔法核心一供。铜粉端：散热铜粉跟华为工程师密切合作迭代下一代 NPU 散热、用于昇腾 910B。央企（有研集团）背景、北有色技术沉淀深厚。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">锡粉 5 号粉 8-10 万/吨、6 号粉 150-200 万/吨、7 号粉 300-500 万/吨，毛利>50%；柔性产线可由常规无成本转产超细，加工费数倍于常规，超细放量将显著拉升毛利率。铜粉：氧化铜粉/散热铜粉加工费与单吨净利远高于传统铜球（铜球单吨净利~1k 元，电子铜粉 5-6k 元起）。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入结构从“量大利薄的传统铜粉+粉冶”向“高毛利 AI 超细粉”迁移：超细锡粉占锡粉比重 20%→2028E 50-60%，散热/PCB 铜粉占铜基比重持续抬升，光伏铜粉 27 年达产，电子浆料（锡膏/银浆/银包铜）向下游延伸提附加值。毛利率与单吨净利同步上台阶。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">量价利法（2028E 满产）：超细锡粉 2500-3500 吨×单吨净利 10-14 万元 → 2.5-5.0 亿；电子/散热/PCB 铜粉 0.8-1.2 万吨×单吨净利 1.5-2 万元+散热溢价 → 2.0-3.6 亿；两段 AI 粉体满产峰值净利约 4.5-8.6 亿（中性/乐观）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">①超细锡粉国产替代+AI 光模块放量（1.6T→T6、3.2T→T7），公司是国内唯一可产业化标的、海外大厂一供，价格通胀+量增双击；②散热/PCB 铜粉绑定华为算力链、Rubin 放量后 AI 铜粉翻倍式增长（铜粉供需缺口、26H2 涨 10-15%）；③央企平台+多点开花（光伏铜粉、3D 打印商业航天）。需求验证与放量节奏是核心变量。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>超细锡粉（5/6/7 号）随 AI 光模块速率升级（1.6T→3.2T）量价齐升、海外高端锡粉价格通胀明确（6 号粉 150-200 万/吨、7 号粉 300-500 万/吨，毛利>50%）；柔性产线转产超细、加工费数倍常规，公司国内唯一产业化、海外大厂一供，具备议价权。</div><div class="p"><b>弹性假设：</b>以中性超细锡粉段净利 2.5 亿为基准（≈2500 吨×单吨净利 10 万元、对应收入约 12.5 亿）；涨价增量约 70% 落入净利（锡价为成本传导项、加工费为利润项）。其他各段净利与市值固定。</div><table><thead><tr><th>超细锡粉涨价</th><th class="num">超细锡粉段净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 超细锡粉 ¥50 万/吨</td><td class="num">2.5 亿</td><td class="num">8.8 亿</td><td class="num up">221 亿</td></tr><tr><td class="base">+10%</td><td class="num">3.4 亿</td><td class="num">9.7 亿</td><td class="num up">248 亿</td></tr><tr><td class="base">+20%</td><td class="num">4.3 亿</td><td class="num">10.6 亿</td><td class="num up">275 亿</td></tr><tr><td class="base">+30%</td><td class="num">5.2 亿</td><td class="num">11.5 亿</td><td class="num up">302 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性：中性量不变、仅超细锡粉提价；乐观情景为量（满产+超细占比升）、价、单吨净利率三者齐升，见 §04 乐观列。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">康普锡威国内唯一稳定量产 T7 超细锡粉、破日韩；锡粉总产能 5000 吨、超细占比~20%→30E 50-60%</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">有研纳微 25/8 追投锡膏线；光伏铜粉 26H2-27；3D 打印 4580 吨 26/10 调试；27-29 产能逐步释放</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">高端超细锡粉 26-27 紧、<b>28-29 随产能释放转松</b>；<b>7N/T7 随 1.6T/3.2T 到 30 结构性偏紧</b>（需求 27 年 194→30 年 465 吨）。盯：1.6T/3.2T 出货、锡价</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ ◆ 超细锡粉(光模块/先进封装) ·30x</td><td class="cn as">2500 吨×单吨净利 10 万元</td><td class="cn num nn">2.5</td><td class="op as bd">3500 吨×单吨净利 14 万元(满产+超细占比 60%)</td><td class="op num no">5.0</td></tr><tr class="ai-row"><td>◆ ◆ 电子/散热/PCB 铜粉(AI 算力) ·30x</td><td class="cn as">0.8 万吨×单吨净利 1.5 万元+散热溢价</td><td class="cn num nn">2.0</td><td class="op as bd">1.2 万吨×单吨净利 2 万元+散热放量</td><td class="op num no">3.6</td></tr><tr><td>传统铜粉+粉冶+超硬工具 ·20x</td><td class="cn as">规模增长×净利率修复</td><td class="cn num nn">2.0</td><td class="op as bd">结构改善+海外份额提升</td><td class="op num no">2.5</td></tr><tr><td>光伏铜粉+电子浆料 ·20x</td><td class="cn as">光伏铜粉达产+银浆/银包铜</td><td class="cn num nn">1.5</td><td class="op as bd">光伏贱金属化加速放量</td><td class="op num no">2.5</td></tr><tr><td>3D 打印金属粉(商业航天) ·20x</td><td class="cn as">山东 4580 吨投产爬坡</td><td class="cn num nn">0.8</td><td class="op as bd">商业航天/直接制造放量</td><td class="op num no">1.2</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 4.5 / 其他 4.3</span></td><td class="cn num">~8.8</td><td class="op bd"><span class="sub">AI 段 8.6 / 其他 6.2</span></td><td class="op num">~14.8</td></tr><tr class="mc"><td>对应市值 vs 现价 117 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~221亿 (+89%)</td><td class="op bd"></td><td class="op num up">~382亿 (+226%)</td></tr></tbody></table><div class="note"><b>估值法：</b>2028E 情景测算（非目标价、可证伪）：AI 粉体（超细锡粉、电子/散热/PCB 铜粉）按量价利法满产口径给 30x；传统铜粉/粉冶/超硬、光伏浆料、3D 打印按 20x。中性合计归母 ~8.8 亿（AI 段 4.5+其他 4.3），乐观 ~14.8 亿（AI 段 8.6+其他 6.2）。单吨净利取整、超细锡粉毛利>50% 故净利率较高。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">超细锡粉（6/7 号）随 1.6T/3.2T 光模块放量上量、海外大厂订单兑现；散热铜粉跟进华为下一代 NPU、AI 服务器 PCB 铜粉随 Rubin 放量；光伏铜粉 26H2 起量、27 年达产；3D 打印山东产能 26 年 10 月投产爬坡；自制锡膏送样导入。卖方目标市值已上修至 120-150 亿区间。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 弹性绝对占比仍小、估值已高（PE-TTM 167x），透支放量预期；超细锡粉/散热铜粉客户验证与放量节奏不确定；锡膏端目前 90% 用于光伏、光模块锡膏尚无产品（与锡膏客户不直接竞争）；铜/锡价波动、传统主业毛利薄；新产能投产爬坡不及预期。</div></div></div><div class="src"><b>数据来源：</b>数据来源：公司 2025 年报/2026 一季报、业绩说明会与机构调研纪要、iFinD、Wind、卖方研究（广发/西部/国投/东北机械等）及产业链调研。2028E 为本人测算。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

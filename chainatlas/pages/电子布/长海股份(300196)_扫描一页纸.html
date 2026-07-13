@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>长海股份(300196)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">长海股份</span><span class="code">300196</span>
+      <div class="tags">玻纤制品 · 粗纱修复 · 民营龙头</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥20.78　总市值 85.0 亿</div>
+      <div class="meta">PE-TTM ~26.2x · PB 1.82x · 4.09 亿股</div>
+      <div class="date">数据截至 2026-07-08 15:34</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>长海股份主营玻璃纤维及制品（玻纤是增强材料，常用于建材、风电、电子和工业复合材料）以及化工制品。2025 年玻纤及制品贡献 <b>78.3%</b> 收入和 <b>78.0%</b> 毛利，当前利润弹性主要来自粗纱单吨净利从低位修复；测算表给出的 2027E 粗纱净利为 <b>4.92 亿</b>。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">31.39 亿</div><div class="s up">+17.9% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">3.26 亿</div><div class="s up">+18.8% YoY</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">10.4%</div><div class="s">毛利率 23.4%</div></div>
+    <div class="stat"><div class="k">玻纤收入占比</div><div class="v">78.3%</div><div class="s">毛利占比 78.0%</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.81 亿</div><div class="s dn">-1.4% YoY</div></div>
+    <div class="stat"><div class="k">2027E 粗纱净利</div><div class="v">4.92 亿</div><div class="s">41万吨 × 1200元/吨</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">产品口径 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 玻璃纤维及制品</td><td class="num">24.56</td><td class="num">78.3%</td><td class="num up">+24.7%</td><td class="num">23.3%</td><td class="num">78.0%</td></tr>
+        <tr><td>化工制品</td><td class="num">6.42</td><td class="num">20.4%</td><td class="num dn">-0.9%</td><td class="num">24.2%</td><td class="num">21.1%</td></tr>
+        <tr><td>玻璃钢制品</td><td class="num">0.41</td><td class="num">1.3%</td><td class="num dn">-9.4%</td><td class="num">14.9%</td><td class="num">0.8%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">31.39</td><td class="num">100%</td><td class="num up">+17.9%</td><td class="num">23.4%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">玻璃纤维及制品是利润主线，2025 年收入占比 78.3%、毛利占比 78.0%；化工制品提供约 20% 收入和较稳定毛利。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司处在玻纤及下游制品中游，产品覆盖玻纤制品、化工配套和少量玻璃钢制品，盈利随粗纱景气和单位利润变化。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">2025 年玻纤及制品毛利率 23.3%，化工制品 24.2%；国外业务毛利率约 33.0%，高于国内 21.0%。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">测算表中长海股份 2026E/2027E 粗纱销量均为 41 万吨，远期改善来自单吨净利由 700 元提升至 1200 元。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">单吨价格每提升 100 元/吨，对应增量净利约 100 ÷ 1.13 × 0.85 × 41 ÷ 10000 = 0.31 亿（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）当前总市值约 85 亿；按 15x 估值，中性市值约 74 亿，乐观 +300 元/吨约 88 亿。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>测算表假设粗纱销量稳定在 41 万吨，利润弹性主要来自单位净利修复；2026E 单吨净利 700 元，2027E 提升到 1200 元。</div>
+      <div class="p"><b>弹性假设：</b>以 2027E 41 万吨 × 1200 元/吨 ÷10000 = 4.92 亿为基准；每 +100 元/吨增量净利 = 100 ÷ 1.13 × 0.85 × 41 ÷ 10000 = 0.31 亿（测算），全部按 15x 估值。</div>
+      <table>
+        <thead><tr><th>单吨净利变化</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准 1200元/吨</td><td class="num">4.92 亿</td><td class="num">4.92 亿</td><td class="num up">73.8 亿</td></tr>
+          <tr><td class="base">+100元/吨</td><td class="num">5.23 亿</td><td class="num">5.23 亿</td><td class="num up">78.4 亿</td></tr>
+          <tr><td class="base">+200元/吨</td><td class="num">5.54 亿</td><td class="num">5.54 亿</td><td class="num up">83.1 亿</td></tr>
+          <tr><td class="base">+300元/吨</td><td class="num">5.85 亿</td><td class="num">5.85 亿</td><td class="num up">87.7 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">基准行与 §04 中性情景勾稽；增量均记入玻纤主业 15x 倍数。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">表内 2026E/2027E 销量均为 41 万吨，未把新增放量作为主要假设。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">利润兑现主要看 2026H2-2027 单吨净利，而非单纯新产能投放。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">若单吨净利无法向 1200 元靠拢，2027E 4.92 亿净利需下修。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（玻纤主业 15x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 粗纱利润弹性 ·15x</td><td class="cn as">41万吨 × 1200元/吨 ÷10000</td><td class="cn num nn">4.92</td><td class="op as bd">基准 + 0.31亿 × 3（测算）</td><td class="op num no">5.85</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">粗纱段 4.92</span></td><td class="cn num">~4.92</td><td class="op bd"><span class="sub">粗纱段 5.85</span></td><td class="op num">~5.85</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 85.0 亿</td><td class="cn"><span class="sub">分段净利×倍数</span></td><td class="cn num dn">~74亿 (-13.1%)</td><td class="op bd"><span class="sub">单吨价格 +300元/吨</span></td><td class="op num up">~88亿 (+3.2%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>粗纱段采用测算表销量 × 单吨净利得到净利，按 15x 倍数；空间% = 对应市值 ÷ 当前总市值 84.95 亿 − 1。若 2026E 700 元/吨口径延续，对应净利 2.87 亿、市值约 43 亿（测算）。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">2026 年中报与三季报验证粗纱毛利和库存周转；粗纱单吨净利向 1200 元/吨靠拢；国外业务毛利率维持约 33% 或进一步修复。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">当前市值 85 亿高于中性情景 74 亿，乐观 +300 元/吨情景约 88 亿；若单吨净利停在 700 元/吨，测算市值约 43 亿。粗纱价格、销量、原材料、财务费用和一次性损益均会扰动利润。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2025 年报及公开财务数据；公开网络资料（行情 / 估值 / 主营构成，截至 2026-07-08 15:34）；及内部提供资料。暂无卖方盈利预测一致预期覆盖；2027E 粗纱净利、单吨净利弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

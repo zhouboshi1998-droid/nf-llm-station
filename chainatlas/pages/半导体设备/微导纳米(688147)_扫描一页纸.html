@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>微导纳米(688147)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.exp .er.rv .lb{color:var(--redd)}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">微导纳米</span><span class="code">688147</span>
+<div class="tags">半导体ALD/CVD设备 · 光伏+半导体双轮驱动 · 国产量产线前列</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥141.50　总市值 657.22 亿</div>
+<div class="meta">PE-TTM ~420.51x · PB 21.83x · 4.64 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:38</div>
+</div>
+</div>
+<div class="lead"><b>一句话看懂：</b>微导纳米是国内以原子层沉积（ALD，一种在晶圆表面逐层生长薄膜的设备）为核心技术的薄膜沉积设备商，产品覆盖半导体、光伏等领域。当前核心看点是<b>半导体ALD/CVD设备放量</b>：2025年该板块收入同比+169%，毛利率虽处爬坡期，但国内存储、先进逻辑扩产与国产替代是主要需求弹性；光伏设备短期承压，贡献现金流但非估值主线。</div>
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">26.33 亿</div><div class="s dn">-2.5% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">2.19 亿</div><div class="s dn">-3.2% YoY</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">~8.3%</div><div class="s">毛利率 ~32.7%</div></div>
+<div class="stat"><div class="k">核心业务占比</div><div class="v">~33.5%</div><div class="s">半导体设备收入同比 +169%</div></div>
+<div class="stat"><div class="k">市占率</div><div class="v">国产ALD前列</div><div class="s">12英寸High-k量产首入</div></div>
+<div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.21 亿</div><div class="s dn">-75.0% YoY</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心板块已高亮 · 占比四舍五入</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr><td>光伏设备</td><td class="num">15.91</td><td class="num">60.4%</td><td class="num dn">-30.5%</td><td class="num">37.3%</td><td class="num">69.0%</td></tr>
+<tr class="key"><td>◆ 半导体设备（ALD/CVD）</td><td class="num">8.81</td><td class="num">33.5%</td><td class="num up">+169.1%</td><td class="num">18.5%</td><td class="num">19.0%</td></tr>
+<tr><td>配套产品及服务</td><td class="num">1.44</td><td class="num">5.5%</td><td class="num up">+99.5%</td><td class="num">65.5%</td><td class="num">11.0%</td></tr>
+<tr><td>其他</td><td class="num">0.14</td><td class="num">0.5%</td><td class="num up">+135.1%</td><td class="num">49.2%</td><td class="num">0.8%</td></tr>
+<tr><td>其他差额项目</td><td class="num">0.03</td><td class="num">0.1%</td><td class="num dn">-32.3%</td><td class="num">—</td><td class="num">0.3%</td></tr>
+<tr class="total"><td>合计</td><td class="num">26.33</td><td class="num">100%</td><td class="num dn">-2.5%</td><td class="num">32.7%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">半导体ALD/CVD设备2025年营收占比33.5%、同比+169%，毛利率18.5%处于放量早期，是当前利润弹性的主要来源；光伏设备仍占60%但短期承压。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">公司是国内首家将量产型High-k ALD设备导入12英寸集成电路量产线的厂商，客户覆盖存储、先进逻辑与先进封装，在薄膜沉积国产替代中位居前列。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">ALD/CVD设备技术门槛高，对标国际薄膜沉积龙头；2025年半导体设备毛利率同比下滑9.2pct，随规模爬坡和零部件国产化有望修复。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">半导体设备收入占比有望从33%向50%以上提升，驱动力为国内存储/先进逻辑扩产、新品导入及海外客户拓展。</div></div>
+<div class="bl"><div class="t">涨价 / 满产口径利润</div><div class="x">以半导体设备8.8亿收入为基数，若产品结构/均价提升10%且60%落净利，增量净利约 5.4 亿元（测算），弹性显著大于光伏。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场定价半导体ALD设备国产替代加速与光伏业务筑底，股价波动较大，需紧盯订单落地与设备验证进度。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>国内晶圆厂扩产叠加国产替代，先进制程ALD/CVD设备供需偏紧；工艺迭代带动设备单价上行，规模扩大后零部件国产化和费用摊薄将进一步改善净利。</div>
+<div class="p">弹性假设：以中性情景2028年半导体设备收入26亿元为基准，涨价/产品结构提升增量按60%落净利（测算）。</div>
+<table>
+<thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（2028E中性）</td><td class="num">20.0 亿</td><td class="num">32.0 亿</td><td class="num dn">840 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">25.4 亿</td><td class="num">37.4 亿</td><td class="num dn">1001 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">30.7 亿</td><td class="num">42.8 亿</td><td class="num dn">1163 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">36.1 亿</td><td class="num">48.1 亿</td><td class="num dn">1324 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格/结构敏感性（中性量不变）；增量按核心板块30x计入市值，基准行弹性段净利=§04中性核心净利。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">国内存储、先进逻辑12英寸晶圆厂扩产持续推进，ALD/CVD设备需求CAGR约25%-35%，公司2025年末在手订单充裕。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">主要客户产线2026-2027年持续投产，公司设备交付周期约12-18个月，收入确认高峰预计落在2027-2028年。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">若国产验证进度快于海外龙头供货周期，2027年前供需偏紧；需紧盯大客户招标节奏、设备验收及毛利率修复进度。</span></div>
+</div>
+</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心半导体设备 30x / 其他 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 半导体ALD/CVD ·30x</td><td class="cn as">收入 89.6 亿 · 净利率 22.3%（测算）</td><td class="cn num nn">~20</td><td class="op as bd">收入 105.6 亿 · 净利率 22.8%（测算）</td><td class="op num no">~24</td></tr>
+<tr><td>光伏及配套 ·20x</td><td class="cn as">收入 35.4 亿 · 净利率 34.0%（测算）</td><td class="cn num nn">~12</td><td class="op as bd">收入 31.2 亿 · 净利率 35.2%（测算）</td><td class="op num no">~11</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段 4.0 / 其他 2.4</span></td><td class="cn num">~32</td><td class="op bd"><span class="sub">核心段 6.8 / 其他 3.1</span></td><td class="op num">~35</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 657.2 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~840亿 (+27.8%)</td><td class="op bd"></td><td class="op num up">~940亿 (+43.0%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>半导体设备按收入×净利率外推；光伏及配套按收入增速+净利率外推；分段净利×倍数（核心30x / 其他20x）加总。当前市值显著高于中性/乐观情景市值，估值透支风险需关注。</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">1）2026-2027年存储/先进逻辑晶圆厂招标落地，ALD/CVD订单超预期；2）高毛利半导体设备收入占比提升，规模效应带动毛利率修复；3）新客户/新工艺验证通过，光伏新品订单回暖。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">1）中性/乐观情景市值分别为168亿/266亿，均显著低于现价657亿，估值透支明显；2）半导体设备验证周期长、客户集中，毛利率修复不及预期；3）光伏设备需求持续低迷、竞争加剧压价。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司2024/2025年度报告及业绩说明会（巨潮）；iFinD、Wind（行情/估值/主营构成，截至2026-07-08）；进门财经研报（方正证券、华安证券、平安证券、浙商证券、东吴证券）；公开网络资料。2026-2027E为卖方一致预期；2028E分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

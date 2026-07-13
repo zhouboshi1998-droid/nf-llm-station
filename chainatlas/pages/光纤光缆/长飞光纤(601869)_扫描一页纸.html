@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>长飞光纤(601869)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">长飞光纤</span><span class="code">601869</span>
+      <div class="tags">全球光纤光缆龙头 · AI-2030战略 · MSCI新兴市场指数成分</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥410.00　总市值 3394.41 亿</div>
+      <div class="meta">PE-TTM ~293.3x · PB(LF) 23.9x · 8.28 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>长飞光纤是全球光纤及光缆龙头，采取"垂直集成+多元化+全球化"经营模式，从预制棒(光纤的上游原材料)到成品光缆全链条自主可控，是国内少数能大规模一体化开发生产光纤预制棒、光纤和光缆的公司之一。受AI大模型训练/推理集群需求爆发带动，全球光纤供不应求(北美需求预计年增22-25%、供应仅增12-19%，交货周期延长至20周以上)，公司2025年营收142.52亿元、同比+16.8%，毛利率30.7%(+3.4pct)；2026Q1业绩加速释放，单季度毛利率41.5%(同比+13.7pct)创历史新高，归母净利润同比暴增226.4%。公司已提出"AI-2030"战略，聚焦"筑数据中心基石、连接全球AI网络"，<b>光纤预制棒供需紧张下的涨价弹性是当前核心看点，但供给侧扩产潮及潜在技术替代是关键证伪变量</b>。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">142.52 亿</div><div class="s up">+16.8% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">8.14 亿</div><div class="s up">+20.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">~5.7%</div><div class="s">毛利率 ~30.7%（+3.4pct）</div></div>
+    <div class="stat"><div class="k">光传输产品收入占比</div><div class="v">~58.6%</div><div class="s">境外收入占比42.7%</div></div>
+    <div class="stat"><div class="k">2026Q1 归母净利</div><div class="v">4.95 亿</div><div class="s up">+226.4% YoY，单季度创新高</div></div>
+    <div class="stat"><div class="k">2026Q1 毛利率</div><div class="v">~41.5%</div><div class="s up">同比+13.7pct，弹性核心来源</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 光传输产品（光纤/光缆/预制棒）</td><td class="num">83.46</td><td class="num">58.6%</td><td class="num up">+6.1%</td><td class="num">35.9%</td><td class="num">68.4%</td></tr>
+        <tr><td>光互联组件</td><td class="num">31.44</td><td class="num">22.1%</td><td class="num up">+48.6%</td><td class="num">39.7%</td><td class="num">28.5%</td></tr>
+        <tr><td>其他</td><td class="num">24.96</td><td class="num">17.5%</td><td class="num up">+29.1%</td><td class="num">4.1%</td><td class="num">2.3%</td></tr>
+        <tr><td>材料</td><td class="num">2.27</td><td class="num">1.6%</td><td class="num dn">-14.8%</td><td class="num">7.3%</td><td class="num">0.4%</td></tr>
+        <tr><td>其他-其他</td><td class="num">0.39</td><td class="num">0.3%</td><td class="num up">+166.0%</td><td class="num">45.1%</td><td class="num">0.4%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">142.52</td><td class="num">100%</td><td class="num up">+16.8%</td><td class="num">30.7%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">光传输产品(光纤/光缆/预制棒)2025年营收83.46亿元，占比58.6%，是AI算力供需紧张下涨价传导的核心载体；全年同比仅+6.1%，但2025Q4以来行业现货价格持续上涨，2026Q1单季度毛利率已升至41.5%，全年数据低估了当前动能。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司光纤市场份额全球第一，规模部署超百万，已交付12亿芯公里光纤，服务全球100多个国家和地区；在印尼、南非、巴西、波兰、墨西哥等6国布局8大生产基地，2025年境外收入60.92亿元、同比+47.8%，占总营收42.7%。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">公司深耕多芯光纤技术超10年，已在北美数据中心商业化落地；空芯光纤领域取得关键技术突破；2025年毛利率30.7%(+3.4pct)，Q4单季毛利率35.7%创上市以来新高，主要受益生产效率提升、产品结构优化及海外高毛利业务占比提升。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">据瑞银预计，2025-2028年中国已投运数据中心容量年增20-30%；数据中心及DCI场景光纤需求占比预计从2024年不足5%升至2027年35%，是公司"AI-2030"战略聚焦的核心增量方向(与§04情景假设勾稽)。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">假设光传输产品(2028E中性情景)收入较基准每上升10%且约60%落净利(预制棒产能刚性、涨价直接传导)，对应公司总净利较基准增厚约16.6亿元（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场交易的是光纤预制棒供需紧张下的涨价持续性与AI数据中心光纤需求占比跃升；但近一周股价大幅回落(7月1日508.51元→7月8日410.00元，累计跌约19.4%)，反映摩根士丹利等机构提示的"周期均值回归"风险正在被定价，波动剧烈。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>AI大模型训练与推理集群需求爆发，带动全球光纤供不应求(据Rebio Group，2026年北美光纤需求预计增长22-25%、供应仅增12-19%；大批量买家交货周期已延长至20周以上)；公司作为全球预制棒产能份额领先的头部厂商，充分受益于现货价格持续上涨，且预制棒等上游产能高度资本密集、扩产周期长，涨价对净利润的传导效率高。</div>
+      <div class="p"><b>弹性假设：</b>假设光传输产品(2028E中性情景)收入较基准整体上升10%，且约60%转化为增量净利（预制棒产能刚性支撑高传导效率）。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E中性光纤预制棒定价，测算口径）</td><td class="num">82.8 亿</td><td class="num">91.6 亿</td><td class="num up">2660 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">99.4 亿</td><td class="num">108.2 亿</td><td class="num up">3157 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">116.0 亿</td><td class="num">124.7 亿</td><td class="num up">3654 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">132.5 亿</td><td class="num">141.3 亿</td><td class="num up">4151 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯光纤/预制棒定价敏感性（中性量不变，光互联组件等其他板块净利固定约8.8亿）；乐观情形为量+价+净利率齐升，见§04。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">海外厂商同步扩产：康宁宣布超50%光纤产能扩张，日美亦有相关投资计划；国内亨通光电、远东股份、通鼎互联、合盛硅业、大族激光等已启动光棒扩产计划(如大族激光拟扩产2000吨光棒+6000万芯公里光纤)。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">供给释放需要时间，短期内供应限制预计持续，长飞可继续受惠于较高现货价格；中期看，若全球产能陆续跟上，价格有望从极端紧张回归更正常水平。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">摩根士丹利提示400%-650%的极端涨幅不可持续，"高景气可以持续一段时间，高估值需要更久的兑现周期"；另需关注康宁Glass Bridge玻璃光互连平台等潜在技术路线对传统CPO架构中游组件需求的替代风险。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（光传输产品(光纤/预制棒) 30x / 光互联组件+其他 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 光传输产品(光纤/预制棒) ·30x</td><td class="cn as">收入CAGR~49%(25-28E)至276.1亿·净利率30.0%(预制棒紧缺+海外高毛利占比提升)</td><td class="cn num nn">82.8</td><td class="op as bd">收入CAGR~58%·净利率33.5%(AI数据中心光纤需求占比超预期跃升)</td><td class="op num no">110.3</td></tr>
+        <tr><td>光互联组件+其他 ·20x</td><td class="cn as">收入CAGR~16.5%至93.4亿·净利率9.4%(结构优化)</td><td class="cn num nn">8.8</td><td class="op as bd">收入CAGR~21%·净利率10.5%</td><td class="op num no">11.0</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段82.8 / 其他8.8</span></td><td class="cn num">~91.6</td><td class="op bd"><span class="sub">核心段110.3 / 其他11.0</span></td><td class="op num">~121.3</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价3394.41亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~2660亿 (-21.6%)</td><td class="op bd"></td><td class="op num up">~3528亿 (+3.9%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>光传输产品(光纤/光缆/预制棒)、光互联组件+其他业务均按收入CAGR+净利率假设外推，中性情景对应目标市值约2642亿元、乐观情景约3522亿元(误差±20亿)；分段净利×倍数(核心业务30x/传统主业20x)加总。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">持续：光纤预制棒供需紧张下现货价格维持高位，2026Q1单季度毛利率已达41.5%；2026-2027年：数据中心及DCI场景光纤需求占比预计从2024年不足5%持续攀升至2027年35%；持续：MSCI已将长飞光纤A股正式纳入MSCI新兴市场指数(2026年5月29日生效)，被动资金配置需求；技术端：空芯光纤、多芯光纤等新一代产品的商业化落地及海外高毛利业务占比进一步提升。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">本情景中性净利润(91.6亿元)略低于Wind卖方一致预期2028E(112.99亿元)、乐观(121.3亿元)略高于一致预期，整体处于合理区间；但现价对应PE-TTM高达293x，摩根士丹利等机构已明确提示"高估值需要更久的兑现周期"，估值测算较现价存在较大差距，近一周股价累计大幅回落(约-19.4%)，波动剧烈；国内外同业(康宁、亨通光电、远东股份、通鼎互联、合盛硅业、大族激光等)已密集启动光棒扩产计划，若产能集中释放，行业可能从"卖方市场"回归均衡定价；康宁Glass Bridge玻璃光互连平台等新技术路线若成熟商业化，可能对传统CPO架构所需的中游光互联组件需求形成长期替代压力；光纤光缆行业历史上具有明显周期性，公司管理层及第三方研究均提示当前"400%-650%的极端涨幅"不应被视为长期常态，需警惕景气度阶段性回落风险。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年年度报告及公告（巨潮）；iFinD、Wind（行情/估值/主营构成/一致预期，截至2026-07-08）；进门财经研报（东北证券、华泰证券、国泰海通证券、摩根士丹利、野村等）及公开网络资料。Wind卖方一致预期2026E/2027E/2028E归母净利润分别为59.43/85.53/112.99亿元，本情景中性(91.6亿)略低于一致预期，乐观(121.3亿)略高于一致预期，供参考。2028E分段情景、净利率档位、定价弹性与市值空间为对应目标市值（中性约2642亿元/乐观约3522亿元，误差±20亿）校准的情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

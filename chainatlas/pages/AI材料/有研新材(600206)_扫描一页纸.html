@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>有研新材(600206)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">有研新材</span><span class="code">600206</span><div class="tags">超高纯半导体靶材国产替代 · 高端稀土功能材料 · 特种红外光学(锗) · 央企新材料平台</div></div><div class="r"><div class="px">现价 ¥55.98　总市值 473.9 亿</div><div class="meta">PE-TTM ~166x · PB 10.9x · 8.47 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>由北京有色金属研究总院发起、央企有研科技集团旗下的新材料平台，按“电磁光医”四条主线做战略材料：① 薄膜材料（超高纯金属溅射靶材）——把铜/钽/钴/铝铜等超高纯金属做成芯片制造用的靶材，已批量供 12 英寸先进晶圆线；② 稀土材料——稀土金属、磁性材料、定制高纯稀土氧化物；③ 红外光学——13N 高纯锗单晶、硫化锌/硒化锌等红外镜头/窗口材料；④ 生物医用材料。另有大体量铂族贵金属贸易（量大、毛利极薄）。AI 弹性主要落在半导体靶材（先进制程/HBM 扩产+靶材涨价），红外锗与高纯稀土为光电/稀缺敞口、但 AI 算力关联偏弱。</div><div class="stats"><div class="stat"><div class="k">2025A 营收</div><div class="v">95.42 亿</div><div class="s" style="color:var(--up)">同比 +4.3%</div></div><div class="stat"><div class="k">2025A 归母</div><div class="v">2.65 亿</div><div class="s" style="color:var(--up)">同比 +79.3%</div></div><div class="stat"><div class="k">2026Q1 营收</div><div class="v">29.57 亿</div><div class="s" style="color:var(--up)">同比 +60.7%</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.88 亿</div><div class="s" style="color:var(--up)">扣非 +31%</div></div><div class="stat"><div class="k">综合毛利率</div><div class="v">6.4%</div><div class="s" style="color:var(--ink)">铂族贸易摊薄</div></div><div class="stat"><div class="k">靶材产品增速</div><div class="v">+50%</div><div class="s" style="color:var(--up)">薄膜材料 +44%</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr><td>铂族</td><td class="num">39.92</td><td class="num">41.8%</td><td class="num dn">-4.6%</td><td class="num">1.6%</td><td class="num">7.6%</td></tr><tr><td>稀土材料</td><td class="num">23.67</td><td class="num">24.8%</td><td class="num dn">-2.9%</td><td class="num">8.4%</td><td class="num">23.2%</td></tr><tr class="key"><td>◆ 薄膜材料</td><td class="num">22.88</td><td class="num">24.0%</td><td class="num up">+44.0%</td><td class="num">18.6%</td><td class="num">49.6%</td></tr><tr><td>贵金属、有色金属及高端制造</td><td class="num">5.63</td><td class="num">5.9%</td><td class="num dn">-7.0%</td><td class="num">11.6%</td><td class="num">7.6%</td></tr><tr><td>红外光学、光纤材料</td><td class="num">2.44</td><td class="num">2.6%</td><td class="num up">+17.4%</td><td class="num">32.2%</td><td class="num">9.2%</td></tr><tr><td>医疗器械材料</td><td class="num">0.63</td><td class="num">0.7%</td><td class="num dn">-20.9%</td><td class="num">32.6%</td><td class="num">2.4%</td></tr><tr><td>其他业务</td><td class="num">0.25</td><td class="num">0.3%</td><td class="num dn">-42.6%</td><td class="num">16.4%</td><td class="num">0.5%</td></tr><tr class="total"><td>合计</td><td class="num">95.42</td><td class="num">100%</td><td class="num">+4.3%</td><td class="num">9.0%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">真正受益 AI 的是半导体靶材：2025 薄膜材料收入 22.9 亿、毛利率 18.6%，靶材产品收入同比 +50%；但靶材在 95.4 亿总营收里仅占约 24%，公司近半收入是低毛利铂族贸易，故综合毛利率仅 6.4%。AI 敞口确有真实订单（一线 fab），但绝对占比与利润弹性仍在爬坡——PE-TTM ~166x、PB ~11x，市场买的是国产替代+靶材涨价的放量斜率。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">超高纯金属溅射靶材是芯片制造关键材料，认证周期长达 3 年、先认证等于锁客户；公司客户已覆盖台积电（含先进制程）、大连 Intel、中芯国际、长鑫/长江存储、三星、SK 海力士，是国内少数打入主流 12 英寸线的靶材平台（与江丰电子、阿石创同列国产第一梯队）。央企有研集团背景、北有色技术沉淀深，上游钽靶坯等可对接东方钽业等。</div></div><div class="bl"><div class="t">技术与盈利力</div><div class="x">高端制程靶材用量随节点提升放大：14nm→7nm 靶材用量数倍、面积翻倍，HBM 堆叠靶材用量是 DRAM 数倍。叠加供给受限+稀土管制：年初至今铜靶涨 ~30%、钨/钴/钽靶涨 ~70%、含稀土高端靶涨 ~150%，日美巨头（JX 金属/霍尼韦尔）扩产受限、高端靶产能排至 2027。靶材是“量增+价涨+国产替代”三重驱动、毛利可持续抬升的环节。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">收入与利润结构从“量大利薄的铂族贸易+普通稀土”向“高毛利半导体靶材+高纯材料”迁移：薄膜材料占比 24%→2028E 35%+，靶材毛利率随高端品占比与涨价上台阶；红外锗向无人机/ADAS 民用放量、稀土向 5N 高纯定制延伸。铂族贸易占比下降、对综合毛利率的拖累减弱。</div></div><div class="bl"><div class="t">满产峰值利润</div><div class="x">量价利法（2028E）AI 段：半导体靶材收入 ~45 亿（先进制程扩产 CAGR ~15%+涨价）×净利率 10% ≈ 4.5 亿；红外光学锗收入 ~5 亿×净利率 15% ≈ 0.75 亿；AI 段中性合计 ~5.5 亿，乐观（涨价+份额，靶材 60 亿×12%、锗 7 亿×18%）≈ 8.5 亿。其他段（稀土+铂族贸易+深加工/医用）中性 ~2.7 亿。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">①半导体靶材国产替代+先进制程/HBM 扩产（12 英寸产能 CAGR ~7%、7nm 以下 ~14%）+靶材涨价（高端含稀土靶 +150%），公司是打入一线 fab 的国产龙头之一；②稀土涨价周期+5N 高纯氧化镝/磁材弹性；③央企平台+多点开花（红外锗民用、硫化锂固态电池期权）。AI 敞口偏“在预期、不全在报表”，靶材放量节奏与涨价兑现是核心变量。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>半导体靶材随先进制程/HBM 扩产量增，叠加供给受限的价格通胀——铜靶 +30%、钨/钴/钽靶 +70%、含稀土高端靶 +150%，日美巨头扩产受限、高端靶产能排至 2027；认证 3 年壁垒锁客户，公司在涨价中具备顺价与份额提升能力。</div><div class="p"><b>弹性假设：</b>以中性半导体靶材段净利 4.5 亿为基准（≈靶材收入 45 亿×净利率 10%）；靶材涨价增量约 70% 落入净利（金属为成本传导项、加工费与高端溢价为利润项）。其他各段净利与市值固定。</div><table><thead><tr><th>半导体靶材涨价</th><th class="num">半导体靶材段净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 高端靶材均价(综合)</td><td class="num">4.5 亿</td><td class="num">8.0 亿</td><td class="num up">213 亿</td></tr><tr><td class="base">+10%</td><td class="num">7.7 亿</td><td class="num">11.2 亿</td><td class="num up">308 亿</td></tr><tr><td class="base">+20%</td><td class="num">10.8 亿</td><td class="num">14.3 亿</td><td class="num up">402 亿</td></tr><tr><td class="base">+30%</td><td class="num">13.9 亿</td><td class="num">17.4 亿</td><td class="num up">496 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性：中性量不变、仅半导体靶材提价；乐观情景为量（先进制程扩产+份额）、价、净利率三者齐升，见 §04 乐观列。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">全球溅射靶材 CAGR~6%（铜靶>10%）、27 年 251 亿到 30 续增；江丰扩 1.23 万块+黄湖、有研德州升至 7.3 万块/年；海外高端靶排至 27</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">有研德州满产后靶材占比升 34%；江丰黄湖 26 调试放量；28-30 国产高端线爬坡</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">普通靶<b>27-28 偏松</b>；<b>高端制程/HBM 靶到 2030 仍偏紧</b>（7nm 以下月产能 28→140 万片+国产替代）。盯：晶圆厂稼动、铜/钨管制、3 年认证</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ 半导体靶材(先进制程/HBM) ·30x</td><td class="cn as">靶材 45 亿×净利率 10%</td><td class="cn num nn">4.5</td><td class="op as bd">靶材 60 亿×净利率 12%(涨价+份额)</td><td class="op num no">7.2</td></tr><tr class="ai-row"><td>◆ 红外光学·锗(无人机/ADAS·光电) ·30x</td><td class="cn as">锗 5 亿×净利率 15%</td><td class="cn num nn">0.8</td><td class="op as bd">锗 7 亿×净利率 18%(民用放量)</td><td class="op num no">1.3</td></tr><tr><td>稀土材料(含 5N 高纯氧化物) ·20x</td><td class="cn as">稀土涨价+磁材×净利率</td><td class="cn num nn">1.8</td><td class="op as bd">5N 高纯放量+涨价周期</td><td class="op num no">2.5</td></tr><tr><td>铂族·贵金属贸易 ·20x</td><td class="cn as">低毛利贸易、净利薄</td><td class="cn num nn">0.4</td><td class="op as bd">周转放大+贵金属价升</td><td class="op num no">0.5</td></tr><tr><td>贵金属深加工+生物医用 ·20x</td><td class="cn as">键合丝/电接触+医用稳增</td><td class="cn num nn">0.5</td><td class="op as bd">高端制造份额+医用放量</td><td class="op num no">0.7</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 5.3 / 其他 2.7</span></td><td class="cn num">~8.0</td><td class="op bd"><span class="sub">AI 段 8.5 / 其他 3.7</span></td><td class="op num">~12.2</td></tr><tr class="mc"><td>对应市值 vs 现价 474 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~213亿 (-55%)</td><td class="op bd"></td><td class="op num dn">~329亿 (-31%)</td></tr></tbody></table><div class="note"><b>估值法：</b>2028E 情景测算（非目标价、可证伪）：半导体靶材、红外光学锗按量价利法给 30x（AI/半导体敞口）；稀土材料、铂族贸易、贵金属深加工/生物医用按 20x。中性合计归母 ~8.0 亿（AI 段 5.3+其他 2.7），乐观 ~12.2 亿（AI 段 8.5+其他 3.7）。净利率取整，靶材为周期成长材料、净利率克制取 10/12%，红外锗稀缺取 15/18%。红外锗 AI 算力关联偏弱、归入光电敞口，需诚实看待。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">半导体靶材随先进制程/HBM 扩产放量、高端含稀土靶涨价兑现（年初至今高端 +150%）；拟发行定增投超高纯金属靶材/光掩膜板材料扩产、12 英寸高端靶产能爬坡；红外锗向无人机/ADAS 民用放量；稀土涨价周期与 5N 高纯订单。2026 归母市场预期上看 4.5-4.8 亿（+80%+）、2027 上看 6.3-6.7 亿；外资目标价区间 ¥40-44（卖方口径、不背书）。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 敞口偏“在预期、不在报表”：靶材占总营收仅约 24%、公司近半收入是低毛利铂族贸易，综合毛利率仅 6.4%，估值已高（PE-TTM ~166x、PB ~11x），透支国产替代+涨价预期；红外锗与 AI 算力链关联偏弱、5N 高纯稀土对 MLCC 大规模供给弹性偏弱（无连续量产）；靶材客户验证/放量节奏与涨价兑现不确定；铂族/贵金属价格波动、定增摊薄、先进制程扩产不及预期。</div></div></div><div class="src"><b>数据来源：</b>数据来源：公司 2025 年报/2026 一季报、业绩预告与机构调研纪要、iFinD、Wind、卖方研究（华创/华泰/外资等）及产业链调研。2028E 为本人测算。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

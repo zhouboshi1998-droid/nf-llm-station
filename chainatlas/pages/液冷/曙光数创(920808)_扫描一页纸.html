@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>曙光数创(920808)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">曙光数创</span><span class="code">920808</span>
+      <div class="tags">DC液冷全链条系统集成 · 浸没相变+冷板双路线 · 液冷市占率>50%</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥82.96　总市值 165.9 亿</div>
+      <div class="meta">PE-TTM 历史100%分位 · PS ~18.8x · 2.00 亿股</div>
+      <div class="date">数据截至 2026-06-24</div>
+    </div>
+  </div>
+  <div class="lead"><b>一句话看懂：</b>曙光数创是国内数据中心液冷基础设施<b>全链条方案商/系统集成商</b>（前身中科曙光数据中心事业部），覆盖浸没相变+冷板双路线。温控设备出货量连续四年国内液冷市场第一、市占率>50%，是国内唯一浸没相变液冷大规模商业化企业。<b>液冷即主业本体（占营收约 86%），非第二曲线</b>；收入高增但利润承压。</div>
+  <div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">8.82 亿</div><div class="s up">+74.3% YoY</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">0.369 亿</div><div class="s dn">-40% YoY</div></div><div class="stat"><div class="k">2025 净利率</div><div class="v">~4.2%</div><div class="s"></div></div><div class="stat"><div class="k">液冷占比</div><div class="v">~86%</div><div class="s">主业本体</div></div><div class="stat"><div class="k">浸没相变</div><div class="v">市占>50%</div><div class="s">连续四年第一</div></div><div class="stat"><div class="k">26Q1 营收</div><div class="v">1.03 亿</div><div class="s up">+783% YoY</div></div></div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 液冷（浸没+冷板）合计约 86%</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody><tr class="key"><td>◆ 浸没相变液冷基础设施</td><td class="num">4.58</td><td class="num">51.9%</td><td class="num up">+370.6%</td><td class="num">36.5%</td><td class="num">—</td></tr><tr class="key"><td>◆ 冷板液冷基础设施</td><td class="num">2.99</td><td class="num">33.8%</td><td class="num up">+40.0%</td><td class="num">10.4%</td><td class="num">—</td></tr><tr><td>模块化数据中心产品</td><td class="num">0.69</td><td class="num">7.9%</td><td class="num dn">-53.9%</td><td class="num">24.0%</td><td class="num">—</td></tr><tr><td>配套产品</td><td class="num">0.49</td><td class="num">5.5%</td><td class="num up">+114.3%</td><td class="num">16.0%</td><td class="num">—</td></tr><tr><td>服务</td><td class="num">0.08</td><td class="num">0.9%</td><td class="num dn">-66.1%</td><td class="num">51.0%</td><td class="num">—</td></tr><tr class="total"><td>合计</td><td class="num">8.82</td><td class="num">100%</td><td class="num up">+74.3%</td><td class="num">25.7%</td><td class="num">100%</td></tr></tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">液冷占营收约 86%（浸没 4.58+冷板 2.99=7.57 亿）、已是主业本体；收入高增但 2025 净利率仅 4.2%、利润承压。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">系统集成/整机柜+全链条（浸没整机柜 C8000、冷板 C7000、CDU、二次侧管网、高压直流供电），北交所液冷系统稀缺标的。</div></div><div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">浸没相变 C8000-V3.0（国产冷媒、散热>200W/cm²、单机柜>900kW）；累计专利 197 项（液冷 158 项）；毛利率受价格竞争同比大幅下行。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">2026 冷板增长 2 倍以上、浸没小于 25 年；海外目标国内:海外 50:50（东南亚 200MW、中东框架、北美打样）。</div></div><div class="bl"><div class="t">放量口径利润</div><div class="x">在手订单超去年全年收入；26Q1 合同负债 1.08 亿（+68%）、预付款 0.47 亿（+32%），订单/备货提速。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）市场以 PS≈18.8x 定价收入高增+北交所稀缺性；PE 处历史 100% 分位，盈利兑现是核心矛盾。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与收入弹性</h2><span class="tip">渗透/放量型 · 非涨价</span></div>
+      <div class="p"><b>放量逻辑：</b>政策要求 2026 新建智算中心液冷渗透率≥60%，公司浸没+冷板双线放量；海外 50:50 目标下东南亚/中东/北美订单驱动收入高增，高毛利 CDU/部件占比提升带动净利率修复。</div>
+      <div class="p"><b>弹性假设：</b>因净利率极低且波动大，估值以 PS≈9.4x 为主口径；以中性 2027E 整体收入 13.7 亿为基准，收入每 +10% 对应市值按 PS 变动（测算）。</div>
+      <table>
+        <thead><tr><th>整体收入放量（PS 口径）</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody><tr><td class="base">基准 13.7 亿（27E 中性）</td><td class="num">—</td><td class="num">~0.8 亿</td><td class="num dn">~129 亿</td></tr><tr><td class="base">+10%</td><td class="num">—</td><td class="num">~0.9 亿</td><td class="num up">~142 亿</td></tr><tr><td class="base">+20%</td><td class="num">—</td><td class="num">~1.0 亿</td><td class="num up">~155 亿</td></tr><tr><td class="base">+30%</td><td class="num">—</td><td class="num">~1.1 亿</td><td class="num up">~168 亿</td></tr></tbody>
+      </table>
+      <div class="el-cap">收入放量敏感性（测算）；净利率极低（2025 仅 4.2%），故以 PS≈9.4x 为主口径、对应市值随收入×PS 变动；PE 口径（27E 归母 0.8 亿×80x≈65 亿）远低于此。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">2026 冷板液冷增长 2 倍以上、C8000-V3.0 量产、海外 CDU 起量；系统集成/项目交付模式，随项目周期波动。</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">收入季节性极强（Q4 占全年 60%+），上半年常亏损；海外东南亚 200MW、中东框架、北美打样 2H26 落地。</span></div><div class="er rv"><span class="lb">渗透拐点</span><span class="vv">液冷渗透起量型；拐点看海外 50:50 放量+高毛利 CDU 占比提升带来的净利率修复能否快于估值消化。</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（整体法：收入 × PS，PE 交叉校验）</h2><span class="tip">液冷主业主体 · 目标年 2027E · PS 主口径</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>口径一 · 盈利预测法（PS 主口径 · 目标年 2027E）</th><th class="cnh num">中性</th><th class="oph bd num">乐观</th>
+      </tr></thead>
+      <tbody><tr><td>整体收入（亿元）</td><td class="cn num">13.7</td><td class="op num bd">15.4</td></tr><tr><td>给予 PS（x）</td><td class="cn num">9.4</td><td class="op num bd">12.0</td></tr><tr class="ai-row"><td>整体业务估值（= 收入×PS，亿元）</td><td class="cn num nn">~129</td><td class="op num no bd">~185</td></tr><tr class="sum"><td>目标总市值（亿元）</td><td class="cn num">~129</td><td class="op num bd">~185</td></tr><tr class="mc"><td>对应上行空间（vs 现价 165.9 亿）</td><td class="cn num dn">-22%</td><td class="op num up bd">+12%</td></tr></tbody>
+    </table>
+    <div class="note"><b>PE 交叉校验：</b>2027E 归母 0.78–0.85 亿×PE 80x ≈ 62–68 亿，即便 120x 也仅约 100 亿——利润口径远低于 PS 口径与现价，说明 165.9 亿市值几乎全由“收入高增+稀缺性”的 PS 逻辑支撑、利润尚未兑现。<b>口径二 · 满产法（研报收入上限近似）：</b>2028E 收入上限 18.05 亿×净利率 8%×60x ≈ 87 亿（利润法）/×PS 8x ≈ 144 亿，天花板约 90–145 亿，仍低于现价。<b>估值提示：</b>PE-TTM 处历史 100% 分位、PS≈18.8x，中性下行约 -22%、乐观上行约 +12%，属高估值、弹性已被定价。均为情景测算、可证伪。</div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">2026H2 海外（东南亚 200MW、中东框架、北美打样）订单落地与收入确认；冷板液冷全年“2 倍以上增长”兑现；高毛利 CDU/核心部件占比提升带来净利率修复；政策（新建智算中心液冷渗透率≥60%）催化。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">估值极高（PE 100% 分位、PS≈18.8x），利润口径远低于现价，收入/海外放量不及预期回调风险大；毛利率/净利率承压（冷板价格竞争、2-3 年内难显著提升）；收入季节性强（Q4 占 60%+），中报期易现亏损扰动；扩产/财务费用/减值压制利润；北交所流动性波动大。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会（巨潮）；iFinD、Wind（行情/估值/主营构成，截至 2026-06-24）；进门财经研报及会议纪要（列券商名）；公开网络资料及内部提供资料。中性采卖方一致预期（不下修）；2027E/2028E 及 PS/满产口径、市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+</div>
+</body>
+</html>

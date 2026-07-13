@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>厦门钨业(600549)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">厦门钨业</span><span class="code">600549</span><div class="tags">钨全产业链 · 钛酸钡/6N高纯钨粉 · 稀土</div></div><div class="r"><div class="px">现价 ¥66.42　总市值 1054.5 亿</div><div class="meta">PE-TTM ~34.8x · PB 5.8x · 15.88 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>厦钨是 1982 年起做钨制品、国家级钨材料基地，也是国家六大稀土集团之一——主业是「从钨矿挖到硬质合金刀具」的钨全产业链 + 稀土冶炼分离 + 锂电正极三块。利润真正的资源底座是<b>体内钨精矿（产能 1.2 万吨，上市公司最大）</b>，按 60 万/吨 钨价、10 万/吨 成本测算单吨毛利 50 万，是整张表的压舱石。AI 看点很窄且要分清口径：高容 MLCC 用的<b>钛酸钡陶瓷粉</b>（服务器级紧缺）与供中船特气做六氟化钨的<b>6N 高纯钨粉（年需约 1800 吨）</b>才算 AI 段；普通钨粉外售与硬质合金/刀具/钨丝/钨棒、稀土永磁、正极均归非 AI 资源/材料业务。</div><div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">462.6 亿</div><div class="s" style="color:var(--ink)">同比增长</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">23.1 亿</div><div class="s" style="color:var(--ink)">大幅修复</div></div><div class="stat"><div class="k">毛利率 / 净利率</div><div class="v">~20% / ~10%</div><div class="s" style="color:var(--ink)">钨价上行</div></div><div class="stat"><div class="k">钨精矿产能</div><div class="v">1.2 万吨</div><div class="s" style="color:var(--ink)">上市公司最大</div></div><div class="stat"><div class="k">6N 高纯钨粉需求</div><div class="v">~1800 吨</div><div class="s" style="color:var(--ink)">中船 WF6 口径</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">11.07 亿</div><div class="s" style="color:var(--up)">+189.1%</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 钨钼等有色金属制品</td><td class="num">201.52</td><td class="num">43.6%</td><td class="num up">+15.7%</td><td class="num">27.9%</td><td class="num">67.9%</td></tr><tr><td>电池材料</td><td class="num">198.80</td><td class="num">43.0%</td><td class="num up">+49.5%</td><td class="num">10.0%</td><td class="num">23.9%</td></tr><tr><td>稀土业务</td><td class="num">61.83</td><td class="num">13.4%</td><td class="num up">+39.4%</td><td class="num">10.9%</td><td class="num">8.1%</td></tr><tr><td>房地产及配套服务</td><td class="num">0.50</td><td class="num">0.1%</td><td class="num dn">-1.4%</td><td class="num">1.9%</td><td class="num">0.0%</td></tr><tr class="total"><td>合计</td><td class="num">462.65</td><td class="num">100%</td><td class="num">+31.4%</td><td class="num">17.9%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">AI 直接受益段口径很窄＝钛酸钡(服务器级 MLCC 粉)＋6N 高纯钨粉(中船 WF6 原料)，2025 营收 ~1-2%、利润占比仍小。当前是高弹性期权，利润主力是钨精矿+钨钼深加工(占~70%)；普通钨粉外售、钨棒/钨丝、稀土永磁更多算资源/材料业务，归非 AI。</div></div><div class="bl"><div class="t">① 钛酸钡(对标国瓷·核心 α)</div><div class="x">高端 MLCC 陶瓷粉，日企占 ~75%；贝思科 <b>3000 吨钛酸钡</b>＋碳酸钡 5000 吨(26 年至少翻倍)，<b>服务器级碳酸钡单吨净利 ~20 万</b>；客户三星/国巨/风华，26 年服务器、车规放量。服务器级是高壁垒+紧缺+可涨价环节，乐观净利率上 30%、权益 70%。</div></div><div class="bl"><div class="t">② 6N 高纯钨粉(AI 段只算这块)</div><div class="x">厦钨整体钨粉产能 <b>3 万吨</b>(约半自用)，25 年外售 1 万吨、26 年目标 1.5 万吨——这是<b>普通+高纯总外售</b>；其中供<b>中船特气六氟化钨(WF6)</b>的 <b>6N 高纯</b>只是子集，中船扩产后年需约 <b>1800 吨</b>。AI 段只算 6N 高纯(~1800-2000 吨 × 高纯单价 &gt;150 万/吨)，权益 70%；普通钨粉外售归 20x 钨钼主业。</div></div><div class="bl"><div class="t">③ PCB 钨棒(归钨钼·非 AI)</div><div class="x">钨棒是 AI 电路板钻针核心原料；日本住友减产、供给转国内，金鹭折钻针产能 26 年底→600 万只/月、27 年→<b>800-1000 万只/月</b>。本质仍是钨棒材，<b>归入钨钼主业(20x)</b>，按份额放量驱动；钨价不涨假设下，不另计涨价。</div></div><div class="bl"><div class="t">④ 稀土永磁(归其他·非 AI)</div><div class="x">六大稀土集团之一，冶炼分离全链 + 磁材(包头/长汀扩产、产能翻倍)；永磁用于电机/机器人，叠加重稀土(氧化镝)管制涨价弹性。<b>结构性中等盈利，归入其他(20x)，中性净利率 10%、乐观 15%</b>，不计 AI 段。</div></div><div class="bl"><div class="t">市场在交易啥</div><div class="x">(26年6月)「钨价重启上涨 + AI 上游卡脖子 + 对日反制」—黑钨精矿 ~52.5 万/吨(年中枢看 60万+)，钛酸钡/高纯钨粉稀缺涨价；近月多次涨停，卖方看 1710-2400 亿+。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>AI/存储拉动 MLCC 钛酸钡与 WF6 用 6N 高纯钨粉供不应求 → 高纯材料涨价。</div><div class="p"><b>弹性假设：</b>涨价增量约 70% 落净利，以中性 AI 段(钛酸钡+6N 钨粉)收入 ~43 亿为基准。</div><table><thead><tr><th>AI 材料涨价</th><th class="num">AI 材料净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 6N钨粉 ¥150万/吨</td><td class="num">8.0 亿</td><td class="num">73.0 亿</td><td class="num up">1540 亿</td></tr><tr><td class="base">+10%</td><td class="num">11.0 亿</td><td class="num">76.0 亿</td><td class="num up">1630 亿</td></tr><tr><td class="base">+20%</td><td class="num">14.0 亿</td><td class="num">79.0 亿</td><td class="num up">1720 亿</td></tr><tr><td class="base">+30%</td><td class="num">17.0 亿</td><td class="num">82.0 亿</td><td class="num up">1810 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性；钨价(60→80 万)上行为另一重弹性，未计入本表。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">钛酸钡日系五厂占 65%、国瓷国内超 80%（27 高端~1.7 万吨、28 起再扩 60%）；6N 钨粉受出口管制、WF6 中船 2000+1000 吨在建</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">国瓷 5000 吨 27 初完工、28-30 续扩；贝思科钛酸钡 26 翻倍；中船 WF6+1000 吨 27 年</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">钛酸钡<b>28 紧平衡、29-30 现缺口</b>（AI MLCC 高容化）；6N 钨粉 28-29 随 WF6 扩产缓、<b>钨管制到 30 仍紧</b>。盯：国瓷/堺化学扩产、WF6 量价</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ 钛酸钡(权益70%) ·30x</td><td class="cn as">服务器级·净利率约25%</td><td class="cn num nn">4.0</td><td class="op as bd">服务器+车规满产·净利率30%</td><td class="op num no">10.0</td></tr><tr class="ai-row"><td>◆ 6N 高纯钨粉(权益70%) ·30x</td><td class="cn as">~1800吨×>150万/吨·净利率约25%</td><td class="cn num nn">4.0</td><td class="op as bd">中船扩产+涨价·净利率30%</td><td class="op num no">7.0</td></tr><tr><td>现有钨矿 ·20x</td><td class="cn as">(60-10)万/吨×1.2万吨×70%</td><td class="cn num nn">42.0</td><td class="op as bd">现有产能不变</td><td class="op num no">42.0</td></tr><tr><td>待注入钨矿(博白/大湖塘) ·10x</td><td class="cn as">暂未注入</td><td class="cn num nn">0.0</td><td class="op as bd">注入+0.8万吨×(60-10)万×70%</td><td class="op num no">28.0</td></tr><tr><td>钨钼深加工 ·20x</td><td class="cn as">硬质合金/刀具/普通钨粉·钨价60万</td><td class="cn num nn">10.0</td><td class="op as bd">份额放量·满产</td><td class="op num no">15.0</td></tr><tr><td>稀土+磁材 ·20x</td><td class="cn as">净利率10%</td><td class="cn num nn">6.0</td><td class="op as bd">重稀土管制涨价·净利率15%</td><td class="op num no">13.0</td></tr><tr><td>电池材料(正极) ·20x</td><td class="cn as">薄利~5%</td><td class="cn num nn">6.0</td><td class="op as bd">盈利修复</td><td class="op num no">9.0</td></tr><tr><td>其他 ·20x</td><td class="cn as">配套</td><td class="cn num nn">1.0</td><td class="op as bd">配套</td><td class="op num no">2.0</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 8.0 / 其他 65.0</span></td><td class="cn num">~73.0</td><td class="op bd"><span class="sub">AI 段 17.0 / 其他 109.0</span></td><td class="op num">~126.0</td></tr><tr class="mc"><td>对应市值 vs 现价 1054 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~1540亿 (+46%)</td><td class="op bd"></td><td class="op num up">~2410亿 (+129%)</td></tr></tbody></table><div class="note"><b>估值法：</b>钨精矿按(钨价60万-成本10万)×产量×70%；钨价两情景同；现有矿 20x、待注入矿(博白/大湖塘)远期 10x、只在乐观计入；半导体只算 6N 高纯(~1800吨)；AI(钛酸钡+6N钨粉) 30x。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">钨价中枢上行(黑钨精矿年内看 60 万+)；钛酸钡服务器/车规放量 + 翻倍扩产落地；6N 高纯钨粉对中船特气 WF6 上量；PCB 钨棒 Q3 旺季放量(Rubin 量产)；博白/大湖塘钨矿整合增储；稀土永磁回暖 + 重稀土管制。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 直接段(钛酸钡+6N 高纯钨粉)当期收入/利润占比很小(~1-2%)，主升已透支部分远期；钨价高位震荡、暴涨暴跌风险；6N 高纯钨粉年需仅约 1800 吨、份额与放量尚需验证；正极业务利润率薄、拖累整体；稀土价格波动。</div></div></div><div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会；iFinD、Wind(行情/估值/主营拆分截至 2026-07-07，现价 ¥85.86、总市值 1363 亿)；卖方研究(东吴·天风·东北·申万·华西·长江·国信·中金·银河·中信建投)及产业链调研纪要(钛酸钡/钨粉/钨棒产能与单价、6N 高纯钨粉中船需求 1800 吨数据点)。2026-27E 为卖方一致预期；2028E 分段情景、钨价弹性与市值空间为本人自建情景测算，仅为情景推演、可证伪。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

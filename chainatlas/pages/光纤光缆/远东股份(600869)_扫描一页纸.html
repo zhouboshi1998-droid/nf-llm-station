@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>远东股份(600869)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">远东股份</span><span class="code">600869</span>
+      <div class="tags">电能+算力+AI战略 · 远东控股集团旗下 · 储能业务持续减亏</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥23.10　总市值 512.67 亿</div>
+      <div class="meta">PE-TTM ~467.9x · PB(LF) 11.9x · 22.19 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>远东股份是远东控股集团旗下上市公司，前身可追溯至1985年，聚焦智能缆网、智能电池、智慧机场三大产业，形成"一体两翼"格局(智能缆网为体，智能电池和智慧机场为翼)，明确落实"电能+算力+AI"战略。公司2025年营收281.08亿元、同比+7.7%，但归母净利润仅0.59亿元(净利率仅0.15%)，主要受智能电池业务(储能)拖累——该分部2025年营收19.87亿元、同比+20.1%，净利润-3.46亿元，但同比大幅减亏3.45亿元；算力AI新兴市场业务(电源线/车载线/高速铜缆/液冷板/AIDC用光纤等)2025年营收12.90亿元、同比+76.5%，已切入全球领先人工智能芯片公司供应链。2026年上半年公司子公司中标/签约千万元以上合同订单合计119.48亿元，其中智能电池储能/算力AI业务同比+262.1%。<b>公司主体仍是低毛利率的传统电力/建筑线缆(占营收85.7%)，AI/算力相关营收占比目前仍很小，储能业务能否实现真正盈利是核心观察点</b>。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">281.08 亿</div><div class="s up">+7.7% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">0.59 亿</div><div class="s up">+118.5%，低基数，净利率仅0.15%</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">~0.15%</div><div class="s">毛利率 ~9.2%</div></div>
+    <div class="stat"><div class="k">智能电池(储能)分部占比</div><div class="v">~7.2%</div><div class="s">算力AI新兴市场营收12.90亿(+76.5%)</div></div>
+    <div class="stat"><div class="k">2026Q1 归母净利</div><div class="v">0.97 亿</div><div class="s up">+110.4% YoY</div></div>
+    <div class="stat"><div class="k">2026年1-6月中标订单</div><div class="v">~119.5 亿</div><div class="s up">算力AI相关订单同比+262%</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>线缆</td><td class="num">240.91</td><td class="num">85.7%</td><td class="num up">+5.8%</td><td class="num">9.7%</td><td class="num">90.7%</td></tr>
+        <tr><td>智慧机场</td><td class="num">21.25</td><td class="num">7.6%</td><td class="num up">+27.6%</td><td class="num">9.9%</td><td class="num">8.2%</td></tr>
+        <tr class="key"><td>◆ 智能电池（储能+算力AI）</td><td class="num">20.36</td><td class="num">7.2%</td><td class="num up">+17.3%</td><td class="num">1.0%</td><td class="num">0.8%</td></tr>
+        <tr><td>分部间抵销</td><td class="num">-1.44</td><td class="num">-0.5%</td><td class="num">-</td><td class="num">-6.6%</td><td class="num">0.4%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">281.08</td><td class="num">100%</td><td class="num up">+7.7%</td><td class="num">9.2%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">智能电池(储能)分部2025年营收20.36亿元，占比7.2%，同比+17.3%，但毛利率仅0.96%、净利润仍为-3.46亿元(同比大幅减亏3.45亿元)；公司另披露"算力、人工智能和机器人新兴市场"营收12.90亿元(同比+76.5%)，主要嵌入线缆分部内，尚未在正式分部中单列。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司已切入全球领先人工智能芯片公司供应链，实现电源线、车载线等产品批量供应，高速铜缆、液冷板等产品持续推进批量供货与迭代导入；储能业务落地河北春晟/武强800MWh组串式储能电站，刷新全球同级别最快商运记录，并实现拉脱维亚首个海外大储项目落地。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">公司完成全球首款300Wh/kg圆柱电池规模化量产，高容电芯营收同比+190.6%；但公司整体毛利率仅9.2%，主体业务(线缆，占营收85.7%)毛利率9.7%，反映公司核心仍是低毛利率的传统电力/建筑线缆制造商，尚未完成向高附加值AI/算力产品的结构性转型。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">2026年1-6月子公司中标/签约千万元以上合同订单合计119.48亿元，其中智能电池储能/算力AI业务35.21亿元(同比+262.1%)，6月单月算力AI业务中标1.77亿元(同比+517.1%)，持续交付AIDC用光纤等产品(与§04情景假设勾稽)。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">假设智能电池(储能+算力AI)分部(2028E中性情景)收入较基准每上升10%且约50%落净利(规模效应下减亏加速)，对应公司总净利较基准增厚约2.4亿元（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场交易的是"电能+算力+AI"战略转型与订单爆发式增长的预期；公司股价2026年一度创历史新高(5月6日18.24元，年内涨幅126.6%)，但近一周大幅回落(7月1日32.22元→7月8日23.10元，累计跌约28.3%)，与光纤/AI概念板块整体回调同步。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>公司储能业务受益全球大储项目集中放量及圆柱电池/固态电池技术迭代，算力AI业务受益数据中心液冷板、高速铜缆、AIDC用光纤等高附加值产品渗透率提升；但公司主体线缆业务(占营收85.7%)仍以电力/建筑用低毛利率产品为主，整体涨价弹性传导效率显著弱于纯光通信/储能标的，需依靠产品结构持续向高附加值品类切换来驱动利润率修复。</div>
+      <div class="p"><b>弹性假设：</b>假设智能电池(储能+算力AI)分部(2028E中性情景)收入较基准整体上升10%，且约50%转化为增量净利（规模效应下减亏加速，高附加值产品占比提升支撑传导效率）。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E中性储能/算力AI定价，测算口径）</td><td class="num">15.8 亿</td><td class="num">24.9 亿</td><td class="num up">656 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">23.1 亿</td><td class="num">32.2 亿</td><td class="num up">876 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">30.5 亿</td><td class="num">39.5 亿</td><td class="num up">1095 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">37.8 亿</td><td class="num">46.9 亿</td><td class="num up">1315 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯智能电池(储能/算力AI)定价敏感性（中性量不变，线缆+智慧机场板块净利固定约9.1亿）；乐观情形为量+价+净利率齐升，见§04。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">2026年1-6月智能电池储能/算力AI业务中标/签约千万元以上合同订单达35.21亿元，同比+262.1%；河北春晟/武强800MWh储能项目及拉脱维亚海外大储项目已落地投运。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">算力AI业务2026Q1营收3.39亿元，同比+146.9%；6月AIDC用光纤长期采购合同已进入子订单履约阶段(6月10万km/月、7-12月20万km/月)。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">全球储能及数据中心液冷/高速互联需求延续高景气，但公司智能电池分部尚未实现盈利；需重点跟踪该分部减亏至盈亏平衡的时点，以及算力AI细分业务能否从线缆分部中逐步独立成长为具备清晰盈利贡献的板块。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（智能电池(储能+算力AI) 30x / 线缆+智慧机场 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 智能电池(储能+算力AI) ·30x</td><td class="cn as">收入CAGR~93%(25-28E)至146.4亿·净利率10.8%(储能减亏转盈+算力AI订单放量)</td><td class="cn num nn">15.8</td><td class="op as bd">收入CAGR~105%·净利率12.5%(圆柱/固态电池及AIDC光纤订单超预期)</td><td class="op num no">21.8</td></tr>
+        <tr><td>线缆+智慧机场 ·20x</td><td class="cn as">收入CAGR~11%至356.6亿·净利率2.55%(结构优化)</td><td class="cn num nn">9.1</td><td class="op as bd">收入CAGR~12.9%·净利率2.92%</td><td class="op num no">11.0</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段15.8 / 其他9.1</span></td><td class="cn num">~24.9</td><td class="op bd"><span class="sub">核心段21.8 / 其他11.0</span></td><td class="op num">~32.8</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价512.67亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~656亿 (+28.0%)</td><td class="op bd"></td><td class="op num up">~874亿 (+70.6%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>智能电池(储能+算力AI，含数据中心线缆、AIDC用光纤、液冷板等)、线缆+智慧机场均按收入CAGR+净利率假设外推，中性情景对应目标市值约656亿元、乐观情景约874亿元(误差±10亿)；分段净利×倍数(核心业务30x/传统主业20x)加总。2025年智能电池分部整体为净亏损(约-3.46亿元)，中性/乐观情景均隐含该分部逐步减亏至盈利的假设。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">持续：智能电池储能/算力AI业务订单持续爆发(2026年上半年同比+262.1%)，若减亏节奏加速有望驱动盈利拐点；2026年内：河北春晟/武强800MWh储能项目及拉脱维亚海外大储项目持续贡献收入确认，圆柱电池/固态电池规模化量产推进；持续：已切入全球领先AI芯片公司供应链，电源线/车载线/高速铜缆/液冷板等产品批量供货及迭代导入；中长期：AIDC用光纤长期采购合同持续履约，若数据中心线缆等细分业务能够独立成长为具备清晰披露口径的板块，有望改善估值锚定基础。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">2025年公司整体净利率仅0.15%，智能电池(储能)分部虽同比大幅减亏但仍净亏损约3.46亿元，尚未实现盈亏平衡；本情景中性(24.9亿)、乐观(32.8亿)净利润均高于Wind卖方一致预期2028E(19.84亿元)，分别超出约25.6%和65.4%，隐含储能业务较快减亏转盈的假设，存在证伪风险；公司主体仍是低毛利率的传统电力/建筑线缆制造商(占营收85.7%，毛利率仅9.7%)，"算力、人工智能和机器人新兴市场"营收(12.90亿元)嵌入在线缆分部内、未单独披露成本口径，其真实盈利贡献难以从公开财报中精确拆分；现价对应PE-TTM高达467.9x，近一周股价累计大幅回落(约-28.3%)，与光纤/AI概念板块整体回调同步；公司自身在多份中标公告中提示，合同履行可能受极端天气、宏观环境、行业政策及客户自身因素影响，存在无法如期或全部履约的风险。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年年度报告及月度中标/签约合同公告（巨潮）；iFinD、Wind（行情/估值/主营构成/一致预期，截至2026-07-08）；进门财经财经资讯及公开网络资料。Wind卖方一致预期2026E/2027E/2028E归母净利润分别为7.74/13.30/19.84亿元，本情景中性(24.9亿)、乐观(32.8亿)均高于一致预期，供参考。2028E分段情景、净利率档位、定价弹性与市值空间为对应目标市值（中性约656亿元/乐观约874亿元，误差±10亿）校准的情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

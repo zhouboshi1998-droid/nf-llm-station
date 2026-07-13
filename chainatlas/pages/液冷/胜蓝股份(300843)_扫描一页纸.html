@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>胜蓝股份(300843)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">胜蓝股份</span><span class="code">300843</span>
+      <div class="tags">消费电子连接器 · AI背板高速连接器(莫仕) · 液冷UQD/冷板(远期期权)</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥144.30　总市值 236.1 亿</div>
+      <div class="meta">PE-TTM ~71x（100%分位）· 1.64 亿股</div>
+      <div class="date">数据截至 2026-06-24</div>
+    </div>
+  </div>
+  <div class="lead"><b>一句话看懂：</b>胜蓝是消费电子+新能源车连接器供应商，2025 年起借连接器积淀切入<b>AI 服务器 224G 背板高速连接器（莫仕独家授权代工，已中标阿里磐久超节点）</b>为最大边际增量，<b>液冷（UQD/Manifold/冷板）是更靠后、体量极小的"第三曲线/期权"</b>。当前 236 亿市值主要由背板连接器支撑。</div>
+  <div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">17.41 亿</div><div class="s"></div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">1.12 亿</div><div class="s">+8.85% YoY</div></div><div class="stat"><div class="k">PE-TTM</div><div class="v">~71x</div><div class="s">历史100%分位</div></div><div class="stat"><div class="k">液冷占比</div><div class="v">~0.3%</div><div class="s">2025约500万元</div></div><div class="stat"><div class="k">背板连接器</div><div class="v">1.19亿</div><div class="s up">+119.6% YoY</div></div><div class="stat"><div class="k">昭明参股</div><div class="v">6.6-8%</div><div class="s">IPO中/液冷20亿</div></div></div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报按产品）</h2><span class="tip">液冷约 500 万、<1%</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody><tr><td>消费类电子连接器</td><td class="num">10.51</td><td class="num">~60%</td><td class="num">—</td><td class="num">+31.9%</td><td class="num">—</td></tr><tr><td>新能源车连接器</td><td class="num">4.26</td><td class="num">~24%</td><td class="num">—</td><td class="num">+38.1%</td><td class="num">—</td></tr><tr><td>数据通讯类连接器(AI)</td><td class="num">1.19</td><td class="num">~7%</td><td class="num">—</td><td class="num">+119.6%</td><td class="num">—</td></tr><tr><td>光学透镜及其他</td><td class="num">~1.45</td><td class="num">~8%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr class="key"><td>◆ 其中：液冷/算力散热</td><td class="num">~0.05</td><td class="num">~0.3%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr class="total"><td>合计</td><td class="num">17.41</td><td class="num">100%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr></tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">液冷 2025 约 500 万元、占比 0.3%；2026E 几千万；2027E 体内 1-2 亿。液冷是远期期权而非现金流。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">④ Manifold/快接头(UQD)/冷板；依托连接器精密制造同源切入；已通过台湾散热大厂认证、送样广达/阿里超节点。</div></div><div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">自研 UQD 快接头+液冷板+Manifold+OSFP 800G 液冷散热；参股广东昭明 6.6-8%（液冷零件厂，2025 收入约 20 亿、IPO 中）。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">真正驱动：224G 背板高速连接器（莫仕授权、阿里磐久超节点 800-1000 柜、单柜价 70 万、26Q4 起交付）；液冷仅叠加期权。</div></div><div class="bl"><div class="t">放量口径利润</div><div class="x">中性（华鑫）27年净利 2.4 亿×40x=96 亿（远低于现价）；乐观 6.0 亿×50x=300 亿（+27%）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）市场定价背板连接器+液冷期权；估值极高位，中性隐含 ~60% 回调风险。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与收入弹性</h2><span class="tip">渗透/放量型 · 非涨价</span></div>
+      <div class="p"><b>放量逻辑：</b>背板高速连接器（莫仕授权）放量为核心；液冷为远期叠加期权。</div>
+      <div class="p"><b>弹性假设：</b>以华鑫一致预期 27年净利 2.4 亿为中性；乐观含背板全量+液冷 1-2 亿+昭明股权。</div>
+      <table>
+        <thead><tr><th>背板+液冷收入</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody><tr><td class="base">中性（一致预期27E）</td><td class="num">2.4 亿</td><td class="num">~8%</td><td class="num dn">~96 亿</td></tr><tr><td class="base">乐观（背板全量+液冷）</td><td class="num">6.0 亿</td><td class="num">~15%</td><td class="num up">~300 亿</td></tr><tr><td class="base">参考：液冷期权单列</td><td class="num">~20-50 亿</td><td class="num"></td><td class="num up">——</td></tr><tr><td class="base">参考现价</td><td class="num">1.12亿(25A)</td><td class="num"></td><td class="num up">236.1 亿</td></tr></tbody>
+      </table>
+      <div class="el-cap">中性严重低于现价（-59%）；乐观仅+27%。液冷弹性极小（体内<1%），驱动来自背板连接器。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">暂未披露液冷绝对产能；UQD/冷板/Manifold 处送样—小批量阶段。</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">26Q4 阿里背板连接器交付（核心）；液冷 27 年体内 1-2 亿、增长约 10x。</span></div><div class="er rv"><span class="lb">渗透拐点</span><span class="vv">液冷 UQD/冷板在广达/阿里送样转批量订单的时点；昭明 IPO 与股权重估。</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（整体法 · 目标年 2027E）</h2><span class="tip">驱动为背板连接器、液冷为期权 · 目标年 2027E</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>口径一 · 盈利预测法（整体法 · 目标年 2027E）</th><th class="cnh num">中性</th><th class="oph bd num">乐观</th>
+      </tr></thead>
+      <tbody><tr><td>整体收入（2027E，亿元）</td><td class="cn num">~30</td><td class="op num bd">~40+</td></tr><tr><td>归母净利润（亿元）</td><td class="cn num">2.4</td><td class="op num bd">6.0</td></tr><tr><td>└ 拆解</td><td class="cn num">30×8%</td><td class="op num bd">主业1.5-2+背板~3.2+液冷期权</td></tr><tr><td>给予 PE（x）</td><td class="cn num">40</td><td class="op num bd">50</td></tr><tr class="sum"><td>目标总市值（亿元）</td><td class="cn num">~96</td><td class="op num bd">~300</td></tr><tr class="mc"><td>对应上行空间（vs 236.1 亿）</td><td class="cn num dn">−59%</td><td class="op num up bd">+27%</td></tr></tbody>
+    </table>
+    <div class="note"><b>口径二 · 满产法：</b>液冷无法测算（无绝对产能披露）；背板连接器满产（27年16亿×20%=3.2亿利润）是真正弹性载体。<b>估值极高位，中性盈利对应市值仅现价 40%。</b>均为情景测算、可证伪。</div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">阿里磐久超节点背板连接器 26Q4 起交付与良率爬坡（核心）；液冷 UQD/冷板送样转批量订单时点；参股昭明 IPO 进度与股权重估。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">估值极高（PE 100%分位），中性盈利对应市值仅现价 40%；液冷仍处送样<1%；背板连接器依赖单一莫仕授权与阿里订单；AI 资本开支不及预期。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司年报及公告（巨潮）；iFinD、Wind（截至 2026-06-24）；进门财经研报及会议纪要（列券商名）；公开网络资料及内部提供资料。均为情景测算、可证伪。</div>
+  </div>
+</div>
+</body>
+</html>

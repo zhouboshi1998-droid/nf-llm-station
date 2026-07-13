@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>腾讯控股(00700)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;
+  --zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;
+  --red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">腾讯控股</span><span class="code">00700.HK</span>
+      <div class="tags">社交+游戏+云巨头 · AI赋能广告+云 · 常青游戏+视频号生态</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 HK$478.80　总市值 43,534 亿港元</div>
+      <div class="meta">PE-TTM ~16.0x · PB ~3.42x · 90.92 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>腾讯是中国最大的社交平台（微信/QQ）和游戏公司，同时拥有领先的云计算和企业服务业务。2025年营收7,518亿元（+14%），非国际财务报告准则（Non-IFRS，即剔除一次性及非现金项目的调整后利润）归母净利2,596亿元（+17%），<b>核心看点是AI驱动广告精准投放（营销服务收入+19%）和视频号电商闭环加速推进，同时以元宝App为代表的AI原生应用正在打开C端新场景</b>，整体呈现"常青基本盘+AI增量"的双轮驱动格局。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">7,517.7 亿</div><div class="s up">+13.9% YoY</div></div>
+    <div class="stat"><div class="k">2025 Non-IFRS归母</div><div class="v">2,596 亿</div><div class="s up">+17.0% YoY</div></div>
+    <div class="stat"><div class="k">2025 整体毛利率</div><div class="v">~53%</div><div class="s">同比持续改善</div></div>
+    <div class="stat"><div class="k">游戏收入占比</div><div class="v">~32%</div><div class="s">本土游戏+18%</div></div>
+    <div class="stat"><div class="k">2025 资本开支</div><div class="v">~792 亿</div><div class="s">AI算力大幅投入</div></div>
+    <div class="stat"><div class="k">2026Q1 营收</div><div class="v">1,965 亿</div><div class="s up">+9.1% YoY</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>增值服务（游戏+社交网络）</td><td class="num">3,692.81</td><td class="num">49.1%</td><td class="num up">+16.0%</td><td class="num">~57%</td><td class="num">~53%</td></tr>
+        <tr><td>金融科技及企业服务</td><td class="num">2,294.35</td><td class="num">30.5%</td><td class="num up">+8.0%</td><td class="num">~51%</td><td class="num">~29%</td></tr>
+        <tr class="key"><td>◆ 营销服务（含视频号/小程序广告）</td><td class="num">1,449.73</td><td class="num">19.3%</td><td class="num up">+19.0%</td><td class="num">~55%</td><td class="num">~18%</td></tr>
+        <tr><td>其他</td><td class="num">80.77</td><td class="num">1.1%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr class="total"><td>合计</td><td class="num">7,517.66</td><td class="num">100%</td><td class="num up">+13.9%</td><td class="num">~53%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">游戏+社交仍占收入近半，但增长引擎已转向AI赋能的营销服务（+19%）和企服。2025年本土游戏收入同比+18%（《王者荣耀》《和平精英》常青+新游贡献），国际游戏收入+9%。视频号广告加载率仍有提升空间。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">微信月活超13亿，是中国最大的社交基础设施。腾讯卡位"流量→内容→交易→技术"全闭环：微信生态（支付/小程序/视频号）+ 腾讯云（IaaS第三）+ 混元大模型。在AI应用层以元宝App切入C端助手赛道。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">混元大模型能力对标国内第一梯队，AI已深度嵌入广告系统（精准定向→广告单价提升）和云服务（AI推理收入高增）。整体毛利率从2023年的48%升至2025年的53%，高毛利业务（游戏/广告）占比提升驱动利润率持续改善。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">营销服务有望在2-3年内超越金融科技成为第二大收入来源（视频号广告+AI提效）。企服业务中AI相关云收入占比快速提升，云业务从"规模优先"转向"利润优先"。元宝App若在C端AI助手赛道胜出，将打开全新变现空间。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">弹性来自三个维度：① 广告加载率每提升1pct，增量收入约150亿，约70%落净利（~105亿）；② Agent渗透率每提升1pct（1,300万付费×ARPU 200元），增量收入约26亿，约60%落净利（~16亿）；③ 腾讯云收入增速20-40%，净利率10-15%（测算，AI推理需求驱动），云收入每增100亿，按中位12.5%净利率，增量净利约12.5亿。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场定价AI对腾讯广告和云的增量贡献，以及元宝App等AI原生产品的用户增长。当前PE 16x略高于历史中位，反映AI溢价但尚未充分定价AI应用的长期变现潜力。2025年全年回购+分红规模超1,200亿港元提供估值支撑。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>广告+Agent+云三重弹性与AI变现</h2></div>
+      <div class="p"><b>广告弹性逻辑：</b>微信视频号当前广告加载率约3-4%（测算），远低于抖音（~15%）和快手（~8-10%）。AI精准定向能力提升后，加载率有2-3倍提升空间，叠加AI制作广告素材降低成本，广告主预算有望持续从传统渠道迁移至微信生态。</div>
+      <div class="p"><b>Agent弹性逻辑：</b>第二弹性来自AI Agent（即能自主执行任务的AI助手）在B端和C端的变现。B端：腾讯元宝企业版、混元大模型API调用（企业客服/营销/代码助手等场景），按API调用量或SaaS订阅收费；C端：元宝App的付费订阅和增值服务（对标ChatGPT Plus/Perplexity Pro，月度订阅$20+）。微信13亿MAU的Agent渗透率每提升1pct即1,300万用户，按年均ARPU 200元测算，收入增量约26亿。</div>
+      <div class="p"><b>云弹性逻辑：</b>第三弹性来自腾讯云AI推理收入爆发（混元大模型API调用+企业AI部署）。2025年腾讯云收入约800亿（测算，含IaaS+PaaS+SaaS），其中AI相关收入占比快速提升。假设云收入增速20-40%（AI推理需求驱动），净利率从当前低个位数改善至10-15%（规模效应+AI溢价）。云收入每增长100亿，按中位12.5%净利率贡献增量净利约12.5亿。</div>
+      <div class="p"><b>弹性假设：</b>广告增量约70%落净利（测算），Agent增量约60%落净利（测算），云增量按10-15%净利率（测算）。以2025年为基准。下表聚焦广告+Agent的敏感性，云弹性作为额外叠加项。</div>
+      <table>
+        <thead><tr><th>增量假设（广告+Agent）</th><th class="num">增量净利</th><th class="num">总Non-IFRS净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准·2025 营销1,450亿+Agent初期</td><td class="num">—</td><td class="num">2,596 亿</td><td class="num">43,534 亿港元</td></tr>
+          <tr><td class="base">广告+15% / Agent渗透1%</td><td class="num">~245 亿</td><td class="num">~2,841 亿</td><td class="num up">47,612 亿港元</td></tr>
+          <tr><td class="base">广告+30% / Agent渗透2.5%</td><td class="num">~525 亿</td><td class="num">~3,121 亿</td><td class="num up">52,306 亿港元</td></tr>
+          <tr><td class="base">广告+45% / Agent渗透4%</td><td class="num">~815 亿</td><td class="num">~3,411 亿</td><td class="num up">57,168 亿港元</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">广告+Agent敏感性分析（固定~16.8x Non-IFRS PE）；广告增量70%落净利、Agent增量60%落净利为测算。云弹性为额外叠加项（云收入增速20-40%、净利率10-15%，未纳入上表）。实际取决于视频号用户时长、Agent产品力、AI推理需求增速及竞争格局。</div>
+      <div class="exp">
+        <div class="eh">▪ AI应用·变现节奏研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">2025年资本开支792亿元（+~100% YoY），主要用于GPU服务器和数据中心。元宝App DAU快速攀升，混元大模型持续迭代，Agent功能嵌入微信搜索、QQ浏览器及企业微信等场景。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">2026年为AI大规模推广年：元宝App Agent付费订阅上线，企业端Agent商业化加速；腾讯云AI推理收入预计增速30%+（测算），GPU算力部署继续高增。广告加载率、Agent渗透率、云AI收入三线推进。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">AI赋能广告/Agent/云的逻辑处于早期兑现阶段。需盯的变量：元宝Agent留存率与付费转化、腾讯云AI收入占比和利润率改善节奏、广告主AI工具ROI数据、视频号电商GMV增速（闭环广告的锚）。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI+营销 25x / 游戏社交 18x / 金融企服 15x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · FY26E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · FY27E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ AI+营销+Agent ·25x</td><td class="cn as">收入CAGR 14%→~1,650亿·净利率35%</td><td class="cn num nn">578</td><td class="op as bd">收入CAGR 18%→~1,900亿·净利率35%（Agent订阅放量）</td><td class="op num no">665</td></tr>
+        <tr><td>游戏+社交 ·18x</td><td class="cn as">收入CAGR 10%→~4,050亿·净利率35%</td><td class="cn num nn">1,418</td><td class="op as bd">收入CAGR 12%→~4,500亿·净利率35%</td><td class="op num no">1,575</td></tr>
+        <tr><td>金融科技及企业服务 ·15x</td><td class="cn as">收入CAGR 7%→~2,450亿·净利率20%</td><td class="cn num nn">490</td><td class="op as bd">收入CAGR 9%→~2,650亿·净利率22%</td><td class="op num no">583</td></tr>
+        <tr class="sum"><td>合计Non-IFRS净利（亿元）</td><td class="cn"><span class="sub">AI578 / 游戏1,418 / 金融490</span></td><td class="cn num">~2,486</td><td class="op bd"><span class="sub">AI665 / 游戏1,575 / 金融583</span></td><td class="op num">~2,823</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价~40,200亿人民币</td><td class="cn"><span class="sub">AI 578×25 + 游戏1,418×18 + 金融490×15</span></td><td class="cn num up">~47,300亿人民币 (+18%)</td><td class="op bd"></td><td class="op num up">~53,700亿人民币 (+34%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>AI+营销+Agent业务按25x（AI溢价高增长）；游戏+社交18x（常青基本盘，净利率35%）；金融企服15x（稳健增长）。净利口径为Non-IFRS。中性FY26E/乐观FY27E均为情景测算、可证伪，非卖方一致预期。人民币兑港币约0.93。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 2026Q2业绩（8月）验证广告收入增速能否维持15%+、元宝App Agent付费用户数据；② 视频号电商GMV年度目标进展及货币化率提升；③ 新游《王者荣耀世界》等上线表现（预计2026H2）；④ 腾讯云AI+Agent收入占比和利润率趋势，B端Agent API调用量增长斜率；⑤ 股东回报（回购+分红）节奏维持。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 游戏版号和政策监管不确定性；② 广告加载率提升若影响用户体验，可能适得其反；③ 元宝App Agent面临字节豆包、百度文心等激烈竞争，C端AI Agent付费意愿待验证；④ 金融科技受宏观经济和监管影响；⑤ AI算力大规模投入（年CAPEX 800亿+）的回报周期可能长于预期。中性市值高于现价，空间+18%相对有限，反映腾讯体量庞大弹性受约束的特性。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年报及业绩说明会（腾讯投资者关系）；iFinD、Wind（行情/估值，截至2026-07-08）；公开网络资料。分部毛利率为公司整体毛利率参考及行业对标估算；中性FY26E/乐观FY27E为情景测算，非卖方一致预期，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

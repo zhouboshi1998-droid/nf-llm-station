@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>三环集团(300408)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">三环集团</span><span class="code">300408</span>
+<div class="tags">电子陶瓷平台龙头 · 高容MLCC/光通信插芯 · 材料一体化</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥130.43　总市值 2499.69 亿</div>
+<div class="meta">PE-TTM ~86.90x · PB 11.16x · 19.16 亿股</div>
+<div class="date">数据截至 2026-07-08 17:00:06</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>三环集团是国内电子陶瓷（用陶瓷粉体做的元器件基材）龙头，主打 MLCC（片式多层陶瓷电容，被动元件里量最大的一类）、光通信陶瓷插芯（把光纤对齐的核心零件）、半导体陶瓷封装管壳与电子浆料。核心看点是<b>高容 MLCC/车规 MLCC/AI 服务器高容电容持续涨价 + 光通信 MT 插芯与陶瓷封装受益 AI 数据中心 800G/1.6T 光模块放量</b>；行业扩产中等 1-2 年、2026 年加速，预计 2028 年完成新一轮供需反转。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2024 营收</div><div class="v">73.75 亿</div><div class="s up">+28.8% YoY</div></div>
+<div class="stat"><div class="k">2024 归母净利</div><div class="v">21.90 亿</div><div class="s up">+38.6% YoY</div></div>
+<div class="stat"><div class="k">2024 净利率</div><div class="v">~29.7%</div><div class="s">毛利率 ~42%（测算）</div></div>
+<div class="stat"><div class="k">电子通信元件占比</div><div class="v">84.0%</div><div class="s">MLCC/插芯加速</div></div>
+<div class="stat"><div class="k">研发投入</div><div class="v">5.83 亿</div><div class="s up">+6.8%</div></div>
+<div class="stat"><div class="k">货币资金</div><div class="v">81.16 亿</div><div class="s">资产负债率 16.9%</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2024 年报口径）</h2><span class="tip">按营收降序 · 高容 MLCC 与光通信插芯为核心看点</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ MLCC 及电子陶瓷片式元件（含高容/车规）</td><td class="num">30.50（测算）</td><td class="num">41.4%</td><td class="num up">+40.0%（测算）</td><td class="num">42.0%（测算）</td><td class="num">41.3%（测算）</td></tr>
+<tr class="key"><td>◆ 光通信部件（陶瓷插芯/MT 插芯/短纤）</td><td class="num">15.20（测算）</td><td class="num">20.6%</td><td class="num up">+50.0%（测算）</td><td class="num">55.0%（测算）</td><td class="num">26.9%（测算）</td></tr>
+<tr><td>半导体陶瓷封装管壳</td><td class="num">9.30（测算）</td><td class="num">12.6%</td><td class="num up">+25.0%（测算）</td><td class="num">38.0%（测算）</td><td class="num">11.4%（测算）</td></tr>
+<tr><td>电子浆料及其他电子陶瓷材料</td><td class="num">6.97（测算）</td><td class="num">9.5%</td><td class="num up">+15.0%（测算）</td><td class="num">32.0%（测算）</td><td class="num">7.2%（测算）</td></tr>
+<tr><td>其他产品（SOFC 燃料电池/PKG 等）</td><td class="num">11.78</td><td class="num">16.0%</td><td class="num up">+15.0%（测算）</td><td class="num">28.0%（测算）</td><td class="num">10.7%（测算）</td></tr>
+<tr class="total"><td>合计</td><td class="num">73.75</td><td class="num">100%</td><td class="num up">+28.8%</td><td class="num">~42%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">电子通信元件及材料合计 61.97 亿、占比 84.0%，其中 MLCC 与光通信插芯为主要利润来源；MLCC 已导入车规/工规/消规/移动终端多元系列，AI 服务器高容 MLCC 处于快速渗透期。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">电子陶瓷产业链自建陶瓷粉体—流延—印刷—烧结全流程；MLCC 位居国内第一梯队（对标村田/三星电机），陶瓷插芯全球市占率超 70%，处于近乎独家的强势卡位。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">材料一体化带来同业最高毛利率，2020 高点 51.11%、2024 回升至约 42%（测算）；纳米粉体、超薄介质层是高容 MLCC 核心壁垒，客户结构逐步向车规与 AI 服务器切换。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">高容 MLCC/车规 MLCC/AI 服务器电容与 MT 插芯/半导体陶瓷封装 2026-2028 年占比有望从 ~62% 升至 75%+，公司整体毛利率有望回到 45% 以上。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">MLCC + 光通信板块合计约 45.7 亿收入，ASP 涨 10% 按 60% 落净利增厚核心 segment 利润约 18.7 亿元（测算 = 45.7×10%×60%），对应当前净利 21.9 亿弹性约 12%。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是「高容 MLCC 缺货涨价 + AI 光模块拉动陶瓷插芯 + 车规 MLCC 加速导入」，PE-TTM ~127x 反映高预期与稀缺性溢价。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>AI 服务器高容 MLCC 单机用量从传统服务器约 3,000 颗提升至 8,000-15,000 颗，且以 X7R/X5R 高容规格为主；车规 MLCC 认证周期长、产能紧缺，头部厂商顺价能力最强；同期陶瓷插芯受 800G/1.6T 光模块升级拉动，MT 插芯供不应求。</div>
+<div class="p">弹性假设：以 2028E 中性核心板块（MLCC + 光通信 + 半导体陶瓷封装）收入 100 亿为基准，ASP 涨价增量按 60% 落净利（测算）。</div>
+<table>
+<thead><tr><th>核心板块涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">83.7 亿</td><td class="num">96.2 亿</td><td class="num">2763 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">102.4 亿</td><td class="num">114.9 亿</td><td class="num up">3324 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">121.1 亿</td><td class="num">133.6 亿</td><td class="num up">3885 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">139.8 亿</td><td class="num">152.3 亿</td><td class="num up">4445 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按核心板块 30x 计入对应市值，基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">被动元件 MLCC/铝电解/陶瓷插芯行业整体扩产中等，头部厂商（村田、三星电机、太诱、国巨、风华、三环）2024-2025 年产能同比约 10-15%；三环南昌基地与潮州厂高容 MLCC 产线持续扩建。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">新产能主要在 2026-2027 年集中释放，建设周期约 12-18 个月；2026 年为行业加速年，产能与需求同步放量。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">在 AI 服务器/车规需求持续兑现前提下，预计 2028 年前后行业完成新一轮反转；关键跟踪变量为高容 MLCC 交期、AI 服务器出货、车规 MLCC 认证节奏与钯/银浆等原材料价格。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（高容 MLCC/车规/AI 服务器电容 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ MLCC/光通信/半导体陶瓷封装（核心） ·30x</td><td class="cn as">收入 311.5 亿 · 净利率 26.9%（测算）</td><td class="cn num nn">~83.7</td><td class="op as bd">收入 305.6 亿 · 净利率 31.0%（测算）</td><td class="op num no">~94.7</td></tr>
+<tr><td>电子浆料 + SOFC + 其他 ·20x</td><td class="cn as">收入 41.3 亿 · 净利率 30.4%（测算）</td><td class="cn num nn">~12.6</td><td class="op as bd">收入 45.6 亿 · 净利率 32.8%（测算）</td><td class="op num no">~14.9</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 30.0 / 其他 4.5</span></td><td class="cn num">~96.2</td><td class="op bd"><span class="sub">核心 45.5 / 其他 7.2</span></td><td class="op num">~109.6</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 2,784 亿</td><td class="cn"><span class="sub">30.0×30 + 4.5×20</span></td><td class="cn num up">~2763亿 (+10.5%)</td><td class="op bd"><span class="sub">45.5×30 + 7.2×20</span></td><td class="op num up">~3139亿 (+25.6%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>核心业务按满产收入×净利率外推，传统主业按收入 CAGR + 净利率外推；分段净利×倍数（核心 30x / 传统 20x）加总。中性与乐观情景对应市值均低于现价，反映市场对电子陶瓷平台龙头给予较高稀缺性溢价。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">2026 年高容 MLCC 涨价函落地；AI 服务器电容单机用量上修；MT 插芯与陶瓷封装管壳大单落地；车规 MLCC 客户认证突破；SOFC 燃料电池商业化里程碑；2026 年半年报核心板块占比再上台阶。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM ~127x，§04 中性对应市值 -64%，估值透支明显；AI 服务器排产不及预期；日韩龙头（村田/三星电机）产能加速释放挤压涨价空间；车规 MLCC 认证节奏低于预期；钯/银浆等贵金属价格波动。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2023/2024 年报及业绩说明会（巨潮）；东方财富、同花顺、新浪财经（行情/估值/主营构成，截至 2026-07-07）；Paumanok、Prismark 全球 MLCC/被动元件产值数据；公开网络资料。暂无卖方盈利预测一致预期覆盖；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

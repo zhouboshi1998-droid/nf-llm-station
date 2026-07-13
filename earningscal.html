@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股 &amp; 全球科技股 Q2 业绩季日历（2026）</title>
+<style>
+:root{
+ --bg:#f4f2ec;--paper:#fff;--ink:#2C2C2A;--muted:#5F5E5A;--hint:#8b8a83;
+ --line:#e6e3da;--line2:#eceae3;--coral:#D85A30;--coral-dk:#9C3A18;
+ --blue:#1a56a0;--green:#0C6147;--gold:#7A5410;--purple:#473C9E;
+ --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+ --sans:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 22px 60px;}
+header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px;}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin:0 0 6px;}
+h1{font-size:26px;font-weight:800;margin:0 0 6px;letter-spacing:-.01em;}
+.sub{font-size:13.5px;color:var(--muted);margin:0;}
+.sub b{color:var(--ink);}
+.asof{font-family:var(--mono);font-size:11px;color:var(--hint);margin-top:6px;}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 24px;}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:14px 15px;border-top:3px solid var(--coral);}
+.card:nth-child(2){border-top-color:var(--blue);}
+.card:nth-child(3){border-top-color:var(--green);}
+.card h3{font-size:13px;margin:0 0 6px;font-weight:800;}
+.card p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.5;}
+.card .big{font-family:var(--mono);font-weight:700;color:var(--ink);}
+
+h2.sec{font-size:15px;margin:26px 0 10px;padding-left:11px;border-left:4px solid var(--coral);display:flex;align-items:baseline;gap:10px;}
+h2.sec .win{font-family:var(--mono);font-size:11px;color:var(--hint);font-weight:500;}
+
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--paper);}
+table{border-collapse:collapse;width:100%;min-width:920px;font-size:13px;}
+thead th{background:#faf8f3;text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--hint);font-weight:600;padding:9px 11px;border-bottom:1px solid var(--line);position:sticky;top:0;}
+tbody td{padding:10px 11px;border-bottom:1px solid var(--line2);vertical-align:top;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#faf9f5;}
+.co{font-weight:700;white-space:nowrap;}
+.co .tk{font-family:var(--mono);font-size:10.5px;color:var(--hint);font-weight:500;display:block;margin-top:1px;}
+.dt{font-family:var(--mono);font-weight:700;white-space:nowrap;color:var(--coral-dk);}
+.dt .wk{color:var(--hint);font-weight:400;font-size:10.5px;}
+.q{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;}
+.num{font-family:var(--mono);font-size:12.5px;white-space:nowrap;}
+.num .yo{display:block;font-size:10.5px;margin-top:1px;}
+.up{color:var(--green);} .dn{color:#b0402a;} .flat{color:var(--hint);}
+.focus{font-size:12px;color:var(--muted);line-height:1.5;min-width:280px;}
+.focus b{color:var(--ink);font-weight:600;}
+.ccy{font-family:var(--mono);font-size:10px;color:var(--hint);white-space:nowrap;text-align:center;}
+.mem td{background:#FBF3E9;}
+.mem td.co{box-shadow:inset 3px 0 0 var(--gold);}
+tbody tr.grp td{background:#efece4;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:.02em;color:var(--ink);padding:8px 11px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.warn{color:#b0402a;font-weight:700;}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:9px;background:#ECEAE3;color:var(--muted);margin-left:5px;vertical-align:middle;}
+.tag.mm{background:#F3E3C8;color:var(--gold);}
+
+.view{margin:26px 0 6px;background:#fbf9f4;border:1px solid var(--line);border-radius:11px;padding:16px 18px;}
+.view h3{margin:0 0 9px;font-size:14px;display:flex;align-items:center;gap:8px;}
+.view h3 .lb{font-family:var(--mono);font-size:10px;letter-spacing:.08em;background:var(--coral);color:#fff;padding:2px 7px;border-radius:5px;}
+.view ul{margin:0;padding-left:2px;list-style:none;}
+.view li{position:relative;padding:5px 0 5px 20px;font-size:13px;color:#3a3a36;border-bottom:1px dashed var(--line);}
+.view li:last-child{border-bottom:none;}
+.view li::before{content:"▸";position:absolute;left:2px;color:var(--coral);}
+.view li b{color:var(--ink);}
+
+footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--hint);line-height:1.6;}
+footer .lg{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-family:var(--mono);font-size:10.5px;}
+footer a{color:var(--coral);text-decoration:none;} footer a:hover{text-decoration:underline;}
+footer code{font-family:var(--mono);background:#ece9e0;padding:1px 5px;border-radius:4px;color:var(--muted);}
+.ec-intro{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.55;}
+.ec-list{display:flex;flex-direction:column;gap:8px;}
+.ec{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+.ec[open]{border-color:var(--coral);box-shadow:0 1px 7px rgba(216,90,48,.07);}
+.ec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 15px;user-select:none;}
+.ec>summary::-webkit-details-marker{display:none;}
+.ec>summary:hover{background:#faf9f5;}
+.ec-co{font-weight:700;font-size:13.5px;white-space:nowrap;}
+.ec-co b{font-family:var(--mono);color:var(--coral-dk);font-size:11.5px;margin-left:3px;}
+.ec-meta{font-family:var(--mono);font-size:10.5px;color:var(--hint);white-space:nowrap;}
+.ec-sum{font-size:12.5px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ec-tw{font-family:var(--mono);font-size:16px;line-height:1;color:var(--coral);width:15px;text-align:center;flex-shrink:0;}
+.ec-tw::before{content:"+";}
+.ec[open] .ec-tw::before{content:"\2013";}
+.ec-body{padding:2px 15px 15px;display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid var(--line2);margin-top:2px;}
+.ec-body h5{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;margin:12px 0 6px;padding-bottom:3px;border-bottom:1px solid var(--line2);}
+.ec-g h5{color:var(--blue);} .ec-t h5{color:var(--coral-dk);}
+.ec-body ul{margin:0;padding-left:16px;}
+.ec-body li{font-size:12px;line-height:1.5;margin-bottom:5px;color:#3a3a36;}
+.ec-body li b{color:var(--ink);font-weight:600;}
+.ec-body .cav{color:#b0402a;}
+@media(max-width:720px){.cards{grid-template-columns:1fr;}h1{font-size:21px;}.wrap{padding:18px 13px 44px;}.ec-body{grid-template-columns:1fr;gap:4px;}.ec-sum{display:none;}}
+body.embed .wrap{max-width:1280px;padding-top:16px}
+body.embed header{display:none}
+body.embed .cards{margin-top:0}
+</style></head>
+<body>
+<script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('embed');</script>
+<div class="wrap">
+<header>
+  <p class="kick">买方研究 · 全球科技 · 业绩季地图</p>
+  <h1>美股 &amp; 全球科技股 Q2 业绩季日历</h1>
+  <p class="sub">对应 <b>截止 2026 年 6 月/7 月的季度</b>（各家财年错位，报告日期跨 7 月中—9 月底）· 35 家 AI 五层蛋糕相关标的（21 头部大盘股 + 14 产业链配套） · 日期与一致预期均经 WebSearch 交叉核实</p>
+  <p class="asof">数据截至 2026-07-09 · 一致预期来源 FMP earnings-calendar + 一手指引核实 · 关注点为研究员梳理（观点）</p>
+</header>
+
+<div class="cards">
+  <div class="card">
+    <h3>① 上游先出，给英伟达定调</h3>
+    <p>本轮最早的 AI 链读数<b class="big"> 不在美国</b>：<b class="big">ASML 7/15</b> → <b class="big">台积电 7/16</b> → 韩系 HBM（7 月底），比所有美股大盘股早一周。想抢跑预期差，盯这几天。</p>
+  </div>
+  <div class="card">
+    <h3>② 内存超级周期 = 本季最大宏观信号</h3>
+    <p>Micron 官方指引单季营收 <b class="big">~$50bn</b>（原预期 $43.6bn）、EPS <b class="big">~$31 创纪录</b>，同比 <b class="big">+~340%</b>；三星、SK海力士、Kioxia 全线爆发。HBM 已排满至 2027、需求延到 2028。</p>
+  </div>
+  <div class="card">
+    <h3>③ 英伟达/博通反而收尾</h3>
+    <p><b class="big">英伟达 8/26</b>、<b class="big">博通 9/3</b> 是全季最后落地。中间隔着一个半月上游+同业读数，预期已反复 price-in——预期差更可能在<b>上游设备/HBM</b>与<b>博通 ASIC 客户能见度</b>。</p>
+  </div>
+</div>
+
+<h2 class="sec">上游先行读数 <span class="win">7 月中 · 设备 + 代工</span></h2>
+<div class="tbl-scroll"><table>
+<thead><tr><th>公司</th><th>日期</th><th>财季</th><th>营收一致预期</th><th>EPS 预期</th><th>核心关注点</th><th>币种</th></tr></thead>
+<tbody>
+<tr>
+  <td class="co">阿斯麦 <span class="tk">ASML · 🇳🇱</span></td>
+  <td class="dt">7/15 <span class="wk">三·盘前</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">指引 €8.4–9.0bn<span class="yo up">+~13% YoY</span></td>
+  <td class="num">~€8.0</td>
+  <td class="focus"><b>新增订单(bookings)是先行指标</b>（传 2027 订单已排满）；⚠️中国出口管制＝最大 overhang；High-NA EUV 进展；全年指引</td>
+  <td class="ccy">EUR</td>
+</tr>
+<tr>
+  <td class="co">台积电 <span class="tk">TSM · 🇹🇼</span></td>
+  <td class="dt">7/16 <span class="wk">四</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">~$40.0bn<span class="yo up">+33% YoY</span></td>
+  <td class="num">$3.81/ADR<span class="yo up">+54%</span></td>
+  <td class="focus"><b>AI/HPC 需求 + 2nm 量产</b>；2026 全年营收指引（预期上调）；毛利率（指引高 60%s）；新台币升值 + 海外厂（亚利桑那）毛利稀释</td>
+  <td class="ccy">USD</td>
+</tr>
+</tbody></table></div>
+
+<h2 class="sec">大盘股密集周 <span class="win">7 月下旬 · 一周看完 Mag 6 + 软件 + 韩系内存</span></h2>
+<div class="tbl-scroll"><table>
+<thead><tr><th>公司</th><th>日期</th><th>财季</th><th>营收一致预期</th><th>EPS 预期</th><th>核心关注点</th><th>币种</th></tr></thead>
+<tbody>
+<tr>
+  <td class="co">谷歌 <span class="tk">GOOGL · 🇺🇸</span></td>
+  <td class="dt">7/23 <span class="wk">四</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$116.5bn<span class="yo up">+20.8%</span></td>
+  <td class="num">$2.86<span class="yo up">+23.8%</span></td>
+  <td class="focus">云(GCP)增速与 AI 订单 backlog；<b>Gemini 3 变现 vs 搜索流量分流</b>（最大分歧）；capex 指引。EPS 受权益投资浮盈扰动，看核心经营利润更干净</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">特斯拉 <span class="tk">TSLA · 🇺🇸</span></td>
+  <td class="dt">7/22 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$25.3bn<span class="yo up">+12.3%</span></td>
+  <td class="num">$0.47<span class="yo up">+17.5%</span></td>
+  <td class="focus">交付量 + 剔除积分的汽车毛利率能否止跌；<b>Robotaxi(Austin) 与 FSD 里程</b>（叙事已从卖车转向自动驾驶）；Optimus 量产</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">思爱普 <span class="tk">SAP · 🇩🇪</span></td>
+  <td class="dt">7/23 <span class="wk">四</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">总营收 ~€9bn 级<span class="yo up">+双位数</span></td>
+  <td class="num">云收入增速</td>
+  <td class="focus"><b>云收入增速 + 当前云订单额(CCB)才是核心</b>（总营收增速慢，故事在云）；Joule / AI Agent 商业化；利润率</td>
+  <td class="ccy">EUR</td>
+</tr>
+<tr>
+  <td class="co">联发科 <span class="tk">MediaTek · 🇹🇼</span></td>
+  <td class="dt">~7/29 <span class="wk">待确认</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">NT$145.2bn<span class="yo dn">−3.5%</span></td>
+  <td class="num">NT$13.85<span class="yo dn">−21%</span></td>
+  <td class="focus">手机(Dimensity 旗舰)需求；<b>ASIC/定制芯片</b>（与英伟达 DGX Spark 合作、潜在云 ASIC）进展；边缘 AI。20 家里最不"数据中心"的一个</td>
+  <td class="ccy">TWD</td>
+</tr>
+<tr>
+  <td class="co">微软 <span class="tk">MSFT · 🇺🇸</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">FY26 Q4</td>
+  <td class="num">$87.6bn<span class="yo up">+14.6%</span></td>
+  <td class="num">$4.21<span class="yo up">+15.3%</span></td>
+  <td class="focus"><b>Azure 增速(AI 贡献) + 是否仍受产能约束</b>；capex 与 FY27 指引（AI 投入拐点）；Copilot 商业化 seats/ARPU；OpenAI 权益法拖累</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">Meta <span class="tk">META · 🇺🇸</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$60.2bn<span class="yo up">+26.7%</span></td>
+  <td class="num">$7.17<span class="yo flat">+0.4%</span></td>
+  <td class="focus"><b>营收+27% 但 EPS 几乎持平＝AI 重投入吞利润</b>，盯利润率能否守住；capex+opex 全年指引；广告 CPM/AI 变现效率；RL 亏损</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">安谋 <span class="tk">ARM · 🇬🇧</span></td>
+  <td class="dt">7/29 <span class="wk">三·盘后</span></td>
+  <td class="q">FY27 Q1</td>
+  <td class="num">$1.26bn<span class="yo up">+20%</span></td>
+  <td class="num">$0.40<span class="yo up">+14%</span></td>
+  <td class="focus"><b>版税(royalty, v9+CSS 渗透) vs 授权(licensing) 波动</b>；数据中心(Neoverse)/AI 渗透；下季指引</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr class="mem">
+  <td class="co">SK海力士 <span class="tk">000660 · 🇰🇷</span><span class="tag mm">内存超级周期</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num" colspan="2">大幅增长（营业利润 KRW）</td>
+  <td class="focus"><b>HBM(HBM3E/HBM4) 出货与 ASP——AI 内存最直接的先行指标</b>；7/10 将在纳斯达克挂 ADR。<span class="warn">⚠️FMP 韩股数字不可靠，未采信精确值</span></td>
+  <td class="ccy">KRW</td>
+</tr>
+<tr>
+  <td class="co">苹果 <span class="tk">AAPL · 🇺🇸</span></td>
+  <td class="dt">7/30 <span class="wk">四</span></td>
+  <td class="q">FY26 Q3</td>
+  <td class="num">$108.9bn<span class="yo up">+15.8%</span></td>
+  <td class="num">$1.88<span class="yo up">+19.7%</span></td>
+  <td class="focus">iPhone + 大中华区复苏；<b>服务(Services) 增速与毛利＝利润质量核心</b>；Apple Intelligence 落地节奏（市场担心慢）；毛利率指引</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">亚马逊 <span class="tk">AMZN · 🇺🇸</span></td>
+  <td class="dt">7/30 <span class="wk">四</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$196.2bn<span class="yo up">+17.0%</span></td>
+  <td class="num">$1.82<span class="yo up">+8.3%</span></td>
+  <td class="focus"><b>AWS 增速 + backlog 能否重新加速</b>（对标 Azure/GCP）；capex 与自由现金流张力（EPS 仅 +8%）；零售/广告利润率与 OI 指引</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr class="mem">
+  <td class="co">三星电子 <span class="tk">005930 · 🇰🇷</span><span class="tag mm">内存超级周期</span></td>
+  <td class="dt">7/7 预告<br>完整 7/30</td>
+  <td class="q">CY26 Q2</td>
+  <td class="num" colspan="2">创纪录（营业利润 KRW）</td>
+  <td class="focus"><b>HBM 放量 + DRAM/NAND 涨价</b>；完整版看分部（存储 vs 代工/系统 LSI）；对英伟达 HBM 供货认证进度。<span class="warn">⚠️二手源报 ~₩89 万亿 OP（超预期）但口径待 7/30 确认</span></td>
+  <td class="ccy">KRW</td>
+</tr>
+</tbody></table></div>
+
+<h2 class="sec">半导体与设备 <span class="win">8 月 · GPU + WFE + NAND</span></h2>
+<div class="tbl-scroll"><table>
+<thead><tr><th>公司</th><th>日期</th><th>财季</th><th>营收一致预期</th><th>EPS 预期</th><th>核心关注点</th><th>币种</th></tr></thead>
+<tbody>
+<tr>
+  <td class="co">AMD <span class="tk">AMD · 🇺🇸</span></td>
+  <td class="dt">8/4 <span class="wk">二</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$11.3bn<span class="yo up">+46.4%</span></td>
+  <td class="num">$1.60<span class="yo up">+233%*</span></td>
+  <td class="focus"><b>数据中心 GPU(MI350/MI400) + 全年 AI GPU 指引上修幅度</b>；EPYC 抢英特尔份额。<span class="warn">*EPS+233% 是低基数假象</span>（去年含 MI308 对华减值 ~$8 亿），看营收 +46% 更真实</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">东京电子 <span class="tk">8035 · 🇯🇵</span></td>
+  <td class="dt">~8/6 <span class="wk">待确认</span></td>
+  <td class="q">FY27 Q1</td>
+  <td class="num">¥761.7bn<span class="yo up">+39%</span></td>
+  <td class="num">¥357.66</td>
+  <td class="focus"><b>WFE 设备 AI 需求 + 中国敞口</b>（占比高，受出口管制影响）；FY27 指引</td>
+  <td class="ccy">JPY</td>
+</tr>
+<tr class="mem">
+  <td class="co">铠侠 <span class="tk">Kioxia · 285A · 🇯🇵</span><span class="tag mm">内存超级周期</span></td>
+  <td class="dt">8/7 <span class="wk">五</span></td>
+  <td class="q">FY27 Q1</td>
+  <td class="num" colspan="2">NAND 超级周期受益</td>
+  <td class="focus"><b>NAND 纯玩家</b>；NAND ASP + 企业级/AI SSD 需求。<span class="warn">⚠️FMP 营收数字异常（疑累计口径），未采信</span></td>
+  <td class="ccy">JPY</td>
+</tr>
+<tr>
+  <td class="co">英伟达 <span class="tk">NVDA · 🇺🇸</span></td>
+  <td class="dt">8/26 <span class="wk">三</span></td>
+  <td class="q">FY27 Q2</td>
+  <td class="num">$91.7bn<span class="yo up">+96.2%</span></td>
+  <td class="num">$2.08<span class="yo up">+98.1%</span></td>
+  <td class="focus">公司已指引 $91bn±2%（<b>本身已隐含同比翻倍</b>），关键看能否再超；下季 Rubin 过渡指引与毛利率回升；对华(H20/合规芯片)政策；CoWoS/HBM 产能瓶颈</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">迈威尔 <span class="tk">MRVL · 🇺🇸</span></td>
+  <td class="dt">~8/27 <span class="wk">待确认</span></td>
+  <td class="q">FY27 Q2</td>
+  <td class="num">指引 ~$2.7bn<span class="yo up">+35% YoY</span></td>
+  <td class="num">$0.93<span class="yo up">+39%</span></td>
+  <td class="focus"><b>定制芯片(custom ASIC/XPU)放量</b>——为亚马逊 Trainium 等云厂做 AI 加速器是核心；光电(800G/1.6T DSP)与电互连；<b>对博通 ASIC 的竞争卡位</b>（第二玩家）；下季指引。报告紧挨英伟达后一天</td>
+  <td class="ccy">USD</td>
+</tr>
+</tbody></table></div>
+
+<h2 class="sec">收尾 <span class="win">9 月 · ASIC + 云 + 内存</span></h2>
+<div class="tbl-scroll"><table>
+<thead><tr><th>公司</th><th>日期</th><th>财季</th><th>营收一致预期</th><th>EPS 预期</th><th>核心关注点</th><th>币种</th></tr></thead>
+<tbody>
+<tr>
+  <td class="co">博通 <span class="tk">AVGO · 🇺🇸</span></td>
+  <td class="dt">9/3 <span class="wk">三</span></td>
+  <td class="q">FY26 Q3</td>
+  <td class="num">$29.2bn<span class="yo up">+83.2%</span></td>
+  <td class="num">$3.22<span class="yo up">+90.5%</span></td>
+  <td class="focus"><b>AI 半导体指引 $16bn(+&gt;200% YoY)——定制 ASIC(谷歌/Meta/字节)放量</b>；传闻第 4/5 客户(OpenAI)订单能见度；VMware 整合后利润率</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">甲骨文 <span class="tk">ORCL · 🇺🇸</span></td>
+  <td class="dt">~9/9 <span class="wk">待确认</span></td>
+  <td class="q">FY27 Q1</td>
+  <td class="num">$19.1bn<span class="yo up">+28.1%</span></td>
+  <td class="num">$1.72<span class="yo up">+17%</span></td>
+  <td class="focus"><b>OCI(云基础设施)增速 + RPO/backlog——AI 训练租赁订单能见度是核心</b>；capex 与自建数据中心节奏；毛利率(OCI ramp 摊薄)</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr class="mem">
+  <td class="co">美光 <span class="tk">MU · 🇺🇸</span><span class="tag mm">内存超级周期</span></td>
+  <td class="dt">~9/29 <span class="wk">待确认</span></td>
+  <td class="q">FY26 Q4</td>
+  <td class="num">指引 ~$50bn<span class="yo up">+~340% YoY</span></td>
+  <td class="num">~$31<span class="yo up">创纪录</span></td>
+  <td class="focus"><b>毛利率指引 ~86%（FQ3 实际 84.9%）＝内存周期极端度最直观的标尺</b>；HBM3E/HBM4 已排满至 2027（需求延到 2028），HBM TAM 2027 &gt;$1000 亿；DRAM/NAND 涨价（原预期营收仅 $43.6bn，公司指引 $50bn）</td>
+  <td class="ccy">USD</td>
+</tr>
+</tbody></table></div>
+
+<h2 class="sec">AI 产业链配套标的 <span class="win">卖铲子环节 · 按层归类 · 均在 7/22–7/29 报</span></h2>
+<p class="ec-intro">上方 4 张表是<b>头部大盘股按日历排</b>；这张按 <b>AI 五层蛋糕的"卖铲子"环节归层</b>——从 Wall Street Horizon Q2 业绩日历里挖出、之前漏掉的产业链配套标的（芯片/设备/EDA/封测/材料/互连/光/存储/硬件/电力/软件），恰好全部集中在 7/22–7/29 这一周。一致预期与去年同期取自 FMP（lastUpdated 2026-07-10）。</p>
+<div class="tbl-scroll"><table>
+<thead><tr><th>公司</th><th>日期</th><th>财季</th><th>营收一致预期</th><th>EPS 预期</th><th>AI 关联点</th><th>币种</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="7">■ 芯片 · 逻辑 / 处理器</td></tr>
+<tr>
+  <td class="co">英特尔 <span class="tk">INTC · 🇺🇸</span></td>
+  <td class="dt">7/23 <span class="wk">四</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$14.34bn<span class="yo up">+11.5%</span></td>
+  <td class="num">$0.21<span class="yo up">扭亏</span></td>
+  <td class="focus">代工(18A/14A)爬坡+<b>外部 foundry 客户破局(含 Google)</b>；DCAI 上季 +22%；Gaudi/Crescent Island 加速器仍弱；新 CEO 陈立武重整。AI 更多是"代工期权+CPU 防守"</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">高通 <span class="tk">QCOM · 🇺🇸</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">FY26 Q3</td>
+  <td class="num">$9.67bn<span class="yo dn">−6.7%</span></td>
+  <td class="num">$2.21<span class="yo dn">−20.2%</span></td>
+  <td class="focus">端侧 AI(Snapdragon)+数据中心 CPU 雄心(收 Alphawave)；<b>⚠️苹果自研基带 2027 归零、年化流失 ~$58 亿</b>是核心 overhang（营收/EPS 已同比转跌）；汽车 +38%</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">德州仪器 <span class="tk">TXN · 🇺🇸</span></td>
+  <td class="dt">7/22 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$5.23bn<span class="yo up">+17.6%</span></td>
+  <td class="num">$1.90<span class="yo up">+34.8%</span></td>
+  <td class="focus">模拟芯片周期复苏(工业 +30%、broad-based)；<b>数据中心业务上季 +90%</b>(AI 电源管理拉动)——AI 敞口比想象大但仍非主体</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr class="grp"><td colspan="7">■ 芯片制造 · 设备 / EDA / 封测 / 材料</td></tr>
+<tr>
+  <td class="co">泛林 <span class="tk">LRCX · 🇺🇸</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">FY26 Q4</td>
+  <td class="num">$6.65bn<span class="yo up">+28.5%</span></td>
+  <td class="num">$1.68<span class="yo up">+26.3%</span></td>
+  <td class="focus"><b>WFE 设备(刻蚀/沉积)——HBM/3D NAND/先进逻辑资本开支直接受益</b>；全年 WFE 上修至 $1400 亿；DRAM 占比创纪录(HBM)。与 ASML/东京电子同属设备三强</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">铿腾 <span class="tk">CDNS · 🇺🇸</span></td>
+  <td class="dt">7/27 <span class="wk">一</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$1.58bn<span class="yo up">+23.6%</span></td>
+  <td class="num">$2.05<span class="yo up">+24.2%</span></td>
+  <td class="focus"><b>EDA 双寡头(与新思 Synopsys)——所有 AI 芯片(GPU/ASIC)设计都要用，最纯"卖铲子"</b>；backlog 创纪录 $80 亿；全年上调至 +17%</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">艾克尔 <span class="tk">AMKR · 🇺🇸</span></td>
+  <td class="dt">7/27 <span class="wk">一</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$1.81bn<span class="yo up">+19.7%</span></td>
+  <td class="num">$0.47<span class="yo up">+114%</span></td>
+  <td class="focus"><b>OSAT 封测——先进封装(2.5D/chiplet)是 AI 芯片瓶颈环节</b>；亚利桑那新厂配套台积电；苹果/英伟达客户</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">信越化学 <span class="tk">4063 · 🇯🇵</span></td>
+  <td class="dt">7/24 <span class="wk">五</span></td>
+  <td class="q">FY27 Q1</td>
+  <td class="num">¥684.9bn<span class="yo up">+9.0%</span></td>
+  <td class="num">¥67.7<span class="yo flat">+1.8%</span></td>
+  <td class="focus"><b>硅晶圆全球最大+光刻胶——半导体材料最上游</b>；300mm 晶圆需求随 AI 芯片放量；也做 PVC(周期拖累增速)</td>
+  <td class="ccy">JPY</td>
+</tr>
+<tr class="grp"><td colspan="7">■ 基础设施 · 互连 / 光通信 / 存储 / 硬件</td></tr>
+<tr>
+  <td class="co">安费诺 <span class="tk">APH · 🇺🇸</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$8.18bn<span class="yo up">+44.8%</span></td>
+  <td class="num">$1.16<span class="yo up">+43.2%</span></td>
+  <td class="focus"><b>连接器/高速互连——AI 数据中心铜缆/背板/电源连接直接受益</b>，IT datacom 部门爆发</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">康宁 <span class="tk">GLW · 🇺🇸</span></td>
+  <td class="dt">7/28 <span class="wk">二</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$4.62bn<span class="yo up">+19.8%</span></td>
+  <td class="num">$0.76<span class="yo up">+26.7%</span></td>
+  <td class="focus"><b>光纤/光通信——AI 数据中心光互连("Springboard"计划)是增长核心</b>；企业网络光纤需求</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">西部数据 <span class="tk">WDC · 🇺🇸</span></td>
+  <td class="dt">7/29 <span class="wk">三</span></td>
+  <td class="q">FY26 Q4</td>
+  <td class="num">$3.69bn<span class="yo up">+41.5%</span></td>
+  <td class="num">$3.29<span class="yo up">+98.2%</span></td>
+  <td class="focus"><b>近线大容量 HDD(AI 数据存储)</b>——SanDisk 已分拆现纯 HDD；容量位元出货+云厂囤货涨价。存储链另一极(vs NAND)</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">Celestica <span class="tk">CLS · 🇨🇦</span></td>
+  <td class="dt">7/27 <span class="wk">一</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$4.24bn<span class="yo up">+46.7%</span></td>
+  <td class="num">$2.28<span class="yo up">+64.0%</span></td>
+  <td class="focus"><b>ODM 硬件代工——为超大规模云厂做 AI 服务器/白盒交换机</b>；CCS 部门直吃 AI capex；800G 交换。本组增速最高</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr class="grp"><td colspan="7">■ 能源层 · 电力</td></tr>
+<tr>
+  <td class="co">GE Vernova <span class="tk">GEV · 🇺🇸</span></td>
+  <td class="dt">7/22 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$10.74bn<span class="yo up">+17.9%</span></td>
+  <td class="num">$3.23<span class="yo up">+73.7%</span></td>
+  <td class="focus"><b>燃气轮机/电网设备——AI 数据中心电力需求核心受益(能源层)</b>；燃机订单排到 2028；电网+核电(SMR)期权</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr class="grp"><td colspan="7">■ 软件 · 应用</td></tr>
+<tr>
+  <td class="co">ServiceNow <span class="tk">NOW · 🇺🇸</span></td>
+  <td class="dt">7/22 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$3.93bn<span class="yo up">+22.1%</span></td>
+  <td class="num">$0.86<span class="yo up">+5.1%</span></td>
+  <td class="focus"><b>企业级 agentic AI 平台(Now Assist)——AI 变现是核心叙事</b>；看 cRPO(当前剩余履约义务)增速+订阅</td>
+  <td class="ccy">USD</td>
+</tr>
+<tr>
+  <td class="co">IBM <span class="tk">IBM · 🇺🇸</span></td>
+  <td class="dt">7/22 <span class="wk">三</span></td>
+  <td class="q">CY26 Q2</td>
+  <td class="num">$17.86bn<span class="yo up">+5.2%</span></td>
+  <td class="num">$3.02<span class="yo up">+7.9%</span></td>
+  <td class="focus">混合云+watsonx+咨询；<b>生成式 AI book of business(backlog)</b>；软件(Red Hat)增速。AI 更多是咨询+软件间接受益</td>
+  <td class="ccy">USD</td>
+</tr>
+</tbody></table></div>
+
+<h2 class="sec">各公司 · 上次业绩会 Guidance &amp; 纪要要点 <span class="win">默认折叠 · 点击展开 · 共 35 家（头部 21 + 配套 14）</span></h2>
+<p class="ec-intro">下方每家是<b>最近一次已召开</b>的业绩会（即本次即将发布季度的上一季）——管理层给的 guidance 与纪要要点。上方表格的"一致预期"正是市场对这些 guidance 的延伸。〔A〕＝公司原话/公告，〔B〕＝卖方/媒体转述，<span class="cav">⚠️＝口径存疑未采信精确值</span>。</p>
+<div class="ec-list">
+
+<details class="ec"><summary><span class="ec-co">阿斯麦 <b>ASML</b></span><span class="ec-meta">2026 Q1 · 04-15</span><span class="ec-sum">全年指引上修，中国占比持平，焦点在出口管制</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕2026 全年净销售额指引<b>上修至 €360–400 亿</b>（原 €340–390 亿），AI 需求驱动</li>
+<li>〔A〕Q1 毛利率 53.0%（触指引上限），EUV 系统销售强劲</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 净销售 €88 亿、净利 €28 亿；EUV 贡献 &gt;€41 亿（含 2 台 High-NA）</li>
+<li>管理层：中国大陆占营收比例预计维持 <b>约 20%</b>，与指引一致</li>
+<li>超预期上修但盘后仍跌约 6%，市场担忧焦点＝中国出口管制风险</li>
+<li>未披露季度 bookings 金额——留待 7/15 这次会公布（本轮先行指标）</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">台积电 <b>TSM</b></span><span class="ec-meta">2026 Q1 · 04-16</span><span class="ec-sum">全年上修超 30% 增长，AI 需求 extremely robust</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 2026 营收指引 <b>$390–402 亿</b>（QoQ +10%、YoY 中值 +32%）；毛利率 65.5–67.5%</li>
+<li>〔A〕全年 2026 营收增速<b>上修至美元口径"高于 30%"</b></li>
+<li>〔A〕2026 capex 维持 $520–560 亿区间高端</li>
+<li>〔A〕2nm 爬坡拖累全年毛利率 2–3pct；海外厂稀释初期 2–3%、后期扩至 3–4%</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>HPC 平台占 Q1 营收 61%（QoQ +20%），手机 26%；先进制程(7nm 及以下)占 74%</li>
+<li>魏哲家：AI 需求"extremely robust"，agentic AI 推动 token 消耗跃升</li>
+<li>新增 3nm 扩产：台南新厂(27H1)、Arizona 二厂(27H2)、日本二厂(28)；供给紧张持续到 2027</li>
+<li>AI 加速器长期 CAGR 维持"中高 50%区间"，<b>未因近期强需求上调</b></li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">谷歌 <b>GOOGL</b></span><span class="ec-meta">Q1 2026 · 04-29</span><span class="ec-sum">Cloud +63%、capex 上调，利润含大额浮盈</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕2026 全年 capex <b>上调至 $180–190bn</b>（原 $175–185bn，含 Wiz）；2027 capex"显著增加"</li>
+<li>〔A〕Wiz 并购拖累 Google Cloud 营业利润率低个位数 pct（2026 剩余季度）</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Google Cloud 收入 +63% 至 $200 亿，AI 解决方案收入 +800%，<b>backlog 环比近翻倍至 $4620 亿</b></li>
+<li>Pichai：仍受算力制约，产能更足云收入本可更高</li>
+<li>净利 $626 亿含 <b>$369 亿股权投资浮盈</b>（≈EPS $2.35），管理层明确不可持续、非经营</li>
+<li>Waymo 周度全自动订单 &gt;50 万单，覆盖 11 城</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">特斯拉 <b>TSLA</b></span><span class="ec-meta">Q1 2026 · 04-22</span><span class="ec-sum">Capex 上修至 250 亿，Robotaxi 今年难兑现</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕2026 全年 capex <b>上修至 &gt;$250 亿</b>（原 $200 亿，投 AI 算力/Cybercab/Optimus）</li>
+<li>〔A〕Musk：Robotaxi 2026 无 material 贡献，实质推迟到 2027；未给单车交付量化指引</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>营收 $224 亿(+16%)，汽车 $162 亿；EPS $0.41 超预期 14%</li>
+<li>战略重心从车企<b>转向 AI+机器人</b>，FSD 是核心产品、车是交付载体</li>
+<li>汽车毛利率(剔积分)改善至 19.2%，但含一次性 $2.3 亿质保冲回</li>
+<li>储能 Q1 部署 8.8GWh(QoQ −38%)，毛利率创纪录 39.5%(含一次性关税确认，后续回落)</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">思爱普 <b>SAP</b></span><span class="ec-meta">2026 Q1 · 04-23</span><span class="ec-sum">云 +27% 强劲，中东扰动下半年指引</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕全年重申：云收入 €25.8–26.2bn、non-IFRS 营业利润 €11.9–12.3bn（<b>依赖中东局势缓和假设</b>）</li>
+<li>〔A〕CCB 后续季度小幅放缓；Q2 云收入增速环比放缓(Q1 有一次性有利因素)</li>
+<li>〔A〕2027 收入增速较 2026 <b>再加速</b>（backlog 27 年释放更多）</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1：云收入 +27% 至近 €60 亿；CCB +25% 至 €219 亿；营业利润率 30%(+2.9pt)</li>
+<li>公有云订单占季度订单 &gt;70%，环比继续加速</li>
+<li>AI 消费型收入转型"渐进式"、非颠覆式；到 2028 末 AI 内部节省 €20 亿 run-rate</li>
+<li>中东：Q1 P&amp;L 基本无损，但已影响下半年管道；霍尔木兹持续关闭列为全年指引实质拖累情景</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">联发科 <b>MediaTek</b></span><span class="ec-meta">2026 Q1 · 04-30</span><span class="ec-sum">ASIC 动能强，手机业务疲软拖累</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕Q2 2026 营收指引 <b>NT$1402–1492 亿</b>(QoQ 持平至 −6%、YoY −1%~−7%)，毛利率 46%±1.5pct</li>
+<li>〔B〕全年 2026 美元口径营收同比中至高个位数增长</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 NT$1492 亿(贴指引上限)，毛利率 46.3%</li>
+<li>手机业务 QoQ −17%、YoY −15%，占营收 49%，拖累整体</li>
+<li>AI ASIC 动能强：预计 <b>Q4 2026 ASIC 收入约 $20 亿</b>；云 ASIC 市场 2027 达 $700–800 亿</li>
+<li>未取到涨价/成本结构的直接评论</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">微软 <b>MSFT</b></span><span class="ec-meta">FY26 Q3 · 04-29</span><span class="ec-sum">Azure 提速至 +40%，产能约束正缓解</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q4 FY26 营收指引 <b>$867–878 亿</b>(YoY +13~15%)；<b>Azure 增速指引 +39~40%</b>(固定汇率)</li>
+<li>〔A〕2026 全年 capex 约 $1900 亿(Q4 单季 &gt;$400 亿)；FY27 延续两位数营收与营业利润增长</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q3 Azure 提速至 +40%，超此前指引(37–38%)与一致预期</li>
+<li>AI 业务 ARR 破 <b>$370 亿</b>(+123%)</li>
+<li>CFO Amy Hood：产能约束正在缓解，数据中心可用性扩大是 Azure 提速关键驱动</li>
+<li>Copilot 付费座位破 2000 万</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">Meta <b>META</b></span><span class="ec-meta">Q1 2026 · 04-29</span><span class="ec-sum">Capex 大幅上调，盘后一度重挫</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕2026 全年 capex <b>大幅上调至 $125–145bn</b>（原 $115–135bn，因组件涨价+追加产能）</li>
+<li>〔A〕全年总费用维持 $162–169bn 不变；预期 2026 营业利润高于 2025</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 收入 $563 亿(+33%)，营业利润率 41%；经调 EPS $7.31 超预期 9.6%</li>
+<li>广告展示量 +19%、单价 +12%，近几季最强组合</li>
+<li>AI 显著提升 engagement，Meta AI 会话量指数级增长</li>
+<li>capex 上调后盘后一度跌 6–7%，反映对 AI 基建加码吞利润的担忧</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">安谋 <b>ARM</b></span><span class="ec-meta">FY26 Q4 · 05-06</span><span class="ec-sum">AGI CPU 需求超预期但产能受限</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q1 FY27 营收指引 <b>$12.6 亿 ±$500 万</b>(中值 YoY +20%)；non-GAAP EPS $0.40 ±$0.04</li>
+<li>〔A〕长期(至 FY31)：AGI CPU 收入目标 $150 亿 + IP $100 亿，EPS &gt;$9</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q4 营收 $14.9 亿(+20%)创纪录；许可 +29%、版税 +11%</li>
+<li>版税增长主来自云 AI/边缘 AI/物理 AI，<b>数据中心版税同比翻倍+</b></li>
+<li>Haas："As AI becomes more agentic, demand for Arm AGI CPU has exceeded expectations"</li>
+<li>AGI CPU 已获 FY27–28 客户需求 &gt;$20 亿，但产能受限，首批量产落在 FY27 Q4</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">SK海力士 <b>000660</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">HBM 霸主(56.4%)，资本开支大增 <span class="cav">⚠️利润%</span></span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕2026 capex 较去年显著增加(龙仁集群/M15X/EUV)，capex/营收维持滚动三年均值中 30% 区间</li>
+<li>〔B〕HBM4E 样品 2026H2、量产 2027；HBM4 按客户时间表爬坡</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 市占：<b>HBM 第一(56.4%)</b>、DRAM 第二(29.1%)、NAND 第二(18.5%)</li>
+<li>韩元利润：营收约 ₩52 万亿、营业利润率约 72%（创纪录方向确认）<span class="cav">⚠️同比%各源矛盾(142/144/198%)未采信</span></li>
+<li>7/10 纳斯达克挂 ADR，目标募资约 $29bn（会后披露）</li>
+<li>AI 内存需求是本季"历史性"业绩的核心驱动</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">苹果 <b>AAPL</b></span><span class="ec-meta">FY26 Q2 · 04-30</span><span class="ec-sum">供给紧+内存涨价，营收利润双超指引</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕26Q3(6 月季)营收指引 <b>YoY +14~17%</b>；毛利率 47.5–48.5%</li>
+<li>〔A〕服务增速预计与 3 月季(+16%)相近；6 月季面临"<b>显著更高的内存成本</b>"</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q2 营收 $1112 亿(+17%，3 月季纪录)，EPS $2.10(+22%)，均超指引上限</li>
+<li>iPhone $570 亿(+22%)，iPhone 17 史上最受欢迎；大中华区 +28%</li>
+<li>Cook："demand was off the charts"，但 A19 芯片受 <b>TSMC 3nm 产能被 AI 挤占</b>而供给受限</li>
+<li>新批 $1000 亿回购；Cook 9/1 转任执行董事长、Ternus 接任 CEO</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">亚马逊 <b>AMZN</b></span><span class="ec-meta">Q1 2026 · 04-29</span><span class="ec-sum">AWS 加速至 +28%，内存成本 skyrocketed</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 营收指引 <b>$1940–1990 亿</b>；营业利润指引 $200–240 亿</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 $1815 亿(+17%)；<b>AWS 提速至 +28%</b>(15 季最快)，年化 run-rate $1500 亿</li>
+<li>Trainium2 基本售罄、Trainium3 接近满订；定制芯片年化收入 $200 亿；AWS 算力收入承诺 &gt;$2250 亿</li>
+<li>Q1 现金 capex $432 亿(投 AWS/GenAI)，管理层对 2026 AWS capex 变现"高度确信"</li>
+<li>Jassy："内存等零部件成本 <b>skyrocketed</b>"，警告内存产能约束与供应波动</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">三星电子 <b>005930</b></span><span class="ec-meta">2026 Q1 · 04-29（+ 7/7 prelim）</span><span class="ec-sum">HBM 供不应求，Q2 利润创纪录 <span class="cav">⚠️利润%</span></span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕2026 <b>HBM 销售额预期 YoY +3 倍以上</b>；HBM4 可量产产能已售罄，2026H2 显著放量</li>
+<li>〔B〕HBM4E 首批样品 Q2 交付</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>7/7 Q2 prelim(二手源，完整版 7/30 确认)：营收 <b>~₩171 万亿(+129% YoY，与 FMP 一致)</b>、营业利润 ~₩89 万亿，创纪录</li>
+<li>HBM4 于 2 月成全球首个商业化出货产品，竞争力归因 1c 纳米 DRAM 制程</li>
+<li>Q2 创纪录利润由 HBM+DRAM+NAND 同步涨价驱动</li>
+<li>传统 DRAM 当前盈利高于 HBM(DRAM 按季议价、HBM 按年锁价)。<span class="cav">⚠️韩元精确利润%口径各源不一致，仅采信数量级与方向</span></li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">AMD <b>AMD</b></span><span class="ec-meta">Q1 2026 · 05-05</span><span class="ec-sum">MI450 客户需求超预期，CPU TAM 大幅上调</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 2026 营收指引 <b>~$11.2bn ±$300M</b>(中值 YoY +46%)；non-GAAP 毛利率 ~56%；服务器 CPU YoY &gt;70%</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>数据中心 Q1 $5.8bn(+57%)；<b>服务器 CPU TAM 上修至 2030 &gt;$120bn</b>(原 ~$60bn)</li>
+<li>Lisa Su：MI450/Helios 客户预测超原计划，H2 2026 量产；2027 数据中心 AI 营收看数百亿</li>
+<li>与 <b>Meta 达成最多 6GW Instinct 部署</b>(含 MI450 定制 GPU)，叠加 OpenAI 合作</li>
+<li>MI450 Q3 起量、Q4 显著爬坡将拖累毛利率；长期 GM 目标 55–58%</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">东京电子 <b>8035</b></span><span class="ec-meta">FY26 Q4 · 04-30</span><span class="ec-sum">FY26 创纪录，FY27 上半年再创高</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕FY27 上半年净销售/毛利/营业利润均指引历史新高，H2 强于 H1；<b>FY27 起不再给全年指引</b></li>
+<li>〔B〕WFE 市场 CY26、CY27 各较 CY25 增长 20%+，$150–170bn/年；中国 CY26 与 CY25 大致持平</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>FY26 创纪录：净销售 ¥2.44 万亿、归母净利 ¥5,744 亿；驱动＝客户积极投资+稼动率+服务业务</li>
+<li>Q4 中国收入占比降至 <b>26.8%</b>(FY24 Q4 曾 47.4%)</li>
+<li>增长驱动点名：AI 服务器、先进逻辑、DRAM/HBM、3D NAND 复苏</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">铠侠 <b>Kioxia</b></span><span class="ec-meta">FY26 Q4 · 05-15</span><span class="ec-sum">NAND 量价齐升，Q1 指引利润暴增</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕FY27 Q1(4–6 月)指引：营收 <b>¥1.75 万亿</b>、营业利润 ¥1.30 万亿（<span class="cav">⚠️同比倍数各源不一致未采信</span>）</li>
+<li>〔B〕未给 FY27 全年指引(地缘风险)；NAND 位元增长 2026 高个位~high-teens%，供给受限；2027 需求快于供给</li>
+<li>〔B〕capex ¥4500 亿；拟提前偿还 ¥4000 亿优先贷款</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>FY26 Q4(1–3 月)毛利率 66%、营业利润率 60%(vs 全年 47%/37%)，Q4 大幅加速</li>
+<li>由 AI 数据中心 NAND 需求显著驱动</li>
+<li>扩产第 8 代 BiCS FLASH + 推出第 10 代</li>
+<li>企业级 AI SSD 细分数字未取到</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">英伟达 <b>NVDA</b></span><span class="ec-meta">FY27 Q1 · 05-20</span><span class="ec-sum">Blackwell 放量强劲，Rubin 全周期供不应求</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 FY27 营收指引 <b>$91.0bn ±2%</b>；毛利率 GAAP/non-GAAP 74.9%/75.0% ±50bp</li>
+<li>〔A〕重申年内向 mid-70s 毛利率推进</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 $81.62bn(+85%)；数据中心 $60.4bn(+77%)；<b>Blackwell 已占数据中心计算营收近 70%</b></li>
+<li>中国 H20：计提 $4.5bn 减值，另 $2.5bn H20 营收因管制无法出货</li>
+<li>Huang：Vera Rubin"we will be constrained throughout the entire life"；性能功耗比较 GB 再 10×</li>
+<li>网络 Q1 $5bn(QoQ +64%)，NVLink 单季破 $1bn，Spectrum-X 年化 &gt;$8bn</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">迈威尔 <b>MRVL</b></span><span class="ec-meta">FY27 Q1 · 05-27</span><span class="ec-sum">定制硅+硅光子双线上调长期目标</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 FY27 营收指引 <b>$2.7bn ±5%</b>(QoQ +12%、YoY +35%)；预计 Q3 即达 $3bn(提前一季)</li>
+<li>〔A〕FY28 营收指引<b>上调至 ~$16.5bn</b>(较上季高约 $1.5bn)</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>定制芯片 FY27 增速 &gt;20%、FY28 翻倍+，目标 FY29 破 $10bn(对应 $55bn TAM)</li>
+<li>收购 Polariton/Celestial AI 强化硅光子；Polariton 等离子调制器带宽 &gt;1THz(高 10×)</li>
+<li>Q1 数据中心 $1.44bn(YoY +76%)，由定制 AI 芯片+光电驱动</li>
+<li>Q1 non-GAAP 毛利率 58.9%</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">博通 <b>AVGO</b></span><span class="ec-meta">FY26 Q2 · 06-03</span><span class="ec-sum">AI 订单可见度已看到 2028 年</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q3 FY26 合并营收指引 <b>$29.4bn(+84%)</b>；<b>AI 半导体 $16.0bn(+200%+)</b>；软件 ~$8.9bn(+31%)；营业利润率 ~67%</li>
+<li>〔A〕全年 FY26 AI 半导体重申 $56bn(+180%)；FY27 AI 半导体重申 &gt;$100bn</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Hock Tan：Q2 AI 半导体 $10.8bn(+143%)，<b>季内 AI 订单 &gt;$30bn</b>，可见度延至 2028</li>
+<li>6 大定制客户追加：Anthropic 2027 起再供 5GW、OpenAI 2027 部署 1.3GW、Meta 至 2028 底 3GW MTIA</li>
+<li>与 Apollo/Blackstone 建 AI XPU 平台，2028 前部署 &gt;20GW，首笔 $35bn 启动</li>
+<li>"we are only chips"(否认做整机)；2027 出货 10GW 目标不变，back-half loaded</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">甲骨文 <b>ORCL</b></span><span class="ec-meta">FY26 Q4 · 06-10</span><span class="ec-sum">OCI 翻倍增长，RPO 创纪录 $6380 亿</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕FY27 全年 non-GAAP EPS $8.05、总营收约 $900 亿(约 +34%)；Q1 总营收 +27~29%、<b>云收入 +58~64%</b></li>
+<li>〔A〕FY27 capex 净流出约 $700 亿；拟债+股融资约 $400 亿(含 $200 亿 ATM)</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q4 总营收 $192 亿(+21%)，云 $99 亿(+47%)，<b>OCI $58 亿(+93%)</b></li>
+<li>Magouyrk：本季新签 <b>$670 亿 AI 基建合同</b>(多为 BYOH/预付费结构)</li>
+<li>RPO 单季新增 $850 亿，增至 $6380 亿创纪录；全球 GPU 利用率 97.5%</li>
+<li>FCF −$237 亿(加速投资)，FY26 经营现金流 $320 亿(+54%)</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">美光 <b>MU</b></span><span class="ec-meta">FY26 Q3 · 06-24</span><span class="ec-sum">创纪录营收，HBM 订满至 2027</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕FQ4 营收指引 <b>~$500 亿、毛利率 ~86%、EPS ~$31</b>（GAAP $30.73／non-GAAP $31.00 ±$1；市场原预期营收仅 $43.6bn，均创纪录）</li>
+<li>〔A〕HBM3E/HBM4 已订满至 2027(需求延至 2028)；<b>HBM TAM 上修：2027 即破 $1000 亿</b>(原 2028)</li>
+<li>〔A〕FY26 capex 上修至 ~$270 亿；FY27 capex/营收比"高于中 40% 区间"</li>
+<li>〔A〕16 份战略客户协议(take-or-pay、多 5 年)，累计现金存款+承诺 &gt;$220 亿</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li><b>FQ3 实际毛利率 84.9%</b>（上季 74.9%），FQ4 指引再升至 ~86%——内存价格暴涨、成本近固定，推动毛利率至历史极值</li>
+<li>HBM4 12 层量产爬坡速度是 HBM3E 12 层的 2 倍，HBM4 收入已 &gt;$10 亿</li>
+<li>管理层："we don't really see when supply is going to be able to meet demand"</li>
+<li>企业级 SSD 单季 $50 亿；格林菲尔德新厂 26Q4–27H1 每季拖累单位成本 $1–2 亿</li>
+<li>中国 CXMT/YMTC 份额有增长，但多销境外，未见明显竞争</li>
+</ul></div>
+</div></details>
+
+<div style="margin:16px 0 6px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--coral-dk);letter-spacing:.04em;border-top:1px dashed var(--line);padding-top:12px;">▼ AI 产业链配套标的（14 家 · 按层，与上表对应）</div>
+
+<details class="ec"><summary><span class="ec-co">英特尔 <b>INTC</b></span><span class="ec-meta">2026 Q1 · 04-23</span><span class="ec-sum">18A 爬坡超预期，外部代工破局</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔B〕Q2 营收指引 $138–148 亿、non-GAAP 毛利率中值 39%、EPS $0.20</li>
+<li>〔B〕2026 capex 与去年持平但设备支出 +25%；OpEx 高于此前 $160 亿目标(通胀+薪酬)</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 $136 亿超指引 $14 亿；non-GAAP 毛利率 41%(超指引 650bp)，18A 爬坡执行好</li>
+<li>14A："multiple customers actively evaluating"，进度快于 18A 同期</li>
+<li>DCAI 营收 $51 亿(+22%)，陈立武："The CPU is reinserting itself as the indispensable foundation of the AI era"</li>
+<li>Foundry $54 亿(环比+20%)但<b>外部代工仅 $1.74 亿、经营亏 $24 亿</b>；季内签多份长约(含 Google)</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">高通 <b>QCOM</b></span><span class="ec-meta">FY26 Q2 · 04-29</span><span class="ec-sum">Apple 基带流失兑现，数据中心破局</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q3 FY26(6 月季)营收指引 $92–100 亿、non-GAAP EPS $2.10–2.30</li>
+<li>〔B〕手机营收 6 月季触底约 $49 亿后回升；<b>Apple 基带 2027 全面自研(今年份额 ~20%→归零)，年化流失 $57–59 亿</b></li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q2 营收 $106 亿、EPS $2.65，均超指引高端</li>
+<li>汽车 +38% 至 $13.3 亿创纪录；IoT +9% 至 $17.3 亿</li>
+<li>Alphawave 收购完成整合，推进数据中心 CPU+高性能 AI 推理加速器</li>
+<li>与"一家领先超大规模云厂"达成定制芯片合作，预计 12 月季首批出货</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">德州仪器 <b>TXN</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">工业复苏 broad-based，数据中心近翻倍</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 营收指引 $50–54 亿、EPS $1.77–2.05</li>
+<li>〔A〕剔除折旧的增量利润率(fall-through) 75–85%；capex 维持 $20–30 亿</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 $48 亿(+19%)，毛利率扩至 58%，超指引上限</li>
+<li>工业 +30%+、broad 复苏；CEO："growth was broad across all sectors, regions, customer sizes"</li>
+<li><b>数据中心业务同比约 +90%</b>(AI 基础设施拉动)</li>
+<li>宣布收购 Silicon Labs 强化嵌入式无线连接</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">泛林 <b>LRCX</b></span><span class="ec-meta">FY26 Q3 · 04-22</span><span class="ec-sum">WFE 上修至 1400 亿，HBM 驱动存储回升</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕6 月季(FQ4)营收指引 $66 亿、EPS $1.65、毛利率扩至 50.5%</li>
+<li>〔A〕<b>全年 WFE 展望上调至 $1400 亿</b>(此前 $1350 亿)且偏上行</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>3 月季营收 $58.4 亿(+24%)、EPS $1.47，创纪录，均超指引</li>
+<li>CSBG(客户支持)首次单季破 $20 亿</li>
+<li>存储占系统营收回升至 39%；<b>DRAM 占比 27% 创纪录(HBM+1c 节点)</b></li>
+<li>中国占比降至 34% 且续降；韩台占比创纪录高位</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">铿腾 <b>CDNS</b></span><span class="ec-meta">2026 Q1 · 04-27</span><span class="ec-sum">AI 驱动 backlog 创纪录，全年上调至 +17%</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕全年 2026 营收指引上调至 $61.25–62.25 亿(中值 +17%)</li>
+<li>〔A〕non-GAAP EPS $7.85–7.95；首次预期达成"Rule of 60"</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 $14.74 亿(+19%)、non-GAAP EPS $1.96</li>
+<li><b>backlog 创纪录 $80 亿</b>，反映客户对 AI 产品组合强承诺</li>
+<li>IP +22%、核心 EDA +18%；与 Google Cloud 战略合作</li>
+<li>CEO Devgan："accelerating AI demand and record backlog"</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">艾克尔 <b>AMKR</b></span><span class="ec-meta">2026 Q1 · 04-27</span><span class="ec-sum">封测大年，HDFO Q3 放量，AI 封装翻 3 倍</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 营收 $17.5–18.5 亿(环比中值+7%)、毛利率 14.5–15.5%、EPS $0.42–0.52</li>
+<li>〔A〕FY26 capex $25–30 亿(含 Arizona 一期)；下半年毛利率升至 mid-to-high teens</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收创纪录 $16.8 亿(+27%)，利用率 ~50%→70 出头；新 HDFO 数据中心 CPU 项目 Q3 起实质放量</li>
+<li><b>"on track for tripling"——2026 AI 先进封装组合营收预计较 2025 年 3 倍增长</b></li>
+<li>Arizona 一期 2027 完工，满产年收入 ~$10 亿+，2029 放量、2030 满负荷</li>
+<li>先进硅片/基板供应延迟单季影响 $0.5–1 亿营收；已分客户提价对冲材料涨价</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">信越化学 <b>4063</b></span><span class="ec-meta">FY26 全年 · 04-28</span><span class="ec-sum">AI 硅片需求上修，PVC 因中东暂缓指引</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕<b>FY27 不给具体营收/利润指引</b>——中东(伊朗)冲突推高油价、PVC 盈利难预测</li>
+<li>〔A〕FY27 capex ¥3500 亿；宣布最高 ¥2500 亿回购(约市值 2%)</li>
+<li>〔实绩〕FY26 营收 ¥2.574 万亿(+0.5%)、营业利润 ¥6352 亿(−14%)</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>电子材料 FY26 营收 +9%；"advanced sector remains strong as AI-related market expands"，PC/手机等常规需求已触底</li>
+<li>300mm 硅片对 FY27 Q1 及以后展望上修——"growth rate higher than initially anticipated"</li>
+<li>AI 相关产品占总营收约 15%；专用 AI 芯片(GPU/HBM)硅片占 300mm &lt;10%，广义 AI 相关(含数据中心)&gt;20%</li>
+<li>光刻材料/光纤预制棒需求"reminiscent of around 2000"；PVC 北美已提价对冲</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">安费诺 <b>APH</b></span><span class="ec-meta">2026 Q1 · 04-29</span><span class="ec-sum">AI 数据中心驱动订单创纪录 +78%</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 营收指引 $81–82 亿(YoY +43–45%)、调整后 EPS $1.14–1.16</li>
+<li>〔A〕Q2 环比：IT datacom 低两位数增长；CommScope FY26 预计贡献营收约 $41 亿</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收创纪录 $76 亿(+58%)，<b>订单创纪录 $94.35 亿(+78%)，book-to-bill 1.24</b></li>
+<li>IT datacom 占 Q1 营收"just over 40%"，+99% YoY，"virtually all organic growth driven by AI-related products"；CommScope 补齐高速铜+电源+光纤</li>
+<li>调整后营业利润率 27.3%(+380bps)</li>
+<li>CPO/光电："no matter what, there's going to be more interconnect"——铜/光全品类布局，不押单一架构</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">康宁 <b>GLW</b></span><span class="ec-meta">2026 Q1 · 04-28</span><span class="ec-sum">AI 光通信新签 2 份大单，5/6 上修至 2030</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 营收约 $46 亿(+14%)、EPS $0.73–0.77</li>
+<li>〔A〕Springboard 重申并预告 5/6 投资者日再上修并延伸至 2030(此前 2028 末累计增量营收 $110 亿)</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 营收 +18% 至 $43.5 亿、EPS +30%，连续第 8 季营收同比增长</li>
+<li><b>光通信 $18 亿(+36%)，Gen AI 驱动；继 Meta 最高 $60 亿协议后，本季新签 2 份规模相近超大规模客户 LTA</b></li>
+<li>被问光通信毛利率能否超历史最强的显示玻璃，Weeks："the simple answer is yes"</li>
+<li>新设"Photonics"平台面向 CPO；scale-up(机内互联)贡献收入概率显著提升</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">西部数据 <b>WDC</b></span><span class="ec-meta">FY26 Q3 · 04-30</span><span class="ec-sum">AI 驱动近线 HDD 量价齐升，指引超预期</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕FQ4 营收 $3.65bn ±$100M(中值 +40%)、毛利率 51–52%、non-GAAP EPS $3.25 ±$0.15</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>CEO Irving Tan："We are at an inflection point in the AI-driven data economy"；长期存储需求 CAGR &gt;25%</li>
+<li>Cloud 收入 $3.0bn 占 89%、+48%；单季出货 <b>222 EB(+34%)</b>，32TB 驱动器放量，40TB EPMR 下半年量产</li>
+<li>定价："Pricing per terabyte rose 9% year over year"(LTA+新品)</li>
+<li>UltraSMR 3 家大客户采用，目标 FY27 末占出货 60%；HAMR 4 客户认证中，2027 量产；分红上调 20%</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">Celestica <b>CLS</b></span><span class="ec-meta">2026 Q1 · 04-27</span><span class="ec-sum">AI 服务器/网络代工全年指引大幅上调</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕全年 2026 上调：<b>营收 $17bn→$19bn(+53%)</b>、调整后 EPS $8.75→$10.15(+68%)、营业利润率 8.1%</li>
+<li>〔A〕Q2 营收 $4.15–4.45bn(中值+49%)、EPS $2.14–2.34</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>CCS 部门 Q1 +76% 占 80%；FY26 CCS 增速上调至 ~70%；企业端 +101%(某 hyperscaler 下代 AI/ML 计算量产)</li>
+<li>两大新单：与 AMD 合作 Helios rack-scale AI scale-up 交换机；<b>某 hyperscaler 1.6T CPO 以太网交换机(Broadcom Tomahawk 6)——"first major production scale deployment of co-packaged optics"</b>，2027 量产</li>
+<li>供应约束加剧："more component shortages now than 90 days ago"(定制芯片/内存/40+层 PCB/光学/电源)</li>
+<li>2027 CCS 增速"significantly more"于 2026 新增 $6.5bn；2027 capex 上调至 ~$1.5bn</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">GE Vernova <b>GEV</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">AI 数据中心电力需求驱动全年指引上调</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕FY26 营收 $44.5–45.5bn(上调 $0.5bn)、调整后 EBITDA 利润率 12–14%(上调 100bp)、FCF $6.5–7.5bn</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li>Q1 订单 $18.3bn(+71%)，backlog $163bn，设备类 backlog +80% 且利润率改善</li>
+<li>燃气轮机：under contract 从 83GW→100GW；2026 燃机订单定价较 25Q4 高 10–20 点；产能 2026 年中年化 20GW、2028 目标 24GW</li>
+<li><b>数据中心订单 Q1 达 $2.4bn(超 2025 全年)</b>；100GW under contract 中约 20% 明确用于数据中心</li>
+<li>核电 SMR：加拿大 OPG 获批；美日联合支持在美建 SMR 最高 $40bn；电网 backlog 从 $9bn 增至 $42bn</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">ServiceNow <b>NOW</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">AI 变现目标大幅上调，订阅指引齐升</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕Q2 订阅收入 $3.815–3.820bn(cc +21%)；FY26 订阅上调至 $15.735–15.775bn(cc 20.5–21%)</li>
+<li>〔A〕营业利润率 FY26 31.5%、FCF 利润率 ~35%；Q1 GAAP EPS $0.45 vs 非 GAAP $0.97(差距大，未单列全年 GAAP)</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li><b>Now Assist AI 收入目标上调 $10 亿→$15 亿(+50%)</b>；含 3+ Now Assist 产品的交易同比增近 70%</li>
+<li>CPO Zavery："all of our products now have AI built in"(非独立 sidecar)</li>
+<li>内部 agentic："90% of employee IT requests resolved autonomously"；外部已促成 6 笔净新增 ACV &gt;$100 万</li>
+<li><b>50% 净新增来自非按坐席定价(tokens/基础设施等)</b>；"full speed ahead out of AI experimentation into full-scale deployment"</li>
+</ul></div>
+</div></details>
+
+<details class="ec"><summary><span class="ec-co">IBM <b>IBM</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">GenAI 变现渗透加速，指引维持稳健</span><span class="ec-tw"></span></summary>
+<div class="ec-body">
+<div class="ec-g"><h5>Guidance</h5><ul>
+<li>〔A〕FY26 cc 营收增速维持 5%+；软件增速上调至 10%+(Data 板块 ~low-20%，含 Confluent)；FCF 同比增约 $10 亿</li>
+<li>〔A〕咨询全年低至中个位数；基础设施低个位数下降(z17 周期后续)；全年税前营业利润率扩约 1pct</li>
+</ul></div>
+<div class="ec-t"><h5>纪要要点</h5><ul>
+<li><b>生成式 AI book of business 2025 末累计 &gt;$12.5bn</b>；咨询 GenAI ARR Q1 破 $4bn(渗透 ~30%)；软件 AI run-rate &gt;$1.5bn(增速 &gt;40%)</li>
+<li>分部：软件 +8%(Red Hat +10%、OpenShift 成 $2bn ARR)；基础设施 +12%(Z 大机 +48% 创纪录)；咨询 +1%</li>
+<li>Z17："clients who deployed watsonx Code Assistant for Z growing MIPS 3x faster"；满配日均 ~4500 亿次 AI 推理</li>
+<li>3 月完成收购 Confluent(~$10.5bn)；下半年可能有更多软件并购</li>
+</ul></div>
+</div></details>
+
+</div>
+
+<div class="view">
+  <h3><span class="lb">观点</span>读表判断（研究员梳理，与上方一致预期分离）</h3>
+  <ul>
+    <li><b>今年 AI 链"体温计"读数有顺序</b>：ASML 订单(7/15) → 台积电 AI/HPC+2nm(7/16) → 韩系 HBM(7 月底)，这几家在美股大盘股之前先把上游景气度和 HBM 供需抛出来，会给英伟达(8/26)定调。抢跑预期差盯 7/15–7/16。</li>
+    <li><b>本季主线是内存超级周期，不是算力</b>：Micron 单季指引 $50bn/EPS $31、三星创纪录、SK海力士/Kioxia 全线爆发，HBM+DRAM+NAND 三线涨价。存储层（黄仁勋五层蛋糕的记忆体环节）的边际弹性这一季远大于 GPU。</li>
+    <li><b>英伟达/博通是最后落地、预期差最小的</b>：等它们 8 月底/9 月初出来时，上游设备、HBM、AMD(8/4) 的读数已反复 price-in。预期差更可能出在上游或博通 ASIC 客户能见度，而非英伟达自己。</li>
+    <li><b>看 EPS 要剔口径</b>：Meta EPS+0.4%（重投入吞利润，非走弱）、AMD EPS+233%（去年 MI308 减值低基数，非真实弹性）、谷歌 EPS 受权益浮盈扰动——三家都要看经营利润/营收，别被 EPS 同比误导。</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="lg">
+    <span>🟫 <b style="color:var(--gold)">米色行</b>＝内存超级周期标的</span>
+    <span>⚠️＝该数据源口径存疑，未采信精确值</span>
+    <span>财季：CY＝自然年 · FY＝财年（各家错位）</span>
+  </div>
+  数据源：一致预期与去年同期实际值取自 <code>FMP earnings-calendar</code>（各标的 lastUpdated 2026-07-09），美股/ADR（USD）口径可靠，EUR/JPY 名经指引核实，⚠️韩股/铠侠因 FMP 口径异常仅保留方向。日期经 WebSearch 交叉核实：
+  <a href="https://www.tipranks.com/news/tsmc-will-report-q2-earnings-on-july-16-should-investors-buy-the-stock-before-results" target="_blank">TSMC 7/16</a> ·
+  <a href="https://finance.yahoo.com/markets/stocks/articles/dear-asml-stock-fans-mark-195653692.html" target="_blank">ASML 7/15</a> ·
+  <a href="https://www.cnbc.com/2026/05/20/nvidia-nvda-earnings-report-q1-2027.html" target="_blank">NVDA 指引 $91bn</a> ·
+  <a href="https://www.prnewswire.com/news-releases/broadcom-inc-announces-second-quarter-fiscal-year-2026-financial-results-and-quarterly-dividend-302790698.html" target="_blank">AVGO 指引 $29.4bn</a> ·
+  <a href="https://www.businesswire.com/news/home/20260708344949/en/Arm-Announces-Earnings-Release-Date-for-First-Quarter-Fiscal-Year-Ended-2027" target="_blank">ARM 7/29</a> ·
+  Micron 指引 $50bn/$31（CNBC/Micron IR）· 待确认项以各公司 IR 官宣为准。<br>
+  <span style="color:var(--muted)">一致预期＝事实（consensus）；核心关注点与"读表判断"＝研究员观点。授权观点遵 CLAUDE.md L0③ 五要素。生成 2026-07-09。</span>
+</footer>
+</div>
+</body></html>

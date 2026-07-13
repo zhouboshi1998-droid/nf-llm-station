@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>上海合晶(688584)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">上海合晶</span><span class="code">688584</span>
+      <div class="tags">一体化硅外延片龙头 · 国产替代 + 12寸/SOI（硅光/CPO）弹性 · 中信定位"SOI 最佳交易载体"对标 SOITEC · AI 间接敞口</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥35.71　总市值 ≈239 亿</div>
+      <div class="meta">PE-TTM ~201x · PB ~5.7x · 6.69 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>上海合晶是国内少数具备"晶体成长→衬底成型→外延生长"全流程能力的<b>一体化硅外延片（epitaxial wafer）龙头</b>，主业为功率器件（MOSFET/IGBT）与模拟芯片（PMIC/CIS）用外延片，属半导体<b>硅片周期股</b>。核心看点：硅片 2025 走出下行周期、出货反弹（12寸销量 +83%）但价格仍在底部；AI 为<b>间接敞口</b>——先进制程/存储/功率需求拉动硅片稼动率与涨价，另经 2026 新设 SOI 合资切入硅光/CPO 衬底（对标 SOITEC）享弹性映射，当前仅布局期。2026Q1 归母 1255 万（-34.7%，扩产资本开支致费用增），现估值 PE-TTM ~201x 处高位。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">13.11 亿</div><div class="s up">+18.3% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">1.25 亿</div><div class="s up">+3.8% YoY</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">29.1%</div><div class="s">+0.3pct · 净利率 9.6%</div></div>
+    <div class="stat"><div class="k">硅外延片占比</div><div class="v">94.1%</div><div class="s">12寸销量 +83%</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">1255 万</div><div class="s dn">-34.7%</div></div>
+    <div class="stat"><div class="k">2026Q1 毛利率</div><div class="v">28.1%</div><div class="s">费用增拖累净利</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 毛利占比仅外延片可测算 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 硅外延片（epi · 功率/模拟）</td><td class="num">12.34</td><td class="num">94.1%</td><td class="num up">+15.5%</td><td class="num">30.1%</td><td class="num">97.4%</td></tr>
+        <tr><td>硅材料（抛光片/衬底）</td><td class="num">0.68</td><td class="num">5.2%</td><td class="num up">+105.0%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>其他</td><td class="num">0.09</td><td class="num">0.7%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr class="total"><td>合计</td><td class="num">13.11</td><td class="num">100%</td><td class="num">+18.3%</td><td class="num">29.1%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">硅外延片占营收 94.1%，下游为<b>功率（MOSFET/IGBT）+ 模拟（PMIC/CIS）</b>；与 AI 直接关联有限，AI 属间接敞口——先进制程/存储/功率需求拉动硅片整体稼动率与涨价。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">一体化硅外延片龙头（晶体成长→衬底→外延全流程）；供前十大晶圆代工 7 家、前十大功率 IDM 6 家；控股股东台湾合晶科技赋能，客户含华虹/芯联/台积电/力积电/TI/ST 等。</div></div>
+      <div class="bl"><div class="t">SOI / AI 弹性映射</div><div class="x">2026 新设 SOI 合资切入——SOI 是硅光/CPO 光互连主流衬底（对标 SOITEC，其占全球 SOI &gt;70%）；若 AI 算力光互连放量，作为国产 SOI 新进入者享弹性映射，当前仅<b>布局期</b>，故定为"中"。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">硅外延片毛利率 30.1%（行业前列）；8寸/12寸产品毛利率较高；2025 综合毛利率 29.1%（+0.3pct），高于行业均值 25.8%。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">12寸外延片放量（销量 +83%，郑州二期扩产）为量增主轴；SOI 合资若跑通则打开硅光/CPO 高端衬底第二成长极。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝硅片周期反转预期 + SOI/CPO 主题弹性；股价近月大涨（6 月中 ~25 元→7 月初冲 ~38 元，现 35.71 元），交易活跃、换手高；现市值 239 亿已隐含较强 2028E 情景（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>硅片涨价 / 稼动率提升 · 弹性</h2></div>
+      <div class="p"><b>周期逻辑：</b>硅片属半导体周期股，2025 走出下行周期、出货反弹但价格仍底部；海外已现涨价且公司有海外敞口。国内靠高端<b>国产替代 + 产品差异化/结构优化</b>提利润，而非普涨。</div>
+      <div class="p"><b>弹性假设：</b>以硅外延片 2025 收入 12.34 亿为基数，涨价/稼动率提升增量约 70% 落净利（测算）；基数为周期底部价格口径。</div>
+      <table>
+        <thead><tr><th>硅片涨价/稼动率</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值(20x)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 底部价格口径）</td><td class="num">—</td><td class="num">~1.25 亿</td><td class="num up">~25 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">+0.86 亿</td><td class="num">~2.1 亿</td><td class="num up">~42 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">+1.73 亿</td><td class="num">~3.0 亿</td><td class="num up">~60 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">+2.59 亿</td><td class="num">~3.8 亿</td><td class="num up">~76 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格/稼动率敏感性（测算）；弹性段＝硅外延片收入 12.34 亿×涨幅×70% 落净利；公司净利基数取 2025 归母 1.25 亿。未披露具体单价，采用 2025 年报底部价格口径。注：表内情景市值（25–76 亿）远低于现市值 239 亿，反映市场已定价更强/更持久的周期反转与 SOI 弹性（见 §04）。</div>
+      <div class="exp">
+        <div class="eh">▪ 扩产节奏 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">硅片整体供给持续增长、当前紧平衡；SOI 为公司 2026 才设合资的新增供给，硅光/CPO 需求尚未起量。</span></div>
+        <div class="er"><span class="lb">供需现状</span><span class="vv">尚无明显缺口；SOI 缺口取决于 CPO 放量节奏，当前未到明确供需反转。</span></div>
+        <div class="er rv"><span class="lb">反转时点</span><span class="vv">开始逐季涨价，但价格仍底部；关键变量：先进制程/存储/功率需求拉动硅片稼动率、海外涨价传导、CPO 放量兑现 SOI 弹性。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 硅外延片（epi）·20x/30x</td><td class="cn as">周期反转、出货+涨价温和（测算）</td><td class="cn num nn">5.6</td><td class="op as bd">大幅涨价+12寸放量+SOI 弹性（测算）</td><td class="op num no">14.1</td></tr>
+        <tr><td>硅材料/SOI/其他 ·20x/30x</td><td class="cn as">SOI 布局期、贡献有限（测算）</td><td class="cn num nn">0.4</td><td class="op as bd">SOI/CPO 衬底放量超预期（测算）</td><td class="op num no">0.9</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">外延 5.6 / 其他 0.4</span></td><td class="cn num">~6</td><td class="op bd"><span class="sub">外延 14.1 / 其他 0.9</span></td><td class="op num">~15</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 239 亿</td><td class="cn"><span class="sub">整体 20x（研究员给定）</span></td><td class="cn num dn">~120亿 (-50%)</td><td class="op bd"><span class="sub">整体 30x（研究员给定）</span></td><td class="op num up">~450亿 (+88%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 6 亿 / 乐观 15 亿）× 假设 PE（中性 20x / 乐观 30x）。分段净利按 2025 外延/其他收入贡献比例拆分为情景测算，仅供参考。<b>结论：</b>公司开始逐季涨价，但乐观情景（~100%+ 涨价与 SOI 放量）兑现度低；<b>中性情景目标市值 120 亿已显著低于现价约 -50%</b>，当前估值透支明显。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 硅片周期反转、价格逐季上行落地（海外已现涨价、公司有海外敞口）；② 12寸外延片放量（销量 +83%，郑州二期扩产爬坡）；③ SOI 合资落地并切入硅光/CPO 衬底、绑定 AI 光互连需求；④ 高端国产替代 + 产品结构优化提毛利。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 估值已处高位（PE-TTM ~201x、PB ~5.7x），中性 2028E 情景市值 120 亿低于现价约 -50%；② AI 为间接敞口、SOI 仍布局期，缺独立提价逻辑；③ 26Q1 归母 -34.7%，扩产资本开支致费用/折旧上行压制利润；④ 硅片价格仍底部、供给持续增长，涨价/供需反转兑现度存疑；⑤ 股价近月大涨、换手高，波动放大。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07）；上海合晶 2025 年年度报告及 2026 年一季报（主营分部为 2025 年报口径，硅外延片毛利率 30.1%、综合毛利率 29.1%）；中信证券半导体硅片研究、华经产业研究院及公开券商研报与调研纪要。2028E 归母（研究员给定中性/乐观值）、价格弹性与市值空间为情景测算，含较强假设，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

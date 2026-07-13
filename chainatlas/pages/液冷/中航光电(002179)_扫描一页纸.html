@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>中航光电(002179)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">中航光电</span><span class="code">002179</span>
+      <div class="tags">军工+高端互连龙头 · Manifold/UQD液冷连接器国内第一 · 民品开花</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥42.30　总市值 889.1 亿</div>
+      <div class="meta">PE-TTM 45.9x（历史100%分位）· 21.02 亿股</div>
+      <div class="date">数据截至 2026-06-24</div>
+    </div>
+  </div>
+  <div class="lead"><b>一句话看懂：</b>中航光电是国内军工+高端制造互连方案龙头（光、电、流体连接器），军品基本盘承压、民品（数据中心/液冷/新能源车/商业航天/CPO）全面开花。<b>液冷是其数据中心“电源+光纤+高速+液冷”四大链路之一</b>，处④Manifold/快接头/液冷连接器环节，流体连接器与冷板组件国内市占率第一。</div>
+  <div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">213.86 亿</div><div class="s up">+3.4% YoY</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">21.62 亿</div><div class="s dn">-35.6% YoY</div></div><div class="stat"><div class="k">2025 净利率</div><div class="v">~10.1%</div><div class="s"></div></div><div class="stat"><div class="k">液冷占比</div><div class="v">~3.7%</div><div class="s">2025~8亿</div></div><div class="stat"><div class="k">流体连接器</div><div class="v">国内第一</div><div class="s"></div></div><div class="stat"><div class="k">UQD</div><div class="v">入选OCP双版本</div><div class="s">标准贡献厂家</div></div></div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报按产品）</h2><span class="tip">数据中心液冷含于流体齿科其他、未单列（约 8 亿）</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody><tr><td>电连接器、光电设备、电机、电门等</td><td class="num">159.43</td><td class="num">74.5%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td>光器件及光电设备（含光通信/CPO）</td><td class="num">36.59</td><td class="num">17.1%</td><td class="num up">+28.7%</td><td class="num">—</td><td class="num">—</td></tr><tr class="key"><td>◆ 流体、齿科及其他（含液冷解决方案）</td><td class="num">17.85</td><td class="num">8.3%</td><td class="num up">+9.25%</td><td class="num">—</td><td class="num">—</td></tr><tr class="total"><td>合计</td><td class="num">213.86</td><td class="num">100%</td><td class="num up">+3.39%</td><td class="num">—</td><td class="num">—</td></tr></tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">数据中心民品液冷 2025 收入~8 亿、占比~3.7%（含于“流体齿科其他”17.85 亿中，其余为齿科/工业流体）；液冷连接器国内市占第一，为可拆分第二曲线。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">④Manifold/快接头·液冷连接器（核心），向冷板组件、液冷源(CDU)延伸；具“连接器+冷板+Manifold+CDU”全链路能力。</div></div><div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">UQD/UQDB 液冷快接头唯一入选 OCP UQD V1.0&V2.0 双版本标准贡献厂家（5000 次插拔）、手插/盲插 Manifold、CPU/GPU 冷板组件；快接头进英伟达+Intel 名录；子公司泰兴光电聚焦 CDU。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">2026 初成立独立民品液冷事业部（军民分离）；2025H1 数据中心业务同比+100%；UQD 单产品 NV 侧行业全年需求近 2000 万套。</div></div><div class="bl"><div class="t">放量口径利润</div><div class="x">卖方测算 2027 液冷收入 50 亿、对应 6-8 亿利润；华南产业基地+高端互连科技产业社区（预算 27.19 亿、进度 71.6%）储备产能（测算）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）市场定价数据中心 AIDC 整体（液冷+高速+电源+光+商航）；PE-TTM 45.9x 处历史 100% 分位、军品拖累利润（-35.6%），中性下行。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与收入弹性</h2><span class="tip">渗透/放量型 · 非涨价</span></div>
+      <div class="p"><b>放量逻辑：</b>AI 机房液冷放量，公司 UQD/Manifold/液冷连接器（国内第一）+冷板组件放量；数据中心民品液冷高增驱动流体板块弹性。</div>
+      <div class="p"><b>弹性假设：</b>以中性 2027 液冷收入 30 亿为基准、净利率 13%，收入每 +10% 增厚净利，按液冷 PE 35x 计入（测算）。</div>
+      <table>
+        <thead><tr><th>液冷收入放量（UQD/Manifold）</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody><tr><td class="base">基准 30 亿（27 中性）</td><td class="num">3.9 亿</td><td class="num">29.4 亿</td><td class="num dn">~775 亿</td></tr><tr><td class="base">+10%</td><td class="num">4.3 亿</td><td class="num">29.8 亿</td><td class="num up">~789 亿</td></tr><tr><td class="base">+20%</td><td class="num">4.7 亿</td><td class="num">30.2 亿</td><td class="num up">~802 亿</td></tr><tr><td class="base">+30%</td><td class="num">5.1 亿</td><td class="num">30.6 亿</td><td class="num up">~816 亿</td></tr></tbody>
+      </table>
+      <div class="el-cap">液冷收入放量敏感性（测算，非涨价）；净利率 13%，增量按液冷 PE 35x 计入。中性目标市值低于现价（-13%）；液冷单环节体量小、真正翻倍靠民品组合。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">华南产业基地+基础器件产业园已投产扩液冷+高速产能；高端互连科技产业社区（预算 27.19 亿、进度 71.6%）储备产能。</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">2026 数据中心爆发元年、液冷收入~12-20 亿；越南+德国海外基地 2027 配套；UQD 单产品 NV 侧近 2000 万套需求。</span></div><div class="er rv"><span class="lb">渗透拐点</span><span class="vv">液冷渗透起量型；拐点看液冷事业部独立后季度液冷收入确认与海外(NV/Inventec/越南德国)订单、UQD 海外份额、Manifold/冷板放量。</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（SOTP：军工主业+民品 + 液冷分部）</h2><span class="tip">第二曲线 · 目标年 2027</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>口径一 · 盈利预测法（SOTP · 目标年 2027）</th><th class="cnh num">中性</th><th class="oph bd num">乐观</th>
+      </tr></thead>
+      <tbody><tr><td><b>液冷分部（UQD/Manifold）</b></td><td class="cn"></td><td class="op bd"></td></tr><tr><td>液冷收入（亿元）</td><td class="cn num">30</td><td class="op num bd">50</td></tr><tr><td>液冷净利率</td><td class="cn num">13%</td><td class="op num bd">16%</td></tr><tr class="ai-row"><td>液冷净利润（亿元）</td><td class="cn num nn">3.9</td><td class="op num no bd">8.0</td></tr><tr><td>液冷 PE（x）</td><td class="cn num">35</td><td class="op num bd">40</td></tr><tr class="sum"><td>液冷分部估值（亿元）</td><td class="cn num">~137</td><td class="op num bd">~320</td></tr><tr><td><b>主业+其他民品</b></td><td class="cn"></td><td class="op bd"></td></tr><tr><td>主业净利润（亿元）</td><td class="cn num">25.5</td><td class="op num bd">27</td></tr><tr><td>主业 PE（x）</td><td class="cn num">25</td><td class="op num bd">28</td></tr><tr class="sum"><td>主业估值（亿元）</td><td class="cn num">~638</td><td class="op num bd">~756</td></tr><tr class="sum"><td>目标总市值（亿元）</td><td class="cn num">~775</td><td class="op num bd">~1076</td></tr><tr class="mc"><td>对应上行空间（vs 现价 889 亿）</td><td class="cn num dn">-13%</td><td class="op num up bd">+21%</td></tr></tbody>
+    </table>
+    <div class="note"><b>口径二 · 满产法：</b>公司未披露液冷可量化绝对产能，以卖方液冷收入上限近似——液冷 50 亿×净利率 16%×40x ≈ 320 亿（上修至~400 亿）+主业~640 亿 ≈ <b>~960-1040 亿（+8%~+17%）</b>；达产与海外认证不确定、未折现。<b>估值提示：</b>PE-TTM 45.9x 处历史 100% 分位，液冷单环节弹性有限（中性 -13%、乐观~+15-21%）；真正翻倍逻辑（卖方 1200-1700 亿）来自液冷+CPO+高速线模组+商航+车载民品组合同时兑现、非液冷独驱。均为情景测算、可证伪。</div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">液冷事业部独立后季度液冷收入确认与海外（NV/Inventec/越南德国基地）订单落地；2026 利润能否兑现公司“+10% 以上”目标（营收 228 亿、利润总额 30 亿）；UQD 海外份额、Manifold/冷板放量；CPO/高速线模组等其他民品曲线进展。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">军品需求持续低迷拖累整体利润（2025 已 -35.6%）；金/铜/银涨价压制毛利率；估值处历史 100% 分位、price-in 过度；海外英伟达/CSP 认证与订单兑现不及预期；液冷单环节价值量低、竞争加剧（港联/英维克/领益等）。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及公告（巨潮）；iFinD、Wind（行情/估值/主营构成，截至 2026-06-24）；进门财经研报及会议纪要（8 家券商一致预期）；公开网络资料及内部提供资料。中性采卖方一致预期（不下修）；2027 及满产口径、市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+</div>
+</body>
+</html>

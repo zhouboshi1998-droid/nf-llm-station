@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>屹唐股份(688729)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">屹唐股份</span><span class="code">688729</span>
+<div class="tags">半导体热处理/去胶/刻蚀设备 · 干法去胶全球第二 · 国产设备出海代表</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥35.04　总市值 1035.63 亿</div>
+<div class="meta">PE-TTM ~169.07x · PB 11.48x · 29.56 亿股</div>
+<div class="date">数据截至 2026-07-08 16:29:36</div>
+</div>
+</div>
+<div class="lead"><b>一句话看懂：</b>屹唐股份主营晶圆制造前道<b>干法去胶、热处理、干法刻蚀/薄膜沉积</b>设备，干法去胶全球市占率 33.7% 位居第二。核心看点是<b>热处理与刻蚀/薄膜沉积设备高速增长</b>（2025 年分别 +33%/+31%），以及海外头部晶圆厂客户持续渗透；<b>价量利中“量”与“结构”弹性最大</b>，设备单价与毛利率均高于传统备件服务。</div>
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">50.76 亿</div><div class="s up">+9.6% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">6.71 亿</div><div class="s up">+24.0% YoY</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">~13.2%</div><div class="s">毛利率 ~38.3%</div></div>
+<div class="stat"><div class="k">高成长设备占比</div><div class="v">~44%</div><div class="s">热处理+刻蚀/沉积</div></div>
+<div class="stat"><div class="k">市占率</div><div class="v">干法去胶 33.7%</div><div class="s">全球第二</div></div>
+<div class="stat"><div class="k">2026Q1 归母</div><div class="v">1.59 亿</div><div class="s dn">-26.8%</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 高成长热处理/刻蚀/沉积设备为核心看点</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 销售专用设备及备品备件</td><td class="num">49.64</td><td class="num">97.8%</td><td class="num up">+9.6%</td><td class="num">38.0%</td><td class="num">97.2%</td></tr>
+<tr><td>　其中：热处理设备（披露口径）</td><td class="num">14.81</td><td class="num">29.2%</td><td class="num up">+32.9%</td><td class="num">—</td><td class="num">—</td></tr>
+<tr><td>　其中：干法刻蚀/薄膜沉积设备（披露口径）</td><td class="num">7.54</td><td class="num">14.9%</td><td class="num up">+30.7%</td><td class="num">—</td><td class="num">—</td></tr>
+<tr><td>服务</td><td class="num">1.09</td><td class="num">2.2%</td><td class="num up">+10.7%</td><td class="num">49.4%</td><td class="num">2.8%</td></tr>
+<tr><td>其他</td><td class="num">0.03</td><td class="num">0.1%</td><td class="num">—</td><td class="num">—</td><td class="num">0.0%</td></tr>
+<tr class="total"><td>合计</td><td class="num">50.76</td><td class="num">100%</td><td class="num up">+9.6%</td><td class="num">38.3%</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">专用设备及备品备件贡献 97.8% 营收与 97.2% 毛利；其中热处理与干法刻蚀/薄膜沉积设备 2025 年收入合计约 22.35 亿、占比约 44%，是公司当前增长最快、弹性最大的业务组合。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">位于晶圆制造前道设备环节，绑定台积电、三星、海力士、中芯国际等全球头部晶圆厂；干法去胶全球市占率 33.7% 第二，热处理 13.8% 第二，刻蚀/沉积 0.5% 第五，国产化与海外替代双线并进。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">核心产品 Helios/Millios 热处理、Suprema/Optima 去胶、paradigmE/RENA-E 刻蚀已在 5nm 及以下先进制程验证或量产；2025 综合毛利率 38.3% 同比提升 0.9pct，高成长设备毛利率高于平均水平。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">2026-2028 年热处理与刻蚀/薄膜沉积设备收入占比有望从 44% 提升至 55%-60%，干法去胶稳健增长、备品备件跟随装机量提升；结构升级带动综合毛利率向 40% 以上靠拢。</div></div>
+<div class="bl"><div class="t">涨价/结构升级口径利润</div><div class="x">以 2028E 核心设备收入 38 亿为基数，若产品结构升级带动均价/毛利率上行 10%、按 70% 落净利，可增厚核心 segment 利润约 5.7 亿元归母（测算：38 × 10% × 70%）。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）市场定价主线为“海外龙头设备替代加速 + 热处理/刻蚀新品放量”，但 2026Q1 业绩同比回落，高估值下对后续订单与交付节奏要求苛刻。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>半导体前道设备国产化率仍低，海外竞争对手交期长、价格高，国产设备议价力提升；同时公司向更先进制程和更高价值量的热处理、刻蚀/薄膜沉积设备倾斜，产品结构升级本身等同 ASP 上行。</div>
+<div class="p">弹性假设：以 §04 中性 2028E 核心设备收入 38 亿为基准，涨价与结构升级增量按 70% 落到净利（测算）。</div>
+<table>
+<thead><tr><th>产品涨价/结构升级</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准（不涨价）</td><td class="num">31.4 亿</td><td class="num">47.8 亿</td><td class="num">1268 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">37.2 亿</td><td class="num">53.5 亿</td><td class="num up">1440 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">42.9 亿</td><td class="num">59.3 亿</td><td class="num up">1612 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">48.7 亿</td><td class="num">65.0 亿</td><td class="num up">1785 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格与结构敏感性（中性量不变）；增量净利按核心段 30x、其他 20x 计入市值。基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">公司北京、上海、美国三地研发中心与产能持续扩张；热处理与刻蚀/沉积设备处于产品放量早期，2025 年收入增速分别约 33% 与 31%，扩产周期相对设备交付约 12-18 个月。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">2026-2027 年为热处理、刻蚀/薄膜沉积设备客户验证与订单转化关键窗口，新产能预计 2027 年前后集中释放。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">本环节为渗透起量型而非传统周期反转；关键盯变量为海外头部晶圆厂认证进度、国内 12 寸新建线招标份额、先进制程设备交付节奏。</span></div>
+</div>
+</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心设备 30x / 传统业务 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ 热处理+刻蚀/沉积设备 ·30x</td><td class="cn as">收入 82.0 亿 · 净利率 38.3%（测算）</td><td class="cn num nn">~31.4</td><td class="op as bd">收入 87.6 亿 · 净利率 39.6%（测算）</td><td class="op num no">~34.7</td></tr>
+<tr><td>干法去胶+备品备件+服务 ·20x</td><td class="cn as">收入 43.1 亿 · 净利率 37.9%（测算）</td><td class="cn num nn">~16.3</td><td class="op as bd">收入 41.8 亿 · 净利率 38.7%（测算）</td><td class="op num no">~16.2</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 7.60 / 传统 3.96</span></td><td class="cn num">~47.8</td><td class="op bd"><span class="sub">核心 11.44 / 传统 5.32</span></td><td class="op num">~50.9</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 1035.6 亿</td><td class="cn"><span class="sub">7.60×30 + 3.96×20</span></td><td class="cn num up">~1268亿 (+22.4%)</td><td class="op bd"><span class="sub">11.44×30 + 5.32×20</span></td><td class="op num up">~1365亿 (+31.8%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>高成长核心设备按 30x、传统去胶/备件/服务按 20x；2028E 假设热处理与刻蚀/薄膜沉积设备持续放量、净利率随规模效应提升。当前市值显著高于中性/乐观情景，估值已透支远期成长预期。</div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">热处理、刻蚀/薄膜沉积设备在海外大客户的新制程验证通过；2026H2-2027 国内 12 寸线招标份额提升；干法去胶市占率维持/提升；毛利率逐季改善；海外晶圆厂扩产带来订单增量。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">§04 中性市值 307 亿、乐观 450 亿均显著低于现价 1035.6 亿，估值透支明显；2026Q1 归母净利同比下滑 26.8%，短期业绩承压；海外客户集中与地缘政治风险；先进制程验证不及预期；设备行业 Capex 周期波动。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会（巨潮资讯网）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-08）；进门财经研报及会议纪要；公开网络资料。2028E 分部拆分、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

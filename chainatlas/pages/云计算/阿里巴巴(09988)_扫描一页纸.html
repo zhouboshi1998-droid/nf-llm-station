@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>阿里巴巴(09988)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;
+  --zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;
+  --red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">阿里巴巴</span><span class="code">09988.HK</span>
+      <div class="tags">电商+云计算龙头 · AI+云第二曲线 · Qwen模型开源生态</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 HK$107.50　总市值 20,647 亿港元</div>
+      <div class="meta">PE-TTM ~15.7x · PB ~1.70x · 192.06 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>阿里巴巴是中国最大的电商平台（淘宝/天猫）和公有云（阿里云，即按需租用计算资源的服务）服务商。FY2026（截至2026年3月）营收首破万亿达10,237亿元，但利润承压——<b>核心看点在于AI+云业务收入增速达34%、外部商业化收入加速至40%，而即时零售与云基建的大规模投入使得经调整EBITA同比大降56%</b>，公司正处于「投注未来」与利润兑现的再平衡窗口。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">FY2026 营收</div><div class="v">10,236.7 亿</div><div class="s up">+2.7% YoY</div></div>
+    <div class="stat"><div class="k">FY2026 归母净利</div><div class="v">1,035.9 亿</div><div class="s dn">-20.4% YoY</div></div>
+    <div class="stat"><div class="k">FY2026 净利率</div><div class="v">~10.1%</div><div class="s">经调整EBITA率 ~7.5%</div></div>
+    <div class="stat"><div class="k">云智能收入占比</div><div class="v">~15.4%</div><div class="s up">+34% YoY</div></div>
+    <div class="stat"><div class="k">云AI收入占比</div><div class="v">~30%</div><div class="s">年化收入超358亿</div></div>
+    <div class="stat"><div class="k">FY2026 资本开支</div><div class="v">~1,200 亿</div><div class="s">同比大幅增长</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（FY2026 年报口径，截至2026年3月）</h2><span class="tip">按营收占比降序 · EBITA为调整后口径 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">经调整EBITA（亿元）</th><th class="num">EBITA率</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>淘天集团（电商零售）</td><td class="num">5,542.17</td><td class="num">54.1%</td><td class="num up">+9.0%</td><td class="num">~1,700（测算）</td><td class="num">~30.7%（测算）</td></tr>
+        <tr><td>所有其他（盒马/菜鸟/高德/大文娱等）</td><td class="num">2,543.67</td><td class="num">24.8%</td><td class="num dn">-25.0%</td><td class="num">~-200（测算）</td><td class="num">~-7.9%（测算）</td></tr>
+        <tr class="key"><td>◆ 云智能集团（AI+云，含通义千问/百炼）</td><td class="num">1,581.32</td><td class="num">15.4%</td><td class="num up">+34.0%</td><td class="num">~50（测算）</td><td class="num">~3.2%（测算）</td></tr>
+        <tr><td>国际数字商业（速卖通/Lazada等）</td><td class="num">1,441.70</td><td class="num">14.1%</td><td class="num up">+9.0%</td><td class="num">~-150（测算）</td><td class="num dn">~-10.4%（测算）</td></tr>
+        <tr><td>分部间抵消/未分摊</td><td class="num">-872.16</td><td class="num">-8.5%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr class="total"><td>合计</td><td class="num">10,236.70</td><td class="num">100%</td><td class="num up">+2.7%</td><td class="num">~764</td><td class="num">~7.5%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">淘天集团仍是基本盘（营收占比54%），但云智能已成为第二增长极（营收占比15.4%，增速34%），AI相关产品收入占比首次突破云收入的30%，年化收入突破358亿元。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">卡位中国最大的公有云IaaS+PaaS+MaaS全栈（从底层芯片到上层应用），通义千问模型系列在开源社区具备竞争力，百炼MaaS平台ARR达80亿元。电商端以GMV约8万亿（测算）居中国第一，即时零售"淘宝闪购"订单量为去年同期2.7倍。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">全栈自研：平头哥芯片→阿里云→通义千问系列模型→百炼MaaS→面向B/C端应用。云业务外部收入增速40%，AI+云正从"投入期"转向"商业化加速期"。集团整体经调整EBITA率从FY2025的17.4%降至FY2026的7.5%，投入压制短期盈利。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">若云智能维持40%增速（AI推理需求驱动），FY2027营收约2,200亿、FY2028约3,100亿（测算），云收入占比有望从15.4%升至FY2028的~25%。AI模型与应用服务ARR目标FY2026末达300亿元。淘天集团增速温和（中低个位数），但仍是EBITA贡献绝对主力。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">阿里云的收入弹性来自AI推理需求放量：云收入每增加500亿，按增量利润率15%（测算），增量EBITA约75亿。AI产品（模型API/MaaS平台）毛利率高于传统云，结构升级将进一步推升整体利润率。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场核心定价云收入增速能否从FY2026的34%进一步加速至45-50%（FY2027 Q1已报42%），以及通义千问Qwen4模型（预计2026H2发布）能否在开源模型中确立性能领先地位、进一步带动云API调用量和市场份额。当前PE 15.7x处于历史中低位，云增速加速+模型突破=估值修复催化剂。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>云服务规模弹性（FY27基准测算）</h2></div>
+      <div class="p"><b>弹性逻辑：</b>阿里云外部收入增速从FY2025的个位数加速至FY2026的34%，FY2027 Q1已报42%。AI推理需求爆发是核心驱动力，Qwen模型系列在开源社区竞争力持续提升，带动API调用量和百炼平台付费客户增长。</div>
+      <div class="p"><b>弹性假设：</b>以FY2027云收入2,300亿为基准（40%增速外推自FY2026的1,581亿），增量利润率按15%（测算，固定成本占比高、边际弹性大），在此基础上进行敏感性分析。</div>
+      <table>
+        <thead><tr><th>云收入假设</th><th class="num">云EBITA</th><th class="num">云增量EBITA</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准·FY27E 云收2,300亿</td><td class="num">~345 亿</td><td class="num">—</td><td class="num">20,647 亿港元</td></tr>
+          <tr><td class="base">+20%（云收~2,760亿）</td><td class="num">~414 亿</td><td class="num">~69 亿</td><td class="num up">23,407 亿港元</td></tr>
+          <tr><td class="base">+40%（云收~3,220亿）</td><td class="num">~483 亿</td><td class="num">~138 亿</td><td class="num up">26,167 亿港元</td></tr>
+          <tr><td class="base">+60%（云收~3,680亿）</td><td class="num">~552 亿</td><td class="num">~207 亿</td><td class="num up">28,927 亿港元</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">云收入敏感性分析（云部分按40x EBITA估值）；增量收入15%落EBITA为测算。FY27基准云收2,300亿=1,581×(1+40%)×(11/12)(测算)。实际兑现取决于AI推理需求增速、Qwen模型竞争力及云市场份额变化。</div>
+      <div class="exp">
+        <div class="eh">▪ AI算力·供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">阿里未来3年计划3,800亿云和AI基建投入，FY2026已投约1,200亿；GPU服务器采购、数据中心建设持续推进，预计10年后数据中心规模较2022年翻10倍以上。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">FY2027-2028为投入高峰，新数据中心逐步投产；管理层预计云外部收入FY2027 Q1同比增42%（中金预测）。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">AI推理需求持续增长（含Agent应用），短期供需偏紧支撑云产品提价；中期需盯AI应用渗透率、友商（华为云/腾讯云）产能投放节奏，若行业算力供给过剩可能在FY2028-2029出现。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（云 40x EBITA / 淘天+国际电商 6x PE）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（估值倍数）</th><th class="cnh">中性 · FY27E 假设</th><th class="cnh num">估值</th><th class="oph bd">乐观 · FY28E 假设</th><th class="oph num">估值</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 云智能+AI ·40x EBITA</td><td class="cn as">云收2,300亿·EBITA率14.3%→EBITA 330亿</td><td class="cn num nn">13,200 亿</td><td class="op as bd">云收3,300亿·EBITA率15.0%→EBITA 495亿</td><td class="op num no">19,800 亿</td></tr>
+        <tr><td>淘天+国际电商 ·6x PE</td><td class="cn as">淘天EBITA~1,750亿·国际-100亿→净EBITA~1,650亿</td><td class="cn num nn">9,900 亿</td><td class="op as bd">淘天EBITA~1,850亿·国际-50亿→净EBITA~1,800亿</td><td class="op num no">10,800 亿</td></tr>
+        <tr><td>其他业务</td><td class="cn as">本地生活/菜鸟/文娱等→0估值（亏损）</td><td class="cn num nn">—</td><td class="op as bd">本地生活/菜鸟/文娱等→0估值（亏损）</td><td class="op num no">—</td></tr>
+        <tr class="sum"><td>合计市值（亿人民币）</td><td class="cn"><span class="sub">云13,200 + 电商9,900 + 其他0</span></td><td class="cn num">~23,100</td><td class="op bd"><span class="sub">云19,800 + 电商10,800 + 其他0</span></td><td class="op num">~30,600</td></tr>
+        <tr class="mc"><td>空间% vs 现价~19,200亿人民币</td><td class="cn"><span class="sub">云40x + 电商6x，其他业务不给估值</span></td><td class="cn num up">~23,100亿 (+20%)</td><td class="op bd"></td><td class="op num up">~30,600亿 (+59%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>云智能+AI按40x EBITA（高增长+AI溢价，对标海外云/SaaS龙头）；淘天+国际电商按6x PE（保守，反映电商增长放缓和竞争格局）；其他亏损业务不给估值。中性FY27E/乐观FY28E均为情景测算、可证伪，非卖方一致预期。人民币兑港币约0.93。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 通义千问Qwen4模型发布（预计2026H2），若性能对标甚至超越海外前沿模型，将大幅提振云业务估值和API调用量；② FY2027 Q1（2026年8月）财报验证云收入增速能否维持40%+、AI产品ARR进展；③ 2026年末AI模型与应用服务ARR达300亿目标进展；④ 云产品提价落地（百炼API定价调整）；⑤ 千问C端App用户规模和商业化突破。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 云智能增速若放缓至20%以下，估值逻辑将严重受损（当前40x EBITA建立在40%+增速假设上）；② Qwen4模型若性能不及预期，云API调用量和MaaS平台增长可能受阻；③ 电商（淘天+国际）6x PE已极保守，但若电商增速持续走弱，PE可能进一步压缩至4-5x；④ 其他亏损业务（本地生活/菜鸟等）若长期无法改善，将拖累集团整体价值；⑤ AI推理需求若不及预期，算力投资回报率将面临挑战。中性情景+20%空间提供了适度安全边际。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司FY2025/FY2026年报及业绩说明会（阿里巴巴集团官网）；iFinD、Wind（行情/估值，截至2026-07-08）；公开网络资料。FY2027 Q1云收入增速引用中金公司研报预测；分部EBITA为测算（公司仅披露集团口径经调整EBITA，分部数据根据公开信息和行业对标估算）；FY27E/FY28E分段情景为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

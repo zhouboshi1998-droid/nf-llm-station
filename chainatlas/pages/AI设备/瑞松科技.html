@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>瑞松科技 · 基本面一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;
+  --panel:#EDF2F8;--zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;
+  --line:#D6DCE5;--red:#FD625E;--redd:#C7362F;--dn:#1E8449;
+  --keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto 18px;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even):not(.total) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.biz tbody tr.total td.up,.biz tbody tr.total td.dn{color:#fff}
+/* §02 拉长版：2 列小块 + 敞口表 + 综合卡位 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:8px}
+.bl{margin-bottom:4px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin:6px 0}
+.p b{color:var(--navy)}
+.expo tbody tr.key td:first-child{color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+.summary{background:var(--coolbg);border-left:3px solid var(--navy);border-radius:4px;padding:7px 10px;margin-top:8px;font-size:9.5px;line-height:1.55;color:#3C4A57}
+.summary b{color:var(--navy)}
+/* §03 市值空间：单情景 · 分段倍数加总 */
+.mv{width:100%;font-size:9.2px}
+.mv th{background:var(--navy);color:#fff}
+.mv tbody tr.key td{background:var(--keybg);font-weight:700}
+.mv tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.mv tbody tr.total td{background:var(--navy);color:#fff;font-weight:800}
+.mv tbody tr.total td.up,.mv tbody tr.total td.dn{color:#fff}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+/* §04 催化剂 / 风险 / 数据来源 */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0;page-break-after:always}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">瑞松科技</span><span class="code">688090</span>
+      <div class="tags">光模块设备 · MPO 跳线自动化 · 全球唯一</div>
+    </div>
+    <div class="r">
+      <div class="px">总市值 146.7 亿</div>
+      <div class="meta">PE-TTM 488.69x · PB 15.86x</div>
+      <div class="date">数据截至 2026-07-07</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>传统主业机器人系统集成（汽车/3C/家电），26-27E 9-10 亿营收、0.5-1 亿利润；起涨前市值 40 亿。<b>核心增量是 MPO 跳线/插芯自动化设备（CPO 用光纤连接器件核心零部件）</b>：6 道工序（散纤/排纤/并带/套管/点胶/穿纤）实现微米级精度自动化；27-28 年小批量→1,000-3,000 台/年，对应 10-30 亿营收、3-9 亿利润；28 年 4,000 台产能满产对应 32 亿产值、10 亿利润。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">9.45 亿</div><div class="s up">+6.6% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">0.12 亿</div><div class="s up">+2.7% YoY</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">1.4%</div><div class="s">毛利率 20.3%</div></div>
+    <div class="stat"><div class="k">核心业务占比</div><div class="v">~3%</div><div class="s">MPO 自动化</div></div>
+    <div class="stat"><div class="k">市占率</div><div class="v">国内首家批量</div><div class="s">MPO 6 道工序</div></div>
+    <div class="stat"><div class="k">26Q1 归母</div><div class="v">0.21 亿</div><div class="s up">+878.6%</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（25 年报口径）</h2><span class="tip">25A 口径 · MPO 自动化是核心弹性</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>机器人系统集成（汽车/3C）</td><td class="num">8.00</td><td class="num">89.0%</td><td class="num ">持平</td><td class="num">19.2%</td><td class="num">80.2%</td></tr>
+        <tr class="key"><td>◆ PFC+其他</td><td class="num">0.70</td><td class="num">8.0%</td><td class="num up">+100%</td><td class="num">32.7%</td><td class="num">12.0%</td></tr>
+        <tr class="key"><td>◆ MPO 跳线/插芯自动化设备</td><td class="num">0.30</td><td class="num">3.0%</td><td class="num up">×10</td><td class="num">50.0%</td><td class="num">7.8%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">9.00</td><td class="num">100%</td><td class="num up">+44%</td><td class="num">—</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">02</span><h2>核心敞口、卡位、弹性与产业链位置</h2><span class="tip">设备类不涉及涨价 · 拉长版</span></div>
+    <div class="grid2">
+      <div class="bl"><div class="t">当前敞口</div><div class="x">机器人系统集成 89% 是主业稳态；MPO 跳线自动化 3% 但 26 年 ×10 → 3 亿，是估值弹性的核心；PFC 光纤连接器自动化提供辅助增量。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">A 股最纯正的 CPO 跳线自动化设备标的；国内 MPO 插芯自动化设备首家批量出货，产品覆盖散纤/排纤/并带/套管/点胶/穿纤全 6 道工序。</div></div>
+      <div class="bl"><div class="t">技术 & 盈利力</div><div class="x">微米级精度自动化，复用公司机器人系统集成能力；MPO 单套设备价值量高，随 CPO 光模块渗透率提升同步爆发。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">27-28 年 MPO 跳线/插芯设备从小批量→1,000-3,000 台/年，对应 10-30 亿营收、3-9 亿利润；28 年 4,000 台产能满产对应 32 亿产值、10 亿利润。</div></div>
+      <div class="bl"><div class="t">客户与订单</div><div class="x">MPO 客户对应海内外 CPO 光模块+光互联客户；PFC 复用机器人系统集成客户资源；机器人主业客户为汽车/3C/家电头部品牌。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）交易 MPO 从小批量到大规模量产的爆发拐点；第二阶段跳线自动化峰值市场 130 亿/利润 40 亿 × 60% 份额想象空间。</div></div>
+    </div>
+    <table class="expo">
+      <thead><tr><th>方向</th><th>公司产品 / 卡位</th><th>市场空间</th><th>竞争格局 & 公司优势</th></tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ MPO 插芯自动化设备</td><td>6 道工序（散纤/排纤/并带/套管/点胶/穿纤）微米级精度</td><td>27-28 年 MPO 设备空间 100-130 亿</td><td>国内首家批量出货</td></tr>
+        <tr><td>PFC</td><td>光纤连接器自动化</td><td>26 年小批量</td><td>复用机器人系统集成能力</td></tr>
+      </tbody>
+    </table>
+    <div class="summary"><b>综合卡位：</b>A 股最纯正的 CPO 跳线自动化设备标的；<b>MPO 自动化设备 26 年小批量、27-28 年爆发</b>（4,000 台产能对应 32 亿产值/10 亿利润）；跳线自动化设备峰值市场 130 亿，公司 60% 份额对应 24 亿利润，远期估值弹性大。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">03</span><h2>目标市值空间（分段估值加总）</h2><span class="tip">情景测算 · 可证伪</span></div>
+    <table class="mv">
+      <thead><tr>
+        <th>板块 / 假设</th><th>利润 / 市场空间</th><th>份额 / 净利率</th><th>估值</th><th class="num">市值（亿元）</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>主业（机器人系统集成）</td><td>起涨前 40 亿 · 目标利润 0.5-1 亿</td><td>—</td><td>20×PE</td><td class="num up">≈20 亿</td></tr>
+        <tr class="key"><td>◆ 第一阶段：28 年 MPO 4,000 台产能</td><td>32 亿产值/10 亿利润</td><td>—</td><td>30×PE</td><td class="num up">≈300 亿</td></tr>
+        <tr class="key"><td>◆ 第二阶段：跳线自动化峰值</td><td>市场 130 亿/利润 40 亿</td><td>60% 份额 → 24 亿利润</td><td>15×PE</td><td class="num up">≈360 亿</td></tr>
+        <tr class="total"><td>目标市值 vs 现价 146.7 亿</td><td></td><td></td><td></td><td class="num">≈300 → 400 亿（向上 104% → 向上 173%）</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>第一阶段：主业 7-8 千万利润 + 起涨前市值 40 亿；28 年 4,000 台产能 → 32 亿产值/10 亿利润 × 30×PE ≈ 300 亿。第二阶段：跳线自动化峰值市场 130 亿/40 亿利润空间，60% 份额 → 24 亿利润 × 15×PE，加上主业展望 400 亿。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">MPO 设备从小批量到千台量级放量；CPO 光模块渗透率超预期；PFC 光纤连接器自动化订单落地；第一大客户认证节点。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">CPO 放量时点不确定；MPO 竞争加剧价格战；产能扩张节奏；主业机器人系统集成毛利率承压。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会；iFinD、Wind（行情/估值/主营构成，截至 2026-07-07）；进门财经研报及会议纪要；公开网络资料及内部整理。26-27E 为卖方一致预期；27-28E 分段情景、净利率档位、市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>数据港(603881)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">数据港</span><span class="code">603881</span>
+      <div class="tags">阿里云定制化IDC · 静安区国资控股 · AI4S转型豪赌</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥24.21　总市值 208.70 亿</div>
+      <div class="meta">PE-TTM ~149.7x · PB(LF) 6.2x · 8.62 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>数据港是上海市静安区国资委投资控股的国有数据中心企业，是阿里云最大第三方IDC(互联网数据中心)合作伙伴，直接或间接来自阿里巴巴的收入占比高达98.3%，客户集中度处于行业极端水平。公司与阿里签订的多为5-10年固定价格长期协议，即便AI算力需求爆发、行业整体涨价，存量合同期内也无法受益，2025年营收几乎零增长(+0.02%)、2026Q1甚至下滑3.8%。为寻找新增长点，公司2025年9月成立智算业务部门，全力押注AI4S(科学智能)转型，两度获董事会授权合计不超21亿元采购科学计算/服务器设备(超公司近6年净利润总和近3倍)，但该业务2025年营收仅353万元，尚处极早期阶段。<b>AI4S新业务能否顺利放量、意向订单转化节奏，是这场高杠杆转型豪赌的核心变量</b>。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">17.21 亿</div><div class="s">+0.02% YoY，近乎零增长</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">1.39 亿</div><div class="s up">+5.0% YoY</div></div>
+    <div class="stat"><div class="k">2025 净利率</div><div class="v">~8.1%</div><div class="s">毛利率 ~37.6%</div></div>
+    <div class="stat"><div class="k">单一客户收入占比</div><div class="v">~98.3%</div><div class="s">阿里系长期定制化合作</div></div>
+    <div class="stat"><div class="k">2026Q1 营收</div><div class="v">3.80 亿</div><div class="s dn">-3.8% YoY，增长停滞</div></div>
+    <div class="stat"><div class="k">AI4S新业务投入</div><div class="v">≤21 亿元</div><div class="s">设备采购授权；2025年营收仅353万元</div></div>
+  </div>
+
+  <!-- §01 业务构成（2025 年报分部拆分，表格形式） -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>IDC服务业（阿里定制化）</td><td class="num">16.96</td><td class="num">98.5%</td><td class="num dn">-0.8%</td><td class="num">37.3%</td><td class="num">97.9%</td></tr>
+        <tr class="key"><td>◆ IDC解决方案</td><td class="num">0.22</td><td class="num">1.3%</td><td class="num up">+169.2%</td><td class="num">60.5%</td><td class="num">2.0%</td></tr>
+        <tr class="key"><td>◆ 智算业务（AI4S）</td><td class="num">0.04</td><td class="num">0.2%</td><td class="num">口径调整</td><td class="num">22.6%</td><td class="num">0.1%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">17.21</td><td class="num">100%</td><td class="num">+0.02%</td><td class="num">37.6%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">公司主业IDC服务业2025年营收16.96亿元，占比98.5%，同比-0.8%，增长几近停滞；智算业务及IDC解决方案合计营收仅0.25亿元(占比1.5%)，但代表公司"双轮驱动"转型的新增长极。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">公司是上海市静安区国资委投资控股的国有数据中心企业，是阿里云最大第三方IDC合作伙伴，直接或间接来自阿里巴巴及其控制企业的收入占比高达98.3%，前五大客户合计占比99.22%；数据中心布局京津冀、长三角、大湾区等全国多区域。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">公司浸没式液冷技术PUE低至1.09-1.2，处于行业领先水平；但与阿里签订的多为5-10年固定价格长期协议，即便AI算力需求爆发、行业整体涨价，存量合同期内仍需按原价计费，公司"丧失了涨价权"，2025年营收增速几近零增长(2026Q1甚至下滑3.8%)。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">2025年9月公司成立智算业务部门，推动"上海一号智算中心"改造试点，2026年6月中标某区域客户科研计算平台采购项目(服务期2年，投标报价4亿元)，并两度获董事会授权合计不超21亿元采购科学计算/服务器设备(超公司近6年净利润总和近3倍)，全力押注AI4S转型(与§04情景假设勾稽)。</div></div>
+      <div class="bl"><div class="t">涨价（满产）口径利润</div><div class="x">假设AI4S/智算新业务(2028E中性情景)收入较基准每上升10%且约55%落净利(新签约按市场化定价，不受存量长协约束)，对应公司总净利较基准增厚约1.2亿元（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场交易的是公司能否从"阿里定制化IDC供应商"转型为"AI4S综合算力服务商"的预期，是一场高杠杆的转型豪赌；股价近一周明显回落(7月1日25.80元→7月7日22.01元)后7月8日单日反弹8.9%，波动剧烈。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>公司存量IDC服务业收入因与阿里巴巴的长期固定价格协议而基本"丧失涨价权"，但2025年9月成立的智算业务部门及新签的AI4S/科研计算订单不受存量长协约束，可按市场化定价签约；在AI算力/科学计算需求持续释放的背景下，新签约定价具备上行弹性，且新建产能的土地、电力、设备等成本大部分已固定沉淀，增量收入对净利润具有较强的经营杠杆效应。</div>
+      <div class="p"><b>弹性假设：</b>假设AI4S/智算新业务(2028E中性情景)收入较基准整体上升10%，且约55%转化为增量净利（新签约按市场化定价，运营杠杆支撑议价能力）。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E中性AI4S新签约定价，测算口径）</td><td class="num">5.5 亿</td><td class="num">10.1 亿</td><td class="num up">256 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">6.7 亿</td><td class="num">11.3 亿</td><td class="num up">293 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">7.9 亿</td><td class="num">12.5 亿</td><td class="num up">329 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">9.1 亿</td><td class="num">13.7 亿</td><td class="num up">365 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯AI4S新签约定价敏感性（中性量不变，IDC服务业净利固定约4.6亿）；乐观情形为量+价+净利率齐升，见§04。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">公司2026年6月两度获董事会授权，合计不超21亿元用于科学计算/服务器及配套设备采购(其中8亿元科学计算设备、13亿元服务器及配套设备)，规模超公司近6年归母净利润总和(7.56亿元)的近3倍。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">2025年9月成立智算业务部门；"上海一号智算中心"(市北机房改造)为战略起点，已中标首个区域科研计算平台订单(服务期2年、报价4亿元)，后续意向订单仍在商务洽谈中。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">AI4S属早期新兴赛道，公司转型能否成功高度依赖新订单转化节奏；需重点跟踪意向订单落地进度、产能利用率爬坡速度，以及存量阿里长协到期后能否重新议价。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（智算/AI4S新业务 30x / IDC服务业(阿里定制化) 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 智算/AI4S新业务 ·30x</td><td class="cn as">基于21亿元设备采购承诺，产能爬坡带动收入至22.0亿元(测算)·净利率25%(高附加值科研计算服务)</td><td class="cn num nn">5.5</td><td class="op as bd">产能利用率及订单转化超预期，收入至25.5亿元(测算)·净利率27.5%</td><td class="op num no">7.0</td></tr>
+        <tr><td>IDC服务业(阿里定制化) ·20x</td><td class="cn as">收入CAGR~19%(25-28E)至28.6亿·净利率16.0%(新增产能贡献增量，存量维持锁价)</td><td class="cn num nn">4.6</td><td class="op as bd">收入CAGR~23.5%·净利率17.5%</td><td class="op num no">5.6</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心段5.5 / 其他4.6</span></td><td class="cn num">~10.1</td><td class="op bd"><span class="sub">核心段7.0 / 其他5.6</span></td><td class="op num">~12.6</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价208.70亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">~256亿 (+22.9%)</td><td class="op bd"></td><td class="op num up">~322亿 (+54.4%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>智算/AI4S新业务(IDC解决方案+智算业务)因2025年基数极小，按21亿元设备采购承诺及产能爬坡测算收入水平(非CAGR外推)；IDC服务业(阿里定制化)按收入CAGR+净利率假设外推，中性情景对应目标市值约260亿元、乐观情景约325亿元(误差±20亿)；分段净利×倍数(核心业务30x/传统主业20x)加总。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">持续：21亿元科学计算/服务器设备采购逐步落地，AI4S新业务产能释放；2026年内：首个科研计算平台订单(4亿元，服务期2年)开始贡献收入，意向订单能否加速转化为实际收入；持续："上海一号智算中心"改造试点向千卡集群方案升级，探索商贸/消费/医疗健康等领域AI4S商业化落地；中长期：存量阿里长协陆续到期后，能否以更市场化的定价重新签约。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">本情景中性净利润(10.07亿元)、乐观净利润(12.60亿元)均显著高于Wind卖方一致预期2028E(2.48亿元)，差距达4-5倍，情景测算隐含AI4S转型大幅超预期兑现的假设，证伪风险极高；现价对应PE-TTM高达149.7x，估值已充分计入乐观预期，公司近6年归母净利润总和仅7.56亿元，21亿元设备采购承诺对现金流及资产负债结构影响显著；直接或间接来自阿里巴巴的收入占比高达98.3%，客户集中度处于行业极端水平，存量合同为5-10年固定价格长协，公司无法从行业涨价中受益；智算/AI4S业务2025年营收仅353万元，尚处极早期阶段，目前仅有1个已中标订单，意向订单能否转化、产能利用率爬坡速度均存在较大不确定性；公司2025年营收几乎零增长(+0.02%)，2026Q1甚至同比下滑3.76%，若AI4S新业务爬坡不及预期，主业增长动能不足的问题将持续暴露。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年年度报告及公告（巨潮，含2025年度ESG报告）；iFinD、Wind（行情/估值/主营构成/一致预期，截至2026-07-08）；进门财经研报及财经资讯及公开网络资料。Wind卖方一致预期2026E/2027E/2028E归母净利润分别为1.89/2.20/2.48亿元，本情景中性(10.07亿)及乐观(12.60亿)均远高于一致预期(约4-5倍)，差距显著，供参考。2025年智算业务为公司当年新设分部口径，与2024年"云销售"分部不完全可比，已标注"口径调整"。2028E分段情景、净利率档位、新签约定价弹性与市值空间为对应目标市值（中性约260亿元/乐观约325亿元，误差±20亿）校准的情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

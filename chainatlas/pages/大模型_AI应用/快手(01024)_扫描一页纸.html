@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>快手(01024)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;
+  --zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;
+  --red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">快手</span><span class="code">01024.HK</span>
+      <div class="tags">短视频+直播电商 · 可灵AI视频生成龙头 · 出海巴西+AI变现</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 HK$43.98　总市值 1,903 亿港元</div>
+      <div class="meta">PE-TTM ~8.9x · PB ~2.06x · 43.27 亿股</div>
+      <div class="date">数据截至 2026-07-08</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>快手是中国第二大短视频和直播平台（日活用户4.08亿、月活7.41亿），核心变现模式为线上营销（即信息流广告）+直播打赏+电商带货。2025年营收1,428亿元（+12.5%），经调整净利润206亿元（+16.5%），<b>核心看点是可灵AI（全球领先的AI视频生成模型，即用文字描述自动生成视频）已完成一级市场融资、投后估值180亿美元（基于26年末10亿美元ARR、18x P/ARR），快手持股68%对应约122亿美元（约955亿港元），已占当前总市值的50%</b>，正在从根本上重塑快手的估值体系。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">1,427.8 亿</div><div class="s up">+12.5% YoY</div></div>
+    <div class="stat"><div class="k">2025 经调整净利</div><div class="v">206.5 亿</div><div class="s up">+16.5% YoY</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">~55.0%</div><div class="s">运营利润率 14.5%</div></div>
+    <div class="stat"><div class="k">可灵AI投后估值</div><div class="v">$180 亿</div><div class="s">26年末ARR目标$10亿</div></div>
+    <div class="stat"><div class="k">DAU</div><div class="v">4.08 亿</div><div class="s">MAU 7.41亿</div></div>
+    <div class="stat"><div class="k">海外亏损收窄</div><div class="v">-0.76 亿</div><div class="s up">vs 上年 -9.34亿</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>线上营销服务（信息流广告）</td><td class="num">815.00</td><td class="num">57.1%</td><td class="num up">+12.5%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>直播（打赏分成）</td><td class="num">391.00</td><td class="num">27.4%</td><td class="num up">+5.5%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr class="key"><td>◆ 其他服务（电商+可灵AI）</td><td class="num">222.00</td><td class="num">15.5%</td><td class="num up">+27.6%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr class="total"><td>合计</td><td class="num">1,427.76</td><td class="num">100%</td><td class="num up">+12.5%</td><td class="num">~55.0%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">广告仍是营收绝对主力（57%），但增速（+12.5%）低于电商+AI（+27.6%）。可灵AI当前收入占比不足1%，但已完成一级市场融资（投后180亿美元估值，26年末ARR目标10亿美元），快手占可灵68%股权对应约955亿港元，已占现总市值50%，是可灵估值重估的核心杠杆。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">在AI视频生成赛道居全球领先地位：可灵3.0系列基于"All-in-One"架构，累计用户超6,000万、生成视频超6亿个、服务超3万企业客户。对比海外Runway/Pika，可灵在多模态整合（视频+音频同步生成）和商业化变现上领先。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">AI已深度嵌入主业：AI推荐大模型驱动广告收入提升约5%，AIGC营销素材消耗达40亿元/季，UAX全自动投放渗透率接近80%。整体运营利润率从2023年的5.7%提升至2025年的14.5%，盈利能力持续改善。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">可灵AI目标26年末ARR 10亿美元→27年25亿美元→28年40亿美元，按30%净利率（测算，考虑CAPEX投入）28年贡献净利约12亿美元（~87亿人民币），届时AI利润占比有望从当前亏损升至~30%。电商GMV增长+货币化率提升也将驱动主业利润改善。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">可灵AI ARR从26年10亿→27年25亿→28年40亿美元，增量ARR对应的净利按30%净利率（测算，因GPU算力CAPEX占成本大头），即26年约3亿美元（~22亿人民币）→28年约12亿美元（~87亿人民币）。净利率低于纯SaaS公司，因视频生成是重算力业务。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26年7月）市场对快手主业的定价极度保守（PE仅8.9x），但可灵AI赋予其"AI应用期权"价值。当前价格隐含市场尚未给AI业务任何估值，或是认为其面临字节即梦AI等强力竞争。海外巴西市场DAU稳健、亏损大幅收窄至0.76亿，盈亏平衡在即。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>可灵AI独立估值弹性（P/ARR框架）</h2></div>
+      <div class="p"><b>弹性逻辑：</b>可灵已完成一级市场融资，投后估值180亿美元，对应26年末10亿美元ARR×18x P/ARR。本文参照此框架，快手持可灵68%股权。P/ARR倍数逐年递减反映ARR体量放大后的估值收敛（18x→15x→10x），净利率按30%测算（重算力业务的CAPEX约束）。</div>
+      <div class="p"><b>弹性假设：</b>26/27/28年ARR分别为10亿/25亿/40亿美元，分别按18x/15x/10x P/ARR估值，快手占比68%。净利率统一按30%测算。</div>
+      <table>
+        <thead><tr><th>可灵ARR目标</th><th class="num">整体估值</th><th class="num">快手占比(68%)估值</th><th class="num">可灵净利(30%)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">FY26E·$10亿 ARR·18x P/ARR</td><td class="num">$180 亿</td><td class="num">$122亿（~955亿港元）</td><td class="num">$3.0亿（~22亿RMB）</td></tr>
+          <tr><td class="base">FY27E·$25亿 ARR·15x P/ARR</td><td class="num up">$375 亿</td><td class="num up">$255亿（~1,989亿港元）</td><td class="num up">$7.5亿（~54亿RMB）</td></tr>
+          <tr><td class="base">FY28E·$40亿 ARR·10x P/ARR</td><td class="num up">$400 亿</td><td class="num up">$272亿（~2,122亿港元）</td><td class="num up">$12.0亿（~87亿RMB）</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">估值锚定：可灵一级市场融资投后$180亿（26年末10亿美元ARR×18x P/ARR），快手占比68%。P/ARR倍数18x→15x→10x逐年递减反映ARR体量从10亿→40亿美元的估值收敛逻辑。$1兑7.8港元（测算）。</div>
+      <div class="exp">
+        <div class="eh">▪ AI视频赛道·竞争格局研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">快手在乌兰察布自建数据中心，稳步推进新算力中心建设。可灵AI从2.6→3.0模型代际跃升，功能从"无声画面"升级为"音画同出+动作控制"一体化创作系统。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">2026年可灵3.0全面商用化，企业API付费和C端订阅双轮驱动。影视/广告/短剧/游戏四大垂直场景逐步渗透，API调用量快速增长。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">AI视频生成赛道格局未定，需盯字节即梦AI、海外Sora/Runway的模型能力追赶速度。可灵的先发优势窗口期约12-18个月。关键变量：可灵用户留存率、企业客户续费率、模型迭代速度能否维持领先。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（可灵 P/ARR 18x→15x / 主业 7x PE）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（估值方法）</th><th class="cnh">中性 · FY26E 假设</th><th class="cnh num">估值</th><th class="oph bd">乐观 · FY27E 假设</th><th class="oph num">估值</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 可灵AI ·P/ARR 18x/15x</td><td class="cn as">ARR $10亿×18x→$180亿·快手占68%</td><td class="cn num nn">~955 亿港元</td><td class="op as bd">ARR $25亿×15x→$375亿·快手占68%</td><td class="op num no">~1,989 亿港元</td></tr>
+        <tr><td>主业（广告+直播+电商）·7x PE</td><td class="cn as">经调整净利~220亿RMB·7x PE</td><td class="cn num nn">~1,656 亿港元</td><td class="op as bd">经调整净利~240亿RMB·7x PE</td><td class="op num no">~1,806 亿港元</td></tr>
+        <tr class="sum"><td>合计市值（亿港元）</td><td class="cn"><span class="sub">可灵955 + 主业1,656</span></td><td class="cn num">~2,611</td><td class="op bd"><span class="sub">可灵1,989 + 主业1,806</span></td><td class="op num">~3,795</td></tr>
+        <tr class="mc"><td>空间% vs 现价 1,903亿港元</td><td class="cn"><span class="sub">可灵一级融资锚定 + 主业7x PE</span></td><td class="cn num up">~2,611亿 (+37%)</td><td class="op bd"></td><td class="op num up">~3,795亿 (+99%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>可灵AI按P/ARR估值（以一级市场融资180亿美元/18x P/ARR为锚定，27年15x），快手持股68%；主业按7x PE（保守，反映短视频行业增速放缓和竞争格局，已预留安全边际）。中性FY26E/乐观FY27E均为情景测算、可证伪，非卖方一致预期。$1兑7.8港元，1人民币兑1.075港元（测算）。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 可灵AI FY26末ARR能否达标10亿美元（一级市场估值锚）；② 可灵3.0企业客户拓展进展，API调用量增长；③ 海外巴西市场扭亏为盈节点（当前亏损仅0.76亿）；④ 电商GMV货币化率提升（当前约1.5%，对标抖音3%+）；⑤ 可灵后续融资或IPO进展（验证估值逻辑）。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 字节即梦AI等竞品在视频生成赛道快速追赶，可灵先发优势可能被侵蚀；② 快手主业的用户增长见顶（DAU 4.08亿），广告加载率提升空间有限；③ 可灵ARR 10亿美元目标若未达预期，一级市场估值锚将被打破（P/ARR面临压缩）；④ 30%净利率假设面临GPU算力成本持续上涨的挑战；⑤ 中性情景可灵估值955亿港元已占现总市值50%，主业7x PE隐含市场对短视频主业极度悲观，若AI故事证伪、主业PE可能进一步压缩至5-6x。</div></div>
+    </div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司2024/2025年报及业绩说明会（快手科技官网）；iFinD、Wind（行情/估值，截至2026-07-08）；公开网络资料。可灵估值以一级市场融资投后180亿美元（26年末10亿美元ARR×18x P/ARR）为锚定，快手持股68%；26/27/28年ARR及P/ARR假设为情景测算，非卖方一致预期，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

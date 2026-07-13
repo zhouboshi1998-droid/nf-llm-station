@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>中控技术(688777)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+
+</head><body><div class="sheet">
+  <div class="hdr"><div class="l">
+    <div class="kick">个股扫描 · 一页纸</div>
+    <span class="name">中控技术</span><span class="code">688777</span>
+    <div class="tags">工业 AI / 流程工业自动化 · DCS/UCS 控制入口 · 工业大模型 TPT</div></div>
+    <div class="r"><div class="px">现价 ¥104.00　总市值 ~822.8 亿</div><div class="meta">PE-TTM 207.8x · PB 8.20x · PS 10.33x</div><div class="date">数据截至 2026-07-07</div></div>
+  </div>
+  <div class="lead"><b>一句话看懂：</b>中控技术的 AI 逻辑不是单点工具，而是把 <b>DCS/UCS 工业控制入口</b>升级为「工业数据 + 工业大模型 + 自主运行工厂」的平台型机会；当前估值已反映较多工业 AI 预期，后续要看订单与利润修复。</div>
+  <div class="stats"><div class="stat"><div class="k">2025 营业收入</div><div class="v">80.73 亿</div><div class="s dn">-11.66% YoY</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">4.41 亿</div><div class="s dn">-60.48% YoY</div></div><div class="stat"><div class="k">综合毛利率</div><div class="v">31.22%</div><div class="s dn">-2.64pct</div></div><div class="stat"><div class="k">核心入口</div><div class="v">DCS/UCS</div><div class="s">流程工业控制与数据入口</div></div><div class="stat"><div class="k">AI 敞口</div><div class="v">~10%-25%</div><div class="s">工业 AI 仍在早期放量</div></div><div class="stat"><div class="k">0707 市值</div><div class="v">~822.8 亿</div><div class="s">PE-TTM 207.8x，已反映较多 AI 预期</div></div></div>
+  <div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">公司未细分披露完整分部收入 · 定性口径</span></div><table class="biz"><thead><tr><th>业务板块</th><th>角色</th><th>AI 相关性</th></tr></thead><tbody><tr class="key"><td>◆ DCS/UCS 控制系统</td><td>流程工业控制入口，核心客户与数据入口</td><td>高</td></tr><tr><td>工业软件 / TPT 工业大模型</td><td>承接工业知识、工艺优化、智能运维与 Agent</td><td>高</td></tr><tr><td>仪器仪表 / 智能制造解决方案</td><td>与控制系统、工艺数据形成闭环</td><td>中高</td></tr><tr><td>海外与行业解决方案</td><td>打开增量市场，提升订单弹性</td><td>中</td></tr></tbody></table><div class="note">主营围绕 DCS/UCS、工业软件、自动化仪表、智能制造解决方案；收入波动主要受流程工业资本开支、项目交付节奏与海外拓展影响。</div></div>
+  <div class="two">
+    <div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">产业链位置</div><div class="x">工业控制系统入口 + 工业软件平台 + 工业 AI 应用层。</div></div><div class="bl"><div class="t">AI 相关敞口</div><div class="x">约 10%-25%（测算），但战略价值高于当前收入占比。</div></div><div class="bl"><div class="t">收入弹性</div><div class="x">来自工业 AI 项目、AOP 自主运行工厂、存量客户软件升级。</div></div><div class="bl"><div class="t">利润弹性</div><div class="x">来自产品化软件占比提升、海外项目毛利改善、费用率修复。</div></div><div class="bl"><div class="t">关键变量</div><div class="x">工业场景落地速度、客户预算、AI 项目能否从试点走向复制。</div></div></div>
+    <div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>价格逻辑：</b>DCS/UCS 安全性与稳定性要求高、价格更多由项目复杂度决定（弹性中等）；工业 AI/TPT/Agent 若能直接提升产线效率、降低能耗与安全风险则可按价值收费（中高）；海外解决方案由项目复杂度与服务能力决定溢价（中等）。</div></div>
+  </div>
+  <div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（情景测算）</h2><span class="tip">全部为情景测算</span></div><table class=""><thead><tr><th>情景</th><th>核心假设</th><th>估值方法</th><th class="num">2027 目标市值</th></tr></thead><tbody><tr><td>中性</td><td>传统自动化利润 ~8 亿×35x PE + 工业 AI 收入 ~30 亿×25x PS</td><td>280 亿 + 750 亿</td><td class="num">~1,030 亿</td></tr><tr><td>乐观</td><td>主业 8 亿利润×40x + AI 收入 40 亿×30x PS</td><td>320 亿 + 1,200 亿</td><td class="num">~1,520 亿</td></tr></tbody></table><div class="note"><b>估值法：</b>分部加总（传统主业按 PE、工业 AI 按 PS）；对工业 AI 落地速度高度敏感，情景推演、可证伪。</div></div>
+  <div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">工业 AI 标杆订单落地；TPT/AOP 产品化复制；海外订单改善；流程工业资本开支回暖；利润率修复。</div></div>
+    <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">工业 AI 项目停留在试点；流程工业投资低迷；大项目交付拖延；海外拓展低于预期；当前估值对 AI 预期较充分。</div></div></div>
+    <div class="src"><b>数据来源：</b>公司年报、Wind 2026-07-07 日 K 行情、机构一致预期与情景测算。</div>
+  </div>
+</div></body></html>

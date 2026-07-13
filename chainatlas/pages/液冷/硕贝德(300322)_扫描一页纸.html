@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>硕贝德(300322)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">硕贝德</span><span class="code">300322</span>
+      <div class="tags">天线起家平台 · 液冷busbar+光模块Cage+冷板 · 泰科链</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥26.60　总市值 122.5 亿</div>
+      <div class="meta">PE-TTM 失真（2025 微利/100%分位）· 4.61 亿股</div>
+      <div class="date">数据截至 2026-06-24</div>
+    </div>
+  </div>
+  <div class="lead"><b>一句话看懂：</b>硕贝德是天线起家的消费电子零部件平台公司（天线/散热模组/线束/传感器），凭出身富士康的散热团队+与泰科(TE)/安费诺合作，卡位 AI 液冷 busbar、光模块液冷 cage、服务器冷板三条线。<b>散热（液冷）是 2019 年切入、2026-27 进入兑现期的第二增长曲线</b>；散热板块毛利率仅 6%、AI 液冷尚在放量初期。</div>
+  <div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">27.7 亿</div><div class="s up">+49% YoY</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">0.65 亿</div><div class="s up">+200% 扭亏</div></div><div class="stat"><div class="k">散热占比</div><div class="v">~10%</div><div class="s">毛利率 6%</div></div><div class="stat"><div class="k">液冷占比</div><div class="v">≈0</div><div class="s">2026 起量</div></div><div class="stat"><div class="k">busbar单柜</div><div class="v">~1.5万元</div><div class="s">整套4-5万</div></div><div class="stat"><div class="k">泰科链</div><div class="v">4个定点</div><div class="s">Q3 量产</div></div></div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报四大业务）</h2><span class="tip">液冷（AI）2025≈0、弹性在 2026-27</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody><tr><td>天线及模组</td><td class="num">14.3</td><td class="num">52%</td><td class="num up">+33%</td><td class="num">30%</td><td class="num">—</td></tr><tr><td>线束及连接件</td><td class="num">6.9</td><td class="num">25%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr><td>传感器智能模组</td><td class="num">3.3</td><td class="num">12%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr><tr class="key"><td>◆ 散热器件及模组（含液冷）</td><td class="num">2.9</td><td class="num">10%</td><td class="num up">+126%</td><td class="num">6%</td><td class="num">—</td></tr><tr class="total"><td>合计（营业收入）</td><td class="num">27.7</td><td class="num">100%</td><td class="num up">+49%</td><td class="num">—</td><td class="num">—</td></tr></tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">散热板块 2025 营收 2.9 亿、占比 10%（毛利率仅 6%，以 PS5 等消费散热为主）；AI 液冷 2025 仅小批量试产、占比≈0，弹性全在 2026-27。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">②冷板/液冷散热模组，向 busbar 液冷管、光模块液冷 cage 延伸；载体东莞合众（91%）+惠州硕众导热（100%）。</div></div><div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">三条线：液冷 busbar（Rubin 机柜用，泰科客户，已 4 个定点、Q3 量产，单柜 1.5 万→整套 4-5 万）；光模块液冷 cage（1.6T，泰科合格供应商）；服务器冷板/UQD（经英业达/台达/美超微供 NV）。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">液冷 busbar 市场 26-27 约 130 亿、泰科份额~30%、SBD 在泰科内~60%→对应 SBD 收入增量约 14-16 亿；2027 液冷合计 ~20-30 亿。</div></div><div class="bl"><div class="t">放量口径利润</div><div class="x">液冷 busbar Q2 起小批量、Q3 量产；整套模组供应后单柜升至 4-5 万；公司层面卖方一致预期 2026/27/28 归母 = 1.1/2.5/4.3 亿（测算）。</div></div><div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）市场定价 busbar/cage 泰科链兑现；PE(TTM) 失真（2025 微利、100% 分位），估值建立在 2026-27 液冷利润兑现预期。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与收入弹性</h2><span class="tip">渗透/放量型 · 非涨价</span></div>
+      <div class="p"><b>放量逻辑：</b>Rubin 平台 100% 液冷+电源液冷化，公司经泰科供液冷 busbar/光模块 cage/服务器冷板放量；AI 液冷从 0 到 1 兑现驱动散热板块弹性。</div>
+      <div class="p"><b>弹性假设：</b>以中性 2027 液冷收入 20 亿为基准、净利率 16%，收入每 +10% 增厚净利，按液冷 PE 30x 计入（测算）。</div>
+      <table>
+        <thead><tr><th>液冷收入放量</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody><tr><td class="base">基准 20 亿（27 中性）</td><td class="num">3.2 亿</td><td class="num">4.7 亿</td><td class="num up">~134 亿</td></tr><tr><td class="base">+10%</td><td class="num">3.5 亿</td><td class="num">5.0 亿</td><td class="num up">~144 亿</td></tr><tr><td class="base">+20%</td><td class="num">3.8 亿</td><td class="num">5.3 亿</td><td class="num up">~153 亿</td></tr><tr><td class="base">+30%</td><td class="num">4.2 亿</td><td class="num">5.7 亿</td><td class="num up">~163 亿</td></tr></tbody>
+      </table>
+      <div class="el-cap">液冷收入放量敏感性（测算，非涨价）；净利率 16%，增量按液冷 PE 30x 计入。中性目标市值约 +9%，弹性靠泰科大份额足额兑现。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">busbar Q2 起小批量、Q3 量产；越南/惠州基地扩张中；公司未披露万套级绝对产能。</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">busbar 已获 4 个项目定点、forecast 订单“大几亿美金”；光模块 cage 待终端客户(NV)审厂；GB300 冷板长期送样。</span></div><div class="er rv"><span class="lb">渗透拐点</span><span class="vv">液冷渗透起量型；拐点看 busbar Q2 小批量→Q3 量产实际出货、光模块液冷 cage 终端审厂结果、GB300 冷板量产时点。</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（SOTP：主业底仓 + 液冷增量分部）</h2><span class="tip">第二曲线 · 目标年 2027</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>口径一 · 盈利预测法（SOTP · 目标年 2027）</th><th class="cnh num">中性</th><th class="oph bd num">乐观</th>
+      </tr></thead>
+      <tbody><tr><td><b>液冷增量分部</b></td><td class="cn"></td><td class="op bd"></td></tr><tr><td>液冷收入（亿元）</td><td class="cn num">20</td><td class="op num bd">30</td></tr><tr><td>液冷净利率</td><td class="cn num">16%</td><td class="op num bd">20%</td></tr><tr class="ai-row"><td>液冷净利润（亿元）</td><td class="cn num nn">3.2</td><td class="op num no bd">6.0</td></tr><tr><td>液冷 PE（x）</td><td class="cn num">30</td><td class="op num bd">35</td></tr><tr class="sum"><td>液冷分部估值（亿元）</td><td class="cn num">~96</td><td class="op num bd">~210</td></tr><tr><td><b>主业（天线+线束+散热）</b></td><td class="cn"></td><td class="op bd"></td></tr><tr><td>主业净利润（亿元）</td><td class="cn num">1.5</td><td class="op num bd">1.5</td></tr><tr><td>主业 PE（x）</td><td class="cn num">25</td><td class="op num bd">25</td></tr><tr class="sum"><td>主业估值（亿元）</td><td class="cn num">~38</td><td class="op num bd">~38</td></tr><tr class="sum"><td>目标总市值（亿元）</td><td class="cn num">~134</td><td class="op num bd">~248</td></tr><tr class="mc"><td>对应上行空间（vs 现价 122.5 亿）</td><td class="cn num up">+9%</td><td class="op num up bd">+102%</td></tr></tbody>
+    </table>
+    <div class="note"><b>口径二 · 满产法（份额满产）：</b>液冷 Cage+Busbar 份额满产对齐乐观 30 亿×净利率 20%×30x ≈ 180 亿 + 主业 38 亿 ≈ <b>~218 亿（+78%）</b>；泰科大份额（60%/30%）+审厂全通过、未折现。<b>估值提示：</b>2025 仅微利、PE(TTM) 失真且处历史 100% 分位，估值全建立在 2026-27 液冷兑现；中性（+9%）已 price-in，乐观/满产依赖份额足额兑现、确定性低。均为情景测算、可证伪。</div>
+  </div>
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">busbar 2026Q2 小批量→Q3 量产实际出货与确认收入；光模块液冷 cage 终端审厂结果；GB300 冷板量产时点；2026 半年报散热板块收入与毛利率拐点；卫通天线北美二供送样进展。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">液冷收入 2025 占比≈0、全押 2026-27 兑现、业绩尚未验证、估值无 PE 锚；光模块液冷需终端客户(NV)审厂通过方能交付；散热板块毛利率仅 6%、放量初期盈利能力存疑；客户集中泰科/安费诺、份额假设(60%/30%)若不达则弹性缩水；AI 资本开支/液冷渗透节奏。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2024/2025 年报及公告（巨潮）；iFinD、Wind（行情/估值/主营构成，截至 2026-06-24）；进门财经研报及会议纪要（华安/华鑫等，列券商名）；公开网络资料及内部提供资料。中性采卖方一致预期（不下修、已向下平移一档）；2027 及满产口径、市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+</div>
+</body>
+</html>

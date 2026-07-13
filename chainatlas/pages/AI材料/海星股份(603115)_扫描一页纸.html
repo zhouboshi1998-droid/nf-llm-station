@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>海星股份(603115)_扫描一页纸</title><style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF; --up:#C7362F; --inks:#333940;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style><style>.biz tbody tr.total td{background:var(--navy)!important;color:#fff!important}.biz tbody tr.total td:first-child{color:#fff!important}.biz tbody tr.key td{background:var(--keybg)!important}.biz tbody tr.key td:first-child{color:var(--redd)!important}</style></head><body><div class="sheet"><div class="hdr"><div class="l"><div class="kick">个股扫描 · 一页纸</div><span class="name">海星股份</span><span class="code">603115</span><div class="tags">电极箔龙头 · AI 服务器电源用箔 · 国产替代</div></div><div class="r"><div class="px">现价 ¥99.26　总市值 240.1 亿</div><div class="meta">PE-TTM ~108x · PB 11.1x · 2.42 亿股</div><div class="date">数据截至 2026-07-07</div></div></div><div class="lead"><b>一句话看懂：</b>海星是做「铝电解电容用电极箔」的全球龙头——电容是几乎所有电源里储电、滤波的元件，而电极箔（光箔经「腐蚀」长出微孔再「化成」长出氧化膜）就是电容的「心脏材料」，决定能存多少电。看点：AI 服务器电源对高压大容量铝电解电容需求暴增，对电极箔的比容/耐压要求陡升，能做的厂家锐减，海星卡位台系 AI 供应链；高压化成箔「有价缺量」，<b>量、价、毛利可同步上台阶</b>。</div><div class="stats"><div class="stat"><div class="k">2025 营收</div><div class="v">22.95 亿</div><div class="s" style="color:var(--up)">+19.1% YoY</div></div><div class="stat"><div class="k">2025 归母净利</div><div class="v">2.06 亿</div><div class="s" style="color:var(--up)">+28.2% YoY</div></div><div class="stat"><div class="k">2025 净利率</div><div class="v">~9%</div><div class="s" style="color:var(--ink)">毛利率 ~22%</div></div><div class="stat"><div class="k">AI 服务器用箔</div><div class="v">营收 ~5%</div><div class="s" style="color:var(--ink)">26 年快速爬升</div></div><div class="stat"><div class="k">全球市占率</div><div class="v">~9-10%</div><div class="s" style="color:var(--ink)">纯材料商第一</div></div><div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.40 亿</div><div class="s" style="color:var(--up)">扣非 +74.7%</div></div></div><div class="sec"><div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 核心看点板块高亮 · 占比四舍五入</span></div><table class="biz"><thead><tr><th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th></tr></thead><tbody><tr class="key"><td>◆ 化成箔</td><td class="num">21.96</td><td class="num">95.7%</td><td class="num up">+19.4%</td><td class="num">22.3%</td><td class="num">97.5%</td></tr><tr><td>腐蚀箔</td><td class="num">0.92</td><td class="num">4.0%</td><td class="num up">+11.3%</td><td class="num">13.1%</td><td class="num">2.4%</td></tr><tr><td>其他业务</td><td class="num">0.08</td><td class="num">0.3%</td><td class="num up">+23.1%</td><td class="num">7.6%</td><td class="num">0.1%</td></tr><tr class="total"><td>合计</td><td class="num">22.95</td><td class="num">100%</td><td class="num">+19.1%</td><td class="num">21.9%</td><td class="num">100%</td></tr></tbody></table></div><div class="two"><div class="sec"><div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div><div class="bl"><div class="t">当前敞口</div><div class="x">AI 服务器用电极箔 2025 营收占比仅 ~5%（26Q1 已出货「小几十万平」）；但单价（90-150 元/㎡）与平米净利远高于传统箔，利润口径占比已快于收入。当前是高弹性期权。</div></div><div class="bl"><div class="t">产业链卡位</div><div class="x">全球电极箔产能 80%+ 在中国大陆；海星是<b>唯一纯材料商、全球市占率第一 ~9-10%</b>。卡位台系 AI 供应链（台达/伟创力/光宝→英伟达/华为），台系 AI 需求份额 &gt;50%。</div></div><div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">AI 箔核心在「腐蚀」环节微观孔洞控制，比容须做到 0.93→0.95→0.97 档；海星先发 2 年、800V 已量产、1050V 中试、1200V 布局。0.97 规格命中率第一条线已达 90%（130 元/㎡+），<b>高端结构 + 自供腐蚀箔 → 毛利可上大几十点</b>。</div></div><div class="bl"><div class="t">远期结构变化</div><div class="x">26 年 AI 箔出货 ~300 万平、年底产能 ~1000 万平（仍存交付缺口）；新疆 2000 万平化成箔产能 26Q3 投放。AI 箔收入占比 ~5% → 2028 升至三成上下（见上方积木条）。</div></div><div class="bl"><div class="t">产能口径 AI 净利</div><div class="x">满产口径：1000 万方 AI 箔 × ~120 元/㎡ = <b>12 亿元 AI 收入</b>（量纲：1000万方×120÷1e8=12 亿，非 120 亿）；中高压箔紧缺、净利率 30% → <b>3.6 亿 AI 净利</b>。乐观叠加扩产 1500 万方、单价 150 元 + 净利率 35% → 7.9 亿。</div></div><div class="bl"><div class="t">市场在交易啥</div><div class="x">(26年6月)「AI 电源材料·量价齐升」—Rubin/800VDC 牵引铝电容暴增、电极箔成本占比 60%+；日系产能转 AI 致传统箔外溢、全系供不应求涨价。底部已 3 倍、近月多次涨停。</div></div></div><div class="sec"><div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div><div class="p"><b>涨价逻辑：</b>AI 服务器电源用高压铝电解电容紧缺 → 高压化成箔供不应求 → 涨价；海星卡位高压箔受益。</div><div class="p"><b>弹性假设：</b>涨价增量约 70% 落净利，以中性 AI 箔收入 12 亿为基准。</div><table><thead><tr><th>AI 箔涨价</th><th class="num">AI 箔净利</th><th class="num">公司总净利</th><th class="num">市值</th></tr></thead><tbody><tr><td class="base">基准价 ¥120/㎡</td><td class="num">3.6 亿</td><td class="num">6.1 亿</td><td class="num up">158 亿</td></tr><tr><td class="base">+10%</td><td class="num">4.4 亿</td><td class="num">6.9 亿</td><td class="num up">182 亿</td></tr><tr><td class="base">+20%</td><td class="num">5.3 亿</td><td class="num">7.8 亿</td><td class="num up">209 亿</td></tr><tr><td class="base">+30%</td><td class="num">6.1 亿</td><td class="num">8.6 亿</td><td class="num up">233 亿</td></tr></tbody></table><div class="el-cap">纯价格敏感性(中性量不变)；乐观情形为量+价+净利率齐升。</div><div class="exp"><div class="eh">▪ 环节扩产 · 供需反转研判</div><div class="er"><span class="lb">扩产节奏</span><span class="vv">全球中高压箔 CR5~42%，能评/能耗双控压扩产；东阳光积层箔 2000 万㎡、新疆众和~2500 万㎡，高端 AI 箔到 28 仍紧</span></div><div class="er"><span class="lb">扩产时点</span><span class="vv">海星新疆 2000 万㎡ 26Q3 投放；AI 箔需求 26/28/30E≈300/1800/2800 万㎡、高端化成箔 28-29 集中投放</span></div><div class="er rv"><span class="lb">供需反转</span><span class="vv">26-28 缺口扩大、<b>约 29-30 边际转松</b>（需高端化成箔达产）；800V DC+AI 电源放量则延后。盯：批文/能耗、东阳光高端箔、30 年渗透</span></div></div></div></div><div class="sec"><div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 30x / 其他 20x）</h2></div><table class="val"><thead><tr><th>业务(占现营收·倍数)</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th></tr></thead><tbody><tr class="ai-row"><td>◆ AI 服务器用箔 ·30x</td><td class="cn as">1000万㎡×~120元/㎡=12亿·净利率30%</td><td class="cn num nn">3.6</td><td class="op as bd">1500万㎡×~150元/㎡=22.5亿·净利率35%</td><td class="op num no">7.9</td></tr><tr><td>化成箔/腐蚀箔主业 ·20x</td><td class="cn as">~20亿(CAGR 4%)·净利率10%</td><td class="cn num nn">2.5</td><td class="op as bd">~20亿(CAGR 5%)·净利率10%</td><td class="op num no">2.5</td></tr><tr class="sum"><td>合计归母净利(亿元)</td><td class="cn"><span class="sub">AI 段 3.6 / 其他 2.5</span></td><td class="cn num">~6.1</td><td class="op bd"><span class="sub">AI 段 7.9 / 其他 2.5</span></td><td class="op num">~10.4</td></tr><tr class="mc"><td>对应市值 vs 现价 240 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num dn">~158亿 (-34%)</td><td class="op bd"></td><td class="op num up">~287亿 (+20%)</td></tr></tbody></table><div class="note"><b>估值法：</b>主业按收入增速(3-5% CAGR)+净利率；AI 箔按满产产能×单价×净利率；AI 30x、其他 20x 加总。</div></div><div class="sec"><div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div><div class="cos"><div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">AI 箔产能爬坡（年底 1000 万方）落地与扩产规划；9 月 1050V/800V 高压产线投产（更高单价）；中高压箔紧缺、平米净利二次/多次上调；全系产品多轮涨价兑现；新疆 2000 万方 26Q3 满产；Rubin 出货 + CSP Capex 上调。</div></div><div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">AI 当期收入占比仍小（~5%）、PE-TTM ~142x 已透支远期；<b>中性 2028E 市值低于现价</b>（乐观需 1500 万方·¥150·35% 量价齐升方略超现价）；<b>AI 客户单一</b>（高度绑定台系/单一大客户），份额与放量节奏未完全落地；35% 净利率为乐观假设（若高压紧缺/涨价不及预期，毛利上不去）；铝/硫酸/光箔原料价波动；累计涨幅大、交易拥挤、异动限制扰动。</div></div></div><div class="src"><b>数据来源：</b>公司 2024/2025 年报及业绩说明会；iFinD、Wind（行情/估值/主营拆分，截至 2026-07-07）；卖方研究（中银国际·国金·银河·华泰·麦高·天风）及产业链调研纪要。2026-27E 为卖方一致预期；2028E 分段情景、净利率档位、涨价弹性与市值空间为本人自建情景测算，仅为情景推演、可证伪。 §03「环节扩产·供需反转研判」系据进门财经内资研报（华泰·中泰·国盛·中信建投·国泰海通·摩根士丹利等）及 Wind 整理（2026-06），为情景研判、可证伪。</div></div></div></body></html>

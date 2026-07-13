@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>鼎通科技(688668)_扫描一页纸</title>
+<!-- ============================================================
+ scanner 模板页 · 本文件既是 CSS 模板也是结构范例
+ · 页内全部数字为【示例占位数据】，生成正式页时必须整页替换
+ · CSS 变量与版式骨架请勿改动；内容多时允许页面自然变长
+============================================================ -->
+<style>
+:root{
+ /* 主题色：蓝灰白红（南方基金主题色系） */
+ --navy:#1F497D; /* 深蓝：页眉/表头/合计行 */
+ --navy2:#17365D; /* 更深蓝：中性列表头/重点数字 */
+ --blue:#4F81BD; /* 中蓝：次级色块/图例 */
+ --lblue:#96C5FF; /* 浅蓝：页眉辅助文字 */
+ --panel:#EDF2F8; /* 浅蓝灰面板底 */
+ --zebra:#F2F6FB; /* 表格斑马纹 */
+ --ink:#333940; /* 正文 */
+ --gray:#595959; /* 次级文字 */
+ --gray2:#A5A5A5; /* 弱文字 */
+ --line:#D6DCE5; /* 边线 */
+ --red:#FD625E; /* 珊瑚红：强调/角标/核心板块 */
+ --redd:#C7362F; /* 深红：涨/正向数字 */
+ --dn:#1E8449; /* 绿：跌/负向数字 */
+ --keybg:#FDF0EF; /* 浅红底：核心板块行/乐观列 */
+ --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+ font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+ font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+ box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+ padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+ html,body{background:#fff;padding:0;margin:0}
+ .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+ *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+ <!-- 页眉 -->
+ <div class="hdr">
+ <div class="l">
+ <div class="kick">个股扫描 · 一页纸</div>
+ <span class="name">鼎通科技</span><span class="code">688668</span>
+ <div class="tags">高速通讯连接器 / CAGE · 224G / 液冷结构件 · Meta 敞口</div>
+ </div>
+ <div class="r">
+ <div class="px">现价 ¥322.30　总市值 448.9亿</div>
+ <div class="meta">PE-TTM 139.7x · PB 22.43x · 1.39 亿股</div>
+ <div class="date">财报数据截至 2026-06-26 · 行情截至 2026-07-06</div>
+ </div>
+ </div>
+
+ <!-- 一句话看懂 -->
+ <div class="lead"><b>一句话看懂：</b>精密模具冲压制造起家，2025 年 <b>61.3% 收入来自高速通讯连接器</b>——高速 CAGE、液冷组件、MPO 结构件——全部计入 AI 敞口，配套 800G/1.6T 光模块与 CPO/NPO 光引擎、AI 服务器整机。2027 弹性锚点：<b>Meta 液冷订单落地 + CPO/NPO 大规模出货 + 224G CAGE 稳定放量</b>，中性归母净利有望从 2025 年 2.41 亿冲至 26.3 亿（PPT 预测）。</div>
+
+ <!-- KPI 条：6 格关键指标 -->
+ <div class="stats">
+ <div class="stat"><div class="k">2025 营收</div><div class="v">15.88 亿</div><div class="s">PPT 披露口径</div></div>
+ <div class="stat"><div class="k">2025 归母净利</div><div class="v">2.41 亿</div><div class="s">PPT 披露口径</div></div>
+ <div class="stat"><div class="k">2025 毛利率</div><div class="v">暂无</div><div class="s">PPT 未披露</div></div>
+ <div class="stat"><div class="k">AI 敞口</div><div class="v">61.3%</div><div class="s">高速通讯全部</div></div>
+ <div class="stat"><div class="k">高速通讯占比</div><div class="v">61.3%</div><div class="s">核心 AI 板块</div></div>
+ <div class="stat"><div class="k">2027E 中性归母</div><div class="v">26.3 亿</div><div class="s up">乐观 34.3 亿</div></div>
+ </div>
+
+ <!-- §01 业务构成（2025 年报口径） -->
+ <div class="sec">
+ <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">同比 / 毛利率 / 毛利占比 PPT 未披露</span></div>
+ <table class="biz">
+ <thead><tr>
+ <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+ </tr></thead>
+ <tbody>
+ <tr class="key"><td>◆ 通讯连接器组件(合并)</td><td class="num">9.73</td><td class="num">61.3%</td><td class="num"><span class="up">+63.0%</span></td><td class="num">35.4%</td><td class="num">72.1%</td></tr>
+ <tr><td>汽车连接器组件</td><td class="num">4.10</td><td class="num">25.8%</td><td class="num"><span class="up">+53.9%</span></td><td class="num">21.5%</td><td class="num">18.4%</td></tr>
+ <tr><td>其他(补充)</td><td class="num">1.13</td><td class="num">7.1%</td><td class="num"><span class="up">+19.7%</span></td><td class="num">7.8%</td><td class="num">1.8%</td></tr>
+ <tr><td>精密模具</td><td class="num">0.55</td><td class="num">3.4%</td><td class="num"><span class="dn">-3.1%</span></td><td class="num">41.7%</td><td class="num">4.8%</td></tr>
+ <tr><td>模具零件</td><td class="num">0.25</td><td class="num">1.6%</td><td class="num"><span class="up">+48.6%</span></td><td class="num">38.8%</td><td class="num">2.1%</td></tr>
+ <tr><td>视觉设备类</td><td class="num">0.11</td><td class="num">0.7%</td><td class="num">—</td><td class="num">35.4%</td><td class="num">0.8%</td></tr>
+ <tr class="total"><td>合计</td><td class="num">15.87</td><td class="num">100%</td><td class="num"><span class="up">+53.8%</span></td><td class="num">30.1%</td><td class="num">100%</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <!-- §02 | §03 左右两栏 -->
+ <div class="two">
+ <div class="sec">
+ <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+ <div class="bl"><div class="t">当前敞口</div><div class="x">高速通讯连接器 9.74 亿、占比 61.3%，全部计入 AI 敞口；2025 归母 2.41 亿已具规模，AI 已是当期利润主力而非期权。</div></div>
+ <div class="bl"><div class="t">产业链卡位</div><div class="x">精密模具冲压制造 → 高速 CAGE / 液冷组件 / MPO 结构件 → 800G/1.6T 光模块 + CPO/NPO 光引擎 + AI 服务器整机；下游对接 Meta 等海外算力客户。</div></div>
+ <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">壁垒在精密模具 + 高速 CAGE / 液冷结构件加工能力；CPO/NPO 定制液冷高端型号具备技术溢价；224G、液冷、CPO 结构件 2027 紧平衡。</div></div>
+ <div class="bl"><div class="t">远期结构变化</div><div class="x">高速通讯占比有望持续抬升，PPT 中性 2027 归母预测 26.3 亿，是 2025 年 2.41 亿的约 11 倍，Meta 液冷 + CPO/NPO 是核心驱动。</div></div>
+ <div class="bl"><div class="t">涨价口径利润</div><div class="x">测算式：AI 板块 2025 收入 9.74 亿 × 涨价 10% × 70% 落净利 ≈ 0.68 亿增量净利（测算），相对 2025 净利 2.41 亿弹性约 28%。</div></div>
+ <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026-06）市场交易 Meta 液冷订单 + CPO/NPO 出货 + 224G CAGE 放量，PPT 2027 中性 26.3 亿对应 20x PE 目标市值 526 亿。</div></div>
+ </div>
+ <div class="sec">
+ <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+ <div class="p"><b>涨价逻辑：</b>无全面涨价，仅 CPO/NPO 定制液冷高端型号具备技术溢价；112G 普通 CAGE 2026 年底宽松，涨价空间集中在 224G、液冷与 CPO/NPO 结构件端。</div>
+ <div class="p"><b>弹性假设：</b>以 2027E 中性归母净利 26.3 亿为基准，AI 板块 2025 收入 9.74 亿为涨价敞口，涨价增量 70% 落净利，PE 20x（测算）。</div>
+ <table>
+ <thead><tr><th>核心 AI 板块涨价</th><th class="num">增量净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+ <tbody>
+ <tr><td class="base">基准（2027E 中性）</td><td class="num">—</td><td class="num">26.30 亿（测算）</td><td class="num up">526.0 亿（测算）</td></tr>
+ <tr><td class="base">+10%</td><td class="num">0.68 亿（测算）</td><td class="num">26.98 亿（测算）</td><td class="num up">539.6 亿（测算）</td></tr>
+ <tr><td class="base">+20%</td><td class="num">1.36 亿（测算）</td><td class="num">27.66 亿（测算）</td><td class="num up">553.2 亿（测算）</td></tr>
+ <tr><td class="base">+30%</td><td class="num">2.05 亿（测算）</td><td class="num">28.35 亿（测算）</td><td class="num up">567.0 亿（测算）</td></tr>
+ </tbody>
+ </table>
+ <div class="el-cap">纯价格敏感性，实际详见 §04 情景假设。</div>
+ <div class="exp">
+ <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+ <div class="er"><span class="lb">扩产节奏</span><span class="vv">东莞精密冲压产线扩产周期 5 个月；马来西亚基地扩产周期 7 个月，224G CAGE 月增 10 万套；越南一期 2027Q2 量产。</span></div>
+ <div class="er"><span class="lb">扩产时点</span><span class="vv">2026 下半年东莞 + 马来西亚扩产落地；2027Q2 越南一期量产接力，224G CAGE 月增 10 万套持续释放。</span></div>
+ <div class="er rv"><span class="lb">供需反转</span><span class="vv">112G 普通 CAGE 2026 年底宽松；224G、液冷、CPO 结构件 2027 紧平衡；整体反转 2027 末。</span></div>
+ </div>
+ </div>
+ </div>
+
+ <!-- §04 市值空间 -->
+ <div class="sec">
+ <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（统一 20x）</h2></div>
+ <table class="val">
+ <thead><tr>
+ <th>业务（2025 占比 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利</th>
+ </tr></thead>
+ <tbody>
+ <tr class="ai-row"><td>◆ 高速通讯连接器（61.3%）·20x</td><td class="cn as">27E 核心基础上再增 +25%（测算）</td><td class="cn num nn">23.40</td><td class="op as bd">27E 核心基础上再增 +40%（测算）</td><td class="op num no">31.10</td></tr>
+ <tr><td>新能源汽车连接器（38.7%）·20x</td><td class="cn as">27E 其他基础上再增 +10%（测算）</td><td class="cn num nn">2.90</td><td class="op as bd">27E 其他基础上再增 +20%（测算）</td><td class="op num no">3.20</td></tr>
+ <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 23.40 / 其他 2.90</span></td><td class="cn num">~26.30</td><td class="op bd"><span class="sub">核心 31.10 / 其他 3.20</span></td><td class="op num">~34.30</td></tr>
+ <tr class="mc"><td>对应市值 vs 现价 448.9亿</td><td class="cn"><span class="sub">26.30 亿 × 20x（测算）</span></td><td class="cn num">~526 亿（<span class="up">+17%</span>）</td><td class="op bd"><span class="sub">34.30 亿 × 20x（测算）</span></td><td class="op num">~686 亿（<span class="up">+53%</span>）</td></tr>
+ </tbody>
+ </table>
+ <div class="note"><b>估值法：</b>统一给予 20x PE 加总；2028E 净利以 2027E 中性/乐观预测为基础，按 27E 基础再增百分比外推情景（均为测算）。</div>
+ </div>
+
+ <!-- §05 催化剂 · 风险 · 数据来源 -->
+ <div class="sec">
+ <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+ <div class="cos">
+ <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 东莞精密冲压 5 个月 + 马来西亚 7 个月扩产落地；② 224G CAGE 月增 10 万套；③ 越南一期 2027Q2 量产；④ Meta 液冷订单落地；⑤ CPO/NPO 配套大规模出货；⑥ 2027E 中性归母 26.3 亿（PPT 预测）兑现。</div></div>
+ <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 112G 普通 CAGE 2026 年底宽松、价格承压；② 2027 归母 26.3 亿相对 2025 年 2.41 亿约 11 倍跃迁，兑现依赖 Meta 液冷节奏；③ 新能源汽车连接器 6.14 亿板块景气波动；④ CPO/NPO 客户导入速度不及预期；⑤ 现总市值 448.9亿，估值透支需关注中性/乐观情景实现节奏。</div></div>
+ </div>
+ <div class="src"><b>数据来源：</b>公司公告、业绩说明会；iFinD/Wind 行情估值（以东方财富公开行情为准，截至 2026-07-06）；进门财经研报；公开网络资料；及内部提供资料。2027E 为盈利预测汇总，2028E 为情景测算。</div>
+ </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>中兴通讯(000063)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+
+/* ── 紧凑覆盖：A4 单页 · 保持 skill 版式骨架 ──────────── */
+.sheet{padding:6mm 8mm 5mm !important}
+.hdr{padding:8px 14px 9px 16px !important}
+.hdr .name{font-size:22px !important}
+.hdr .code{font-size:13px !important}
+.hdr .tags{font-size:10px !important;margin-top:5px !important}
+.hdr .px{font-size:13px !important}
+.hdr .meta{font-size:9.5px !important}
+.hdr .date{font-size:9px !important}
+.lead{font-size:10px !important;line-height:1.45 !important;margin-top:6px !important}
+.stats{gap:5px !important;margin:8px 0 3px !important}
+.stat{padding:5px 7px !important}
+.stat .k{font-size:8.5px !important}
+.stat .v{font-size:12.5px !important}
+.stat .s{font-size:8.5px !important;margin-top:2px !important}
+.sec{margin-top:8px !important}
+.sec-h{padding-bottom:3px !important;margin-bottom:4px !important}
+.sec-h .sn{font-size:10.5px !important}
+.sec-h h2{font-size:13px !important}
+.sec-h .tip{font-size:8.5px !important}
+table{font-size:8.5px !important}
+th{padding:4px 6px !important;font-size:8.5px !important}
+td{padding:3px 6px !important}
+.bl{margin-bottom:3px !important}
+.bl .t{font-size:9.5px !important}
+.bl .x{font-size:8.8px !important;line-height:1.42 !important}
+.p{font-size:9px !important;line-height:1.45 !important;margin-bottom:4px !important}
+.two{gap:12px !important}
+.exp{padding:5px 7px !important;margin-top:5px !important}
+.exp .eh{font-size:9px !important;margin-bottom:3px !important}
+.exp .er{margin-bottom:2px !important}
+.exp .lb{font-size:8.5px !important;flex:0 0 48px !important}
+.exp .vv{font-size:8.5px !important;line-height:1.4 !important}
+.el-cap{font-size:8.2px !important;margin-top:3px !important}
+.note{font-size:8.2px !important;margin-top:3px !important;line-height:1.4 !important}
+.cos{gap:8px !important}
+.co{padding:6px 9px !important}
+.co .h{font-size:9.5px !important;margin-bottom:2px !important}
+.co .x{font-size:8.6px !important;line-height:1.42 !important}
+.src{font-size:8.2px !important;margin-top:6px !important;line-height:1.4 !important}
+@page{size:A4;margin:0}
+@media print{
+  .sheet{width:210mm !important;height:297mm !important;min-height:0 !important;overflow:hidden !important}
+}
+
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">中兴通讯</span><span class="code">000063</span>
+      <div class="tags">算力全栈硬件 · 自研凌云交换芯片 · 运营商 + 智算双主线</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥36.28　总市值 1735.5亿</div>
+      <div class="meta">PE-TTM 33.1x · PB 2.26x · 47.84 亿股</div>
+      <div class="date">财报数据截至 2026-06-26 · 行情截至 2026-07-06</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>公司是国内通信设备龙头，2025 年算力基础设施营收 329.4 亿 / 占比 24.6%，产品覆盖 OEX 正交超节点 AI 服务器、AiCube 智算一体机、模块化液冷 CDU、自研凌云大容量交换芯片与 800G 光模块。<b>2027 核心弹性来自自研凌云交换芯片规模化导入</b>，替代高价外购芯片、修复服务器整机毛利，同时海外电信客户带动本地智算基建配套。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">1339 亿</div><div class="s">运营商+政企+消费者三板块</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">56.2 亿</div><div class="s">净利率约 4.2%</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">30.3%</div><div class="s">运营商网络 48% 拉高均值</div></div>
+    <div class="stat"><div class="k">AI 敞口</div><div class="v">24.6%</div><div class="s up">算力基础设施</div></div>
+    <div class="stat"><div class="k">核心业务占比</div><div class="v">24.6%</div><div class="s">运营商仍为基本盘</div></div>
+    <div class="stat"><div class="k">2027E 中性归母</div><div class="v">56.3 亿</div><div class="s">较 2025 基本持平</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">2025 年报口径 · 收入降序 · 核心业务高亮 · 来源：东方财富 F10 · 部分分部毛利率据 2025 年报补录</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>运营商网络</td><td class="num">628.6</td><td class="num">46.9%</td><td class="num"><span class="dn">-10.6%</span></td><td class="num">48.1%</td><td class="num">74.6%</td></tr>
+        <tr class="key"><td>◆ 政企业务</td><td class="num">372.2</td><td class="num">27.8%</td><td class="num"><span class="up">+100.5%</span></td><td class="num">11.0%</td><td class="num">10.1%</td></tr>
+        <tr><td>消费者业务</td><td class="num">338.2</td><td class="num">25.3%</td><td class="num"><span class="up">+4.4%</span></td><td class="num">18.3%</td><td class="num">15.3%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">1339.0</td><td class="num">100%</td><td class="num"><span class="up">+10.4%</span></td><td class="num">30.3%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">算力基础设施 2025 营收 329.4 亿 / 占比 24.6%，规模已可观，是主业级的第二增长曲线而非期权。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">通信设备全栈厂商：上游自研凌云交换芯片 + 光模块 + 液冷 CDU，中游 AI 服务器/超节点整机，下游国内三大运营商 + 海外电信客户 + 智算中心，运营商侧市占稳居国内前二。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">凌云自研大容量交换芯片打破外购依赖，OEX 正交超节点为差异化产品；毛利率 30.3%，通过自研芯片替代外购推动整机毛利修复。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">算力基础设施占比由 24.6% 继续爬升；但短期归母净利受制于运营商基本盘拖累，2027E 中性 56.3 亿元与 2025 基本持平。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">算力基础设施 329.4 亿 × 假设 10% 涨价 × 70% 落净利 ≈ 23.06 亿元增量净利（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026-06）市场主要交易 OEX 超节点上量 + 凌云自研芯片降本毛利修复 + 海外智算基建，短期股价对运营商开支节奏敏感。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>整体无全面涨价，价值量与利润修复来自搭载自研凌云大容量交换芯片的高端 OEX 超节点整机技术溢价，以及自研芯片替代外购降低成本。</div>
+      <div class="p"><b>弹性假设：</b>以 2027E 中性归母 56.3 亿为基准，AI 板块 2025 营收 329.4 亿为价格敏感基数，涨价增量按 70% 落到净利测算。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">增量净利（亿）</th><th class="num">公司总净利（亿）</th><th class="num">对应市值 40x（亿）</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 均价口径）</td><td class="num">—</td><td class="num">56.30（测算）</td><td class="num up">2252（测算）</td></tr>
+          <tr><td class="base">+10%</td><td class="num">23.06（测算）</td><td class="num">79.36（测算）</td><td class="num up">3174（测算）</td></tr>
+          <tr><td class="base">+20%</td><td class="num">46.12（测算）</td><td class="num">102.42（测算）</td><td class="num up">4097（测算）</td></tr>
+          <tr><td class="base">+30%</td><td class="num">69.17（测算）</td><td class="num">125.47（测算）</td><td class="num up">5019（测算）</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性，实际见 SKILL。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">南京、深圳两大算力整机基地同步扩产，AI 服务器单季度产能提升 40%；海外匈牙利、墨西哥工厂扩产周期 8 个月。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">国内整机基地在 2026-2027 年产能持续释放；海外匈牙利/墨西哥工厂扩产完成后接续放量。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">低端通用 AI 服务器 2026 年底过剩；搭载自研芯片的 OEX 超节点整机、大功率液冷机柜 2027 年紧平衡；整体反转 2027 末。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2027E · 40x PE）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（分部 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利（亿）</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利（亿）</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 算力基础设施 · 40x</td><td class="cn as">以 2027E 中性归母分配 AI 敞口 24.6%</td><td class="cn num nn">13.85（测算）</td><td class="op as bd">凌云芯片规模化 + 海外智算加速</td><td class="op num no">14.78（测算）</td></tr>
+        <tr><td>运营商 + 家庭终端 · 40x</td><td class="cn as">按 2025 结构分配 75.4% 归母</td><td class="cn num nn">42.45（测算）</td><td class="op as bd">海外电信客户份额上行</td><td class="op num no">45.32（测算）</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 13.85 / 其他 42.45</span></td><td class="cn num">56.30</td><td class="op bd"><span class="sub">核心 14.78 / 其他 45.32</span></td><td class="op num">60.10</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 1735.5亿</td><td class="cn"><span class="sub">2027E 目标市值锚定</span></td><td class="cn num">~2253 亿（<span class="up">+30%</span>，测算）</td><td class="op bd"></td><td class="op num">~2405 亿（<span class="up">+39%</span>，测算）</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>以 PPT 2027E 中性/乐观归母净利为锚点，按 2025 收入结构（AI 24.6% / 其他 75.4%）拆分归母，统一给予 40x PE 加总。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 凌云自研大容量交换芯片规模化导入 → 服务器整机毛利修复；② OEX 正交超节点/AiCube 智算一体机大额中标；③ 海外匈牙利、墨西哥工厂扩产落地承接海外电信客户；④ 800G 光模块与自研液冷 CDU 配套上量。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 运营商 CAPEX 下修拖累占比 50% 的基本盘；② 凌云芯片导入进度或性能低于预期；③ 低端通用 AI 服务器过剩导致的价格战；④ 海外地缘/关税风险；⑤ 估值透支需关注（现总市值 1735.5亿）。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司公告、业绩说明会；iFinD/Wind 行情估值（以东方财富公开行情为准，截至 2026-07-06）；进门财经研报；公开网络资料；及内部提供资料。2027E 为盈利预测汇总，2028E 为情景测算。</div>
+  </div>
+
+</div>
+</body>
+</html>

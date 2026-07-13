@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>宝鼎科技(002552)_扫描一页纸</title>
+<style>
+:root{
+  /* 主题色：蓝灰白红（南方基金主题色系） */
+  --navy:#1F497D;   /* 深蓝：页眉/表头/合计行 */
+  --navy2:#17365D;  /* 更深蓝：中性列表头/重点数字 */
+  --blue:#4F81BD;   /* 中蓝：次级色块/图例 */
+  --lblue:#96C5FF;  /* 浅蓝：页眉辅助文字 */
+  --panel:#EDF2F8;  /* 浅蓝灰面板底 */
+  --zebra:#F2F6FB;  /* 表格斑马纹 */
+  --ink:#333940;    /* 正文 */
+  --gray:#595959;   /* 次级文字 */
+  --gray2:#A5A5A5;  /* 弱文字 */
+  --line:#D6DCE5;   /* 边线 */
+  --red:#FD625E;    /* 珊瑚红：强调/角标/核心板块 */
+  --redd:#C7362F;   /* 深红：涨/正向数字 */
+  --dn:#1E8449;     /* 绿：跌/负向数字 */
+  --keybg:#FDF0EF;  /* 浅红底：核心板块行/乐观列 */
+  --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">宝鼎科技</span><span class="code">002552.SZ</span>
+      <div class="tags">黄金+铜箔双主业 · 金宝电子 HVLP 第一梯队 · HVLP4 推进英伟达认证</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥56.61　总市值 220 亿</div>
+      <div class="meta">PE-TTM 127x · PB 14.03x · 3.88 亿股</div>
+      <div class="date">数据截至 2026-07-07</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>公司是「<b>黄金 + 高端铜箔</b>」双主业：现金牛是<b>成品金/金矿</b>（贡献 64% 毛利），成长看点是控股 62.54% 的<b>金宝电子</b>——做<b>覆铜板（CCL，PCB 的板材）和铜箔</b>，是 HVLP 高频铜箔第一梯队。当前覆铜板+铜箔占营收 82% 但毛利薄（8.4%/2.3%），逻辑在 HVLP 放量后单吨净利大幅跃升（HVLP-4 单吨净利 14.8 万），HVLP4 正推进英伟达认证。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">31.5 亿</div><div class="s up">+8.7% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母</div><div class="v">1.24 亿</div><div class="s up">26Q1 扭亏</div></div>
+    <div class="stat"><div class="k">综合毛利率</div><div class="v">16.6%</div><div class="s">成品金拉动</div></div>
+    <div class="stat"><div class="k">金宝电子(CCL+铜箔)占比</div><div class="v">82.3%</div><div class="s">AI 主线</div></div>
+    <div class="stat"><div class="k">成品金毛利占比</div><div class="v">64.4%</div><div class="s">现金牛</div></div>
+    <div class="stat"><div class="k">26Q1 归母</div><div class="v">0.66 亿</div><div class="s up">+267.6% YoY</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 金宝电子(覆铜板+铜箔)为 AI 主线 · 成品金为利润现金牛</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 覆铜板（金宝电子）</td><td class="num">20.71</td><td class="num">65.8%</td><td class="num up">+1.6%</td><td class="num">8.4%</td><td class="num">33.2%</td></tr>
+        <tr><td>成品金</td><td class="num">5.08</td><td class="num">16.2%</td><td class="num up">+52.1%</td><td class="num">66.3%</td><td class="num">64.4%</td></tr>
+        <tr class="key"><td>◆ 铜箔（金宝电子）</td><td class="num">5.18</td><td class="num">16.5%</td><td class="num up">+16.9%</td><td class="num">2.3%</td><td class="num">2.3%</td></tr>
+        <tr><td>其它</td><td class="num">0.49</td><td class="num">1.6%</td><td class="num up">+2.4%</td><td class="num">0.5%</td><td class="num">0.05%</td></tr>
+        <tr><td>大型铸锻件</td><td class="num">0.00</td><td class="num">0.0%</td><td class="num dn">-100.0%</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr class="total"><td>合计</td><td class="num">31.47</td><td class="num">100%</td><td class="num up">+8.7%</td><td class="num">16.6%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">金宝电子（覆铜板+铜箔）占营收 82%、但当前毛利薄（合计毛利占比 35.5%）；利润现由成品金撑（毛利占比 64%）。AI 弹性是 HVLP 放量后的利润跃升期权。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">卡在上游铜箔/CCL 制造（持股 62.54% 金宝电子）→ 第一梯队；HVLP1 单月百吨、HVLP2/3 过测试 26Q2 小批（生益/沪电），HVLP4 推进英伟达认证。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">已掌握 HVLP1-3 工艺、属一线梯队（对标铜冠/德福）；HVLP 单吨净利 6-7 万元、HVLP-4 加工费 22.8 万/单吨净利 14.8 万，远高于普通铜箔。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">金宝电子环评拟扩 2 万吨 HVLP/载体箔（最大分歧在扩产规模）；最快 27Q3 投产爬坡；27 年金宝净利有望 16 亿、28E 20 亿。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">HVLP 规划 2000 吨→2 万吨；满产 2 万吨 × 单吨净利 ~7 万 ≈ 14 亿净利量级（测算），叠加涨价 2 轮（中性 8%/8%）弹性更高。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）市场交易「金宝 HVLP 第一梯队 + 英伟达认证 + 扩产 2 万吨预期 + 金矿注入」，PE-TTM ~127x 押注扩产落地。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>HVLP-4 结构性紧缺、三井已提价 1.4 万元/吨、国内一线跟涨强；金宝已批量 HVLP1、2/3 小批，享 26-27 全系涨价红利，HVLP 占比提升带动综合 ASP 与毛利双升。</div>
+      <div class="p"><b>弹性假设：</b>以金宝电子（HVLP/CCL）2027E 净利 16 亿为弹性段，涨价增量按 60% 落净利（测算，收入基数约 32 亿）；成品金/金矿净利 6.9 亿按不变、给 15x。</div>
+      <table>
+        <thead><tr><th>产品涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准 · 金宝 16 亿 + 金矿 6.9 亿（27E 中性）</td><td class="num">16.0 亿</td><td class="num">22.9 亿</td><td class="num up">583 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">17.9 亿</td><td class="num">24.8 亿</td><td class="num up">641 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">19.8 亿</td><td class="num">26.7 亿</td><td class="num up">698 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">21.8 亿</td><td class="num">28.7 亿</td><td class="num up">756 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">HVLP 加工费涨价弹性极高（加工费主导、成本传导顺）；弹性段=金宝电子净利，增量按核心 30x 计入对应市值。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">金宝电子环评拟扩 2 万吨 HVLP/载体箔；现有 HVLP 规划 2000 吨；一线享 26-27 涨价红利。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">最快 27Q3 投产爬坡；26 年 HVLP2/3 批量订单（生益/沪电）先行。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">HVLP-4 行业 28E 中性缺口收窄至 7%；一线已批量者靠 HVLP-4 占比维持盈利，盯扩产规模（最大分歧）与英伟达认证。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（金宝 30x / 金矿 15x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 金宝电子(铜箔/CCL) ·30x</td><td class="cn as">27 年金宝净利 16×30</td><td class="cn num nn">16.0</td><td class="op as bd">扩产+涨价 2 轮·20×30</td><td class="op num no">20.0</td></tr>
+        <tr><td>成品金/金矿 ·15x</td><td class="cn as">金价催化 6.9×15</td><td class="cn num nn">6.9</td><td class="op as bd">6.9×15</td><td class="op num no">6.9</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">金宝 16 / 金矿 6.9</span></td><td class="cn num">~22.9</td><td class="op bd"><span class="sub">金宝 20 / 金矿 6.9</span></td><td class="op num">~26.9</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 220 亿</td><td class="cn"><span class="sub">各段净利×倍数加总</span></td><td class="cn num up">583亿 (+165.0%)</td><td class="op bd"></td><td class="op num up">704亿 (+220.0%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>金宝电子 HVLP 净利按 30x、金矿按 15x 加总；中性 480+103.5≈583 亿、乐观 600+103.5≈704 亿。扩产规模为最大分歧变量。情景测算、可证伪。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">HVLP/载体铜箔扩产规模与节奏（最大分歧）；HVLP2/3 26Q2 批量订单（生益/沪电）；HVLP4 英伟达认证；金矿注入；27Q3 扩产投产。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM ~127x；扩产/投产不及预期、铜价波动、CCL 竞争加剧；当前利润高度依赖成品金、金宝 HVLP 利润兑现前估值透支。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2025 年报及业绩说明会（巨潮）；iFinD、Wind（行情/估值/主营构成，截至 2026-07-07）；进门财经研报及会议纪要（广发证券《AI PCB&锂电铜箔》、长江证券铜箔数据库）；南方基金《PCB铜箔面积拉动拆分》；公开网络资料及内部提供资料。2026-27E 为卖方一致预期或公司口径；2028E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

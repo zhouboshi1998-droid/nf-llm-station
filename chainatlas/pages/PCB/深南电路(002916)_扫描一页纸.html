@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>深南电路(002916)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;
+  --navy2:#17365D;
+  --blue:#4F81BD;
+  --lblue:#96C5FF;
+  --panel:#EDF2F8;
+  --zebra:#F2F6FB;
+  --ink:#333940;
+  --gray:#595959;
+  --gray2:#A5A5A5;
+  --line:#D6DCE5;
+  --red:#FD625E;
+  --redd:#C7362F;
+  --dn:#1E8449;
+  --keybg:#FDF0EF;
+  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<!-- 页眉 -->
+<div class="hdr">
+<div class="l">
+<div class="kick">个股扫描 · 一页纸</div>
+<span class="name">深南电路</span><span class="code">002916</span>
+<div class="tags">PCB+封装基板双龙头 · AI 服务器/HDI 主力 · 中电科旗下</div>
+</div>
+<div class="r">
+<div class="px">现价 ¥402.33　总市值 2740.54 亿</div>
+<div class="meta">PE-TTM ~75.40x · PB 15.15x · 6.81 亿股</div>
+<div class="date">数据截至 2026-07-08 17:00:33</div>
+</div>
+</div>
+<!-- 一句话看懂 -->
+<div class="lead"><b>一句话看懂：</b>深南电路是中电科旗下 PCB 全球龙头，形成「印制电路板 + 封装基板（IC substrate，芯片承载用高精度基板）+ 电子装联」三业务布局，下游覆盖军工/通信/汽车/数据中心/AI 服务器。核心看点是<b>HDI / AI 服务器 PCB 与封装基板双主线量价齐升</b>（2025 年 PCB 毛利率 +3.91pct、封装基板 +4.43pct）；扩产中等 1-2 年（170 亿元 AI 算力项目 + 广州封装基板项目），2025 年订单显著加速，行业景气反转预计落在 2027 年前后。</div>
+<!-- KPI 条 -->
+<div class="stats">
+<div class="stat"><div class="k">2025 营收</div><div class="v">236.47 亿</div><div class="s up">+32.1% YoY</div></div>
+<div class="stat"><div class="k">2025 归母净利</div><div class="v">32.76 亿</div><div class="s up">+74.5% YoY</div></div>
+<div class="stat"><div class="k">2025 净利率</div><div class="v">~13.9%</div><div class="s up">大幅提升</div></div>
+<div class="stat"><div class="k">PCB 毛利率</div><div class="v">35.53%</div><div class="s up">+3.91pct</div></div>
+<div class="stat"><div class="k">封装基板毛利率</div><div class="v">22.58%</div><div class="s up">+4.43pct</div></div>
+<div class="stat"><div class="k">2024 归母净利</div><div class="v">18.78 亿</div><div class="s up">高基数下继续增</div></div>
+</div>
+<!-- §01 业务构成 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收降序 · AI 服务器 PCB/HDI + 封装基板为核心看点</span></div>
+<table class="biz">
+<thead><tr>
+<th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+</tr></thead>
+<tbody>
+<tr class="key"><td>◆ 印制电路板 PCB（含 AI 服务器/HDI/高多层/军工）</td><td class="num">143.59</td><td class="num">60.7%</td><td class="num up">+36.8%</td><td class="num">35.53%</td><td class="num">70.5%（测算）</td></tr>
+<tr class="key"><td>◆ 封装基板 IC Substrate</td><td class="num">41.48</td><td class="num">17.5%</td><td class="num up">+30.8%</td><td class="num">22.58%</td><td class="num">12.9%（测算）</td></tr>
+<tr><td>电子装联</td><td class="num">30.75</td><td class="num">13.0%</td><td class="num up">+8.9%</td><td class="num">15.00%</td><td class="num">6.4%（测算）</td></tr>
+<tr><td>其他业务及内部抵销</td><td class="num">20.65</td><td class="num">8.8%（测算）</td><td class="num up">+20.0%（测算）</td><td class="num">30.0%（测算）</td><td class="num">10.2%（测算）</td></tr>
+<tr class="total"><td>合计</td><td class="num">236.47</td><td class="num">100%</td><td class="num up">+32.1%</td><td class="num">30.6%（测算）</td><td class="num">100%</td></tr>
+</tbody>
+</table>
+</div>
+<!-- §02 | §03 -->
+<div class="two">
+<div class="sec">
+<div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+<div class="bl"><div class="t">当前敞口</div><div class="x">PCB（含 AI 服务器/HDI/高多层）占 60.7%（144 亿），封装基板占 17.5%（41 亿）为双主线；AI 服务器 PCB 直接敞口约占公司收入 20-25%（测算），是利润与增速的第一驱动。</div></div>
+<div class="bl"><div class="t">产业链卡位</div><div class="x">PCB 制造环节全球第五、大陆第一（Prismark 口径），封装基板国内龙头（Ajinomoto/JFE/信越铜箔上游、Intel/AMD/华为/长鑫下游）；军工/通信/汽车 PCB 龙头；三业务协同稀缺。</div></div>
+<div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">PCB 强项 22 层以上高多层 + M6/M7 材料、封装基板强项 BT/ABF 中高阶；2025 综合毛利率 30.6%（测算）、净利率 13.9%，均为国内 PCB 综合厂前列，且仍在上行通道。</div></div>
+<div class="bl"><div class="t">远期结构变化</div><div class="x">南通/无锡/广州 170 亿元 AI 算力 PCB 与封装基板项目 2026-2027 年投产，AI 服务器 PCB + 封装基板合计占比有望由 30% 升至 45%+，带动综合毛利率进一步上行。</div></div>
+<div class="bl"><div class="t">涨价口径利润</div><div class="x">以 PCB + 封装基板收入 185.1 亿为基数，ASP 涨 10% 按 60% 落净利，增厚核心 segment 利润约 14.6 亿元（测算），相对当前净利 32.76 亿元弹性约 34%。</div></div>
+<div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）主线是「AI 算力 PCB 结构升级 + 封装基板国产替代 + 广州基板项目投产 + 铜箔涨价传导」，PE-TTM ~90x 反映高预期与两大主业共振。</div></div>
+</div>
+<div class="sec">
+<div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+<div class="p"><b>涨价逻辑：</b>AI 服务器 OAM/UBB 板层数由 22 层升至 30+ 层、单板价值量翻倍；BT/ABF 封装基板受益 AI GPU/CPU 大 Die 化及 Chiplet 封装，单颗价值量 +50%-100%；上游铜箔、玻纤、Ajinomoto ABF 材料 2025H2 集中涨价，高阶产品顺价能力最强。</div>
+<div class="p">弹性假设：以 2027E 中性核心板块「AI 服务器 PCB / HDI / 封装基板」收入 240 亿为基准，ASP 涨价增量按 60% 落到净利（测算）。</div>
+<table>
+<thead><tr><th>PCB + 基板涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+<tbody>
+<tr><td class="base">基准价（不涨价）</td><td class="num">88.3 亿</td><td class="num">116.5 亿</td><td class="num">3213 亿</td></tr>
+<tr><td class="base">+10%</td><td class="num">102.9 亿</td><td class="num">131.1 亿</td><td class="num up">3650 亿</td></tr>
+<tr><td class="base">+20%</td><td class="num">117.4 亿</td><td class="num">145.6 亿</td><td class="num up">4086 亿</td></tr>
+<tr><td class="base">+30%</td><td class="num">132.0 亿</td><td class="num">160.2 亿</td><td class="num up">4523 亿</td></tr>
+</tbody>
+</table>
+<div class="el-cap">纯价格敏感性（量不变）；增量净利按 PCB/基板核心段 30x 计入对应市值，基准行对应 §04 中性情景。</div>
+<div class="exp">
+<div class="eh">▪ 环节扩产 · 供需反转研判</div>
+<div class="er"><span class="lb">扩产节奏</span><span class="vv">全球 AI 服务器 PCB CR5 约 55%，封装基板 CR5 约 70%（Ibiden/Unimicron/日月光/深南等）；公司 170 亿元 AI 算力 PCB 项目（南通/无锡） + 广州封装基板项目，属中等偏积极扩产。</span></div>
+<div class="er"><span class="lb">扩产时点</span><span class="vv">南通数据中心 PCB 二期 2025 下半年爬坡、2026 上量；广州封装基板项目 2025-2026 年动工、2027 年爬坡；建设周期 12-24 个月，2025 年供给显著加速。</span></div>
+<div class="er rv"><span class="lb">供需反转</span><span class="vv">在 AI 服务器/HPC/HBM 封装需求持续上修前提下，预计 2027 年前后新产能与需求达到再平衡、行业景气高点；关键跟踪：英伟达 GB/Rubin 平台出货、ABF 基板国产替代节奏、公司月度产能利用率与毛利率。</span></div>
+</div>
+</div>
+</div>
+<!-- §04 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（AI 服务器 PCB/HDI/高多层 30x / 传统主业 20x）</h2></div>
+<table class="val">
+<thead><tr>
+<th>业务（占现营收 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利</th>
+</tr></thead>
+<tbody>
+<tr class="ai-row"><td>◆ AI 服务器 PCB / HDI / 封装基板 ·30x</td><td class="cn as">收入 242.6 亿 · 净利率 36.4%（测算）</td><td class="cn num nn">~88.3</td><td class="op as bd">收入 266.8 亿 · 净利率 39.1%（测算）</td><td class="op num no">~104.3</td></tr>
+<tr><td>通信/军工/汽车 PCB + 电子装联 ·20x</td><td class="cn as">收入 112.8 亿 · 净利率 25.0%（测算）</td><td class="cn num nn">~28.2</td><td class="op as bd">收入 103.3 亿 · 净利率 28.7%（测算）</td><td class="op num no">~29.7</td></tr>
+<tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 43.2 / 其他 13.8</span></td><td class="cn num">~116.5</td><td class="op bd"><span class="sub">核心 64.0 / 其他 18.2</span></td><td class="op num">~134</td></tr>
+<tr class="mc"><td>对应市值 vs 现价 2,942 亿</td><td class="cn"><span class="sub">43.2×30 + 13.8×20</span></td><td class="cn num up">~3213亿 (+17.2%)</td><td class="op bd"><span class="sub">64.0×30 + 18.2×20</span></td><td class="op num up">~3723亿 (+35.8%)</td></tr>
+</tbody>
+</table>
+<div class="note"><b>估值法：</b>AI/HDI/封装基板与传统 PCB/装联段分别按 2027E 收入×净利率外推；分段净利×倍数（核心 30x / 传统 20x）加总。中性对应市值低于现价 47%，反映 PE ~90x 已高度定价 AI+基板双主线兑现；乐观情景下需 2027E 核心业务收入达 320 亿量级方能对齐 2,284 亿。</div>
+</div>
+<!-- §05 -->
+<div class="sec">
+<div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+<div class="cos">
+<div class="co key"><div class="h">▶ 催化剂</div><div class="x">英伟达 GB/Rubin AI 服务器 PCB 拉货节奏；广州封装基板项目投产；南通/无锡 AI 算力 PCB 二期爬坡；ABF 基板国产替代订单落地；军工 PCB 稳定订单；封装基板毛利率进一步上行。</div></div>
+<div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">PE-TTM ~90x，§04 中性对应市值 -47%，估值透支明显；封装基板资本开支节奏偏快（账上现金约 8 亿）；AI 服务器排产不及预期；铜箔/ABF 材料涨价挤压毛利；军工订单波动；国产替代节奏低于预期。</div></div>
+</div>
+<div class="src"><b>数据来源：</b>公司 2024/2025 年年度报告及摘要（巨潮、深交所）；东方财富、同花顺、新浪财经（行情 / 估值 / 主营构成，截至 2026-07-07）；证券时报、每日经济新闻、OFweek 相关报道；华金证券、开源证券、天风证券深南电路研究报告；Prismark 全球 PCB 产值数据；进门财经研报及会议纪要；公开网络资料。暂无卖方盈利预测一致预期完整披露；2027E 分段情景、净利率档位、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+</div>
+</div>
+</body>
+</html>

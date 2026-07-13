@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>澜起科技(688008)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">澜起科技</span><span class="code">688008</span>
+      <div class="tags">全球内存接口芯片双寡头（DDR5 RCD/DB） · 高性能运力芯片（PCIe Retimer / MRCD/MDB / CKD） · AI 直接敞口高（量增+新品放量型）</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥253.20　总市值 ≈3,122 亿</div>
+      <div class="meta">PE-TTM ~121x · PB ~14.8x · 12.21 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>澜起科技是全球<b>内存接口芯片</b>（RCD/DB＝DDR 内存模组上做时钟/数据缓冲的配套芯片）双寡头，并延伸出<b>高性能运力芯片</b>（PCIe Retimer、CKD、MRCD/MDB）。核心看点：AI 服务器/AI PC 直接拉动——<b>DDR5 渗透＋子代迭代</b>（已第五子代 8000MT/s）带动 RCD 量价齐升，Retimer/MRCD/MDB 等运力芯片放量最快；属<b>量增为主＋结构价升</b>而非涨价型，逻辑跟随 CPU/服务器平台升级、确定性较高。但股价年内已大幅重估（现价 253 元 vs 老版 118 元），PE-TTM ~121x 处高位，老版 2028E 中性/乐观情景市值均已低于现价。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">54.56 亿</div><div class="s up">+49.9% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">22.36 亿</div><div class="s up">+58.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">62.2%</div><div class="s">净利率 ~39.0%</div></div>
+    <div class="stat"><div class="k">互连类芯片占比</div><div class="v">94.2%</div><div class="s">毛利率 65.6%（+2.9pct）</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">8.47 亿</div><div class="s up">+61.3%</div></div>
+    <div class="stat"><div class="k">2026Q1 毛利率</div><div class="v">~69.8%</div><div class="s up">环比继续上行</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 互连类含 RCD/DB+运力芯片 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 互连类芯片（DDR5 RCD/DB · Retimer/MRCD/MDB/CKD · CXL）</td><td class="num">51.39</td><td class="num">94.2%</td><td class="num up">+53.4%</td><td class="num">65.6%</td><td class="num">99.3%</td></tr>
+        <tr><td>津逮服务器平台（CPU + 安全芯片）</td><td class="num">3.08</td><td class="num">5.6%</td><td class="num up">+10.3%</td><td class="num">7.4%</td><td class="num">0.7%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">54.56</td><td class="num">100%</td><td class="num">+49.9%</td><td class="num">62.2%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">互连类芯片占营收 94.2%，AI <b>直接敞口高</b>：DDR5+Retimer+MRCD+CXL 直接受益 AI 服务器/AI PC；量增为主＋结构价升，非传统涨价型。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">内存接口/互连 Fabless（无晶圆设计），产能跟随台积电、扩产不受约束；内存接口芯片（RCD/DB）全球双寡头之一，运力芯片（PCIe Retimer 等）为新增长极。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">互连类毛利率 65.6%（+2.9pct）；高速率子代单价更高＋高性能运力占比提升，2026Q1 综合毛利率升至 ~69.8%；RCD 已到第五子代 8000MT/s。</div></div>
+      <div class="bl"><div class="t">AI 专用芯片</div><div class="x">AI 服务器单台需 8–24 颗 PCIe Retimer；MRDIMM 渗透带动 MRCD/MDB（单模组 10 颗 MDB）。25Q1 高性能运算三芯片同比 +155%，放量最快。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">运力/高性能运算芯片收入占比随 AI 服务器出货、MRDIMM/CXL 渗透进一步提升；津逮平台占比低（5.6%）、毛利率仅 7.4%，非利润主力。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝AI 算力互连＋DDR5 超级周期；股价年内大幅重估（6 月末冲 ~332 元、现回落至 253 元），交易拥挤；现市值 3,122 亿已隐含并超过老版 2028E 情景（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>放量逻辑与出货量弹性</h2></div>
+      <div class="p"><b>放量逻辑：</b>非涨价型——增长以 <b>DDR5 渗透＋子代迭代＋AI 运力芯片放量</b>驱动。DDR5 服务器渗透率提升带动 RCD/DB 量增；AI 服务器单台 8–24 颗 Retimer、MRDIMM 单模组 10 颗 MDB 带动运力芯片高增。</div>
+      <div class="p"><b>弹性假设：</b>以互连类芯片 2025 收入 51.39 亿为基准，出货量每提升一档、约 70% 增量落净利（测算）。</div>
+      <table>
+        <thead><tr><th>互连芯片出货量情景</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值(30x)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 年报量价口径）</td><td class="num">—</td><td class="num">~22 亿</td><td class="num up">~660 亿</td></tr>
+          <tr><td class="base">出货+15%（DDR5 渗透）</td><td class="num">+5.4 亿</td><td class="num">~27 亿</td><td class="num up">~810 亿</td></tr>
+          <tr><td class="base">出货+30%（+运力芯片放量）</td><td class="num">+10.8 亿</td><td class="num">~33 亿</td><td class="num up">~990 亿</td></tr>
+          <tr><td class="base">出货+50%（AI 服务器超预期）</td><td class="num">+18.0 亿</td><td class="num">~40 亿</td><td class="num up">~1,200 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">出货量敏感性（结构价升外生，测算）；弹性段＝互连收入 51.39 亿×出货增幅×70% 落净利；公司净利基数按 2025 归母 22.36 亿（测算）。注：本表为近端出货弹性，情景市值远低于现市值 3,122 亿，反映市场已定价更远期（2028E+）的量增高点盈利。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">接口/运力芯片为设计环节、产能跟随台积电，扩产不受约束；需求随 DDR5 渗透＋AI 服务器出货放量。</span></div>
+        <div class="er"><span class="lb">驱动时点</span><span class="vv">DDR5 子代迭代（已到第五子代 8000MT/s）＋ AI 服务器/AI PC 出货持续放量，2026–2027 需求延续高增。</span></div>
+        <div class="er rv"><span class="lb">供需研判</span><span class="vv">非传统供需周期——量增逻辑跟随 CPU/服务器平台升级节奏，确定性较高。关键变量：AI 服务器出货节奏、DDR5 渗透与子代迭代速度。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 互连类芯片 · 中性20x/乐观30x</td><td class="cn as">DDR5 渗透＋运力芯片放量（测算）</td><td class="cn num nn">66</td><td class="op as bd">量增＋结构价升＋新品超预期（测算）</td><td class="op num no">85</td></tr>
+        <tr><td>津逮服务器平台 · 同倍数</td><td class="cn as">平台补充、贡献有限（测算）</td><td class="cn num nn">4</td><td class="op as bd">平台温和成长（测算）</td><td class="op num no">5</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">互连 66 / 津逮 4</span></td><td class="cn num">~70</td><td class="op bd"><span class="sub">互连 85 / 津逮 5</span></td><td class="op num">~90</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 3,122 亿</td><td class="cn"><span class="sub">整体 20x（研究员给定）</span></td><td class="cn num dn">~1,400亿 (-55%)</td><td class="op bd"><span class="sub">整体 30x（研究员给定）</span></td><td class="op num dn">~2,700亿 (-14%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 70 亿 / 乐观 90 亿）× 假设 PE（中性 20x / 乐观 30x）。分段净利按 2025 互连/津逮贡献比例拆分为情景测算，仅供参考。<b>结论：</b>跟着 CPU 走、量增逻辑确定性较高；但股价年内已大幅重估，现市值 3,122 亿已高于老版乐观情景 2,700 亿——老版中性/乐观空间（老版为 +4%/+100%，基于 118 元）在现价下均转为负，估值透支需警惕。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① DDR5 服务器渗透率提升＋子代迭代（第五子代 8000MT/s）带动 RCD 量价齐升；② PCIe Retimer/CKD、MRCD/MDB 等运力芯片放量（25Q1 三芯片 +155%）；③ MRDIMM/CXL 内存扩展渗透打开新增量；④ AI 服务器/AI PC 出货超预期。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 估值已处高位（PE-TTM ~121x、PB ~14.8x），现市值 3,122 亿已高于老版乐观 2028E 情景 2,700 亿（-14%）、远高于中性 1,400 亿（-55%），存明显透支；② 股价年内大幅重估、交易拥挤，波动放大；③ AI 服务器/DDR5 渗透节奏不及预期→量增证伪；④ 高性能运力芯片竞争加剧、子代迭代放缓。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07 收盘）；澜起科技 2025 年年度报告及 2026 年一季报（主营分部为 2025 年报口径：互连类芯片 51.39 亿/毛利率 65.6%，津逮平台 3.08 亿/毛利率 7.4%）；华经产业研究院、公开券商研报及调研纪要。2028E 归母（研究员给定中性/乐观值，沿用老版）、出货量弹性与市值空间为情景测算，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

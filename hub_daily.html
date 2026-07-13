@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 日报聚合台</title>
+<style>
+  :root{
+    --bg:#f4f2ec; --panel:#fff; --line:#e6e3da; --ink:#2c2c2a;
+    --muted:#5f5e5a; --accent:#1a56a0; --accent-soft:#e8f1fb;
+    --ok:#15803d; --warn:#b45309;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family:-apple-system,"Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; flex-direction:column; height:100vh;
+  }
+  header{
+    background:var(--panel); border-bottom:1px solid var(--line);
+    padding:10px 16px 0; flex:0 0 auto;
+  }
+  .titlerow{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+  h1{font-size:16px; margin:0; font-weight:650;}
+  .sub{font-size:12px; color:var(--muted)}
+  .tabs{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
+  .tab{
+    border:1px solid var(--line); border-bottom:none;
+    background:#fafafa; color:var(--ink);
+    padding:8px 14px; border-radius:8px 8px 0 0; cursor:pointer;
+    font-size:13px; line-height:1.2; display:flex; align-items:center; gap:7px;
+    position:relative; top:1px;
+  }
+  .tab:hover{background:#f0f4f9}
+  .tab.active{background:var(--panel); border-color:var(--line); font-weight:600;
+    box-shadow:0 -2px 0 var(--accent) inset;}
+  .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .dot.stable{background:var(--ok)}
+  .dot.tunnel{background:var(--warn)}
+  .toolbar{
+    flex:0 0 auto; background:var(--panel); border-bottom:1px solid var(--line);
+    padding:8px 16px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    font-size:12px;
+  }
+  button.act{
+    border:1px solid var(--line); background:#fafafa; border-radius:6px;
+    padding:5px 12px; cursor:pointer; font-size:12px; color:var(--ink);
+  }
+  button.act:hover{background:var(--accent-soft); border-color:var(--accent)}
+  a.act{color:var(--accent); text-decoration:none; font-size:12px}
+  a.act:hover{text-decoration:underline}
+  .url{color:var(--muted); font-family:ui-monospace,Consolas,monospace; font-size:11px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:40vw}
+  .spacer{flex:1 1 auto}
+  #tunnelbox{display:none; align-items:center; gap:6px}
+  #tunnelbox input{
+    border:1px solid var(--line); border-radius:6px; padding:5px 8px; font-size:12px;
+    width:340px; font-family:ui-monospace,Consolas,monospace;
+  }
+  .frameWrap{flex:1 1 auto; position:relative; background:var(--panel)}
+  iframe{width:100%; height:100%; border:0; background:#fff}
+  #hint{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+    text-align:center; color:var(--muted); font-size:13px; padding:24px; line-height:1.7;
+  }
+  #hint.show{display:flex}
+  kbd{background:#eee;border:1px solid #ddd;border-radius:4px;padding:1px 5px;font-size:11px}
+  body.embed header{padding:0 14px;background:#faf8f3}
+  body.embed .titlerow{display:none}
+  body.embed .tabs{margin-top:0;padding-top:7px}
+  body.embed .toolbar{padding:6px 14px;background:#fff}
+  body.embed .frameWrap{background:#fff}
+</style>
+</head>
+<body>
+<header>
+  <div class="titlerow">
+    <h1>AI 日报聚合台</h1>
+    <span class="sub">三源合一 · 切换/刷新均带时间戳强制拉最新 · 对方刷新后此处刷新即见</span>
+  </div>
+  <div class="tabs" id="tabs"></div>
+</header>
+
+<div class="toolbar">
+  <button class="act" id="btnRefresh">↻ 刷新当前</button>
+  <a class="act" id="btnOpen" target="_blank" rel="noopener">在新标签打开 ↗</a>
+  <span class="url" id="curUrl"></span>
+  <span class="spacer"></span>
+  <span id="tunnelbox">
+    <span style="color:var(--warn)">临时隧道地址变了？粘贴新链接：</span>
+    <input id="tunnelInput" placeholder="https://xxxxxx.lhr.life/r.html">
+    <button class="act" id="btnTunnel">更新</button>
+  </span>
+</div>
+
+<div class="frameWrap">
+  <iframe id="frame" title="report"></iframe>
+  <div id="hint"></div>
+</div>
+
+<script>
+if(new URLSearchParams(location.search).get('embed')==='1') document.body.classList.add('embed');
+/* ============================================================
+   源配置 —— 消费PM简报为CloudStudio部署，更新日报后自动同步。
+   隧道地址换了：改下面 url 这一行并保存，即可永久生效。
+   (页面里的"更新"框只是临时试，不写回文件)
+   ============================================================ */
+const SOURCES = [
+  { id:'mat', name:'AI新材料·每日复盘',  url:'https://reports.ty-workplace.com/public/ai-materials-daily-report/', kind:'stable' },
+  { id:'inf', name:'AI通胀产业链日报',    url:'https://ai-inflation-daily.pages.dev/',                              kind:'stable' },
+  { id:'em',  name:'南方远航·EM日报',      url:'https://jerryfanfanfanfan.github.io/nanfang-yuanhang-em-daily/',      kind:'stable' },
+  { id:'cns', name:'消费PM每日简报',      url:'https://zhouboshi1998-droid.github.io/consumer-pm-brief/',        kind:'stable' },
+  { id:'ovs', name:'消费出海日报',        url:'file:///C:/Users/ZhouH/Desktop/Claudes%20Pool/%E6%AF%8F%E6%97%A5%E6%95%B0%E6%8D%AE%E8%B7%9F%E8%B8%AA%26Idea%E6%9D%A5%E6%BA%90/%E6%B6%88%E8%B4%B9%E5%87%BA%E6%B5%B7%E6%97%A5%E6%8A%A5/20260703_%E6%B6%88%E8%B4%B9%E5%87%BA%E6%B5%B7%E6%97%A5%E6%8A%A5.html', kind:'stable' },
+  { id:'gls', name:'券商月度金股',        url:'https://yufei-wang.github.io/gold-stock/',                       kind:'stable' },
+  { id:'med', name:'医药每日简报',        url:'https://yiyao-daily.pages.dev/',                                   kind:'stable' },
+  { id:'che', name:'化工日报',            url:'https://zybzzh.github.io/zyzheng/',                                   kind:'stable' },
+];
+
+const frame = document.getElementById('frame');
+const hint  = document.getElementById('hint');
+const curUrl= document.getElementById('curUrl');
+const btnOpen = document.getElementById('btnOpen');
+const tunnelbox = document.getElementById('tunnelbox');
+let current = SOURCES[0];
+
+function bust(u){ const sep = u.includes('?') ? '&' : '?'; return u + sep + '_ts=' + Date.now(); }
+
+function load(src){
+  current = src;
+  // 高亮 tab
+  [...document.querySelectorAll('.tab')].forEach(t=>t.classList.toggle('active', t.dataset.id===src.id));
+  curUrl.textContent = src.url;
+  btnOpen.href = src.url;
+  tunnelbox.style.display = (src.kind==='tunnel') ? 'flex' : 'none';
+  hint.classList.remove('show');
+  frame.src = bust(src.url);
+}
+
+// iframe 加载失败兜底提示(部分错误不会触发 onerror，这里给手动判断的话术)
+frame.addEventListener('load', ()=>{ hint.classList.remove('show'); });
+
+function buildTabs(){
+  const box = document.getElementById('tabs');
+  box.innerHTML = '';
+  SOURCES.forEach(s=>{
+    const b = document.createElement('div');
+    b.className = 'tab'; b.dataset.id = s.id;
+    b.innerHTML = `<span class="dot ${s.kind}"></span>${s.name}`;
+    b.title = s.kind==='tunnel' ? '临时隧道：对方关闭隧道时此页打不开属正常' : '固定域名：对方每日刷新后此处刷新即见';
+    b.onclick = ()=>load(s);
+    box.appendChild(b);
+  });
+}
+
+document.getElementById('btnRefresh').onclick = ()=> load(current);
+document.getElementById('btnTunnel').onclick = ()=>{
+  const v = document.getElementById('tunnelInput').value.trim();
+  if(!v) return;
+  const t = SOURCES.find(s=>s.kind==='tunnel');
+  t.url = v; load(t);
+};
+
+buildTabs();
+load(SOURCES[0]);
+</script>
+</body>
+</html>

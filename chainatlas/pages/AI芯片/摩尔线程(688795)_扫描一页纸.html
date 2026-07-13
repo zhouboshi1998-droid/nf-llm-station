@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>摩尔线程(688795)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">摩尔线程</span><span class="code">688795</span>
+      <div class="tags">国产全功能 GPU（AI 训练/推理 + 图形渲染 + AI PC） · 2025.12 新上市次新股 · AI 直接敞口高、放量型</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥663.20　总市值 ≈3,117 亿</div>
+      <div class="meta">PE-TTM 亏损(-363x) · PB ~27.1x · 4.70 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>摩尔线程是国产<b>全功能 GPU</b>（同时覆盖 AI 训练/推理、图形渲染、科学计算、AI PC）厂商，2025.12 登陆科创板的<b>次新股</b>，发行价 114.28 元、现价 663.20 元。核心看点：制裁下国产先进算力供给紧缺、国产替代窗口打开→<b>AI 智算集群（夸娥/MTT S5000）放量</b>，2025 营收 15.1 亿（+243%）、综合毛利率 ~65%；但<b>仍处亏损</b>（2025 归母 -10.2 亿，研发费用率极高），26Q1 靠政府补助扭亏、扣非仍亏。属高 AI 直接敞口、估值极贵（PS-TTM ~160x）、确定性不足的二线放量型标的。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">15.06 亿</div><div class="s up">+243.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">-10.24 亿</div><div class="s dn">亏损收窄（上年 -16.18 亿）</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">~65.4%</div><div class="s">AI 智算毛利率 ~69%(H1)</div></div>
+    <div class="stat"><div class="k">AI 智算占比</div><div class="v">~94.9%</div><div class="s">2025H1 口径，绝对主力</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">+0.29 亿</div><div class="s up">扭亏（扣非仍亏 -0.54 亿）</div></div>
+    <div class="stat"><div class="k">2026Q1 营收</div><div class="v">7.38 亿</div><div class="s up">+155.3% YoY</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025H1 分产品口径）</h2><span class="tip">全年分产品未披露，采 2025H1 口径 · AI 智算含集群/S5000 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ AI 智算（夸娥集群 / MTT S5000）</td><td class="num">6.65</td><td class="num">94.9%</td><td class="num">未披露</td><td class="num">~69.0%</td><td class="num">~96.6%</td></tr>
+        <tr><td>专业图形加速（专业图形显卡）</td><td class="num">0.29</td><td class="num">4.2%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">~3.0%</td></tr>
+        <tr><td>消费级 / 智能 SoC / 其他</td><td class="num">0.07</td><td class="num">0.9%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">~0.4%</td></tr>
+        <tr class="total"><td>合计（2025H1 主营）</td><td class="num">7.01</td><td class="num">100%</td><td class="num">未披露</td><td class="num">~69.1%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">AI 智算集群/智算卡占营收约 <b>94.9%</b>（2025H1），AI 训练/推理为绝对主力；<b>AI 直接敞口高</b>——直供国产算力集群，属最纯粹的国产 GPU 算力标的。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">全功能 GPU 设计 Fabless（无晶圆）；国内少数量产量销全功能 GPU（图形+AI 计算+科学计算）厂商；夸娥万卡集群 10 EFLOPS、MTT S5000 单卡 1000 TFLOPS。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">综合毛利率 ~65%（2025 全年）/ ~69%（2025H1），AI 智算毛利率 ~69%；研发费用率极高（招股书披露 H1 约 86.7%）是亏损主因，26Q1 扣非仍亏 -0.54 亿。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">S5000 规模量产、AI PC/图形逐步放量；收入结构仍高度集中于智算集群整单；专业图形、消费级、SoC 为第二/第三成长极但占比微。</div></div>
+      <div class="bl"><div class="t">放量口径利润</div><div class="x">收入放量×~65% 毛利率×费用杠杆→随规模摊薄研发费用率、迈向盈亏平衡（测算，见 §03）；当前为亏损/早期收入阶段，弹性来自收入体量而非涨价。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝国产 GPU 替代＋算力紧缺＋次新股稀缺性；上市后大涨（发行价 114→现价 663），PS-TTM ~160x、PB ~27x，交易极度拥挤，现市值 3,117 亿已隐含远期乐观放量（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>GPU 收入放量敏感性（量增逻辑）</h2></div>
+      <div class="p"><b>放量逻辑：</b>公司主逻辑为<b>收入放量</b>而非涨价——国产替代窗口 + 算力紧缺下智算集群整单放量，收入体量提升摊薄极高研发费用率，推动扭亏与利润释放。议价力较强（毛利率 65%+），但客户集中、采购节奏波动大。</div>
+      <div class="p"><b>弹性假设：</b>以 2025 营收 15.1 亿为基数，收入放量增量按 ~65% 毛利率贡献、并逐步覆盖固定费用，落净利比例随规模上行（早期偏低，测算）。</div>
+      <table>
+        <thead><tr><th>收入放量情景</th><th class="num">对应年营收</th><th class="num">测算净利</th><th class="num">对应市值(PS/PE)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 年报 15.1 亿）</td><td class="num">15.1 亿</td><td class="num dn">-10.2 亿</td><td class="num">现值 3,117 亿</td></tr>
+          <tr><td class="base">放量 +50%</td><td class="num">~22.6 亿</td><td class="num dn">~-4 亿</td><td class="num">— (仍亏/PS 法)</td></tr>
+          <tr><td class="base">放量 +100%</td><td class="num">~30.1 亿</td><td class="num">~盈亏平衡</td><td class="num">— (临界)</td></tr>
+          <tr><td class="base">放量 +200%（迈向规模盈利）</td><td class="num">~45.2 亿</td><td class="num up">~8 亿</td><td class="num up">~400 亿(50x PE)</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯收入放量敏感性（测算）；量增增量按 ~65% 毛利率贡献，扣除相对刚性的研发/管理费用后落到净利，早期净利率偏低甚至为负、随规模摊薄转正。基数为 2025 全年营收 15.1 亿、归母 -10.2 亿。当前处亏损/早期收入阶段，PE 不适用，估值主要看 PS（PS-TTM ~160x）与远期放量情景（见 §04）。</div>
+      <div class="exp">
+        <div class="eh">▪ 扩产节奏 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">同样受限于上游晶圆代工与 HBM 供给，扩产跟随上游代工厂产能；先进制程/先进封装获取是硬约束。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">2026–2027 国产替代窗口延续、算力供给紧缺，智算集群整单放量；订单节奏受客户集中度影响波动大。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">约 27H2–28 年行业供给问题大幅缓解，但作为二线厂商，需求获取与产能获取的确定性都不够高，放量兑现是核心变量。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算 · PE 法</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>情景（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ AI 智算放量为主 ·PE</td><td class="cn as">放量兑现有限、二线确定性不足（测算）</td><td class="cn num nn">30</td><td class="op as bd">国产替代大放量、规模盈利（测算）</td><td class="op num no">100</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">研究员给定中性情景</span></td><td class="cn num">~30</td><td class="op bd"><span class="sub">研究员给定乐观情景</span></td><td class="op num">~100</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 3,117 亿</td><td class="cn"><span class="sub">30x（研究员给定）</span></td><td class="cn num dn">~900亿 (-71%)</td><td class="op bd"><span class="sub">50x（研究员给定）</span></td><td class="op num up">~5,000亿 (+60%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>公司当前亏损/早期收入，PE 法仅锚定 2028E 归母（研究员给定：中性 30 亿 / 乐观 100 亿）× 假设 PE（中性 30x / 乐观 50x）；日常估值以 PS 为主（PS-TTM ~160x）。隐含空间按最新市值 3,117 亿重算：中性 ~900 亿（-71%）、乐观 ~5,000 亿（+60%）。<b>结论：</b>二线全功能 GPU 厂商，需求与供给的确定性都不够高；中性情景市值远低于现价，估值透支明显、依赖乐观放量兑现。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① AI 智算集群大单持续落地、MTT S5000 规模量产放量；② 收入放量摊薄极高研发费用率、迈向扣非盈利；③ 国产替代窗口延续、先进算力供给紧缺提升国产采购份额；④ 新一代 GPU 架构发布、AI PC/图形第二成长极兑现。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 估值极贵（PS-TTM ~160x、PB ~27x），中性 2028E 情景市值 900 亿低于现价约 -71%；② 仍亏损、26Q1 扭亏主要靠政府补助（扣非仍亏 -0.54 亿）；③ 客户集中、订单节奏波动大，放量确定性不足（二线）；④ 上游晶圆/HBM 供给受限、先进制程获取受约束；⑤ 次新股大涨后交易拥挤、波动放大。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07 收盘）；摩尔线程 2025 年年度报告及 2026 年一季报、科创板招股说明书（分产品为 2025H1 主营口径，全年分产品未披露）；公开券商研报及财经媒体（新浪财经、界面新闻、CFM 闪存市场等）。2028E 归母（研究员给定中性/乐观值）、收入放量弹性与市值空间为情景测算，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

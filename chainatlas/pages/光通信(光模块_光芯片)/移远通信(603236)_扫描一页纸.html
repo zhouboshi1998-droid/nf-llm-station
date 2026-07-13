@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>移远通信(603236)_扫描一页纸</title>
+<!-- ============================================================
+ scanner 模板页 · 本文件既是 CSS 模板也是结构范例
+ · 页内全部数字为【示例占位数据】，生成正式页时必须整页替换
+ · CSS 变量与版式骨架请勿改动；内容多时允许页面自然变长
+============================================================ -->
+<style>
+:root{
+ /* 主题色：蓝灰白红（南方基金主题色系） */
+ --navy:#1F497D; /* 深蓝：页眉/表头/合计行 */
+ --navy2:#17365D; /* 更深蓝：中性列表头/重点数字 */
+ --blue:#4F81BD; /* 中蓝：次级色块/图例 */
+ --lblue:#96C5FF; /* 浅蓝：页眉辅助文字 */
+ --panel:#EDF2F8; /* 浅蓝灰面板底 */
+ --zebra:#F2F6FB; /* 表格斑马纹 */
+ --ink:#333940; /* 正文 */
+ --gray:#595959; /* 次级文字 */
+ --gray2:#A5A5A5; /* 弱文字 */
+ --line:#D6DCE5; /* 边线 */
+ --red:#FD625E; /* 珊瑚红：强调/角标/核心板块 */
+ --redd:#C7362F; /* 深红：涨/正向数字 */
+ --dn:#1E8449; /* 绿：跌/负向数字 */
+ --keybg:#FDF0EF; /* 浅红底：核心板块行/乐观列 */
+ --coolbg:#EAF1F8; /* 浅蓝底：催化剂/中性列 */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+ font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+ font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+ box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+/* ── 页眉：深蓝块 + 红色竖条 ─────────────────────────── */
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+ padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+
+/* ── KPI 条：6 格 ───────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+/* ── 章节标题 ──────────────────────────────────────── */
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+/* ── 表格通用 ──────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+/* ── §01 业务构成表 ─────────────────────────────────── */
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+/* ── §02|§03 左右两栏 ──────────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+/* §03 扩产·供需研判卡 */
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+/* ── §04 市值空间表（中性=蓝 / 乐观=红） ─────────────── */
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+/* ── §05 催化剂（蓝）· 风险（红） ────────────────────── */
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+ html,body{background:#fff;padding:0;margin:0}
+ .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+ *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+ <div class="hdr">
+ <div class="l">
+ <div class="kick">个股扫描 · 一页纸</div>
+ <span class="name">移远通信</span><span class="code">603236</span>
+ <div class="tags">全球蜂窝物联网龙头（市占 37%） · 车载 AI 模组 · 端侧算力一体化</div>
+ </div>
+ <div class="r">
+ <div class="px">现价 ¥49.86　总市值 200.9亿</div>
+ <div class="meta">PE-TTM 35.5x · PB 2.92x · 4.03 亿股</div>
+ <div class="date">财报数据截至 2026-06-26 · 行情截至 2026-07-06</div>
+ </div>
+ </div>
+
+ <div class="lead"><b>一句话看懂：</b>公司是全球蜂窝物联网通信模组绝对龙头，市占率 37%，主打 5G 车规模组、工业/边缘 AI 模组与舱联融合一体化算力方案 AS900P（内置 64TOPS NPU）。<b>2027 两条主线：海外欧美车企定点项目大规模量产交付 + 5G-A 高算力智能模组迭代落地</b>，工业机器人/商用机器人端侧 AI 需求提供二级弹性。</div>
+
+ <div class="stats">
+ <div class="stat"><div class="k">2025 营收</div><div class="v">243.26 亿</div><div class="s">模组+天线占 98.7%</div></div>
+ <div class="stat"><div class="k">2025 归母净利</div><div class="v">8.37 亿</div><div class="s">净利率约 3.4%</div></div>
+ <div class="stat"><div class="k">2025 毛利率</div><div class="v">17.4%</div><div class="s">模组行业毛利偏低</div></div>
+ <div class="stat"><div class="k">AI 敞口</div><div class="v">74.2%</div><div class="s up">车载+工业智能模组</div></div>
+ <div class="stat"><div class="k">工业/边缘 AI 占比</div><div class="v">41.5%</div><div class="s">第一大板块</div></div>
+ <div class="stat"><div class="k">2027E 中性归母</div><div class="v">10.4 亿</div><div class="s up">较 2025 +24.3%</div></div>
+ </div>
+
+ <div class="sec">
+ <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">2025 年报口径 · 收入降序 · 核心业务高亮 · 来源：东方财富 F10 · 部分分部毛利率据 2025 年报补录</span></div>
+ <table class="biz">
+ <thead><tr>
+ <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+ </tr></thead>
+ <tbody>
+ <tr class="key"><td>◆ 模组+天线</td><td class="num">240.1</td><td class="num">98.7%</td><td class="num"><span class="up">+30.8%</span></td><td class="num">17.4%</td><td class="num">98.8%</td></tr>
+ <tr><td>其他</td><td class="num">3.17</td><td class="num">1.3%</td><td class="num"><span class="up">+36.8%</span></td><td class="num">16.4%</td><td class="num">1.2%</td></tr>
+ <tr class="total"><td>合计</td><td class="num">243.3</td><td class="num">100%</td><td class="num"><span class="up">+30.8%</span></td><td class="num">17.4%</td><td class="num">100%</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="two">
+ <div class="sec">
+ <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+ <div class="bl"><div class="t">当前敞口</div><div class="x">车载 AI（79.5 亿 / 32.7%）+ 工业/边缘 AI（100.9 亿 / 41.5%）合计敞口 74.2%，两大 AI 板块已是当期利润主力。</div></div>
+ <div class="bl"><div class="t">产业链卡位</div><div class="x">全球蜂窝物联网模组绝对龙头，市占率 37%；上游高通/联发科基带 SoC + NPU，中游车规/工业 5G 智能模组，下游欧美车企、工业机器人、商用机器人、低空经济。</div></div>
+ <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">具备通信 + 端侧算力一体化 AI 硬件方案能力，AS900P 内置 64TOPS NPU 形成差异化；整体毛利率 17.4%，靠旗舰大算力方案维持技术溢价。</div></div>
+ <div class="bl"><div class="t">远期结构变化</div><div class="x">高算力车载与工业 AI 模组占比继续提升；2027E 中性归母 10.4 亿元，较 2025 增 24%，弹性主要来自单品价值量而非结构翻倍。</div></div>
+ <div class="bl"><div class="t">涨价口径利润</div><div class="x">AI 板块营收 180.4 亿 × 假设 10% 涨价 × 70% 落净利 ≈ 12.63 亿元增量净利（测算，仅体现单价效应）。</div></div>
+ <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026-06）市场主线为欧美车企定点批量交付节奏 + 5G-A 高算力模组迭代 + 机器人端侧 AI 期权，股价对海外车企定点披露敏感。</div></div>
+ </div>
+ <div class="sec">
+ <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+ <div class="p"><b>涨价逻辑：</b>无全行业普涨——低端 4G 通用模组常年过剩、普通 5G 2026H2 宽松；仅搭载大算力 NPU 的旗舰车载一体化方案具备稳定技术溢价，单品价值量随算力升级而提升。</div>
+ <div class="p"><b>弹性假设：</b>以 2027E 中性归母 10.4 亿为基准，AI 相关营收合计约 180.4 亿为价格敏感基数，涨价增量按 70% 落到净利测算。</div>
+ <table>
+ <thead><tr><th>产品涨价</th><th class="num">增量净利（亿）</th><th class="num">公司总净利（亿）</th><th class="num">对应市值 20x（亿）</th></tr></thead>
+ <tbody>
+ <tr><td class="base">基准（2025 均价口径）</td><td class="num">—</td><td class="num">10.40（测算）</td><td class="num up">208（测算）</td></tr>
+ <tr><td class="base">+10%</td><td class="num">12.63（测算）</td><td class="num">23.03（测算）</td><td class="num up">461（测算）</td></tr>
+ <tr><td class="base">+20%</td><td class="num">25.26（测算）</td><td class="num">35.66（测算）</td><td class="num up">713（测算）</td></tr>
+ <tr><td class="base">+30%</td><td class="num">37.88（测算）</td><td class="num">48.28（测算）</td><td class="num up">966（测算）</td></tr>
+ </tbody>
+ </table>
+ <div class="el-cap">纯价格敏感性，实际详见 §04 情景假设。</div>
+ <div class="exp">
+ <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+ <div class="er"><span class="lb">扩产节奏</span><span class="vv">23 亿定增车载 + AI 算力模组项目建设期 18 个月，SMT 产线单季车载模组产能提升 25%；海外多国工厂柔性扩产。</span></div>
+ <div class="er"><span class="lb">扩产时点</span><span class="vv">定增项目 18 个月建设期分阶段释放；海外工厂随定点节奏同步爬坡。</span></div>
+ <div class="er rv"><span class="lb">供需反转</span><span class="vv">低端 4G 通用模组常年过剩；普通 5G 模组 2026H2 宽松；高算力车载、工业 AI 模组 2027 年持续紧平衡；整体反转 2027 末。</span></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="sec">
+ <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（整体 20x）</h2></div>
+ <table class="val">
+ <thead><tr>
+ <th>业务（分段 · 倍数）</th><th class="cnh">中性 · 2027E 假设</th><th class="cnh num">净利（亿）</th><th class="oph bd">乐观 · 2027E 假设</th><th class="oph num">净利（亿）</th>
+ </tr></thead>
+ <tbody>
+ <tr class="ai-row"><td>◆ 车载 + 工业 AI 模组 · 20x</td><td class="cn as">按 AI 敞口 74.2% 分配 2027E 归母</td><td class="cn num nn">7.72（测算）</td><td class="op as bd">欧美车企定点大规模量产</td><td class="op num no">8.31（测算）</td></tr>
+ <tr><td>通用蜂窝模组 · 20x</td><td class="cn as">按其他敞口 25.8% 分配</td><td class="cn num nn">2.68（测算）</td><td class="op as bd">通用需求略上行</td><td class="op num no">2.89（测算）</td></tr>
+ <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 7.72 / 其他 2.68</span></td><td class="cn num">10.40</td><td class="op bd"><span class="sub">核心 8.31 / 其他 2.89</span></td><td class="op num">11.20</td></tr>
+ <tr class="mc"><td>对应市值 vs 现价 200.9亿</td><td class="cn"><span class="sub">2027E 目标市值锚定</span></td><td class="cn num">~208 亿（<span class="up">+4%</span>，测算）</td><td class="op bd"></td><td class="op num">~224 亿（<span class="up">+11%</span>，测算）</td></tr>
+ </tbody>
+ </table>
+ <div class="note"><b>估值法：</b>以 PPT 2027E 中性/乐观归母净利为锚点，按 2025 收入结构（AI 74.2% / 通用 25.8%）拆分归母，统一给予 20x PE 加总；2027E 情景不做进一步外推。</div>
+ </div>
+
+ <div class="sec">
+ <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+ <div class="cos">
+ <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 海外欧美车企定点项目大规模量产交付；② 5G-A 高算力智能模组迭代落地；③ 工业机器人、商用机器人端侧 AI 需求放量；④ 23 亿定增车载 + AI 算力模组项目 18 个月分阶段落地；⑤ 低空经济与商业卫星配套模组打开新场景。</div></div>
+ <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 低端 4G/普通 5G 过剩导致均价与毛利下压；② 定点客户交付节奏波动；③ 海外地缘/关税/认证风险；④ SoC 与 NPU 上游依赖高通/联发科；⑤ 估值透支需关注（现总市值 200.9亿）。</div></div>
+ </div>
+ <div class="src"><b>数据来源：</b>公司公告、业绩说明会；iFinD/Wind 行情估值（以东方财富公开行情为准，截至 2026-07-06）；进门财经研报；公开网络资料；及内部提供资料。2027E 为盈利预测汇总，2028E 为情景测算。</div>
+ </div>
+
+</div>
+</body>
+</html>
