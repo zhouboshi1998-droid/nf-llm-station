@@ -29,7 +29,7 @@
   .grp{padding:11px 14px 3px; font-size:10px; font-weight:700; letter-spacing:.09em;
     color:var(--hint); text-transform:uppercase;}
   .item{
-    display:flex; align-items:center; gap:7px; padding:7px 14px; cursor:pointer;
+    display:flex; align-items:center; flex-wrap:wrap; gap:7px; padding:7px 14px; cursor:pointer;
     font-size:13px; border-left:3px solid transparent; color:var(--ink);
   }
   .item:hover{background:#ece9e0;}
@@ -39,6 +39,8 @@
   .dot.tunnel{background:var(--warn)}
   .dot.local{background:#98a1ab}
   .item small{margin-left:auto; color:var(--hint); font-size:10px;}
+  .item small.note{flex-basis:100%; margin-left:14px; margin-top:1px; line-height:1.4;
+    color:var(--warn); font-weight:400; white-space:normal;}
   /* ── 右侧 ── */
   main{flex:1; min-width:0; display:flex; flex-direction:column; height:100vh;}
   .toolbar{
@@ -72,7 +74,7 @@
 <aside>
   <div class="sb-h">
     <h1>📰 AI 日报聚合台</h1>
-    <div class="sub">九源合一 · 切换/刷新均强制拉最新<br>绿点=固定域名 · 灰点=仅本机可看</div>
+    <div class="sub">十源合一 · 切换/刷新均强制拉最新<br>绿点=固定域名 · 灰点=仅本机可看</div>
   </div>
   <nav id="nav"></nav>
 </aside>
@@ -107,6 +109,7 @@ const SOURCES = [
   { id:'che', group:'其他行业',   name:'化工日报',         url:'https://zybzzh.github.io/zyzheng/', kind:'stable' },
   { id:'nfm', group:'其他行业',   name:'有色金属日报',     url:'https://reports.ty-workplace.com/public/nonferrous-metals-daily-report/', kind:'stable' },
   { id:'em',  group:'策略 · 组合', name:'南方远航·EM日报',  url:'https://jerryfanfanfanfan.github.io/nanfang-yuanhang-em-daily/', kind:'stable' },
+  { id:'dvd', group:'策略 · 组合', name:'红利日报',         url:'https://dvdstock-daily.pages.dev/', kind:'stable', note:'需登录，密码：dvddlnf（用户名随便填）' },
   { id:'gls', group:'策略 · 组合', name:'券商月度金股',     url:'https://yufei-wang.github.io/gold-stock/', kind:'stable' },
 ];
 
@@ -151,7 +154,7 @@ function buildNav(){
     }
     const b = document.createElement('div');
     b.className = 'item'; b.dataset.id = s.id;
-    b.innerHTML = `<span class="dot ${s.kind}"></span>${s.name}` + (s.kind==='local' ? '<small>仅本机</small>' : '');
+    b.innerHTML = `<span class="dot ${s.kind}"></span>${s.name}` + (s.kind==='local' ? '<small>仅本机</small>' : (s.note ? `<small class="note">${s.note}</small>` : ''));
     b.onclick = ()=>load(s);
     box.appendChild(b);
   });
