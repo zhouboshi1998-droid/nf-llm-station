@@ -45,6 +45,14 @@ tbody tr:hover{background:#faf9f5;}
 .num{font-family:var(--mono);font-size:12.5px;white-space:nowrap;}
 .num .yo{display:block;font-size:10.5px;margin-top:1px;}
 .up{color:var(--green);} .dn{color:#b0402a;} .flat{color:var(--hint);}
+/* ── 已发状态（2026-07-16 加）：实际值取代预期值 ── */
+tr.done td.co{box-shadow:inset 3px 0 0 var(--green);}
+tr.done{background:#F7FAF8;}
+.done-b{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 5px;border-radius:4px;background:var(--green);color:#fff;margin-left:5px;vertical-align:middle;}
+.pre-b{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 5px;border-radius:4px;background:var(--gold);color:#fff;margin-left:5px;vertical-align:middle;}
+.act{font-weight:700;color:var(--ink);}
+.act .vs{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--hint);margin-top:1px;}
+.beat{color:var(--green);font-weight:700;} .miss{color:#b0402a;font-weight:700;}
 .focus{font-size:12px;color:var(--muted);line-height:1.5;min-width:280px;}
 .focus b{color:var(--ink);font-weight:600;}
 .ccy{font-family:var(--mono);font-size:10px;color:var(--hint);white-space:nowrap;text-align:center;}
@@ -101,7 +109,7 @@ body.embed .cards{margin-top:0}
   <p class="kick">买方研究 · 全球科技 · 业绩季地图</p>
   <h1>美股 &amp; 全球科技股 Q2 业绩季日历</h1>
   <p class="sub">对应 <b>截止 2026 年 6 月/7 月的季度</b>（各家财年错位，报告日期跨 7 月中—9 月底）· 35 家 AI 五层蛋糕相关标的（21 头部大盘股 + 14 产业链配套） · 日期与一致预期均经 WebSearch 交叉核实</p>
-  <p class="asof">数据截至 2026-07-14 · 日/韩/欧/台标的的业绩<b>日期与一致预期已于 2026-07-14 逐条 WebSearch 独立复核</b>（多处 FMP 日期已更正：东京电子/铠侠/SK海力士/联发科）· 美股一致预期来源 FMP earnings-calendar · 关注点为研究员梳理（观点）</p>
+  <p class="asof">数据截至 <b>2026-07-16 10:09</b> · 日/韩/欧/台标的的业绩<b>日期与一致预期已于 2026-07-14 逐条 WebSearch 独立复核</b>（多处 FMP 日期已更正：东京电子/铠侠/SK海力士/联发科）· 美股一致预期来源 FMP earnings-calendar · 关注点为研究员梳理（观点）<br><b>07-16 更新</b>：已发公司的预期值<b>已替换为实际值</b>（绿边＝已发完整业绩／金标＝仅预披露·完整版待开）——<b>ASML 7/15 完整业绩+指引</b>（数字经本地 2Q26 transcript 逐句核对，全〔A〕）、<b>IBM 7/14 负面预披露</b>〔B〕、<b>三星 7/7 初值</b>〔A〕。<b>台积电 7/16 14:00 台北的电话会在本次更新时尚未召开</b>，仍为预期值。</p>
 </header>
 
 <div class="cards">
@@ -123,22 +131,22 @@ body.embed .cards{margin-top:0}
 <div class="tbl-scroll"><table>
 <thead><tr><th>公司</th><th>日期</th><th>财季</th><th>营收一致预期</th><th>EPS 预期</th><th>核心关注点</th><th>币种</th></tr></thead>
 <tbody>
-<tr>
-  <td class="co">阿斯麦 <span class="tk">ASML · 🇳🇱</span></td>
+<tr class="done">
+  <td class="co">阿斯麦 <span class="tk">ASML · 🇳🇱</span><span class="done-b">已发</span></td>
   <td class="dt">7/15 <span class="wk">三·盘前</span></td>
   <td class="q">CY26 Q2</td>
-  <td class="num">指引 €8.4–9.0bn<span class="yo up">+~13% YoY</span></td>
-  <td class="num">~€7.0<span class="yo flat">共识区间 €6.8–7.4</span></td>
-  <td class="focus"><b>新增订单(bookings)是先行指标</b>（传 2027 订单已排满）；⚠️中国出口管制＝最大 overhang；High-NA EUV 进展；全年指引</td>
+  <td class="num act">€9.3bn <span class="beat">超指引上限</span><span class="vs">指引 €8.4–9.0bn · 超出主因＝装机管理业务(Installed Base Mgmt，非 IBM 公司)</span></td>
+  <td class="num act">€7.59 <span class="beat">beat</span><span class="vs">共识 €6.8–7.4 · ⚠️€ 口径，$8.69 是 ADR 口径勿混比</span></td>
+  <td class="focus"><b>✅ 全年指引大幅上修 €36–40bn → €43–45bn</b>（中值 +15.8%，vs FY25 +34.6%）；GM 指引 51–53% → <b>54–56%</b>（+300bps，已摸 2030 目标 56–60% 下沿、提前约 4 年）。⚠️<b>中国出口管制未成 overhang</b>——中国占比 ~20% 与整体同步。详见下方纪要要点</td>
   <td class="ccy">EUR</td>
 </tr>
 <tr>
   <td class="co">台积电 <span class="tk">TSM · 🇹🇼</span></td>
-  <td class="dt">7/16 <span class="wk">四</span></td>
+  <td class="dt">7/16 <span class="wk">四·14:00 台北</span></td>
   <td class="q">CY26 Q2</td>
   <td class="num">~$40.0bn<span class="yo up">+33% YoY</span></td>
   <td class="num">$3.81/ADR<span class="yo up">+54%</span></td>
-  <td class="focus"><b>AI/HPC 需求 + 2nm 量产</b>；2026 全年营收指引（预期上调）；毛利率（指引高 60%s）；新台币升值 + 海外厂（亚利桑那）毛利稀释</td>
+  <td class="focus"><b>⏳ 今日 14:00 台北召开，本页更新时（10:09）尚未开始</b>。<b>预读：Q2 营收已由月度披露锁定＝NT$1.27 万亿（+36% YoY）</b>，故看点不在营收 beat，而在 <b>Q3 指引 / 全年上修幅度 / 毛利率</b>（Q2 指引 65.5–67.5%）；2026 capex（前值 $520–560 亿）；2nm 爬坡与海外厂毛利稀释</td>
   <td class="ccy">USD</td>
 </tr>
 </tbody></table></div>
@@ -457,31 +465,39 @@ body.embed .cards{margin-top:0}
   <td class="ccy">USD</td>
 </tr>
 <tr>
-  <td class="co">IBM <span class="tk">IBM · 🇺🇸</span></td>
-  <td class="dt">7/22 <span class="wk">三</span></td>
+  <td class="co">IBM <span class="tk">IBM · 🇺🇸</span><span class="pre-b">7/14 已预披露</span></td>
+  <td class="dt">7/22 <span class="wk">三·完整</span></td>
   <td class="q">CY26 Q2</td>
-  <td class="num">$17.86bn<span class="yo up">+5.2%</span></td>
-  <td class="num">$3.02<span class="yo up">+7.9%</span></td>
-  <td class="focus">混合云+watsonx+咨询；<b>生成式 AI book of business(backlog)</b>；软件(Red Hat)增速。AI 更多是咨询+软件间接受益</td>
+  <td class="num act">$17.2bn <span class="miss">miss</span><span class="vs">共识 $17.86bn（-3.7%）· 7/14 预披露值〔B〕</span></td>
+  <td class="num act">$2.93 <span class="miss">miss</span><span class="vs">共识 $3.02–3.03 · 7/14 预披露值〔B〕</span></td>
+  <td class="focus"><b>🔴 7/14 负面预披露，盘中一度 -25% 至 ~$215</b>（1987 年来最差单日）。分部：基础设施 <b>-7%</b>、软件 +5%（MSe +11%）、咨询 +1%(CC)；毛利率较 MSe 低 130bps，靠成本削减把 PTI 护在 19.2%；红帽 +11% 仍稳。<b>❗归因存分歧</b>：MS＝客户把资本开支挪去抢<b>内存密集服务器/存储</b>、砍大型机与软件（认为可能延续 2H26–CY27）；IBM 管理层＝仅"几个大单"短期递延；Bernstein＝大型机平台弱化（净 54% CIO 拟减 IBM 支出，史上最差）。<b>7/22 看点＝3Q 是否恢复正常，即可裁决"短期 vs 结构性"</b></td>
   <td class="ccy">USD</td>
 </tr>
 </tbody></table></div>
 
-<h2 class="sec">各公司 · 上次业绩会 Guidance &amp; 纪要要点 <span class="win">默认折叠 · 点击展开 · 共 35 家（头部 21 + 配套 14）</span></h2>
-<p class="ec-intro">下方每家是<b>最近一次已召开</b>的业绩会（即本次即将发布季度的上一季）——管理层给的 guidance 与纪要要点。上方表格的"一致预期"正是市场对这些 guidance 的延伸。〔A〕＝公司原话/公告，〔B〕＝卖方/媒体转述，<span class="cav">⚠️＝口径存疑未采信精确值</span>。</p>
+<h2 class="sec">各公司 · Guidance &amp; 纪要要点 <span class="win">已发的 3 家默认展开 · 其余折叠点击展开 · 共 35 家（头部 21 + 配套 14）</span></h2>
+<p class="ec-intro">下方每家是<b>最近一次已召开</b>的业绩会——管理层给的 guidance 与纪要要点。上方表格的"一致预期"正是市场对这些 guidance 的延伸。〔A〕＝公司原话/公告，〔B〕＝卖方/媒体转述，<span class="cav">⚠️＝口径存疑未采信精确值</span>。<br><b>本季已发的公司（ASML／IBM／三星）已换成本季实际＋新指引，默认展开</b>；其余仍是上一季 guidance（即市场预期的锚）。</p>
 <div class="ec-list">
 
-<details class="ec"><summary><span class="ec-co">阿斯麦 <b>ASML</b></span><span class="ec-meta">2026 Q1 · 04-15</span><span class="ec-sum">全年指引上修，中国占比持平，焦点在出口管制</span><span class="ec-tw"></span></summary>
+<details class="ec" open><summary><span class="ec-co">阿斯麦 <b>ASML</b></span><span class="ec-meta">✅ 2026 Q2 · 07-15 已发</span><span class="ec-sum">指引大幅上修 €43–45B／GM 54–56%；但超预期来自装机管理，不是台数</span><span class="ec-tw"></span></summary>
 <div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔B〕2026 全年净销售额指引<b>上修至 €360–400 亿</b>（原 €340–390 亿），AI 需求驱动</li>
-<li>〔A〕Q1 毛利率 53.0%（触指引上限），EUV 系统销售强劲</li>
+<div class="ec-g"><h5>Guidance（全〔A〕· 本地 transcript 逐句核对）</h5><ul>
+<li>〔A〕<b>FY26 净销售 €43–45B</b>（原 €36–40B，中值 €38B→€44B <b>+15.8%</b>；vs FY25 €32.7B <b>+34.6%</b>）；<b>GM 54–56%</b>（原 51–53%，<b>+300bps</b>）——CFO 原话："we now expect total net sales between EUR 43 billion and EUR 45 billion, with a gross margin between 54% and 56%"</li>
+<li>〔A〕GM 指引已摸到公司 <b>2030 目标 56–60% 的下沿，提前约 4 年</b></li>
+<li>〔A〕<b>3Q26 净销售 €11–12B</b>（中值环比 <b>+23.3%</b>）、<b>GM 55–57%</b>；3Q 装机管理 ~€2.9B、R&amp;D ~€1.2B、SG&amp;A ~€0.4B（隐含 3Q OI ≈ €4.84B、OPM ≈ 42.1%）</li>
+<li>〔A〕<b>2026 EUV 出货 ~65 台 Low-NA</b>（"around 65"），对应 <b>EUV 收入 +45%</b>；浸润 DUV <b>~130 台</b>（"similar to the output level of these systems in 2025"）</li>
+<li>〔A〕非 EUV 系统收入 <b>+25%</b>；<b>装机管理 &gt;+30%</b>（服务收入 + 客户 productivity upgrade 需求）</li>
+<li>〔A〕<b>2027 产能 +30%</b>（隐含 EUV ~85 / 浸润 ~170），措辞 "planning to increase"＝已定，且 <b>"close to being fully covered with orders"</b>；<b>2028 再 +30% 措辞是 "investigate"＝在研究的软指引</b><span class="cav">⚠️ 两者分量差很远，勿当已定产能建模</span></li>
+<li>〔A〕所有扩产 <b>within existing footprint</b>（无需新洁净室）；2026 动工的新园区 target beyond 2028，<b>不服务 2027–28</b></li>
 </ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>Q1 净销售 €88 亿、净利 €28 亿；EUV 贡献 &gt;€41 亿（含 2 台 High-NA）</li>
-<li>管理层：中国大陆占营收比例预计维持 <b>约 20%</b>，与指引一致</li>
-<li>超预期上修但盘后仍跌约 6%，市场担忧焦点＝中国出口管制风险</li>
-<li>未披露季度 bookings 金额——留待 7/15 这次会公布（本轮先行指标）</li>
+<div class="ec-t"><h5>纪要要点（transcript）</h5><ul>
+<li><b>2Q26 实际</b>：净销售 <b>€9.3B</b>（<b>超指引 €8.4–9.0bn 上限</b>）；net system sales €6.6B（EUV €3.8B，含 <b>1 台 High-NA</b>／非 EUV €2.8B）；logic 51% / memory 49%；净利 €2.9B、净利率 31.3%、<b>EPS €7.59</b>、<b>GM 54.0%</b>；FCF €1.3B</li>
+<li>❗<b>超预期原因被 CFO 点名＝装机管理（Installed Base Mgmt）€2.8B、超指引近 €300M，"driven primarily by additional upgrade business"</b>——<b>不是台数、不是蔡司放量</b>。这是全份财报最 load-bearing 的一句</li>
+<li>❗<b>"65 台" 与 "EUV 收入 +45%" 出现在同一句里</b>：<b>台数不动、收入 +45%，差额全在 ASP/mix</b>——"量的故事"正在变成"价的故事"。浸润 130 台"≈2025 水平"更说明问题：需求这么强，台数却不加</li>
+<li>❗<b>65 台封顶不是利空，恰是"设备＝瓶颈"最硬的证据</b>；但也意味着 2027 是"量锁死、订单拿满"的<b>高确定性、低惊喜</b>之年，upside 只剩不吃产能的 upgrade 与 High-NA ASP</li>
+<li>〔A〕FY26 分项增速：<b>存储 +75%</b> 🔥 / 先进逻辑代工 +25% / 中国 <b>~20%</b>（mainstream logic，与整体同步）<span class="cav">⚠️ "存储+75%/逻辑+25%" 出自 ASML 官方视频访谈文字稿（Fouquet），<b>不在分析师电话会 transcript 里</b>；两份同为〔A〕但分属不同文件，引用勿混标</span></li>
+<li>✅ <b>上季最大 overhang（中国出口管制）本次未兑现</b>：中国占比 ~20% 与整体同步增长，管理层未提额外限制</li>
+<li>⚠️ 卖方流传的"14% 缺口／EUV 缺 40 台"<b>系统性高估</b>——按台数外推，未计入管理层明说的<b>每台产出 +45%</b></li>
 </ul></div>
 </div></details>
 
@@ -641,7 +657,7 @@ body.embed .cards{margin-top:0}
 </ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">三星电子 <b>005930</b></span><span class="ec-meta">2026 Q1 · 04-29（+ 7/7 prelim）</span><span class="ec-sum">HBM 供不应求，Q2 营业利润₩89.4万亿创纪录(YoY≈19×)</span><span class="ec-tw"></span></summary>
+<details class="ec" open><summary><span class="ec-co">三星电子 <b>005930</b></span><span class="ec-meta">🟡 7/7 已出初值（完整 7/30）</span><span class="ec-sum">HBM 供不应求，Q2 营业利润₩89.4万亿创纪录(YoY≈19×)</span><span class="ec-tw"></span></summary>
 <div class="ec-body">
 <div class="ec-g"><h5>Guidance</h5><ul>
 <li>〔B〕2026 <b>HBM 销售额预期 YoY +3 倍以上</b>；HBM4 可量产产能已售罄，2026H2 显著放量</li>
@@ -952,17 +968,20 @@ body.embed .cards{margin-top:0}
 </ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">IBM <b>IBM</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">GenAI 变现渗透加速，指引维持稳健</span><span class="ec-tw"></span></summary>
+<details class="ec" open><summary><span class="ec-co">IBM <b>IBM</b></span><span class="ec-meta">🔴 7/14 已预披露（完整 7/22）</span><span class="ec-sum">营收/EPS 双 miss、盘中 -25%；归因存分歧＝内存挤压 vs 平台弱化</span><span class="ec-tw"></span></summary>
 <div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕FY26 cc 营收增速维持 5%+；软件增速上调至 10%+(Data 板块 ~low-20%，含 Confluent)；FCF 同比增约 $10 亿</li>
-<li>〔A〕咨询全年低至中个位数；基础设施低个位数下降(z17 周期后续)；全年税前营业利润率扩约 1pct</li>
+<div class="ec-g"><h5>7/14 预披露实际（尚无新 guidance，7/22 完整业绩会给）</h5><ul>
+<li>〔B〕营收 <b>$17.2bn</b>（较共识 $17.86bn <b>-3.7%</b>、较 MSe $18.2bn <b>-5%</b>）；EPS <b>$2.93</b>（共识 $3.02–3.03）——<b>盘中一度 -25% 至 ~$215</b>，1987 年来最差单日</li>
+<li>〔B〕分部：基础设施 <b>-7%</b>（MSe +2%，差近 $0.4bn）／软件 <b>+5%</b>（MSe +11%，差 $0.5bn）／咨询 +1%(CC，基本符合)</li>
+<li>〔B〕因大型机与交易处理是高毛利业务，<b>毛利率较 MSe 低 130bps</b>；靠成本削减把 <b>PTI 利润率护在 19.2%</b></li>
+<li>❗<b>对照上季 guidance＝直接打脸</b>：Q1 时公司把软件增速<b>上调至 10%+</b>，本季实际仅 <b>+5%</b>；基础设施原指引"低个位数下降"，实际 <b>-7%</b></li>
 </ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li><b>生成式 AI book of business 2025 末累计 &gt;$12.5bn</b>；咨询 GenAI ARR Q1 破 $4bn(渗透 ~30%)；软件 AI run-rate &gt;$1.5bn(增速 &gt;40%)</li>
-<li>分部：软件 +8%(Red Hat +10%、OpenShift 成 $2bn ARR)；基础设施 +12%(Z 大机 +48% 创纪录)；咨询 +1%</li>
-<li>Z17："clients who deployed watsonx Code Assistant for Z growing MIPS 3x faster"；满配日均 ~4500 亿次 AI 推理</li>
-<li>3 月完成收购 Confluent(~$10.5bn)；下半年可能有更多软件并购</li>
+<div class="ec-t"><h5>纪要要点 · 归因分歧（7/22 的真正看点）</h5><ul>
+<li>❗<b>三方归因不同，别合并成一句话</b>：<b>MS</b>＝客户 2Q 把资本开支优先投向<b>快速涨价的内存密集服务器/存储</b>，代价是压缩大型机硬件、交易处理、数据与自动化软件的 ELA 采购并推迟季末大单，且认为内存是<b>结构性多年期逆风、可能延续 2H26–CY27</b>；<b>IBM 管理层</b>＝仅属"资本开支决策的短期优化"、只涉及<b>几个大单</b>递延；<b>Bernstein</b>＝<b>大型机平台地位加速弱化</b>（净 <b>54%</b> CIO 拟减少 IBM 支出，调查以来最差、前值 49%；<b>33%</b> 拟五年内降 MIPS 容量，前值 23%）</li>
+<li>季内强弱分化：承压＝IBM Z／交易处理／数据与自动化软件；<b>稳健＝红帽 +11%</b>、HashiCorp、Confluent——说明<b>不是全面放缓</b></li>
+<li>〔B〕MS 点名的二阶受益方（内存挤压的另一面）：CDW、DELL、HPE、INGM、NTAP、SNX、<b>STX(Top Pick)</b>、WDC</li>
+<li>〔B〕MS 底部测算：回归式 FCF 指向 <b>$207</b>、SOTP <b>$164–219</b>，"关键在于什么是正确的 EPS/FCF 基数"<span class="cav">⚠️ 其表头 TP $293／收盘 $290.23 取自 Jul 13，<b>早于 7-14 暴跌，已滞后，勿当事件后最新观点引用</b></span></li>
+<li>🎯 <b>7/22 裁决点</b>：3Q 是否恢复正常 → 直接裁决"短期递延 vs 结构性挤压"。这不只关乎 IBM——<b>它是"内存涨价开始吃掉其他 IT 预算"这条链的第一个实证样本</b></li>
 </ul></div>
 </div></details>
 
