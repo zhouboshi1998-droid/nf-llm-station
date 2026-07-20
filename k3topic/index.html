@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kimi K3 专题 · 算法机制 · 硬件传导 · 市场反馈</title>
+<style>
+:root{
+  --accent:#007AFF; --purple:#9A3DC9; --teal:#1D8FA3; --orange:#F08A00; --green:#1E9E4A;
+  --label:#1C1C1E; --label-2:rgba(60,60,67,.72); --label-3:rgba(60,60,67,.45);
+  --separator:rgba(60,60,67,.14); --paper:rgba(255,255,255,.9); --bg:#F2F5FA;
+  --shadow-soft:0 1px 2px rgba(20,40,70,.05),0 6px 18px rgba(20,40,70,.06);
+  --shadow:0 2px 6px rgba(20,40,70,.08),0 16px 38px rgba(20,40,70,.12);
+  --ease:cubic-bezier(.32,.72,.28,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--bg);}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei UI","Microsoft YaHei","Segoe UI",sans-serif;
+  color:var(--label);
+  background:radial-gradient(900px 480px at 8% -4%,rgba(76,177,255,.16),transparent),radial-gradient(820px 520px at 96% 4%,rgba(175,82,222,.10),transparent),var(--bg);
+  min-height:100vh;padding:38px clamp(14px,4vw,52px) 60px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;}
+.hero{margin-bottom:26px;}
+.hero .eyebrow{font-size:12px;font-weight:650;letter-spacing:.07em;color:var(--purple);text-transform:uppercase;}
+.hero h1{font-size:clamp(24px,3.6vw,34px);font-weight:770;letter-spacing:-.025em;line-height:1.14;margin:8px 0 10px;}
+.hero p{color:var(--label-2);max-width:760px;font-size:14px;}
+.hero p b{color:var(--label);font-weight:640;}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:740px){.cards{grid-template-columns:1fr;}}
+.tile{display:flex;flex-direction:column;background:var(--paper);border:.5px solid var(--separator);border-radius:22px;box-shadow:var(--shadow-soft);padding:22px 24px;text-decoration:none;color:inherit;transition:transform .28s var(--ease),box-shadow .28s var(--ease);}
+.tile:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.tile .glyph{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:23px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3);margin-bottom:14px;}
+.tile.t1 .glyph{background:linear-gradient(180deg,#C46FE8,#7B44D0);}
+.tile.t2 .glyph{background:linear-gradient(180deg,#48C6DB,#1D8FA3);}
+.tile .badge{align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+.tile.t1 .badge{background:rgba(154,61,201,.11);color:#7B2FA8;}
+.tile.t2 .badge{background:rgba(29,143,163,.12);color:#16697A;}
+.tile h2{font-size:18px;font-weight:730;letter-spacing:-.015em;margin-bottom:8px;}
+.tile p{font-size:13px;color:var(--label-2);flex:1;}
+.tile p b{color:var(--label);font-weight:640;}
+.tile .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.tile .chip{font-size:10.5px;font-weight:600;color:var(--label-2);background:rgba(118,118,128,.10);border-radius:999px;padding:3px 9px;}
+.tile .open{margin-top:16px;font-size:13px;font-weight:660;color:var(--accent);display:flex;align-items:center;gap:5px;}
+.tile.t1 .open{color:#7B44D0;} .tile.t2 .open{color:#16697A;}
+
+.foot{margin-top:26px;font-size:11.5px;color:var(--label-3);line-height:1.7;border-top:.5px solid var(--separator);padding-top:14px;}
+.foot b{color:var(--label-2);font-weight:620;}
+.badge-a{display:inline-flex;font-size:10px;font-weight:680;padding:1.5px 7px;border-radius:999px;background:rgba(52,199,89,.13);color:#1E7A38;}
+.badge-c{display:inline-flex;font-size:10px;font-weight:680;padding:1.5px 7px;border-radius:999px;background:rgba(255,149,0,.13);color:#A15A03;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Kimi K3 专题 · 2026-07-19</div>
+    <h1>Kimi K3 专题看板</h1>
+    <p>把 K3 拆成两条线看：<b>怎么算（算法机制 → 硬件需求传导）</b> 与 <b>市场怎么评（多源反馈全景）</b>。两张全屏视图，点击卡片打开。</p>
+  </div>
+
+  <div class="cards">
+    <a class="tile t1" href="算法机制与硬件需求传导_全景图.html" target="_blank" rel="noopener">
+      <div class="glyph">⚙</div>
+      <span class="badge">研究整理 · A 级核实</span>
+      <h2>算法机制 × 硬件需求传导</h2>
+      <p>三问驱动、结论先行：<b>① K3 怎么推理</b>（分离式 Prefill/Decode + MoE/WideEP + KV 池化）→ <b>② 怎么省 KV cache</b>（KDA 线性注意力 −75%）→ <b>③ 对硬件什么影响、会不会让存储变少</b>（不会：重分配 + Jevons 放大）。含四层硬件传导流向图。</p>
+      <div class="meta"><span class="chip">分离式推理</span><span class="chip">WideEP</span><span class="chip">KDA</span><span class="chip">scale-up 网络</span><span class="chip">DRAM/NAND</span></div>
+      <div class="open">打开全景图 →</div>
+    </a>
+
+    <a class="tile t2" href="市场反馈全景_精炼版_by_kimi.html" target="_blank" rel="noopener">
+      <div class="glyph">💬</div>
+      <span class="badge">Kimi 自产 · by_kimi</span>
+      <h2>市场反馈全景（精炼版）</h2>
+      <p>发布 72h 反馈收敛：<b>三尖刀 vs 三短板</b>（前端编码/3D/Agent 长程 强，慢·贵·物理仿真 弱）、榜单坐标与竞品对比、场景选用决策矩阵、风险线与社区原声。多源汇总（官方/榜单/HN·Reddit/中英实测）。</p>
+      <div class="meta"><span class="chip">能力画像</span><span class="chip">榜单对比</span><span class="chip">场景决策</span><span class="chip">风险争议</span><span class="chip">社区原声</span></div>
+      <div class="open">打开市场反馈 →</div>
+    </a>
+  </div>
+
+  <div class="foot">
+    <b>出处与口径：</b>左卡（算法×硬件）为研究整理，K3 架构/定价/Mooncake 等核心数字 <span class="badge-a">A 级</span> 已独立 WebSearch 多源核实；机制传导为框架推断。右卡（市场反馈）为 <b>Kimi K3 自产</b>多源反馈汇总（<span class="badge-c">by_kimi</span>），数据口径以其标注来源方为准、厂商自测与第三方混排处已标注，作为市场感知参考、非独立数字 source。<br>
+    整理挂载：2026-07-19 · 隶属「大模型产业动态站 · 专题与沉淀」
+  </div>
+
+</div>
+</body>
+</html>

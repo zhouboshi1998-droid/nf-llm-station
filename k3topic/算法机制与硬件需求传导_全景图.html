@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kimi K3 算法机制 × 硬件需求传导 · 问题驱动全景图</title>
+<style>
+:root{
+  --accent:#007AFF; --green:#1E9E4A; --orange:#F08A00; --red:#FF3B30; --purple:#9A3DC9; --teal:#1D8FA3;
+  --label:#1C1C1E; --label-2:rgba(60,60,67,.72); --label-3:rgba(60,60,67,.45);
+  --separator:rgba(60,60,67,.14); --paper:rgba(255,255,255,.9); --bg:#F2F5FA;
+  --shadow-soft:0 1px 2px rgba(20,40,70,.05),0 6px 18px rgba(20,40,70,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--bg);}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei UI","Microsoft YaHei","Segoe UI",sans-serif;
+  color:var(--label);
+  background:radial-gradient(900px 480px at 8% -4%,rgba(76,177,255,.16),transparent),radial-gradient(820px 520px at 96% 4%,rgba(175,82,222,.08),transparent),var(--bg);
+  min-height:100vh;padding:34px clamp(14px,4vw,52px) 70px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;}
+.hero{margin-bottom:20px;}
+.hero .eyebrow{font-size:12px;font-weight:650;letter-spacing:.07em;color:var(--accent);text-transform:uppercase;}
+.hero h1{font-size:clamp(22px,3.4vw,31px);font-weight:760;letter-spacing:-.025em;line-height:1.14;margin:8px 0 8px;}
+.hero p{color:var(--label-2);max-width:820px;font-size:14px;}
+.hero p b{color:var(--label);font-weight:640;}
+
+.qsec{margin-top:34px;}
+.qhead{display:flex;align-items:center;gap:11px;margin-bottom:10px;}
+.qhead .qb{font-size:11px;font-weight:700;letter-spacing:.05em;color:#fff;background:var(--accent);padding:5px 11px;border-radius:999px;flex:none;}
+.qhead h2{font-size:20px;font-weight:750;letter-spacing:-.02em;}
+@media(max-width:640px){.qhead{align-items:flex-start;flex-direction:column;gap:6px;} .qhead h2{font-size:17px;}}
+.answer{background:linear-gradient(180deg,rgba(0,122,255,.06),rgba(0,122,255,.02));border:.5px solid rgba(0,122,255,.18);border-radius:16px;padding:15px 18px;margin-bottom:14px;font-size:13.5px;line-height:1.64;color:var(--label-2);}
+.answer .lead{font-weight:720;color:var(--label);font-size:14.5px;}
+.answer b{color:var(--label);font-weight:660;}
+.answer.warn{background:linear-gradient(180deg,rgba(255,149,0,.08),rgba(255,149,0,.02));border-color:rgba(255,149,0,.26);}
+.answer.warn .lead{color:#B26205;}
+.subhead{font-size:13px;color:var(--label-2);margin:16px 0 10px;font-weight:640;display:flex;align-items:center;gap:8px;}
+.subhead::before{content:"";width:16px;height:2px;background:var(--accent);border-radius:2px;}
+
+.card{background:var(--paper);border:.5px solid var(--separator);border-radius:20px;box-shadow:var(--shadow-soft);padding:14px 12px;overflow-x:auto;margin-bottom:12px;}
+.card svg{width:100%;display:block;}
+.card.s1 svg{min-width:960px;} .card.s2 svg{min-width:900px;} .card.s3 svg{min-width:860px;} .card.s4 svg{min-width:940px;}
+.cap{font-size:12.5px;color:var(--label-2);background:rgba(255,149,0,.07);border:.5px solid rgba(255,149,0,.22);border-radius:12px;padding:11px 15px;margin:0 2px 14px;line-height:1.6;}
+.cap b{color:#B26205;font-weight:680;} .cap .k{color:var(--label);font-weight:660;}
+
+.bridge{background:linear-gradient(180deg,rgba(0,122,255,.06),rgba(175,82,222,.05));border:.5px solid rgba(0,122,255,.2);border-radius:16px;padding:15px 18px;margin:8px 2px 14px;}
+.bridge .bt{font-size:14px;font-weight:720;margin-bottom:9px;}
+.bridge .maps{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;}
+@media(max-width:680px){.bridge .maps{grid-template-columns:1fr;}}
+.bridge .mp{font-size:12.5px;color:var(--label-2);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.bridge .mp .a{font-weight:600;color:var(--label);}
+.bridge .mp .arw{color:var(--accent);font-weight:700;}
+.bridge .mp .h{font-weight:680;}
+.bridge .mp .h.b{color:#0A66CC;} .bridge .mp .h.o{color:#B26205;} .bridge .mp .h.t{color:#16697A;} .bridge .mp .h.p{color:#7B2FA8;}
+
+/* SVG text */
+.n-title{font-weight:720;font-size:15px;fill:#1C1C1E;} .n-title.sm{font-size:13.5px;}
+.n-sub{font-size:11px;fill:rgba(60,60,67,.58);}
+.m-body{font-size:12px;fill:rgba(60,60,67,.82);} .m-body.sm{font-size:11px;}
+.numO{fill:#B26205;font-weight:700;}
+.ghost{font-size:10.8px;fill:rgba(60,60,67,.42);text-decoration:line-through;}
+.ghost-real{font-size:10.8px;fill:rgba(60,60,67,.5);}
+.band-t{font-size:13px;fill:#1C1C1E;font-weight:600;}
+.col-h{font-size:11px;font-weight:700;letter-spacing:.09em;fill:rgba(60,60,67,.4);}
+.tag-t{font-size:10.5px;font-weight:700;fill:#fff;}
+.small{font-size:10.5px;fill:rgba(60,60,67,.5);}
+.buslbl{font-size:12px;font-weight:700;fill:#16697A;} .bussub{font-size:10.5px;fill:rgba(60,60,67,.5);}
+.brlbl{font-size:10.5px;font-weight:600;fill:rgba(60,60,67,.55);}
+.stage-lbl{font-size:12.5px;font-weight:700;}
+.axis{stroke:rgba(60,60,67,.35);stroke-width:1.2;} .axlbl{font-size:11px;fill:rgba(60,60,67,.55);}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;margin:6px 4px 0;font-size:12px;color:var(--label-2);}
+.legend .li{display:flex;align-items:center;gap:7px;}
+.legend .sw{width:26px;height:0;border-top:2.4px solid var(--accent);} .legend .sw.dash{border-top:2.4px dashed #98989F;}
+.legend .dot{width:13px;height:13px;border-radius:4px;flex:none;} .legend s{color:var(--label-3);}
+.foot{margin-top:18px;font-size:11.5px;color:var(--label-3);line-height:1.65;border-top:.5px solid var(--separator);padding-top:13px;}
+.foot b{color:var(--label-2);font-weight:620;}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:680;padding:2px 8px;border-radius:999px;}
+.b-a{background:rgba(52,199,89,.13);color:#1E7A38;} .b-c{background:rgba(255,149,0,.13);color:#A15A03;}
+</style>
+</head>
+<body>
+
+<!-- ===== 共享 defs ===== -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
+  <marker id="ah" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="8.5" refY="5" orient="auto-start-reverse">
+    <path d="M1,1 L9,5 L1,9" fill="none" stroke="context-stroke" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="rgba(20,40,70,0.10)"/></filter>
+  <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FA2FF"/><stop offset="1" stop-color="#007AFF"/></linearGradient>
+  <linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFAC33"/><stop offset="1" stop-color="#F08A00"/></linearGradient>
+  <linearGradient id="gTeal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#48C6DB"/><stop offset="1" stop-color="#1D8FA3"/></linearGradient>
+  <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C46FE8"/><stop offset="1" stop-color="#9A3DC9"/></linearGradient>
+  <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4CD98A"/><stop offset="1" stop-color="#1E9E4A"/></linearGradient>
+  <linearGradient id="gBand" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="rgba(0,122,255,.10)"/><stop offset="1" stop-color="rgba(175,82,222,.08)"/></linearGradient>
+  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/></symbol>
+  <symbol id="i-net" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="18" r="2.2"/><path d="M10.4 6.8L6.4 16M13.6 6.8l4 9.2M7 18h10"/></symbol>
+  <symbol id="i-mem" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="1.4"/><path d="M7 8V6M11 8V6M13 8V6M17 8V6M7 18v-2M11 18v-2M13 18v-2M17 18v-2"/></symbol>
+  <symbol id="i-drive" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="2"/><circle cx="8" cy="12" r="2.4"/><path d="M13 10.5h4M13 13.5h4"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><path d="M8 6h4c2 0 4 2 4 6M8 18h4c1 0 2-.4 2.6-1"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Deep · LLM 全景图 · 2026-07-19</div>
+    <h1>Kimi K3：算法机制 × 硬件需求传导</h1>
+    <p>用三个问题串起来：<b>① K3 怎么推理？ ② 怎么把 KV cache 省下来？ ③ 这些算法优化对硬件意味着什么，会不会让存储需求变少？</b> 每节都结论先行、再上图。贯穿主轴：<b>K3 的"高效"是 scaling efficiency，不是省硬件。</b></p>
+  </div>
+
+  <!-- ============ Q1 ============ -->
+  <div class="qsec">
+    <div class="qhead"><span class="qb">问题 1</span><h2>Kimi K3 是怎么进行推理的？</h2></div>
+    <div class="answer">
+      <span class="lead">一句话：把一次推理拆成两个池子 + 一个共享缓存池。</span><br>
+      <b>Prefill（读题·算力密集）</b>一次并行吃完整段 prompt、产出 KV cache；<b>Decode（逐字·带宽密集）</b>自回归地一个字一个字往外吐。两者瓶颈相反，所以拆进不同池子各自优化（分离式推理）。中间的 <b>KV cache 从单卡显存解放出来</b>，池化到 CPU/DRAM/SSD 里跨请求复用。而每一层内部，靠 <b>WideEP</b> 把 token 分发给"896 选 16"的专家——这是月之暗面 Mooncake 推理底座。
+    </div>
+
+    <div class="card s1">
+    <svg viewBox="0 0 1180 430" xmlns="http://www.w3.org/2000/svg">
+      <rect x="150" y="30" width="1000" height="46" rx="13" fill="url(#gBand)" stroke="rgba(0,122,255,.22)"/>
+      <text class="band-t" x="170" y="58"><tspan font-weight="730" fill="#7B44D0">KVCache-centric Conductor</tspan> 全局调度：缓存感知 Prefill 调度 · KV 均衡 · 负载均衡 Decode 调度</text>
+      <g fill="none" stroke="#B9A9E0" stroke-width="1.5" stroke-dasharray="4 4"><path d="M300,76 V116"/><path d="M625,76 V116"/><path d="M975,76 V116"/></g>
+
+      <g transform="translate(18,196)"><rect width="92" height="48" rx="12" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><text class="n-title sm" x="46" y="24" text-anchor="middle">用户请求</text><text class="small" x="46" y="40" text-anchor="middle">prompt</text></g>
+      <path d="M110,220 L146,220" fill="none" stroke="#8E8E93" stroke-width="2.2" marker-end="url(#ah)"/>
+
+      <!-- Prefill -->
+      <g transform="translate(150,118)"><rect width="300" height="210" rx="16" fill="#F0F7FF" stroke="rgba(0,122,255,.25)" filter="url(#soft)"/>
+        <rect x="16" y="16" width="32" height="32" rx="8" fill="url(#gBlue)"/><use href="#i-chip" x="20" y="20" width="24" height="24" style="color:#fff" stroke-width="1.7"/>
+        <text class="n-title" x="56" y="32">Prefill Pool</text><text class="n-sub" x="56" y="49">读题 · GPU / VRAM</text>
+        <rect x="214" y="16" width="70" height="20" rx="10" fill="#007AFF"/><text class="tag-t" x="249" y="30" text-anchor="middle">算力密集</text>
+        <line x1="16" y1="64" x2="284" y2="64" stroke="rgba(0,122,255,.18)"/>
+        <text class="m-body" x="18" y="88">整段 prompt <tspan font-weight="680">一次并行</tspan>处理</text>
+        <text class="m-body sm" x="18" y="110">逐层 ×~60 层：</text>
+        <text class="m-body" x="18" y="128"><tspan font-weight="680">KDA 注意力 → WideEP MoE</tspan></text>
+        <text class="m-body" x="18" y="156">产出 <tspan font-weight="680">KV cache</tspan>（可复用前缀）</text>
+        <text class="small" x="18" y="176">指标：TTFT 首字延迟</text>
+        <text class="small" x="18" y="194">目标：max 缓存复用｜MFU 下限</text>
+      </g>
+      <text class="small" x="470" y="206" fill="#1E7A38">KV cache</text><text class="small" x="470" y="220" fill="#1E7A38">池化 ↓</text>
+      <path d="M450,236 L488,236" fill="none" stroke="#1E9E4A" stroke-width="2.4" marker-end="url(#ah)"/>
+
+      <!-- Store -->
+      <g transform="translate(490,118)"><rect width="270" height="210" rx="16" fill="#EFFBF3" stroke="rgba(30,158,74,.28)" filter="url(#soft)"/>
+        <rect x="16" y="16" width="32" height="32" rx="8" fill="url(#gGreen)"/><use href="#i-mem" x="20" y="20" width="24" height="24" style="color:#fff" stroke-width="1.7"/>
+        <text class="n-title" x="56" y="32">Mooncake Store</text><text class="n-sub" x="56" y="49">分布式 KV 池</text>
+        <line x1="16" y1="64" x2="254" y2="64" stroke="rgba(30,158,74,.18)"/>
+        <text class="m-body" x="18" y="90">池化到 <tspan font-weight="680">CPU / DRAM / SSD</tspan></text>
+        <text class="m-body" x="18" y="114"><tspan font-weight="680">&gt;90%</tspan> 跨请求缓存复用</text>
+        <text class="m-body sm" x="18" y="134">（编码负载 · 官方口径）</text>
+        <text class="m-body" x="18" y="160"><tspan font-weight="680">KVCache Transfer Engine</tspan></text>
+        <text class="m-body" x="18" y="180">经 <tspan font-weight="680">RDMA</tspan> 高带宽搬运</text>
+        <text class="small" x="18" y="198">开源基准 190 GB/s（8×400G）</text>
+      </g>
+      <text class="small" x="760" y="206" fill="#B26205">按需</text><text class="small" x="760" y="220" fill="#B26205">取回 →</text>
+      <path d="M760,236 L798,236" fill="none" stroke="#F08A00" stroke-width="2.4" marker-end="url(#ah)"/>
+
+      <!-- Decode -->
+      <g transform="translate(800,118)"><rect width="340" height="210" rx="16" fill="#FFF7EE" stroke="rgba(240,138,0,.28)" filter="url(#soft)"/>
+        <rect x="16" y="16" width="32" height="32" rx="8" fill="url(#gOrange)"/><use href="#i-chip" x="20" y="20" width="24" height="24" style="color:#fff" stroke-width="1.7"/>
+        <text class="n-title" x="56" y="32">Decode Pool</text><text class="n-sub" x="56" y="49">逐字生成 · GPU / VRAM</text>
+        <rect x="254" y="16" width="70" height="20" rx="10" fill="#F08A00"/><text class="tag-t" x="289" y="30" text-anchor="middle">带宽密集</text>
+        <line x1="16" y1="64" x2="324" y2="64" stroke="rgba(240,138,0,.18)"/>
+        <text class="m-body" x="18" y="88"><tspan font-weight="680">自回归</tspan>：每 token 跑一次完整前向</text>
+        <text class="m-body sm" x="18" y="110">逐层 ×~60 层：</text>
+        <text class="m-body" x="18" y="128"><tspan font-weight="680">KDA 注意力 → WideEP MoE</tspan></text>
+        <text class="m-body" x="18" y="156">读 KV cache · <tspan font-weight="680">500+ token/轮</tspan></text>
+        <text class="small" x="18" y="176">指标：TBT 字间延迟</text>
+        <text class="small" x="18" y="194">目标：max 吞吐｜KVCache &lt; VRAM</text>
+      </g>
+      <path d="M970,328 L970,352" fill="none" stroke="#8E8E93" stroke-width="2.2" marker-end="url(#ah)"/>
+      <g transform="translate(915,356)"><rect width="120" height="40" rx="12" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><text class="n-title sm" x="60" y="25" text-anchor="middle">输出 tokens →</text></g>
+    </svg>
+    </div>
+
+    <div class="subhead">放大一层：MoE 层内部的 WideEP 专家并行（这是 K3 成为"网络怪兽"的地方）</div>
+    <div class="card s2">
+    <svg viewBox="0 0 1180 300" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(20,128)"><rect width="82" height="48" rx="12" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><text class="n-title sm" x="41" y="23" text-anchor="middle">token</text><text class="small" x="41" y="39" text-anchor="middle">向量</text></g>
+      <path d="M102,152 L128,152" fill="none" stroke="#8E8E93" stroke-width="2.2" marker-end="url(#ah)"/>
+      <g transform="translate(130,116)"><rect width="176" height="72" rx="13" fill="#FBFCFE" stroke="var(--separator)" filter="url(#soft)"/><rect width="4" height="72" rx="2" fill="#F08A00"/>
+        <rect x="16" y="20" width="30" height="30" rx="8" fill="url(#gOrange)"/><use href="#i-route" x="20" y="24" width="22" height="22" style="color:#fff" stroke-width="1.7"/>
+        <text class="n-title sm" x="54" y="34">Router 路由器</text><text class="n-sub" x="54" y="52">从 896 选 top-16</text></g>
+      <text class="stage-lbl" x="330" y="40" fill="#B26205">dispatch · all-to-all（派发）</text>
+      <g transform="translate(452,40)"><rect width="240" height="40" rx="10" fill="#FFF7EE" stroke="rgba(240,138,0,.3)"/><text class="m-body" x="16" y="25">GPU-1 · Expert #5</text></g>
+      <g transform="translate(452,96)"><rect width="240" height="40" rx="10" fill="#FFF7EE" stroke="rgba(240,138,0,.3)"/><text class="m-body" x="16" y="25">GPU-2 · Expert #187</text></g>
+      <g transform="translate(452,152)"><rect width="240" height="40" rx="10" fill="#FFF7EE" stroke="rgba(240,138,0,.3)"/><text class="m-body" x="16" y="25">GPU-7 · Expert #640</text></g>
+      <g transform="translate(452,208)"><rect width="240" height="36" rx="10" fill="rgba(240,138,0,.06)" stroke="rgba(240,138,0,.2)" stroke-dasharray="4 3"/><text class="m-body sm" x="16" y="23" fill="rgba(60,60,67,.6)">… 896 专家摊在 scale-up 域多张卡</text></g>
+      <g fill="none" stroke="#F5A623" stroke-width="1.6" opacity=".8">
+        <path d="M306,152 C 380,152 400,60 450,60" marker-end="url(#ah)"/>
+        <path d="M306,152 C 380,152 400,116 450,116" marker-end="url(#ah)"/>
+        <path d="M306,152 C 380,152 400,172 450,172" marker-end="url(#ah)"/></g>
+      <text class="stage-lbl" x="712" y="40" fill="#B26205">combine · all-to-all（收回）</text>
+      <g fill="none" stroke="#1D8FA3" stroke-width="1.6" opacity=".75">
+        <path d="M692,60 C 780,60 800,152 848,152" marker-end="url(#ah)"/>
+        <path d="M692,116 C 780,116 800,152 848,152" marker-end="url(#ah)"/>
+        <path d="M692,172 C 780,172 800,152 848,152" marker-end="url(#ah)"/></g>
+      <g transform="translate(850,116)"><rect width="160" height="72" rx="13" fill="#FBFCFE" stroke="var(--separator)" filter="url(#soft)"/><text class="n-title sm" x="16" y="32">加权求和</text><text class="n-sub" x="16" y="52">→ 该层输出</text></g>
+      <path d="M1010,152 L1036,152" fill="none" stroke="#8E8E93" stroke-width="2.2" marker-end="url(#ah)"/>
+      <g transform="translate(1038,128)"><rect width="118" height="48" rx="12" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><text class="n-title sm" x="59" y="23" text-anchor="middle">进入下一层</text><text class="small" x="59" y="39" text-anchor="middle">↻ ×~60</text></g>
+    </svg>
+    </div>
+    <div class="cap"><b>为什么这是网络怪兽：</b>每层 <span class="k">2 次 all-to-all</span>（dispatch+combine）× <span class="k">~60 层</span> = <span class="k">120+ 次/前向</span>；decode 每 token 重复一遍前向，一轮 <span class="k">500+ token</span> → <span class="k">≈ 6万+ 次 all-to-all/轮</span>。而 KV cache 搬运每轮仅 1 次——<b>WideEP 才是 K3 网络流量的绝对大头。</b></div>
+  </div>
+
+  <!-- ============ Q2 ============ -->
+  <div class="qsec">
+    <div class="qhead"><span class="qb">问题 2</span><h2>Kimi K3 如何节省更多的 KV cache？</h2></div>
+    <div class="answer">
+      <span class="lead">一句话：算法压缩 + 系统池化，两招叠加。</span><br>
+      <b>① 算法（KDA 线性注意力）：</b>传统全注意力每个 token 都存一份 K/V，缓存随序列长度线性膨胀；KDA 把历史压成近似固定大小的状态，KV 不再线性增长——1M 上下文 <b>缩 ~75%</b>、解码快 <b>6.3×</b>。<br>
+      <b>② 系统（Mooncake 池化）：</b>把 KV 卸到 DRAM/SSD 分层存放、跨请求复用（>90% 命中）。而且正因为 KDA 把 KV 搬运量压小了，<b>offload 的延迟才能躲开 decode 关键路径</b>，分层卸载从"纸上谈兵"变得真正可行。
+    </div>
+
+    <div class="card s3">
+    <svg viewBox="0 0 1180 250" xmlns="http://www.w3.org/2000/svg">
+      <line class="axis" x1="70" y1="30" x2="70" y2="200"/><line class="axis" x1="70" y1="200" x2="600" y2="200"/>
+      <text class="axlbl" x="300" y="222" text-anchor="middle">上下文长度 →</text>
+      <text class="axlbl" transform="translate(40,115) rotate(-90)" text-anchor="middle">KV cache 大小 →</text>
+      <path d="M70,195 L600,50" fill="none" stroke="#FF3B30" stroke-width="2.6"/><circle cx="600" cy="50" r="3.5" fill="#FF3B30"/>
+      <text class="m-body" x="430" y="86" fill="#C0392E" font-weight="680">全注意力 ∝ 序列长度</text>
+      <path d="M70,195 Q 260,150 600,158" fill="none" stroke="#1D8FA3" stroke-width="2.6"/><circle cx="600" cy="158" r="3.5" fill="#1D8FA3"/>
+      <text class="m-body" x="330" y="180" fill="#16697A" font-weight="680">KDA 线性注意力（压平）</text>
+      <line x1="600" y1="50" x2="600" y2="158" stroke="#8E8E93" stroke-width="1.4" stroke-dasharray="4 3"/>
+      <text class="m-body" x="612" y="108" font-weight="700" fill="#1C1C1E">≈ −75% @1M</text>
+      <g transform="translate(680,26)"><rect width="472" height="184" rx="14" fill="#FBFCFE" stroke="var(--separator)"/><rect width="4" height="184" rx="2" fill="#1D8FA3"/>
+        <text class="n-title sm" x="20" y="32">KDA = 混合线性注意力</text>
+        <text class="m-body" x="20" y="60">传统注意力每 token 都存 K/V，缓存随序列</text>
+        <text class="m-body" x="20" y="78">线性累积；KDA 用线性注意力把历史压成</text>
+        <text class="m-body" x="20" y="96">近似固定状态，<tspan font-weight="680">KV 不再线性膨胀</tspan>。</text>
+        <text class="m-body" x="20" y="124">结果：1M 上下文 <tspan font-weight="680">KV 缩 ~75%</tspan>、<tspan font-weight="680">解码快 6.3×</tspan>，</text>
+        <text class="m-body" x="20" y="142">上下文得以从 1M 推向 <tspan font-weight="680">5M+</tspan>。</text>
+        <text class="m-body" x="20" y="170" fill="#B26205">⚠ 注意：这是缩小 KV，<tspan font-weight="700">不是</tspan>缩小网络 → 见问题 3</text>
+      </g>
+    </svg>
+    </div>
+  </div>
+
+  <!-- ============ Q3 ============ -->
+  <div class="qsec">
+    <div class="qhead"><span class="qb">问题 3</span><h2>算法优化对硬件有什么影响？会让存储需求变少吗？</h2></div>
+    <div class="answer warn">
+      <span class="lead">直接回答：不会变少，反而可能更多。</span><br>
+      KV 缩小 <b>不等于"少要硬件"</b>——它是把负载<b>重新分配</b>、并经 <b>Jevons 悖论放大</b>（省下的空间被更长上下文 1M→5M+、更高并发、更多复用填满）。四层硬件无一因 KV 缩小而减需求：<b>① HBM/GPU</b> 由 2.8T 体量刚性决定，与 KV 无关；<b>② 网络</b>主受力在 WideEP（scale-up 域内 all-to-all），不是 KV 搬运，KDA 省的那点是零头；<b>③ DRAM / ④ NAND 反而受益</b>——KV 变小让分层卸载可行、复用经济性上升，存储从"装不下只能硬扛"变成"值得大量分层缓存"。"高效注意力 = 少要硬件"这个空头逻辑，被四层同时否掉。
+    </div>
+
+    <div class="bridge">
+      <div class="bt">桥 · 四个算法负载 → 对应四层硬件</div>
+      <div class="maps">
+        <div class="mp"><span class="a">2.8T 权重 + ≥64 卡域</span><span class="arw">→</span><span class="h b">HBM + GPU（硬需求）</span></div>
+        <div class="mp"><span class="a">WideEP all-to-all（6万+/轮）</span><span class="arw">→</span><span class="h o">Scale-up 域内网络（主受力）</span></div>
+        <div class="mp"><span class="a">KDA 缩 KV → offload 可分层</span><span class="arw">→</span><span class="h t">DRAM warm 层（受益）</span></div>
+        <div class="mp"><span class="a">缓存命中经济性 + 前缀保留</span><span class="arw">→</span><span class="h p">NAND 冷 KV 池（受益）</span></div>
+      </div>
+    </div>
+
+    <div class="card s4">
+    <svg viewBox="0 0 1180 880" xmlns="http://www.w3.org/2000/svg">
+      <text class="col-h" x="30" y="126">① 模型特征（源·A级已核实）</text>
+      <text class="col-h" x="330" y="126">② 传导机制（为什么）</text>
+      <text class="col-h" x="700" y="126">③ 落到硬件</text>
+
+      <rect x="30" y="26" width="1035" height="72" rx="16" fill="url(#gBand)" stroke="rgba(0,122,255,.22)"/>
+      <text class="band-t" x="52" y="53"><tspan font-weight="730" fill="#7B44D0">核心主轴 · Jevons 悖论：</tspan>效率↑ 不减总需求 —— KDA 缩小 KV，省下的空间被<tspan font-weight="700"> 更长上下文(1M→5M+) + 更高并发 + 更多缓存复用 </tspan>填满</text>
+      <text class="band-t" x="52" y="76" fill="rgba(60,60,67,.72)">结果：<tspan font-weight="700" fill="#1C1C1E">单位硬件强度↓，但总硬件消耗↑</tspan> —— 每层要问的不是"省了多少"，而是"省下的空间被什么填满"</text>
+
+      <g fill="none" stroke-width="2.4">
+        <path d="M245,208 L305,208" stroke="#007AFF" marker-end="url(#ah)"/><path d="M625,208 L681,208" stroke="#007AFF" marker-end="url(#ah)"/>
+        <path d="M245,398 L305,398" stroke="#F08A00" marker-end="url(#ah)"/><path d="M625,398 L681,398" stroke="#F08A00" marker-end="url(#ah)"/>
+        <path d="M245,560 L305,560" stroke="#1D8FA3" marker-end="url(#ah)"/><path d="M625,560 L681,560" stroke="#1D8FA3" marker-end="url(#ah)"/>
+        <path d="M245,712 L305,712" stroke="#9A3DC9" marker-end="url(#ah)"/><path d="M625,712 L681,712" stroke="#9A3DC9" marker-end="url(#ah)"/>
+        <path d="M138,606 C 138,660 250,672 300,690" stroke="#9A3DC9" opacity=".85" marker-end="url(#ah)"/>
+      </g>
+      <text class="brlbl" x="150" y="662" transform="rotate(14 150 662)">KV 更小也喂给冷池</text>
+
+      <g transform="translate(30,164)"><rect width="215" height="88" rx="14" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><circle cx="24" cy="30" r="5.5" fill="url(#gBlue)"/><text class="n-title sm" x="40" y="30">2.8T 权重 · MoE</text><text class="n-sub" x="40" y="50">激活 16/896 专家 ≈ 50B</text><text class="n-sub" x="40" y="68">部署门槛 ≥64 卡 supernode</text></g>
+      <g transform="translate(30,354)"><rect width="215" height="88" rx="14" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><circle cx="24" cy="30" r="5.5" fill="url(#gOrange)"/><text class="n-title sm" x="40" y="30">896 专家 · WideEP</text><text class="n-sub" x="40" y="50">宽专家并行</text><text class="n-sub" x="40" y="68">token 路由到对的卡再收回</text></g>
+      <g transform="translate(30,518)"><rect width="215" height="88" rx="14" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><circle cx="24" cy="30" r="5.5" fill="url(#gTeal)"/><text class="n-title sm" x="40" y="30">KDA 线性注意力</text><text class="n-sub" x="40" y="50">KV cache −75%</text><text class="n-sub" x="40" y="68">1M 上下文解码快 6.3×</text></g>
+      <g transform="translate(30,668)"><rect width="215" height="88" rx="14" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><circle cx="24" cy="30" r="5.5" fill="url(#gPurple)"/><text class="n-title sm" x="40" y="30">缓存命中经济性</text><text class="n-sub" x="40" y="50">命中价 $0.30 vs miss $3</text><text class="n-sub" x="40" y="68">前缀 / 历史 KV 值得留</text></g>
+
+      <g transform="translate(305,170)"><rect width="320" height="76" rx="13" fill="#FBFCFE" stroke="var(--separator)"/><rect width="4" height="76" rx="2" fill="#007AFF"/><text class="m-body" x="18" y="30">权重+激活吃 <tspan font-weight="680">HBM 容量/带宽</tspan></text><text class="m-body" x="18" y="52">由<tspan font-weight="680">模型体量</tspan>刚性决定，KV 缩小</text><text class="m-body" x="18" y="68">完全不触碰这层</text></g>
+      <g transform="translate(305,322)"><rect width="320" height="152" rx="13" fill="#FBFCFE" stroke="var(--separator)"/><rect width="4" height="152" rx="2" fill="#F08A00"/>
+        <text class="m-body" x="18" y="26"><tspan font-weight="680">all-to-all</tspan> dispatch+combine</text>
+        <text class="m-body" x="18" y="44">每层 2 次 × ~60 层 = <tspan class="numO">120+</tspan>/前向</text>
+        <text class="m-body" x="18" y="62">decode 每 token 1 前向，<tspan class="numO">500+</tspan> token/轮</text>
+        <text class="small" x="18" y="83">一轮内两类流量次数：</text>
+        <rect x="18" y="90" width="230" height="15" rx="4" fill="url(#gOrange)"/><text x="26" y="101.5" font-size="10.5" font-weight="700" fill="#fff">WideEP ≈ 6万+/轮</text>
+        <rect x="18" y="110" width="9" height="13" rx="3" fill="#98989F"/><text x="34" y="120.5" font-size="10.5" fill="rgba(60,60,67,.55)">KV 搬运 1/轮（差 4–5 个数量级）</text>
+        <text class="ghost" x="18" y="142">空头：KV↓ → 网络需求↓</text><text class="ghost-real" x="176" y="142">✓ 网络由 WideEP 定</text>
+      </g>
+      <g transform="translate(305,517)"><rect width="320" height="86" rx="13" fill="#FBFCFE" stroke="var(--separator)"/><rect width="4" height="86" rx="2" fill="#1D8FA3"/><text class="m-body" x="18" y="28">搬运量小 → offload 延迟能</text><text class="m-body" x="18" y="46"><tspan font-weight="680">躲开 decode 关键路径</tspan></text><text class="m-body" x="18" y="64">从"显存装不下"变"<tspan font-weight="680">可分层卸载</tspan>"</text><text class="small" x="18" y="80" fill="rgba(60,60,67,.42)">瓶颈不在容量，在 SSD/NIC 延迟</text></g>
+      <g transform="translate(305,668)"><rect width="320" height="92" rx="13" fill="#FBFCFE" stroke="var(--separator)"/><rect width="4" height="92" rx="2" fill="#9A3DC9"/><text class="m-body" x="18" y="26">复用/前缀保留划算 →</text><text class="m-body" x="18" y="44"><tspan font-weight="680">历史 KV 值得长期存</tspan> → 冷池</text><text class="ghost" x="18" y="66">空头：KV↓ → 存储需求↓</text><text class="ghost-real" x="18" y="83">✓ V4-Pro 佐证 NAND 用量<tspan font-weight="680">反升</tspan> <tspan fill="#A15A03">(C级未核实)</tspan></text></g>
+
+      <g transform="translate(681,162)"><rect width="330" height="94" rx="15" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><rect x="16" y="20" width="34" height="34" rx="9" fill="url(#gBlue)"/><use href="#i-chip" x="21" y="25" width="24" height="24" style="color:#fff" stroke-width="1.7"/><text class="n-title" x="60" y="38">① HBM + GPU</text><text class="n-sub" x="60" y="58">算力底座 · supernode</text><rect x="248" y="16" width="66" height="21" rx="10.5" fill="#007AFF"/><text class="tag-t" x="281" y="30.5" text-anchor="middle">硬需求</text><text class="small" x="60" y="78" fill="rgba(60,60,67,.5)">由 2.8T 体量决定，与 KV 效率无关</text></g>
+      <g transform="translate(681,330)"><rect width="330" height="136" rx="15" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><rect x="16" y="20" width="34" height="34" rx="9" fill="url(#gOrange)"/><use href="#i-net" x="21" y="25" width="24" height="24" style="color:#fff" stroke-width="1.7"/><text class="n-title" x="60" y="38">② Scale-up 域内网络</text><text class="n-sub" x="60" y="58">NVLink 级 / 域内光 / CPO</text><rect x="248" y="16" width="66" height="21" rx="10.5" fill="#FF3B30"/><text class="tag-t" x="281" y="30.5" text-anchor="middle">主受力</text><line x1="18" y1="74" x2="312" y2="74" stroke="var(--separator)"/><text class="m-body" x="18" y="94"><tspan font-weight="680">WideEP all-to-all</tspan> 是 K3 网络流量的大头，</text><text class="m-body" x="18" y="112">KDA 省的 KV 搬运在它面前是四舍五入。</text><text class="small" x="18" y="130" fill="#B26205">⚠ 域装不下 → 溢出到 scale-out（可插拔光模块）</text></g>
+      <g transform="translate(681,516)"><rect width="330" height="88" rx="15" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><rect x="16" y="18" width="34" height="34" rx="9" fill="url(#gTeal)"/><use href="#i-mem" x="21" y="23" width="24" height="24" style="color:#fff" stroke-width="1.7"/><text class="n-title" x="60" y="36">③ DRAM</text><text class="n-sub" x="60" y="56">warm / staging 层</text><rect x="262" y="14" width="52" height="21" rx="10.5" fill="#34C759"/><text class="tag-t" x="288" y="28.5" text-anchor="middle">受益</text><text class="small" x="60" y="76" fill="rgba(60,60,67,.5)">承接 KV 池化流转，部署可行性↑</text></g>
+      <g transform="translate(681,662)"><rect width="330" height="98" rx="15" fill="#fff" stroke="var(--separator)" filter="url(#soft)"/><rect x="16" y="20" width="34" height="34" rx="9" fill="url(#gPurple)"/><use href="#i-drive" x="21" y="25" width="24" height="24" style="color:#fff" stroke-width="1.7"/><text class="n-title" x="60" y="38">④ NAND / SSD</text><text class="n-sub" x="60" y="58">历史 KV 冷池</text><rect x="262" y="16" width="52" height="21" rx="10.5" fill="#34C759"/><text class="tag-t" x="288" y="30.5" text-anchor="middle">受益</text><text class="small" x="60" y="80" fill="rgba(60,60,67,.5)">offload 比例↑ / 并发↑ → 大容量冷池</text></g>
+
+      <g fill="none" stroke="#1D8FA3" stroke-width="2.2">
+        <path d="M1011,209 H1050"/><path d="M1011,560 H1050"/><path d="M1011,711 H1050"/>
+        <path d="M1050,200 C 1064,200 1064,209 1064,220 L1064,700 C 1064,711 1064,720 1050,720" opacity=".8"/>
+        <path d="M1050,209 H1011" marker-end="url(#ah)"/><path d="M1050,560 H1011" marker-end="url(#ah)"/><path d="M1050,711 H1011" marker-end="url(#ah)"/>
+      </g>
+      <text class="buslbl" transform="translate(1092,300) rotate(90)">Mooncake Transfer Engine · RDMA 190GB/s</text>
+      <text class="bussub" transform="translate(1110,300) rotate(90)">KV 在 HBM ⇄ DRAM ⇄ NAND 层间流转</text>
+      <text class="bussub" transform="translate(1128,300) rotate(90)">分层成立的物理前提 · $0.30 缓存价的基建</text>
+    </svg>
+    </div>
+
+    <div class="legend">
+      <div class="li"><span class="sw"></span>实线箭头 = 数据流 / 作用机制</div>
+      <div class="li"><span class="sw dash"></span>虚线 = 调度 / 搬运总线</div>
+      <div class="li"><s>删除线</s> = 被否的空头逻辑</div>
+      <div class="li"><span class="dot" style="background:#007AFF"></span>算力·硬需求</div>
+      <div class="li"><span class="dot" style="background:#F08A00"></span>网络·主受力</div>
+      <div class="li"><span class="dot" style="background:#1D8FA3"></span>DRAM·受益</div>
+      <div class="li"><span class="dot" style="background:#9A3DC9"></span>NAND·受益</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>一句话总纲：</b>K3 是"披着高效外衣的需求密集型 frontier 模型"——KDA 缩小 KV 只是把负载重分配（网络主受力落在 scale-up 域内的 WideEP，不是 KV 搬运）并经 Jevons 放大；HBM/网络/DRAM/NAND 四层无一因 KV 缩小而减需求。<br>
+    <b>证据等级：</b><span class="badge b-a">A 级</span> K3 架构（2.8T/896 专家/16 激活/KDA/6.3×）· 定价 · Mooncake 190GB/s，已独立 WebSearch 多源核实；分离式数据流、频次量级差为框架推断；<span class="badge b-c">C 级</span> DeepSeek V4-Pro "NAND 反升" channel check 引自 fundAI 报告、未独立核实。<br>
+    <b>口径提示：</b>~60 层 / 896 专家为公开架构数；"6万+/轮"= 120×500 量级示意，非精确计数。三源合流：Mooncake 论述 · SemiAnalysis（WideEP）· fundAI Andy 两篇。
+  </div>
+
+</div>
+</body>
+</html>

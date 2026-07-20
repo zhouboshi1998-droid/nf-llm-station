@@ -3,104 +3,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>美股 &amp; 全球科技股 Q2 业绩季日历（2026）</title>
 <style>
+
 :root{
- --bg:#f4f2ec;--paper:#fff;--ink:#2C2C2A;--muted:#5F5E5A;--hint:#8b8a83;
- --line:#e6e3da;--line2:#eceae3;--coral:#D85A30;--coral-dk:#9C3A18;
- --blue:#1a56a0;--green:#0C6147;--gold:#7A5410;--purple:#473C9E;
- --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
- --sans:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+ --bg:#fafafa;--paper:#ffffff;--ink:#1d1d1f;--muted:#6e6e73;--hint:#8e8e93;
+ --line:#e5e5ea;--line2:#f0f0f3;
+ --accent:#0a66c2;--accent-dk:#084d92;
+ --up:#c0392b;--down:#1e8449;--gold:#8a6d1f;--warn:#b45309;
+ --mono:"SF Mono",ui-monospace,Consolas,monospace;
+ --sans:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
 }
 *{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;}
-.wrap{max-width:1180px;margin:0 auto;padding:26px 22px 60px;}
-header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px;}
-.kick{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin:0 0 6px;}
-h1{font-size:26px;font-weight:800;margin:0 0 6px;letter-spacing:-.01em;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 60px;}
+header{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px;}
+.kick{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
+h1{font-size:26px;font-weight:700;margin:0 0 6px;letter-spacing:-.3px;}
 .sub{font-size:13.5px;color:var(--muted);margin:0;}
 .sub b{color:var(--ink);}
-.asof{font-family:var(--mono);font-size:11px;color:var(--hint);margin-top:6px;}
+.asof{font-size:11.5px;color:var(--hint);margin-top:8px;line-height:1.6;}
 
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 24px;}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:14px 15px;border-top:3px solid var(--coral);}
-.card:nth-child(2){border-top-color:var(--blue);}
-.card:nth-child(3){border-top-color:var(--green);}
-.card h3{font-size:13px;margin:0 0 6px;font-weight:800;}
-.card p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.5;}
-.card .big{font-family:var(--mono);font-weight:700;color:var(--ink);}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 18px;}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.card h3{font-size:13.5px;margin:0 0 6px;font-weight:700;color:var(--accent);}
+.card:nth-child(2) h3{color:#0b8f8f;}
+.card:nth-child(3) h3{color:#5e5ce6;}
+.card p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.55;}
+.card .big{font-weight:700;color:var(--ink);}
 
-h2.sec{font-size:15px;margin:26px 0 10px;padding-left:11px;border-left:4px solid var(--coral);display:flex;align-items:baseline;gap:10px;}
-h2.sec .win{font-family:var(--mono);font-size:11px;color:var(--hint);font-weight:500;}
+h2.sec{font-size:17px;font-weight:700;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--accent);display:flex;align-items:baseline;gap:10px;}
+h2.sec .win{font-size:11.5px;color:var(--hint);font-weight:500;}
 
-.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--paper);}
-table{border-collapse:collapse;width:100%;min-width:920px;font-size:13px;}
-thead th{background:#faf8f3;text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--hint);font-weight:600;padding:9px 11px;border-bottom:1px solid var(--line);position:sticky;top:0;}
-tbody td{padding:10px 11px;border-bottom:1px solid var(--line2);vertical-align:top;}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.04);}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:13px;}
+thead th{background:#f7f7f9;text-align:left;font-size:11px;letter-spacing:.03em;color:var(--hint);font-weight:600;padding:9px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--line2);vertical-align:top;}
 tbody tr:last-child td{border-bottom:none;}
-tbody tr:hover{background:#faf9f5;}
+tbody tr:hover{background:#f7f9fc;}
 .co{font-weight:700;white-space:nowrap;}
-.co .tk{font-family:var(--mono);font-size:10.5px;color:var(--hint);font-weight:500;display:block;margin-top:1px;}
-.dt{font-family:var(--mono);font-weight:700;white-space:nowrap;color:var(--coral-dk);}
+.co .tk{font-family:var(--mono);font-size:10.5px;color:var(--hint);font-weight:500;display:block;margin-top:2px;}
+.dt{font-family:var(--mono);font-weight:700;white-space:nowrap;color:var(--accent-dk);}
 .dt .wk{color:var(--hint);font-weight:400;font-size:10.5px;}
 .q{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;}
 .num{font-family:var(--mono);font-size:12.5px;white-space:nowrap;}
 .num .yo{display:block;font-size:10.5px;margin-top:1px;}
-.up{color:var(--green);} .dn{color:#b0402a;} .flat{color:var(--hint);}
-/* ── 已发状态（2026-07-16 加）：实际值取代预期值 ── */
-tr.done td.co{box-shadow:inset 3px 0 0 var(--green);}
-tr.done{background:#F7FAF8;}
-.done-b{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 5px;border-radius:4px;background:var(--green);color:#fff;margin-left:5px;vertical-align:middle;}
-.pre-b{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 5px;border-radius:4px;background:var(--gold);color:#fff;margin-left:5px;vertical-align:middle;}
+.up{color:var(--up);} .dn{color:var(--down);} .flat{color:var(--hint);}
+/* ── 已发状态：中性蓝状态徽章（好坏judgment用红超/绿低，状态不参与） ── */
+tr.done td.co{box-shadow:inset 3px 0 0 var(--accent);}
+tr.done{background:#f5f9ff;}
+.done-b{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 6px;border-radius:5px;background:var(--accent);color:#fff;margin-left:5px;vertical-align:middle;}
+.pre-b{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 6px;border-radius:5px;background:var(--gold);color:#fff;margin-left:5px;vertical-align:middle;}
 .act{font-weight:700;color:var(--ink);}
-.act .vs{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--hint);margin-top:1px;}
-.beat{color:var(--green);font-weight:700;} .miss{color:#b0402a;font-weight:700;}
-.focus{font-size:12px;color:var(--muted);line-height:1.5;min-width:280px;}
+.act .vs{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--hint);margin-top:2px;white-space:normal;}
+.beat{color:var(--up);font-weight:700;} .miss{color:var(--down);font-weight:700;}
+.focus{font-size:12.5px;color:var(--muted);line-height:1.55;min-width:250px;max-width:560px;}
 .focus b{color:var(--ink);font-weight:600;}
 .ccy{font-family:var(--mono);font-size:10px;color:var(--hint);white-space:nowrap;text-align:center;}
-.mem td{background:#FBF3E9;}
+.mem td{background:#fffbf0;}
 .mem td.co{box-shadow:inset 3px 0 0 var(--gold);}
-tbody tr.grp td{background:#efece4;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:.02em;color:var(--ink);padding:8px 11px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-.warn{color:#b0402a;font-weight:700;}
-.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:9px;background:#ECEAE3;color:var(--muted);margin-left:5px;vertical-align:middle;}
-.tag.mm{background:#F3E3C8;color:var(--gold);}
+tbody tr.grp td{background:#f2f2f7;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:.02em;color:var(--ink);padding:8px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.warn{color:var(--warn);font-weight:700;}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:1px 7px;border-radius:999px;background:#f2f2f7;color:var(--muted);margin-left:5px;vertical-align:middle;}
+.tag.mm{background:#fdf3dd;color:var(--gold);}
 
-.view{margin:26px 0 6px;background:#fbf9f4;border:1px solid var(--line);border-radius:11px;padding:16px 18px;}
+.view{margin:26px 0 6px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
 .view h3{margin:0 0 9px;font-size:14px;display:flex;align-items:center;gap:8px;}
-.view h3 .lb{font-family:var(--mono);font-size:10px;letter-spacing:.08em;background:var(--coral);color:#fff;padding:2px 7px;border-radius:5px;}
+.view h3 .lb{font-size:10px;letter-spacing:.08em;background:var(--accent);color:#fff;padding:2px 8px;border-radius:6px;font-weight:700;}
 .view ul{margin:0;padding-left:2px;list-style:none;}
-.view li{position:relative;padding:5px 0 5px 20px;font-size:13px;color:#3a3a36;border-bottom:1px dashed var(--line);}
+.view li{position:relative;padding:5px 0 5px 20px;font-size:13px;color:#3a3a3c;border-bottom:1px dashed var(--line);}
 .view li:last-child{border-bottom:none;}
-.view li::before{content:"▸";position:absolute;left:2px;color:var(--coral);}
+.view li::before{content:"\25B8";position:absolute;left:2px;color:var(--accent);}
 .view li b{color:var(--ink);}
+
+.hb{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:14px;padding:13px 16px;margin:0 0 22px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.hb .hb-k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#fff;padding:2px 9px;border-radius:6px;white-space:nowrap;font-weight:700;}
+.hb .hb-t{font-weight:700;font-size:13.5px;}
+.hb .hb-d{font-size:12px;color:var(--muted);flex:1;min-width:240px;}
+.hb a.hb-btn{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;border:1.5px solid var(--accent);border-radius:9px;padding:5px 13px;white-space:nowrap;}
+.hb a.hb-btn:hover{background:var(--accent);color:#fff;}
 
 footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--hint);line-height:1.6;}
 footer .lg{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-family:var(--mono);font-size:10.5px;}
-footer a{color:var(--coral);text-decoration:none;} footer a:hover{text-decoration:underline;}
-footer code{font-family:var(--mono);background:#ece9e0;padding:1px 5px;border-radius:4px;color:var(--muted);}
+footer a{color:var(--accent);text-decoration:none;} footer a:hover{text-decoration:underline;}
+footer code{font-family:var(--mono);background:#f2f2f7;padding:1px 6px;border-radius:5px;color:var(--muted);}
 .ec-intro{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.55;}
 .ec-list{display:flex;flex-direction:column;gap:8px;}
-.ec{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
-.ec[open]{border-color:var(--coral);box-shadow:0 1px 7px rgba(216,90,48,.07);}
+.ec{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.03);}
+.ec[open]{border-color:var(--accent);box-shadow:0 2px 8px rgba(10,102,194,.08);}
 .ec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 15px;user-select:none;}
 .ec>summary::-webkit-details-marker{display:none;}
-.ec>summary:hover{background:#faf9f5;}
+.ec>summary:hover{background:#f7f9fc;}
 .ec-co{font-weight:700;font-size:13.5px;white-space:nowrap;}
-.ec-co b{font-family:var(--mono);color:var(--coral-dk);font-size:11.5px;margin-left:3px;}
+.ec-co b{font-family:var(--mono);color:var(--accent-dk);font-size:11.5px;margin-left:3px;}
 .ec-meta{font-family:var(--mono);font-size:10.5px;color:var(--hint);white-space:nowrap;}
 .ec-sum{font-size:12.5px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.ec-tw{font-family:var(--mono);font-size:16px;line-height:1;color:var(--coral);width:15px;text-align:center;flex-shrink:0;}
+.ec-tw{font-family:var(--mono);font-size:16px;line-height:1;color:var(--accent);width:15px;text-align:center;flex-shrink:0;}
 .ec-tw::before{content:"+";}
 .ec[open] .ec-tw::before{content:"\2013";}
 .ec-body{padding:2px 15px 15px;display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid var(--line2);margin-top:2px;}
-.ec-body h5{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;margin:12px 0 6px;padding-bottom:3px;border-bottom:1px solid var(--line2);}
-.ec-g h5{color:var(--blue);} .ec-t h5{color:var(--coral-dk);}
+.ec-body h5{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;margin:12px 0 6px;padding-bottom:3px;border-bottom:1px solid var(--line2);font-weight:700;}
+.ec-g h5{color:var(--accent);} .ec-t h5{color:var(--accent-dk);}
 .ec-body ul{margin:0;padding-left:16px;}
-.ec-body li{font-size:12px;line-height:1.5;margin-bottom:5px;color:#3a3a36;}
+.ec-body li{font-size:12px;line-height:1.5;margin-bottom:5px;color:#3a3a3c;}
 .ec-body li b{color:var(--ink);font-weight:600;}
-.ec-body .cav{color:#b0402a;}
+.ec-body .cav{color:var(--warn);}
 @media(max-width:720px){.cards{grid-template-columns:1fr;}h1{font-size:21px;}.wrap{padding:18px 13px 44px;}.ec-body{grid-template-columns:1fr;gap:4px;}.ec-sum{display:none;}}
-body.embed .wrap{max-width:1280px;padding-top:16px}
-body.embed header{display:none}
-body.embed .cards{margin-top:0}
+body.embed .wrap{max-width:none;padding:16px 20px 44px;}
+body.embed header{display:none;}
+body.embed .cards{margin-top:0;}
 </style></head>
 <body>
 <script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('embed');</script>
@@ -125,6 +134,13 @@ body.embed .cards{margin-top:0}
     <h3>③ 英伟达/博通反而收尾</h3>
     <p><b class="big">英伟达 8/26</b>、<b class="big">博通 9/3</b> 是全季最后落地。中间隔着一个半月上游+同业读数，预期已反复 price-in——预期差更可能在<b>上游设备/HBM</b>与<b>博通 ASIC 客户能见度</b>。</p>
   </div>
+</div>
+
+<div class="hb">
+  <span class="hb-k">深挂载 · 云厂专题</span>
+  <span class="hb-t">云厂业绩关注手册（2026Q2）</span>
+  <span class="hb-d">四层指标体系 × GOOGL/MSFT/META/AMZN 分公司记分卡 × 双向证伪线 · 业绩披露后逐家实时更新判定 · 锚点数字均经 WebSearch 独立核实（2026-07-19 建）</span>
+  <a class="hb-btn" href="20260719_美股云厂业绩前瞻_2026Q2_关注手册.html" target="_blank" rel="noopener">打开手册 →</a>
 </div>
 
 <h2 class="sec">上游先行读数 <span class="win">7 月中 · 设备 + 代工</span></h2>

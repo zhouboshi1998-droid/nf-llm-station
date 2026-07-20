@@ -5,84 +5,189 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XPU 芯片光谱看板</title>
 <style>
-:root{--bg:#f7f7f5;--card:#ffffff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;
---gpu:#0F766E;--asic:#6D5BD0;--cn:#C2417B;--edge:#C2571F;--anchor:#6b7280;
---gpuL:#E1F5EE;--asicL:#EEEDFE;--cnL:#FBEAF0;--edgeL:#FAECE7;}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.65;padding:28px 24px 60px}
-.wrap{max-width:1020px;margin:0 auto}
-.pagehead h1{font-size:24px;font-weight:600;letter-spacing:.5px}
-.pagehead .sub{color:var(--muted);font-size:13px;margin:6px 0 4px}
-body.embed .pagehead{display:none}
-.card{background:var(--card);border:.5px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:22px}
-.card h2{font-size:17px;font-weight:600;margin-bottom:4px}
-.card .note{color:var(--muted);font-size:12.5px;margin-bottom:12px}
-svg{width:100%;height:auto;display:block}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
-th{text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--line);padding:6px 8px;white-space:nowrap}
-td{border-bottom:.5px solid var(--line);padding:7px 8px;vertical-align:top}
-.g{display:inline-block;font-size:11px;padding:0 6px;border-radius:8px;border:.5px solid var(--line);color:var(--muted)}
-.gA{color:#0a6e46;border-color:#9fd6bd}.gB{color:#1d5fa5;border-color:#a9c8ea}.gC{color:#a05716;border-color:#e6c197}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin:4px 0 10px}
+:root{
+  --accent:#007AFF; --accent-soft:rgba(0,122,255,.10);
+  --green:#34C759; --orange:#FF9500; --red:#FF3B30; --purple:#AF52DE; --teal:#30B0C7;
+  --label:#1C1C1E; --label-2:rgba(60,60,67,.72); --label-3:rgba(60,60,67,.45);
+  --separator:rgba(60,60,67,.14);
+  --paper:rgba(255,255,255,.86);
+  --bg:#F2F5FA;
+  --shadow-soft:0 1px 2px rgba(20,40,70,.05), 0 6px 18px rgba(20,40,70,.06);
+  --shadow:0 2px 6px rgba(20,40,70,.08), 0 14px 34px rgba(20,40,70,.11);
+  --ease:cubic-bezier(.32,.72,.28,1);
+  --gpu:#0E9CB0; --asic:#AF52DE; --cn:#FF2D55; --edge:#FF9500; --anchor:#8E8E93;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei UI","Microsoft YaHei","Segoe UI",sans-serif;
+  color:var(--label);
+  background:
+    radial-gradient(900px 480px at 8% -4%, rgba(76,177,255,.16), transparent),
+    radial-gradient(820px 520px at 96% 4%, rgba(175,82,222,.08), transparent),
+    var(--bg);
+  min-height:100vh; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.layout{display:flex; gap:26px; max-width:1340px; margin:0 auto; padding:34px clamp(14px,3vw,40px) 90px; align-items:flex-start}
+aside.toc{
+  width:216px; flex:none; position:sticky; top:26px;
+  background:rgba(250,251,254,.92); border:.5px solid var(--separator); border-radius:20px;
+  -webkit-backdrop-filter:blur(24px) saturate(170%); backdrop-filter:blur(24px) saturate(170%);
+  box-shadow:var(--shadow); padding:16px 8px 12px;
+}
+.toc .brand{padding:4px 14px 12px; font-size:15px; font-weight:740; letter-spacing:-.02em}
+.toc .brand small{display:block; font-size:10.5px; font-weight:500; color:var(--label-3); margin-top:3px}
+.nvg{padding:10px 14px 4px; font-size:10px; font-weight:680; letter-spacing:.09em; color:var(--label-3); text-transform:uppercase}
+.nv{display:flex; align-items:center; gap:9px; margin:1px 4px; padding:8px 11px; border-radius:11px;
+  font-size:13px; font-weight:540; color:var(--label-2); cursor:pointer; user-select:none;
+  transition:background .15s ease,color .15s ease,transform .1s ease}
+.nv:hover{background:rgba(118,118,128,.08); color:var(--label)}
+.nv:active{transform:scale(.98)}
+.nv.active{background:var(--accent-soft); color:var(--accent); font-weight:650}
+.nv .icn{color:var(--label-3)}
+.nv.active .icn{color:var(--accent)}
+main{flex:1; min-width:0; max-width:1080px}
+.icn{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.14em;font-size:16px}
+.hero{margin-bottom:34px}
+.hero .eyebrow{font-size:12px;font-weight:650;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+.hero h1{font-size:clamp(24px,3.5vw,33px);font-weight:760;letter-spacing:-.025em;line-height:1.12;margin:8px 0 10px}
+.hero p{color:var(--label-2);max-width:660px;font-size:14px}
+body.embed .hero{display:none}
+body.embed .layout{padding-top:20px}
+section{margin-bottom:44px; scroll-margin-top:24px}
+.sechead{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:720;letter-spacing:-.018em;margin-bottom:4px}
+.sic{width:27px;height:27px;border-radius:8.5px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;
+  background:linear-gradient(180deg,#3FA2FF,var(--accent));box-shadow:0 2px 6px rgba(0,122,255,.28),inset 0 1px 0 rgba(255,255,255,.32)}
+.sic.g{background:linear-gradient(180deg,#4CD964,#2CA84C);box-shadow:0 2px 6px rgba(52,199,89,.28),inset 0 1px 0 rgba(255,255,255,.32)}
+.sic.o{background:linear-gradient(180deg,#FFAC33,#F08A00);box-shadow:0 2px 6px rgba(255,149,0,.28),inset 0 1px 0 rgba(255,255,255,.32)}
+.sic.p{background:linear-gradient(180deg,#C46FE8,#9A3DC9);box-shadow:0 2px 6px rgba(175,82,222,.26),inset 0 1px 0 rgba(255,255,255,.32)}
+.sic.t{background:linear-gradient(180deg,#4CC5D9,#1D9CB3);box-shadow:0 2px 6px rgba(48,176,199,.26),inset 0 1px 0 rgba(255,255,255,.32)}
+.sic.gr{background:linear-gradient(180deg,#A6A6AD,#7C7C84);box-shadow:0 2px 6px rgba(120,120,130,.25),inset 0 1px 0 rgba(255,255,255,.32)}
+.sub{font-size:13px;color:var(--label-3);margin-bottom:16px}
+.card{background:var(--paper);border:.5px solid var(--separator);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow-soft)}
+svg.chart{width:100%;height:auto;display:block}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--label-3);font-weight:600;border-bottom:1px solid var(--separator);padding:7px 8px;white-space:nowrap;font-size:12px}
+td{border-bottom:.5px solid var(--separator);padding:8px;vertical-align:top;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.g{display:inline-block;font-size:10.5px;font-weight:650;padding:1px 8px;border-radius:999px}
+.gA{color:#248A3D;background:rgba(52,199,89,.12)}.gB{color:#0A61C9;background:rgba(0,122,255,.11)}.gC{color:#B26205;background:rgba(255,149,0,.13)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--label-2);margin:2px 0 12px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
-.foot{color:var(--muted);font-size:12px;margin-top:26px}
-details{margin-top:22px;background:var(--card);border:.5px solid var(--line);border-radius:14px;padding:16px 22px}
-summary{cursor:pointer;font-weight:600;font-size:15px}
-details .body{font-size:13px;color:var(--ink);margin-top:10px}
-code{background:#f0f0ee;border-radius:4px;padding:1px 5px;font-size:12px}
-.dim{color:var(--muted)}
-.warn{background:#fdf6ec;border:.5px solid #e6c197;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#7a4a10;margin-top:10px}
+.warn{background:rgba(255,149,0,.09);border:.5px solid rgba(255,149,0,.28);border-radius:12px;padding:10px 14px;font-size:12.5px;color:#8a5510;margin-top:12px}
+.dim{color:var(--label-3)}
+.chip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px;margin-right:8px;vertical-align:2px}
+.chip.op{background:rgba(175,82,222,.11);color:#8E44AD}
+.chip.fa{background:rgba(0,122,255,.10);color:#0A61C9}
+.concl{display:flex;flex-direction:column;gap:12px}
+.concl .item{background:var(--paper);border:.5px solid var(--separator);border-radius:16px;padding:14px 18px;box-shadow:var(--shadow-soft);font-size:13.5px}
+.concl .item b{font-weight:680}
+.concl .item .lead{font-size:14px;font-weight:680;letter-spacing:-.01em;margin-bottom:4px;display:flex;align-items:center}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.chipcard{background:var(--paper);border:.5px solid var(--separator);border-radius:16px;padding:15px 17px;box-shadow:var(--shadow-soft);
+  transition:transform .26s var(--ease),box-shadow .26s var(--ease)}
+.chipcard:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.chipcard h4{font-size:14.5px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.chipcard .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.chipcard .pos{font-size:12px;color:var(--label-2);margin:5px 0 9px}
+.chipcard .kv{font-size:12px;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.chipcard .kv span:nth-child(odd){color:var(--label-3);white-space:nowrap}
+.chipcard .kv span{font-variant-numeric:tabular-nums}
+details{background:var(--paper);border:.5px solid var(--separator);border-radius:16px;padding:14px 20px;box-shadow:var(--shadow-soft)}
+summary{cursor:pointer;font-weight:650;font-size:14px}
+details .body{font-size:13px;margin-top:10px;color:var(--label-2)}
+details .body p{margin-bottom:8px}
+code{background:rgba(118,118,128,.10);border-radius:5px;padding:1px 6px;font-size:12px;font-family:"SF Mono",Consolas,monospace}
+.foot{color:var(--label-3);font-size:12px;margin-top:10px}
+.tscroll{overflow-x:auto}
+#chartA,#chartB{position:relative}
+circle.pt{cursor:pointer}
+.pop{position:absolute;z-index:60;min-width:220px;max-width:280px;background:#fff;border:.5px solid var(--separator);border-radius:14px;box-shadow:var(--shadow);padding:12px 15px;font-size:12.5px;line-height:1.5}
+.pop h5{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.pop .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.pop .desc{color:var(--label-2);margin-bottom:8px}
+.pop .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-variant-numeric:tabular-nums}
+.pop .kv span:nth-child(odd){color:var(--label-3);white-space:nowrap}
+.pop .x{position:absolute;top:8px;right:11px;color:var(--label-3);cursor:pointer;font-size:13px}
+.pop .x:hover{color:var(--label)}
+@media (max-width:900px){aside.toc{display:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="pagehead">
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></symbol>
+<symbol id="i-spec" viewBox="0 0 24 24"><path d="M4 17h16M4 17l4-8 4 5 4-9 4 6"/></symbol>
+<symbol id="i-scat" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><circle cx="9" cy="14" r="1.6"/><circle cx="13" cy="10" r="1.6"/><circle cx="17" cy="7" r="1.6"/></symbol>
+<symbol id="i-rack" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 9h14M5 15h14M8 6h.01M8 12h.01M8 18h.01"/></symbol>
+<symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M14.8 9.2c-.6-1-1.6-1.5-2.8-1.5-1.7 0-3 .9-3 2.2 0 2.9 5.9 1.5 5.9 4.3 0 1.3-1.3 2.2-3 2.2-1.3 0-2.4-.6-2.9-1.6"/></symbol>
+<symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/></symbol>
+<symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.4 4.8L4 16.4V20h3.6l5.1-5.1a4 4 0 0 0 4.8-5.4l-2.6 2.6-2.4-2.4z"/></symbol>
+</defs></svg>
+
+<div class="layout">
+<aside class="toc" id="toc">
+  <div class="brand">XPU 光谱看板<small>芯片层 · 数据 <span id="tocDate"></span></small></div>
+  <div class="nvg">导航</div>
+  <div class="nv" data-t="s-concl"><svg class="icn"><use href="#i-doc"/></svg>研究结论</div>
+  <div class="nv" data-t="s-a"><svg class="icn"><use href="#i-spec"/></svg>图A · 定性光谱</div>
+  <div class="nv" data-t="s-b"><svg class="icn"><use href="#i-scat"/></svg>图B · 量化坐标</div>
+  <div class="nv" data-t="s-c"><svg class="icn"><use href="#i-rack"/></svg>Scale-up 域对比</div>
+  <div class="nv" data-t="s-d"><svg class="icn"><use href="#i-coin"/></svg>TCO 代理</div>
+  <div class="nvg">附录</div>
+  <div class="nv" data-t="s-app"><svg class="icn"><use href="#i-chip"/></svg>商品芯片信息卡</div>
+  <div class="nv" data-t="s-maint"><svg class="icn"><use href="#i-tool"/></svg>维护说明</div>
+</aside>
+
+<main>
+<div class="hero">
+  <div class="eyebrow">AI Chip Tracker</div>
   <h1>XPU 芯片光谱看板</h1>
-  <div class="sub">四个视角比较主流 AI 处理器：定性光谱定物种 → 量化坐标定档位 → Scale-up 域定真实战力 → TCO 代理定性价比 · 数据更新见页脚</div>
+  <p>四个视角比较主流 AI 处理器：定性光谱定物种 → 量化坐标定档位 → Scale-up 域定真实战力 → TCO 代理定性价比。附录含主要商品芯片信息卡。</p>
 </div>
 
 <!-- ================================================================
      ██ 数据区（维护只改这里，渲染逻辑勿动） ██
-     新卡迭代刷新方法见页面底部「维护说明」折叠块
+     新卡迭代刷新方法见「维护说明」
      ================================================================ -->
 <script>
-const META = { updated: "2026-07-18", version: "v1.0" };
+const META = { updated: "2026-07-19", version: "v2.0 (Apple 风格改版)" };
 
 /* CHIPS 字段说明：
    camp: gpu商品GPU | asic云自研ASIC/新架构 | cn中国阵营 | edge端侧NPU | anchor参考锚点
    spec_x: 定性光谱位（0=最通用 100=最专用，研究员判断，C级）
    power_w: 单芯片典型功耗（图A纵轴，量级示意）
    tflops: FP8当量算力（图B横轴；null=不进图B） prec: 口径  bw: 内存带宽TB/s  hbm: 显存GB
-   fam: 同族代际链（同fam按year连箭头） lx,ly: 图B标签偏移 */
+   fam: 同族代际链（同fam按year连箭头） lx,ly: 图B标签偏移
+   图A标签控制: aend=锚右对齐(标签放左侧) laxA/layA=偏移 nolabel=不标 */
 const CHIPS = [
- {name:"CPU (Xeon/EPYC)", camp:"anchor", fam:null, year:2025, spec_x:5,  power_w:350,  tflops:null, grade:"B"},
- {name:"FPGA（参考）",     camp:"anchor", fam:null, year:2025, spec_x:45, power_w:75,   tflops:null, grade:"C"},
- {name:"H100",        camp:"gpu", fam:"nv", year:2022, spec_x:31, power_w:700,  tflops:1979,  prec:"FP8", bw:3.35, hbm:80,  grade:"B", lx:10, ly:12},
- {name:"B200",        camp:"gpu", fam:"nv", year:2024, spec_x:34, power_w:1000, tflops:4500,  prec:"FP8", bw:8.0,  hbm:192, grade:"B", lx:-52, ly:-12},
- {name:"Rubin('26,估)",camp:"gpu", fam:"nv", year:2026, spec_x:37, power_w:1800, tflops:25000, prec:"FP4折半·估", bw:13.0, hbm:288, grade:"C", lx:-38, ly:26},
- {name:"MI300X",      camp:"gpu", fam:"amd", year:2023, spec_x:28, power_w:750,  tflops:2615,  prec:"FP8", bw:5.3,  hbm:192, grade:"B", lx:-62, ly:-8},
- {name:"MI355X",      camp:"gpu", fam:"amd", year:2025, spec_x:30, power_w:1400, tflops:5000,  prec:"FP8", bw:8.0,  hbm:288, grade:"B", lx:12, ly:4, layA:14},
- {name:"MI400系('26)",camp:"gpu", fam:"amd", year:2026, spec_x:32, power_w:1600, tflops:null,  grade:"C", aend:true, layA:-6},
- {name:"昇腾910B",    camp:"cn", fam:"hw", year:2023, spec_x:50, power_w:400,  tflops:null, grade:"C", aend:true},
- {name:"昇腾910C",    camp:"cn", fam:"hw", year:2025, spec_x:52, power_w:750,  tflops:800,  prec:"FP16·无FP8", bw:3.2, hbm:128, grade:"C", hollow:true, lx:-96, ly:-10, aend:true},
- {name:"寒武纪思元590",camp:"cn", fam:null, year:2023, spec_x:54, power_w:350, tflops:null, grade:"C", aend:true, layA:20},
- {name:"TPU v5p",     camp:"asic", fam:"tpu", year:2023, spec_x:63, power_w:450, tflops:918,  prec:"BF16×2折算", bw:2.76, hbm:95, grade:"B", lx:6, ly:22, layA:22},
- {name:"Trillium v6", camp:"asic", fam:"tpu", year:2024, spec_x:61, power_w:300, tflops:null, grade:"C", layA:18},
- {name:"Ironwood v7", camp:"asic", fam:"tpu", year:2025, spec_x:59, power_w:700, tflops:4614, prec:"FP8", bw:7.37, hbm:192, grade:"B", lx:12, ly:18, aend:true, layA:16},
- {name:"Trainium1",   camp:"asic", fam:"trn", year:2022, spec_x:70, power_w:300, tflops:null, grade:"C"},
- {name:"Trainium2",   camp:"asic", fam:"trn", year:2024, spec_x:68, power_w:500, tflops:1250, prec:"FP8·估", bw:3.2, hbm:96, grade:"C", lx:-6, ly:-14, layA:-10},
- {name:"Trainium3",   camp:"asic", fam:"trn", year:2026, spec_x:66, power_w:700, tflops:2517, prec:"FP8", bw:4.9, hbm:144, grade:"B", lx:-20, ly:24, layA:-10},
- {name:"Maia 100",    camp:"asic", fam:"maia", year:2023, spec_x:76, power_w:860, tflops:800, prec:"MX·估", bw:1.8, hbm:64, grade:"C", lx:-30, ly:22},
- {name:"Maia 200('26)",camp:"asic", fam:"maia", year:2026, spec_x:73, power_w:700, tflops:null, grade:"C", layA:24},
- {name:"MTIA v1",     camp:"asic", fam:"mtia", year:2023, spec_x:80, power_w:25,  tflops:null, grade:"B"},
- {name:"MTIA v2",     camp:"asic", fam:"mtia", year:2024, spec_x:80, power_w:90,  tflops:null, grade:"B"},
- {name:"Groq LPU",    camp:"asic", fam:null, year:2024, spec_x:85, power_w:240, tflops:750, prec:"INT8", bw:80, hbm:0.23, grade:"B", sram:true, lx:10, ly:4},
- {name:"骁龙8 Gen3",  camp:"edge", fam:"qc", year:2023, spec_x:70, power_w:5, tflops:null, grade:"C", nolabel:true},
- {name:"骁龙8 Elite", camp:"edge", fam:"qc", year:2024, spec_x:72, power_w:6, tflops:null, grade:"C", nolabel:true},
- {name:"8 Elite Gen5",camp:"edge", fam:"qc", year:2025, spec_x:74, power_w:7, tflops:80, prec:"INT8·估", bw:0.084, hbm:16, grade:"C", lx:10, ly:14, layA:-12, aend:true},
- {name:"苹果ANE·M3",  camp:"edge", fam:"ane", year:2023, spec_x:75, power_w:3, tflops:null, grade:"C", nolabel:true},
- {name:"苹果ANE·M4",  camp:"edge", fam:"ane", year:2024, spec_x:77, power_w:4, tflops:38, prec:"INT8", bw:0.12, hbm:24, grade:"B", lx:10, ly:-6, nolabel:true},
- {name:"苹果ANE·M5",  camp:"edge", fam:"ane", year:2025, spec_x:79, power_w:5, tflops:null, grade:"C", layA:18},
+ {name:"CPU (Xeon/EPYC)", camp:"anchor", fam:null, year:2025, spec_x:5,  power_w:350,  tflops:null, grade:"B", desc:"串行控制与通用负载的底座，AI 集群里当 host 处理器"},
+ {name:"FPGA（参考）",     camp:"anchor", fam:null, year:2025, spec_x:45, power_w:75,   tflops:null, grade:"C", desc:"硬件可重构；网络/低延迟/原型验证场景，横轴维度与其他点不完全同维"},
+ {name:"H100",        camp:"gpu", fam:"nv", year:2022, spec_x:31, power_w:700,  tflops:1979,  prec:"FP8", bw:3.35, hbm:80,  grade:"B", lx:10, ly:12, desc:"Hopper 代主力，本轮 AI 军备竞赛的起点卡，装机量最大"},
+ {name:"B200",        camp:"gpu", fam:"nv", year:2024, spec_x:34, power_w:1000, tflops:4500,  prec:"FP8", bw:8.0,  hbm:192, grade:"B", lx:-52, ly:-12, desc:"Blackwell 双 die，当前出货主力；原生 FP4"},
+ {name:"Rubin('26,估)",camp:"gpu", fam:"nv", year:2026, spec_x:37, power_w:1800, tflops:25000, prec:"FP4折半·估", bw:13.0, hbm:288, grade:"C", lx:-38, ly:26, desc:"3nm 双 die 336B 晶体管，HBM4，NVL144 机柜；2026Q3/Q4 量产"},
+ {name:"MI300X",      camp:"gpu", fam:"amd", year:2023, spec_x:28, power_w:750,  tflops:2615,  prec:"FP8", bw:5.3,  hbm:192, grade:"B", lx:-62, ly:-8, desc:"AMD 首张主流 AI 卡，靠大显存打开局面"},
+ {name:"MI355X",      camp:"gpu", fam:"amd", year:2025, spec_x:30, power_w:1400, tflops:5000,  prec:"FP8", bw:8.0,  hbm:288, grade:"B", lx:12, ly:4, layA:14, desc:"纸面规格对标 B200 的价格牌，288GB HBM3E"},
+ {name:"MI400系('26)",camp:"gpu", fam:"amd", year:2026, spec_x:32, power_w:1600, tflops:null,  grade:"C", aend:true, layA:-6, desc:"2nm + 432GB HBM4，Helios 72卡机柜——AMD 首次机柜级方案"},
+ {name:"昇腾910B",    camp:"cn", fam:"hw", year:2023, spec_x:50, power_w:400,  tflops:null, grade:"C", aend:true, desc:"国产替代上一代主力"},
+ {name:"昇腾910C",    camp:"cn", fam:"hw", year:2025, spec_x:52, power_w:750,  tflops:800,  prec:"FP16·无FP8", bw:3.2, hbm:128, grade:"C", hollow:true, lx:-96, ly:-10, aend:true, desc:"双 die 封装（≈2×910B），CloudMatrix 384 的基本单元；制程受限"},
+ {name:"寒武纪思元590",camp:"cn", fam:null, year:2023, spec_x:54, power_w:350, tflops:null, grade:"C", aend:true, layA:20, desc:"国产 ASIC 路线代表"},
+ {name:"TPU v5p",     camp:"asic", fam:"tpu", year:2023, spec_x:63, power_w:450, tflops:918,  prec:"BF16×2折算", bw:2.76, hbm:95, grade:"B", lx:6, ly:22, layA:22, desc:"TPU 训练主力（'23），谷歌内部大模型的底座"},
+ {name:"Trillium v6", camp:"asic", fam:"tpu", year:2024, spec_x:61, power_w:300, tflops:null, grade:"C", layA:18, desc:"第6代，能效比导向"},
+ {name:"Ironwood v7", camp:"asic", fam:"tpu", year:2025, spec_x:59, power_w:700, tflops:4614, prec:"FP8", bw:7.37, hbm:192, grade:"B", lx:12, ly:18, aend:true, layA:16, desc:"第7代，整 Pod 对外出租（9,216 芯片/域），纸面对标 GB300"},
+ {name:"Trainium1",   camp:"asic", fam:"trn", year:2022, spec_x:70, power_w:300, tflops:null, grade:"C", desc:"AWS 自研训练芯片第一代"},
+ {name:"Trainium2",   camp:"asic", fam:"trn", year:2024, spec_x:68, power_w:500, tflops:1250, prec:"FP8·估", bw:3.2, hbm:96, grade:"C", lx:-6, ly:-14, layA:-10, desc:"Anthropic Rainier 集群主力（~50万卡级）"},
+ {name:"Trainium3",   camp:"asic", fam:"trn", year:2026, spec_x:66, power_w:700, tflops:2517, prec:"FP8", bw:4.9, hbm:144, grade:"B", lx:-20, ly:24, layA:-10, desc:"算力翻倍，Uber 等外部客户开始采用；Trn4 将支持 NVLink Fusion"},
+ {name:"Maia 100",    camp:"asic", fam:"maia", year:2023, spec_x:76, power_w:860, tflops:800, prec:"MX·估", bw:1.8, hbm:64, grade:"C", lx:-30, ly:22, desc:"微软首代自研，实际部署有限"},
+ {name:"Maia 200('26)",camp:"asic", fam:"maia", year:2026, spec_x:73, power_w:700, tflops:null, grade:"C", layA:24, desc:"推理导向，2026-01 发布；微软口径性价比 +30%"},
+ {name:"MTIA v1",     camp:"asic", fam:"mtia", year:2023, spec_x:80, power_w:25,  tflops:null, grade:"B", desc:"Meta 推荐系统专用推理芯片，25W"},
+ {name:"MTIA v2",     camp:"asic", fam:"mtia", year:2024, spec_x:80, power_w:90,  tflops:null, grade:"B", desc:"第二代，90W；仍聚焦推荐/排序负载"},
+ {name:"Groq LPU",    camp:"asic", fam:null, year:2024, spec_x:85, power_w:240, tflops:750, prec:"INT8", bw:80, hbm:0.23, grade:"B", sram:true, lx:10, ly:4, desc:"片上 SRAM 换确定性低时延；数百芯片拼一个模型，卖推理云"},
+ {name:"骁龙8 Gen3",  camp:"edge", fam:"qc", year:2023, spec_x:70, power_w:5, tflops:null, grade:"C", nolabel:true, desc:"Hexagon NPU，端侧 AI 起步代"},
+ {name:"骁龙8 Elite", camp:"edge", fam:"qc", year:2024, spec_x:72, power_w:6, tflops:null, grade:"C", nolabel:true, desc:"自研 Oryon CPU + 增强 NPU"},
+ {name:"8 Elite Gen5",camp:"edge", fam:"qc", year:2025, spec_x:74, power_w:7, tflops:80, prec:"INT8·估", bw:0.084, hbm:16, grade:"C", lx:10, ly:14, layA:-12, aend:true, desc:"安卓旗舰机 NPU 现役最强代"},
+ {name:"苹果ANE·M3",  camp:"edge", fam:"ane", year:2023, spec_x:75, power_w:3, tflops:null, grade:"C", nolabel:true, desc:"Apple 神经引擎（M3 代）"},
+ {name:"苹果ANE·M4",  camp:"edge", fam:"ane", year:2024, spec_x:77, power_w:4, tflops:38, prec:"INT8", bw:0.12, hbm:24, grade:"B", lx:10, ly:-6, nolabel:true, desc:"38 TOPS；统一内存架构"},
+ {name:"苹果ANE·M5",  camp:"edge", fam:"ane", year:2025, spec_x:79, power_w:5, tflops:null, grade:"C", layA:18, desc:"最新代，GPU 内嵌神经加速器为主要升级"},
 ];
 
 /* Scale-up 域（真实比较单位）*/
@@ -107,71 +212,131 @@ const TCO = [
  {name:"TPU v5p",   rent:[1.45, 4.2, 4.2], tflops:918,  note:"挂牌价口径（spot $1.45）；大客户承诺价远低于挂牌，不可与 neocloud 现货价直接比"},
  {name:"Trainium3", rent:[1.0, 1.8, 1.4],  tflops:2517, note:"AWS 内部定价折算；绑定 AWS 生态"},
 ];
+
+/* 研究结论（唯一判断层；badge: op=观点 fa=事实）*/
+const CONCLUSIONS = [
+ {badge:"op", lead:"跟踪只盯三个数，不用背芯片型号",
+  body:"每季度看 <b>NVDA 数据中心收入增速</b>（商品GPU路线）、<b>AVGO AI 半导体收入</b>（云自研ASIC路线）、<b>高通 QCT 中 AI/NPU 权重</b>（端侧路线）。三个数就是三条路线的景气代理，比任何评测都直接。"},
+ {badge:"op", lead:"迭代方向：GPU 在变专、ASIC 在变通用、端侧原地加密度",
+  body:"图A箭头给出三条规律——NVIDIA 每代都牺牲一点通用性换能效（Transformer Engine → 原生FP4 → 推理专用单元）；谷歌/AWS 的 ASIC 在补通用性和集群规模的课（Ironwood 对外出租、Trainium 接入 NVLink Fusion）；高通/苹果的 NPU 被瓦级功耗焊死在原位，只堆 TOPS。两端在互相靠近。"},
+ {badge:"op", lead:"单芯片纸面规格已经拉平，NVDA 的壁垒在图外",
+  body:"图B的「'25 旗舰会师区」：B200、MI355X、Ironwood 三点几乎重叠——自研 ASIC 在 spec sheet 上追平了商品 GPU。剩下的差距恰恰是量化不进坐标轴的两样：<b>CUDA 生态</b>和 <b>NVLink 集群互联</b>。看多/看空 NVDA，本质是给这两样无形资产定价。"},
+ {badge:"fa", lead:"所有芯片挤在同一条算力:带宽均衡走廊里",
+  body:"从 38 TOPS 的苹果 ANE 到 25 PF 的 Rubin，横跨近3个数量级，算力带宽配比始终在「每 TFLOP 配 1–7 GB/s」窄带内（roofline 约束：算得再快，数据喂不进来就是空转）。偏离走廊 = 押非主流架构（Groq 用片上 SRAM 出界，代价是单芯片仅 230MB 内存）。"},
+ {badge:"op", lead:"真实比较单位是 Scale-up 域，单芯片对比系统性失真",
+  body:"华为 CloudMatrix 384 单卡明显落后，用 384 卡全光互联在域算力上反超 GB200 NVL72（代价 4.1 倍功耗，同时拉动 6,912 只 800G 光模块——这是光通信链的直接 read-through）；谷歌用 OCS 把 9,216 颗 TPU 圈进一个域。<b>域的组织方式（铜/光/OCS）决定的差距，大于单芯片规格决定的差距。</b>"},
+ {badge:"op", lead:"TCO 只能测到「谁在用价格换份额」的精度",
+  body:"按租赁价归一（$/PFLOP·hr FP8当量）：Trainium3 ~$0.6 &lt; H100/B200 ~$1.3 &lt; TPU 挂牌价（失真，大客户承诺价远低于此）。AWS 价格最激进。但此表未计入生态带来的利用率差（CUDA 下 MFU 通常更高），回答不了「谁真的更划算」。"},
+];
+
+/* 附录 · 主要商品芯片信息卡（camp 颜色沿用图例；specs=B级公开资料，标「估」处为C级）*/
+const COMMODITY = [
+ {name:"NVIDIA B200", camp:"gpu", pos:"当前出货主力，Blackwell 双 die，训练+推理全能",
+  kv:{上市:"2024Q4 量产", 制程:"TSMC 4NP ×2 die", 算力:"FP8 4.5 PF / FP4 9 PF dense", 显存:"192GB HBM3E · 8 TB/s", 功耗:"~1,000W", 互联:"NVLink5 1.8 TB/s", 形态:"HGX 8卡 / GB200 NVL72", 生态:"CUDA"}},
+ {name:"NVIDIA GB300 (B300)", camp:"gpu", pos:"Blackwell Ultra，FP4 推理吞吐为核心卖点",
+  kv:{上市:"2025H2→2026 ramp", 制程:"TSMC 4NP ×2 die", 算力:"FP4 ~15 PF dense（估）", 显存:"288GB HBM3E", 功耗:"~1,400W", 互联:"NVLink5 1.8 TB/s", 形态:"GB300 NVL72", 生态:"CUDA"}},
+ {name:"NVIDIA Rubin", camp:"gpu", pos:"下一代，2026Q3/Q4 量产，配对 Vera CPU",
+  kv:{上市:"2026H2 量产", 制程:"TSMC 3nm ×2 die · 336B 晶体管", 算力:"FP4 50 PF/封装", 显存:"288GB HBM4 · 13 TB/s", 功耗:"~1,800W（估）", 互联:"NVLink6", 形态:"NVL144", 生态:"CUDA"}},
+ {name:"AMD MI355X", camp:"gpu", pos:"商品 GPU 二供，纸面规格对标 B200，价格牌",
+  kv:{上市:"2025H2", 制程:"TSMC N3", 算力:"FP8 5 PF / FP4 10 PF", 显存:"288GB HBM3E · 8 TB/s", 功耗:"~1,400W 液冷", 互联:"Infinity Fabric（8卡节点）", 形态:"8卡 UBB 为主", 生态:"ROCm"}},
+ {name:"AMD MI400 系", camp:"gpu", pos:"2026 年跳级追赶：HBM4 容量反超 + 首次机柜级方案",
+  kv:{上市:"2026", 制程:"TSMC 2nm", 算力:"待披露", 显存:"432GB HBM4（+50% vs MI355X）", 功耗:"—", 互联:"UALink / 以太网", 形态:"Helios 72卡机柜", 生态:"ROCm"}},
+ {name:"Intel Gaudi 3", camp:"gpu", pos:"以太网原生的价格牌，商业进展弱，路线图并入 Jaguar Shores",
+  kv:{上市:"2024", 制程:"TSMC 5nm", 算力:"FP8 1.8 PF", 显存:"128GB HBM2e · 3.7 TB/s", 功耗:"900W", 互联:"原生 RoCE 以太网", 形态:"8卡 OAM", 生态:"SynapseAI（弱）"}},
+ {name:"华为昇腾 910C", camp:"cn", pos:"中国市场商品卡事实主力，制程受限，以系统级规模补单卡",
+  kv:{上市:"2025", 制程:"SMIC N+2（7nm类）", 算力:"~800 TF FP16（估）", 显存:"128GB · ~3.2 TB/s（估）", 功耗:"~750W（估）", 互联:"全光（CloudMatrix）", 形态:"CloudMatrix 384", 生态:"CANN/MindSpore"}},
+ {name:"Groq LPU", camp:"asic", pos:"推理专用新架构：片上 SRAM 换确定性低时延，卖推理云",
+  kv:{上市:"2024（v1量产）", 制程:"14nm（v1）", 算力:"INT8 750 TOPS", 显存:"230MB SRAM · 80 TB/s", 功耗:"~240W（估）", 互联:"芯片间流水线", 形态:"数百芯片拼一个模型", 生态:"GroqCloud API"}},
+ {name:"Cerebras WSE-3", camp:"asic", pos:"晶圆级单芯片：把整个域做进一片晶圆，卖推理/训练云",
+  kv:{上市:"2024", 制程:"TSMC 5nm 晶圆级", 算力:"~125 PF FP16（估）", 显存:"44GB 片上 SRAM · 21 PB/s", 功耗:"~23 kW/晶圆", 互联:"片内 fabric", 形态:"CS-3 系统", 生态:"自有 API"}},
+];
 </script>
 <!-- ██ 数据区结束 ██ -->
 
-<div class="card">
-  <h2>图A · 定性光谱：它是什么物种</h2>
-  <div class="note">横轴 = 灵活性↔专用度（研究员定性判断，C级）；纵轴 = 单芯片功耗量级（对数示意），自然分出云侧/端侧两个战场；箭头 = 同族最近数代迭代方向。</div>
-  <div class="legend" id="legendA"></div>
-  <div id="chartA"></div>
-</div>
+<section id="s-concl">
+  <div class="sechead"><span class="sic"><svg class="icn"><use href="#i-doc"/></svg></span>研究结论</div>
+  <div class="sub">先给判断，图表在后作证据。标「观点」的是研究判断（含 AI 观点，置信中，依据见对应图表），标「事实」的可溯源。</div>
+  <div class="concl" id="conclList"></div>
+</section>
 
-<div class="card">
-  <h2>图B · 量化坐标：进化到第几档</h2>
-  <div class="note">横轴 = 单芯片算力（FP8当量 TFLOPS，对数）；纵轴 = 内存带宽（TB/s，对数）；气泡大小 = 显存容量。斜向阴影带 = 算力:带宽均衡走廊（每 TFLOP 配约 1–7 GB/s）。空心点 = 非FP8口径折算。</div>
-  <div id="chartB"></div>
-</div>
+<section id="s-a">
+  <div class="sechead"><span class="sic t"><svg class="icn"><use href="#i-spec"/></svg></span>图A · 定性光谱：它是什么物种</div>
+  <div class="sub">横轴 = 灵活性↔专用度（研究员定性判断，C级）；纵轴 = 单芯片功耗量级（对数示意），自然分出云侧/端侧两个战场；箭头 = 同族最近数代迭代方向。</div>
+  <div class="card">
+    <div class="legend" id="legendA"></div>
+    <div id="chartA"></div>
+  </div>
+</section>
 
-<div class="card">
-  <h2>模块C · Scale-up 域对比：真实的比较单位</h2>
-  <div class="note">大模型训练/推理受集合通信约束，单芯片纸面算力必须放进「一个互联域能圈住多少芯片、每芯片多大互联带宽」的框架里才有意义。域的组织方式（铜/光/OCS）差异极大，这正是单芯片对比失真的主因。</div>
-  <table id="rackTable"></table>
-  <div class="warn">口径警告：各家「域」定义不同（NVIDIA=单机柜72卡全互联；谷歌=OCS连接的9216卡Pod；华为=16机柜全光384卡）。域算力可比，但域间跨域扩展（scale-out）能力此表不覆盖。</div>
-</div>
+<section id="s-b">
+  <div class="sechead"><span class="sic p"><svg class="icn"><use href="#i-scat"/></svg></span>图B · 量化坐标：进化到第几档</div>
+  <div class="sub">横轴 = 单芯片算力（FP8当量 TFLOPS，对数）；纵轴 = 内存带宽（TB/s，对数）；气泡大小 = 显存容量；斜向阴影带 = 算力:带宽均衡走廊（每 TFLOP 配约 1–7 GB/s）；空心点 = 非FP8口径折算；实色 = 最新一代，淡色 = 历史型号；点任意点看芯片详情。</div>
+  <div class="card"><div id="chartB"></div></div>
+</section>
 
-<div class="card">
-  <h2>模块D · TCO 代理：性价比的可测算部分</h2>
-  <div class="note">完整 TCO =（芯片+系统资本开支）÷（寿命×利用率）+ 电费×PUE + 网络/运维。自研芯片的内部成本、良率、真实利用率均不可得，因此用「云租赁市场价」作市场化 TCO 代理，归一为 $/PFLOP·hr（FP8当量）。全部 C 级、随行就市，仅看相对档位。</div>
-  <table id="tcoTable"></table>
-  <div class="warn">三个陷阱：① 挂牌价≠成交价（TPU 大客户承诺价远低于挂牌）；② $/PFLOP 未计入软件生态带来的实际利用率差（CUDA 生态下 GPU 有效利用率通常更高）；③ 峰值算力≠有效算力（MFU 各家差异 30–60%）。此表回答「谁在降价抢份额」，不直接回答「谁更划算」。</div>
-</div>
+<section id="s-c">
+  <div class="sechead"><span class="sic g"><svg class="icn"><use href="#i-rack"/></svg></span>Scale-up 域对比：真实的比较单位</div>
+  <div class="sub">大模型负载受集合通信约束，采购和比较的真实单位是「一个互联域能圈住多少芯片、每芯片多大互联带宽」。域的组织方式（铜/光/OCS）差异极大，这正是单芯片对比失真的主因。</div>
+  <div class="card tscroll"><table id="rackTable"></table></div>
+  <div class="warn">口径警告：各家「域」定义不同（NVIDIA=单机柜72卡全互联；谷歌=OCS连接的9216卡Pod；华为=16机柜全光384卡）。域算力可比，跨域 scale-out 能力此表不覆盖。</div>
+</section>
 
-<details>
-<summary>维护说明（新卡迭代后如何刷新）</summary>
-<div class="body">
-<p>本页数据-逻辑分离：全部数据在页面源码顶部 <code>██ 数据区 ██</code> 内的四个常量（<code>META / CHIPS / RACKS / TCO</code>），渲染逻辑在页面底部，<b>刷新只改数据区</b>。步骤：</p>
-<p>1. 新芯片发布 → 在 <code>CHIPS</code> 追加一行：填 <code>fam</code>（同族代际链自动连箭头）、<code>spec_x</code>（定性光谱位，参考同族上代 ±3）、<code>power_w</code>（图A）、<code>tflops/bw/hbm</code>（图B，FP8当量口径；无FP8口径的填折算值并设 <code>hollow:true</code>）、<code>grade</code>（A/B/C）。<code>lx/ly</code> 是图B标签偏移，重叠时微调。</p>
-<p>2. 机柜/域级新品 → 改 <code>RACKS</code>；租赁价季度刷一次 → 改 <code>TCO</code>（记得同步改 note 里的口径说明）。</p>
-<p>3. 改完更新 <code>META.updated</code>，浏览器打开自检两图无标签重叠，然后跑研究站 <code>run_daily.ps1</code>（或手动刷新研究站.bat）同步公网副本。</p>
-<p>4. 数据纪律：图B只收有公开 spec 的芯片（B级优先）；估算值必须在 <code>prec</code>/名字里带「估」；定性 <code>spec_x</code> 永远是 C 级，不写来源。</p>
-</div>
-</details>
+<section id="s-d">
+  <div class="sechead"><span class="sic o"><svg class="icn"><use href="#i-coin"/></svg></span>TCO 代理：性价比的可测算部分</div>
+  <div class="sub">完整 TCO =（芯片+系统资本开支）÷（寿命×利用率）+ 电费×PUE + 网络/运维。自研芯片内部成本、良率、真实利用率不可得，故用云租赁市场价作代理，归一为 $/PFLOP·hr（FP8当量）。全部 C 级、随行就市，只看相对档位。</div>
+  <div class="card tscroll"><table id="tcoTable"></table></div>
+  <div class="warn">三个陷阱：① 挂牌价≠成交价（TPU 大客户承诺价远低于挂牌）；② 未计入生态带来的实际利用率差（CUDA 生态下 GPU 有效利用率通常更高）；③ 峰值算力≠有效算力（MFU 差异 30–60%）。此表回答「谁在降价抢份额」，不直接回答「谁更划算」。</div>
+</section>
 
-<div class="foot" id="foot"></div>
+<section id="s-app">
+  <div class="sechead"><span class="sic gr"><svg class="icn"><use href="#i-chip"/></svg></span>附录 · 主要商品芯片信息卡</div>
+  <div class="sub">「商品芯片」= 对外销售/出租的加速器（云厂纯自用的 TPU/Trainium/Maia/MTIA 不在此列，见图A/图B）。圆点颜色沿用全页阵营图例；标「估」处为 C 级。</div>
+  <div class="cardgrid" id="chipCards"></div>
+  <div class="card tscroll" style="margin-top:14px"><table id="commTable"></table></div>
+</section>
+
+<section id="s-maint">
+  <details>
+  <summary><svg class="icn" style="vertical-align:-2px"><use href="#i-tool"/></svg> 维护说明（新卡迭代后如何刷新）</summary>
+  <div class="body">
+  <p>本页数据-逻辑分离：全部数据在源码顶部 <code>██ 数据区 ██</code> 的五个常量（<code>META / CHIPS / RACKS / TCO / CONCLUSIONS+COMMODITY</code>），渲染逻辑在页面底部，<b>刷新只改数据区</b>：</p>
+  <p>1. 新芯片发布 → <code>CHIPS</code> 追加一行：填 <code>fam</code>（同族自动连箭头）、<code>spec_x</code>（定性光谱位，参考同族上代 ±3）、<code>power_w</code>（图A）、<code>tflops/bw/hbm</code>（图B，FP8当量；非FP8口径填折算值并设 <code>hollow:true</code>）、<code>grade</code>。标签重叠用 <code>lx/ly</code>（图B）与 <code>laxA/layA/aend/nolabel</code>（图A）微调。</p>
+  <p>2. 商品芯片同步补一张 <code>COMMODITY</code> 信息卡；机柜/域级新品改 <code>RACKS</code>；租赁价季度刷 <code>TCO</code>；结论有更新改 <code>CONCLUSIONS</code>（判断层，改动需研究员过目）。</p>
+  <p>3. 改完更新 <code>META.updated</code>，浏览器自检无标签重叠，跑研究站 <code>run_daily.ps1</code>（或手动刷新研究站.bat）同步公网副本 xpuboard.html。</p>
+  <p>4. 数据纪律：图B只收有公开 spec 的芯片（B级优先）；估算值必须带「估」；定性 <code>spec_x</code> 永远 C 级。</p>
+  </div>
+  </details>
+  <div class="foot" id="foot"></div>
+</section>
+</main>
 </div>
 
 <script>
 /* ================= 渲染逻辑（维护勿动） ================= */
 if (location.search.indexOf("embed=1") >= 0) document.body.classList.add("embed");
 const C = {gpu:"var(--gpu)", asic:"var(--asic)", cn:"var(--cn)", edge:"var(--edge)", anchor:"var(--anchor)"};
+const CHEX = {gpu:"#0E9CB0", asic:"#AF52DE", cn:"#FF2D55", edge:"#FF9500", anchor:"#8E8E93"};
 const CAMP_LABEL = {gpu:"商品 GPU", asic:"云自研 ASIC / 新架构", cn:"中国阵营", edge:"端侧 NPU", anchor:"参考锚点"};
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
 
+document.getElementById("tocDate").textContent = META.updated;
 document.getElementById("legendA").innerHTML = Object.keys(CAMP_LABEL).map(k =>
-  `<span><i style="background:${C[k]}"></i>${CAMP_LABEL[k]}</span>`).join("") + `<span class="dim">箭头 = 同族迭代方向</span>`;
+  `<span><i style="background:${CHEX[k]}"></i>${CAMP_LABEL[k]}</span>`).join("") + `<span class="dim">箭头 = 同族迭代方向 · 大号实色点 = 最新一代，淡色小点 = 历史型号 · 点任意点看芯片详情</span>`;
+
+document.getElementById("conclList").innerHTML = CONCLUSIONS.map(c =>
+  `<div class="item"><div class="lead"><span class="chip ${c.badge}">${c.badge==="op"?"观点":"事实"}</span>${c.lead}</div><div style="color:var(--label-2)">${c.body}</div></div>`).join("");
 
 /* ---- 图A：定性光谱 ---- */
 (function(){
   const W=1000,H=500,x0=60,x1=950,yTop=60,yBot=420;
   const sx=v=>x0+(v/100)*(x1-x0);
   const sy=w=>{const lg=Math.log10(Math.max(w,2));return yBot-((lg-0.35)/(3.4-0.35))*(yBot-yTop);};
-  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="XPU定性光谱图">`;
-  s+=`<defs>`+Object.entries(C).map(([k,c],i)=>`<marker id="m${k}" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${c}"/></marker>`).join("")+`</defs>`;
-  s+=`<rect x="${x0-15}" y="${sy(2200)}" width="${x1-x0+30}" height="${sy(280)-sy(2200)}" fill="#f1f1ee" rx="8"/>`;
-  s+=`<rect x="${x0-15}" y="${sy(12)}" width="${x1-x0+30}" height="${sy(2.4)-sy(12)}" fill="#f1f1ee" rx="8"/>`;
-  s+=`<text x="${x0-4}" y="${sy(2200)+16}" font-size="11.5" fill="#6b7280">云侧 · 数据中心（百瓦–千瓦级）</text>`;
-  s+=`<text x="${x0-4}" y="${sy(12)+16}" font-size="11.5" fill="#6b7280">端侧 · 手机/PC（瓦级，SoC 内置）</text>`;
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="XPU定性光谱图">`;
+  s+=`<defs>`+Object.entries(CHEX).map(([k,c])=>`<marker id="m${k}" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${c}"/></marker>`).join("")+`</defs>`;
+  s+=`<rect x="${x0-15}" y="${sy(2200)}" width="${x1-x0+30}" height="${sy(280)-sy(2200)}" fill="#EFF3F9" rx="10"/>`;
+  s+=`<rect x="${x0-15}" y="${sy(12)}" width="${x1-x0+30}" height="${sy(2.4)-sy(12)}" fill="#EFF3F9" rx="10"/>`;
+  s+=`<text x="${x0-4}" y="${sy(2200)+16}" font-size="11.5" fill="#8E8E93">云侧 · 数据中心（百瓦–千瓦级）</text>`;
+  s+=`<text x="${x0-4}" y="${sy(12)+16}" font-size="11.5" fill="#8E8E93">端侧 · 手机/PC（瓦级，SoC 内置）</text>`;
   const fams={};
   CHIPS.forEach(c=>{if(c.fam){(fams[c.fam]=fams[c.fam]||[]).push(c);}});
   Object.values(fams).forEach(list=>{
@@ -179,22 +344,24 @@ document.getElementById("legendA").innerHTML = Object.keys(CAMP_LABEL).map(k =>
     for(let i=0;i<list.length-1;i++){
       const a=list[i],b=list[i+1],ax=sx(a.spec_x),ay=sy(a.power_w),bx=sx(b.spec_x),by=sy(b.power_w);
       const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),t0=9/L,t1=1-11/L;
-      s+=`<line x1="${(ax+dx*t0).toFixed(1)}" y1="${(ay+dy*t0).toFixed(1)}" x2="${(ax+dx*t1).toFixed(1)}" y2="${(ay+dy*t1).toFixed(1)}" stroke="${C[a.camp]}" stroke-width="1.6" ${a.camp==="gpu"&&a.fam!=="nv"?'stroke-dasharray="4 3"':''} marker-end="url(#m${a.camp})"/>`;
+      s+=`<line x1="${(ax+dx*t0).toFixed(1)}" y1="${(ay+dy*t0).toFixed(1)}" x2="${(ax+dx*t1).toFixed(1)}" y2="${(ay+dy*t1).toFixed(1)}" stroke="${CHEX[a.camp]}" stroke-width="1.6" ${a.camp==="gpu"&&a.fam!=="nv"?'stroke-dasharray="4 3"':''} marker-end="url(#m${a.camp})"/>`;
     }
   });
-  CHIPS.forEach(c=>{
-    const x=sx(c.spec_x),y=sy(c.power_w),last=!CHIPS.some(o=>o.fam&&o.fam===c.fam&&o.year>c.year);
-    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${c.fam&&last?7:5.5}" fill="${C[c.camp]}" opacity="${c.fam&&!last?0.55:0.95}"><title>${esc(c.name)} · ${c.power_w}W · ${c.grade}级</title></circle>`;
+  CHIPS.forEach((c,idx)=>{
+    const x=sx(c.spec_x),y=sy(c.power_w);
+    const last=c.camp!=="anchor"&&!CHIPS.some(o=>o.fam&&o.fam===c.fam&&o.year>c.year);
+    const r=c.camp==="anchor"?6:(last?8:5), op=c.camp==="anchor"?0.8:(last?0.95:0.38);
+    s+=`<circle class="pt" data-i="${idx}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${CHEX[c.camp]}" opacity="${op}" ${last?'stroke="#fff" stroke-width="1.5"':''}><title>${esc(c.name)} · 点击看详情</title></circle>`;
     if(c.nolabel)return;
     const anchorEnd=c.aend||(c.spec_x<32&&c.camp==="gpu"&&c.fam==="amd");
-    const ldx=c.laxA!==undefined?c.laxA:(anchorEnd?-10:10), ldy=c.layA!==undefined?c.layA:4;
-    s+=`<text x="${(x+ldx).toFixed(1)}" y="${(y+ldy).toFixed(1)}" font-size="11" fill="#4b5563" ${anchorEnd?'text-anchor="end"':''}>${esc(c.name)}</text>`;
+    const ldx=c.laxA!==undefined?c.laxA:(anchorEnd?-11:11), ldy=c.layA!==undefined?c.layA:4;
+    s+=`<text class="lbl" x="${(x+ldx).toFixed(1)}" y="${(y+ldy).toFixed(1)}" font-size="11" fill="${last?"#1f2937":"#9CA3AF"}" ${last?'font-weight="600"':''} ${anchorEnd?'text-anchor="end"':''}>${esc(c.name)}</text>`;
   });
-  s+=`<line x1="${x0-15}" y1="${yBot+38}" x2="${x1+15}" y2="${yBot+38}" stroke="#9ca3af"/>`;
-  s+=`<path d="M${x0-9},${yBot+34} L${x0-17},${yBot+38} L${x0-9},${yBot+42} Z" fill="#9ca3af"/>`;
-  s+=`<path d="M${x1+9},${yBot+34} L${x1+17},${yBot+38} L${x1+9},${yBot+42} Z" fill="#9ca3af"/>`;
-  s+=`<text x="${x0-10}" y="${yBot+60}" font-size="12.5" fill="#6b7280">← 更通用 · 更灵活（编程生态是壁垒）</text>`;
-  s+=`<text x="${x1+10}" y="${yBot+60}" font-size="12.5" fill="#6b7280" text-anchor="end">更专用 · 更高能效比（TCO 是壁垒）→</text>`;
+  s+=`<line x1="${x0-15}" y1="${yBot+38}" x2="${x1+15}" y2="${yBot+38}" stroke="#B9BEC9"/>`;
+  s+=`<path d="M${x0-9},${yBot+34} L${x0-17},${yBot+38} L${x0-9},${yBot+42} Z" fill="#B9BEC9"/>`;
+  s+=`<path d="M${x1+9},${yBot+34} L${x1+17},${yBot+38} L${x1+9},${yBot+42} Z" fill="#B9BEC9"/>`;
+  s+=`<text x="${x0-10}" y="${yBot+60}" font-size="12.5" fill="#8E8E93">← 更通用 · 更灵活（编程生态是壁垒）</text>`;
+  s+=`<text x="${x1+10}" y="${yBot+60}" font-size="12.5" fill="#8E8E93" text-anchor="end">更专用 · 更高能效比（TCO 是壁垒）→</text>`;
   s+=`</svg>`;
   document.getElementById("chartA").innerHTML=s;
 })();
@@ -206,45 +373,49 @@ document.getElementById("legendA").innerHTML = Object.keys(CAMP_LABEL).map(k =>
   const sx=t=>x0+((Math.log10(t)-lx0)/(lx1-lx0))*(x1-x0);
   const sy=b=>yBot-((Math.log10(b)-ly0)/(ly1-ly0))*(yBot-yTop);
   const pts=CHIPS.filter(c=>c.tflops&&c.bw);
-  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="XPU算力带宽量化图">`;
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="XPU算力带宽量化图">`;
   const corridor=(r)=>{const p=[];for(const t of [Math.pow(10,lx0),Math.pow(10,lx1)]){p.push([sx(t),sy(t*r)]);}return p;};
   const lo=corridor(1e-3),hi=corridor(7e-3);
-  s+=`<polygon points="${lo[0][0].toFixed(0)},${lo[0][1].toFixed(0)} ${lo[1][0].toFixed(0)},${lo[1][1].toFixed(0)} ${hi[1][0].toFixed(0)},${hi[1][1].toFixed(0)} ${hi[0][0].toFixed(0)},${hi[0][1].toFixed(0)}" fill="#EEEDFE" opacity="0.5"/>`;
+  s+=`<polygon points="${lo[0][0].toFixed(0)},${lo[0][1].toFixed(0)} ${lo[1][0].toFixed(0)},${lo[1][1].toFixed(0)} ${hi[1][0].toFixed(0)},${hi[1][1].toFixed(0)} ${hi[0][0].toFixed(0)},${hi[0][1].toFixed(0)}" fill="rgba(175,82,222,.08)"/>`;
   [[100,"100"],[1000,"1,000"],[10000,"10,000"]].forEach(([v,t])=>{
-    s+=`<line x1="${sx(v).toFixed(0)}" y1="${yTop}" x2="${sx(v).toFixed(0)}" y2="${yBot}" stroke="#e5e7eb" stroke-dasharray="2 4"/><text x="${sx(v).toFixed(0)}" y="${yBot+18}" font-size="11" fill="#6b7280" text-anchor="middle">${t}</text>`;});
+    s+=`<line x1="${sx(v).toFixed(0)}" y1="${yTop}" x2="${sx(v).toFixed(0)}" y2="${yBot}" stroke="rgba(60,60,67,.10)" stroke-dasharray="2 4"/><text x="${sx(v).toFixed(0)}" y="${yBot+18}" font-size="11" fill="#8E8E93" text-anchor="middle">${t}</text>`;});
   [[0.1,"0.1"],[1,"1"],[10,"10"]].forEach(([v,t])=>{
-    s+=`<line x1="${x0}" y1="${sy(v).toFixed(0)}" x2="${x1}" y2="${sy(v).toFixed(0)}" stroke="#e5e7eb" stroke-dasharray="2 4"/><text x="${x0-8}" y="${(sy(v)+4).toFixed(0)}" font-size="11" fill="#6b7280" text-anchor="end">${t}</text>`;});
-  s+=`<line x1="${x0}" y1="${yTop}" x2="${x0}" y2="${yBot}" stroke="#9ca3af"/><line x1="${x0}" y1="${yBot}" x2="${x1}" y2="${yBot}" stroke="#9ca3af"/>`;
-  s+=`<text x="${(x0+x1)/2}" y="${yBot+40}" font-size="12.5" fill="#6b7280" text-anchor="middle">单芯片算力（FP8 当量 TFLOPS，对数）</text>`;
-  s+=`<text x="${x0-46}" y="${yTop-14}" font-size="12.5" fill="#6b7280">带宽 TB/s</text>`;
+    s+=`<line x1="${x0}" y1="${sy(v).toFixed(0)}" x2="${x1}" y2="${sy(v).toFixed(0)}" stroke="rgba(60,60,67,.10)" stroke-dasharray="2 4"/><text x="${x0-8}" y="${(sy(v)+4).toFixed(0)}" font-size="11" fill="#8E8E93" text-anchor="end">${t}</text>`;});
+  s+=`<line x1="${x0}" y1="${yTop}" x2="${x0}" y2="${yBot}" stroke="#B9BEC9"/><line x1="${x0}" y1="${yBot}" x2="${x1}" y2="${yBot}" stroke="#B9BEC9"/>`;
+  s+=`<text x="${(x0+x1)/2}" y="${yBot+40}" font-size="12.5" fill="#8E8E93" text-anchor="middle">单芯片算力（FP8 当量 TFLOPS，对数）</text>`;
+  s+=`<text x="${x0-46}" y="${yTop-14}" font-size="12.5" fill="#8E8E93">带宽 TB/s</text>`;
   const mid=corridor(2.6e-3);
   const ang=Math.atan2(mid[1][1]-mid[0][1],mid[1][0]-mid[0][0])*180/Math.PI;
   const mx=(mid[0][0]+mid[1][0])/2-160,my=(mid[0][1]+mid[1][1])/2+128;
-  s+=`<text x="${mx.toFixed(0)}" y="${my.toFixed(0)}" font-size="11" fill="#8b7fd8" transform="rotate(${ang.toFixed(1)} ${mx.toFixed(0)} ${my.toFixed(0)})">算力:带宽均衡走廊（每 TFLOP 配约 1–7 GB/s）</text>`;
+  s+=`<text x="${mx.toFixed(0)}" y="${my.toFixed(0)}" font-size="11" fill="#9A6BC9" transform="rotate(${ang.toFixed(1)} ${mx.toFixed(0)} ${my.toFixed(0)})">算力:带宽均衡走廊（每 TFLOP 配约 1–7 GB/s）</text>`;
   const fams={};
   pts.forEach(c=>{if(c.fam){(fams[c.fam]=fams[c.fam]||[]).push(c);}});
-  s+=`<defs>`+Object.entries(C).map(([k,c])=>`<marker id="q${k}" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${c}"/></marker>`).join("")+`</defs>`;
+  s+=`<defs>`+Object.entries(CHEX).map(([k,c])=>`<marker id="q${k}" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${c}"/></marker>`).join("")+`</defs>`;
   Object.values(fams).forEach(list=>{
     list.sort((a,b)=>a.year-b.year);
     for(let i=0;i<list.length-1;i++){
       const a=list[i],b=list[i+1],ax=sx(a.tflops),ay=sy(Math.min(a.bw,20)),bx=sx(b.tflops),by=sy(Math.min(b.bw,20));
       const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),t0=14/L,t1=1-16/L;
-      s+=`<line x1="${(ax+dx*t0).toFixed(1)}" y1="${(ay+dy*t0).toFixed(1)}" x2="${(ax+dx*t1).toFixed(1)}" y2="${(ay+dy*t1).toFixed(1)}" stroke="${C[a.camp]}" stroke-width="1.6" ${a.fam==="amd"?'stroke-dasharray="4 3"':''} marker-end="url(#q${a.camp})"/>`;
+      s+=`<line x1="${(ax+dx*t0).toFixed(1)}" y1="${(ay+dy*t0).toFixed(1)}" x2="${(ax+dx*t1).toFixed(1)}" y2="${(ay+dy*t1).toFixed(1)}" stroke="${CHEX[a.camp]}" stroke-width="1.6" ${a.fam==="amd"?'stroke-dasharray="4 3"':''} marker-end="url(#q${a.camp})"/>`;
     }
   });
   pts.forEach(c=>{
+    const idx=CHIPS.indexOf(c);
     const clampBw=Math.min(c.bw,20),outb=c.bw>20;
     const x=sx(c.tflops),y=outb?yTop+14:sy(clampBw);
-    const r=Math.max(5,Math.min(17,4+Math.sqrt(c.hbm||4)*0.78));
-    const fill=c.hollow?"none":C[c.camp];
-    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${fill}" ${c.hollow?`stroke="${C[c.camp]}" stroke-width="2"`:''} opacity="0.88"><title>${esc(c.name)} · ${c.tflops} TFLOPS(${esc(c.prec||"")}) · ${c.bw} TB/s · HBM ${c.hbm}GB · ${c.grade}级</title></circle>`;
-    s+=`<text x="${(x+(c.lx||10)).toFixed(1)}" y="${(y+(c.ly||4)).toFixed(1)}" font-size="11" fill="#4b5563">${esc(c.name)}${outb?"（SRAM 80TB/s，出界↑）":""}</text>`;
+    const last=!CHIPS.some(o=>o.fam&&o.fam===c.fam&&o.year>c.year);
+    let r=Math.max(5,Math.min(17,4+Math.sqrt(c.hbm||4)*0.78));
+    if(!last)r*=0.72;
+    const op=last?0.9:0.35;
+    const fill=c.hollow?"none":CHEX[c.camp];
+    s+=`<circle class="pt" data-i="${idx}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${fill}" ${c.hollow?`stroke="${CHEX[c.camp]}" stroke-width="2"`:(last?'stroke="#fff" stroke-width="1.5"':'')} opacity="${op}"><title>${esc(c.name)} · 点击看详情</title></circle>`;
+    s+=`<text class="lbl" x="${(x+(c.lx||11)).toFixed(1)}" y="${(y+(c.ly||4)).toFixed(1)}" font-size="11" fill="${last?"#1f2937":"#9CA3AF"}" ${last?'font-weight="600"':''}>${esc(c.name)}${outb?"（SRAM 80TB/s，出界↑）":""}</text>`;
   });
   s+=`</svg>`;
   document.getElementById("chartB").innerHTML=s;
 })();
 
-/* ---- 模块C/D 表格 ---- */
+/* ---- 表格渲染 ---- */
 const gtag=g=>`<span class="g g${g[0]}">${g}</span>`;
 document.getElementById("rackTable").innerHTML =
  `<tr><th>系统</th><th>域内芯片</th><th>域算力</th><th>每芯片互联</th><th>整域功耗</th><th>组网方式</th><th>等级</th></tr>`+
@@ -254,8 +425,79 @@ document.getElementById("tcoTable").innerHTML =
  `<tr><th>芯片</th><th>租赁价 $/chip·hr（低–高）</th><th>中位</th><th>$/PFLOP·hr（FP8当量）</th><th>说明</th></tr>`+
  TCO.map(t=>{const eff=(t.rent[2]/(t.tflops/1000));return `<tr><td><b>${t.name}</b></td><td>$${t.rent[0].toFixed(2)} – $${t.rent[1].toFixed(2)}</td><td>$${t.rent[2].toFixed(2)}</td><td><b>$${eff.toFixed(2)}</b></td><td class="dim" style="font-size:12px">${t.note}</td></tr>`;}).join("");
 
+document.getElementById("chipCards").innerHTML = COMMODITY.map(c=>
+ `<div class="chipcard"><h4><span class="dot" style="background:${CHEX[c.camp]}"></span>${c.name}</h4>
+  <div class="pos">${c.pos}</div>
+  <div class="kv">${Object.entries(c.kv).map(([k,v])=>`<span>${k}</span><span>${v}</span>`).join("")}</div></div>`).join("");
+
+const COMM_COLS=["上市","制程","算力","显存","功耗","互联","形态","生态"];
+document.getElementById("commTable").innerHTML =
+ `<tr><th>芯片</th>${COMM_COLS.map(c=>`<th>${c}</th>`).join("")}</tr>`+
+ COMMODITY.map(c=>`<tr><td><b>${c.name}</b></td>${COMM_COLS.map(k=>`<td>${c.kv[k]||"—"}</td>`).join("")}</tr>`).join("");
+
 document.getElementById("foot").innerHTML =
- `数据更新：${META.updated} · ${META.version} · 定性光谱位与所有「估」值为研究员/AI 判断（C级）；量化 spec 以公开资料为准（B级）；租赁价为 2026-07 市场快照，随行就市。维护方法见上方折叠块。`;
+ `数据更新：${META.updated} · ${META.version} · 定性光谱位与所有「估」值为研究员/AI 判断（C级）；量化 spec 以公开资料为准（B级）；租赁价为 2026-07 市场快照，随行就市。`;
+
+/* ---- 标签自动避让（两图渲染后跑；重叠时按 ±13px 交替上下移，最多10轮） ---- */
+function dodge(sel){
+  const svg=document.querySelector(sel+" svg"); if(!svg)return;
+  const placed=[];
+  [...svg.querySelectorAll("text.lbl")].forEach(t=>{
+    const y0=parseFloat(t.getAttribute("y"));
+    let b=t.getBBox(), cur={x:b.x,y:b.y,w:b.width,h:b.height}, tries=0;
+    const coll=bb=>placed.some(p=>bb.x<p.x+p.w-2&&p.x<bb.x+bb.w-2&&bb.y<p.y+p.h-2&&p.y<bb.y+bb.h-2);
+    while(coll(cur)&&tries<10){
+      tries++;
+      const off=Math.ceil(tries/2)*13*(tries%2?1:-1);
+      t.setAttribute("y",(y0+off).toFixed(1));
+      b=t.getBBox(); cur={x:b.x,y:b.y,w:b.width,h:b.height};
+    }
+    placed.push(cur);
+  });
+}
+dodge("#chartA"); dodge("#chartB");
+
+/* ---- 点击弹出芯片详情卡 ---- */
+let popEl=null;
+function closePop(){ if(popEl){popEl.remove();popEl=null;} }
+document.addEventListener("click",e=>{
+  const c=e.target.closest("circle.pt");
+  if(!c){ if(!e.target.closest(".pop")) closePop(); return; }
+  closePop();
+  const chip=CHIPS[+c.dataset.i]; if(!chip)return;
+  const wrap=c.closest("#chartA, #chartB"); if(!wrap)return;
+  const d=document.createElement("div"); d.className="pop";
+  d.innerHTML=`<span class="x">✕</span>
+   <h5><span class="dot" style="background:${CHEX[chip.camp]}"></span>${esc(chip.name)}&nbsp;<span class="dim" style="font-weight:500">${chip.year}</span></h5>
+   <div class="desc">${esc(chip.desc||"")}</div>
+   <div class="kv">
+    <span>阵营</span><span>${CAMP_LABEL[chip.camp]}</span>
+    <span>功耗</span><span>~${chip.power_w} W（量级）</span>
+    ${chip.tflops?`<span>算力</span><span>${chip.tflops.toLocaleString()} TFLOPS · ${esc(chip.prec||"")}</span>`:""}
+    ${chip.bw?`<span>带宽</span><span>${chip.bw} TB/s${chip.sram?"（片上SRAM）":""}</span>`:""}
+    ${chip.hbm?`<span>显存</span><span>${chip.hbm} GB</span>`:""}
+    <span>等级</span><span>${chip.grade} 级${chip.grade==="C"?"（含估算）":""}</span>
+   </div>`;
+  wrap.appendChild(d);
+  const r=wrap.getBoundingClientRect(), cr=c.getBoundingClientRect();
+  const px=cr.left-r.left+18, py=cr.top-r.top-12;
+  d.style.left=Math.max(4,Math.min(px,wrap.clientWidth-d.offsetWidth-8))+"px";
+  d.style.top=Math.max(4,Math.min(py,wrap.clientHeight-d.offsetHeight-8))+"px";
+  d.querySelector(".x").onclick=closePop;
+  popEl=d;
+});
+
+/* ---- TOC 滚动联动 ---- */
+const navs=[...document.querySelectorAll(".nv")];
+navs.forEach(n=>n.addEventListener("click",()=>{
+  document.getElementById(n.dataset.t)?.scrollIntoView({behavior:"smooth",block:"start"});
+}));
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    navs.forEach(n=>n.classList.toggle("active",n.dataset.t===e.target.id));
+  }});
+},{rootMargin:"-15% 0px -70% 0px"});
+document.querySelectorAll("main section").forEach(sec=>obs.observe(sec));
 </script>
 </body>
 </html>

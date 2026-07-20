@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股云厂业绩前瞻 · 2026Q2 关注手册</title>
+<style>
+  :root{
+    --bg:#fafafa; --card:#ffffff; --ink:#1d1d1f; --sub:#6e6e73; --line:#e5e5ea;
+    --accent:#0a66c2;
+    --up:#c0392b;   /* 红=超预期/上调（A股惯例） */
+    --down:#1e8449; /* 绿=不及预期/下调 */
+    --flat:#8e8e93;
+    --tagA:#0a66c2; --tagB:#8e6d1f; --tagC:#a0522d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65;padding:32px 20px 80px}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:26px;font-weight:700;letter-spacing:-.3px}
+  .sub{color:var(--sub);font-size:13px;margin:6px 0 4px}
+  h2{font-size:19px;font-weight:700;margin:36px 0 14px;padding-left:10px;border-left:4px solid var(--accent)}
+  h3{font-size:15px;font-weight:700;margin:14px 0 8px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+  th{text-align:left;color:var(--sub);font-weight:600;padding:7px 10px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+  td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .tablebox{overflow-x:auto}
+  .chip{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
+  .chip.pending{background:#f2f2f7;color:var(--flat)}
+  .chip.reported{background:#e8f0fb;color:var(--accent)}
+  .v-beat{color:var(--up);font-weight:700}
+  .v-miss{color:var(--down);font-weight:700}
+  .v-inline{color:var(--flat);font-weight:600}
+  .v-wait{color:#c7c7cc}
+  .g{display:inline-block;font-size:10.5px;font-weight:700;padding:0 5px;border-radius:4px;border:1px solid;margin-left:5px;vertical-align:1px}
+  .gA{color:var(--tagA);border-color:var(--tagA)} .gB{color:var(--tagB);border-color:var(--tagB)} .gC{color:var(--tagC);border-color:var(--tagC)}
+  .note{font-size:12.5px;color:var(--sub)}
+  .hl{background:#fff8e6;border:1px solid #f0e0b0;border-radius:10px;padding:12px 16px;font-size:13.5px;margin:10px 0}
+  .cohead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  .cohead .tk{font-size:17px;font-weight:800}
+  .cohead .dt{color:var(--sub);font-size:13px}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.twocol{grid-template-columns:1fr}}
+  ul{padding-left:20px;font-size:13.5px}
+  li{margin:4px 0}
+  .foot{color:var(--sub);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
+  .lvl{font-size:11.5px;font-weight:700;color:#fff;background:var(--accent);border-radius:5px;padding:1px 7px;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>美股云厂业绩前瞻 · 2026Q2 关注手册</h1>
+<div class="sub">GOOGL 7/22 → MSFT+META 7/29 → AMZN+AAPL 7/30 → NVDA 8/26（均盘后）｜四家 2026 合计 capex 指引约 $7,250 亿（+77% YoY）<span class="g gA">A</span></div>
+<div class="sub" id="updateline"></div>
+
+<div class="hl"><b>本页裁决标准（一句话）</b>：capex 上修只是分母，本业绩季看的是分子——每多一美元投入是否带来更多可计费收入、更多经营利润、以及可见的现金回收路径。收入兑现最先出现、FCF 最滞后，<b>不要求本季 FCF 同步转正</b>；capex 上修先拆"量增 vs 元件涨价"再定性。配色惯例：<span class="v-beat">红=超预期/上调</span>，<span class="v-miss">绿=不及预期/下调</span>。</div>
+
+<h2>★ 执行裁决卡（业绩周速查 · 置顶 · 2026-07-19 定稿）</h2>
+<div class="card">
+<div class="note" style="margin-bottom:8px"><b>主要矛盾一句话：增量收入能不能追上增量 capex——所有指标都是这句话的代理变量。</b>以下按验证效力排序，一级信号两票转负 = AI 链逻辑当期证伪。</div>
+<div class="tablebox">
+<table>
+<tr><th style="width:56px">序</th><th style="width:250px">一级信号</th><th>转负判定（须满足全部条件）</th></tr>
+<tr><td><b>①</b></td><td><b>云收入增速二阶导</b><br><span class="note">本周股价的主决定项</span></td><td>增速 miss（Azure 对 35-36% 一致预期；GCP 对"自 63% 不显著减速"——<b>不是 50% 绝对线</b>，掉到 52% 也算转负）<b>且</b>管理层归因不再是供给约束。miss 但仍喊 capacity constrained = 降级观察项，不计票。<b>META 无云收入，等价物 = 广告增速 vs capex 增速剪刀差是否再扩大</b></td></tr>
+<tr><td><b>②</b></td><td><b>电话会措辞 + 2027 capex 首口径</b><br><span class="note">拐点领先指标，早数字一个季度</span></td><td>双向词表 ctrl+F：负面词出现（digesting / optimizing / disciplined / moderate）<b>或</b>正面词消失（capacity constrained / supply limited / demand exceeds supply）——消失比出现更早；或任一家给出"2027 增速显著低于 2026"</td></tr>
+<tr><td><b>③</b></td><td><b>D&amp;A 增速 vs 收入增速</b><br><span class="note">定明年估值，不定本周股价</span></td><td>折旧增速持续跑赢收入增速（CIP 转固加速+收入不加速为其先行确认）；本季恶化只计半票，连续两季才计整票</td></tr>
+<tr><td><b>补</b></td><td><b>分母端触发（防"守住即安全"盲区）</b></td><td>任一家 capex 再上修而对应收入口径（云增速指引 / AI run-rate / 广告增速）未同步上调 = 主矛盾比值恶化，<b>计一票"封加仓"</b>（不触发减仓）——一级信号全绿+此票触发 = 持有不加</td></tr>
+</table>
+</div>
+<div class="note" style="margin-top:8px">二阶指标（FCF / RPO 质量 / 表外融资 / 回购挤压）仅在一级信号指向恶化时提供增量信息，单独恶化不计票。执行节奏：7/22 GCP 定基调 → 7/29 Azure 对表 + META 剪刀差 → 7/30 AWS 收口，每场电话会跑一遍双向词表。</div>
+</div>
+
+<h2>〇、指标手册（四层，重要性递减）</h2>
+<div class="card tablebox">
+<table>
+<tr><th style="width:120px">层级</th><th style="width:200px">指标</th><th>看什么 / 门槛</th><th style="width:230px">对应中和的空头论点</th></tr>
+<tr><td><span class="lvl">①</span>收入兑现<br><span class="note">权重最高，一票定性</span></td><td>云收入增速二阶导</td><td>Azure（一致预期 35-36% CC<span class="g gB">B</span>）、GCP（上季 +63%，守 60%+）、AWS（上季 +28%，能否加速）。<b>capex 上修 + 云增速不加速 = 全场最差组合</b></td><td>折旧递延 / ROIC 下行 / 期限错配三者的唯一同时解</td></tr>
+<tr><td></td><td>AI 收入显性化</td><td>MSFT AI run-rate（上季 $37B、+123%<span class="g gA">A</span>）更新；停止披露或贡献点数环比下降 = 信号转负</td><td>"收入是否真实存在"</td></tr>
+<tr><td></td><td>RPO / backlog 质量</td><td>看期限、客户集中度、未来 12 个月确认比例（MSFT 仅约 25%<span class="g gA">A</span>），剔除 OpenAI 类高杠杆对手方后的 bookings；总量暴增+期限拉长+单一客户 = 打折</td><td>Oracle $6,380 亿 RPO 被重新定价的前车之鉴</td></tr>
+<tr><td><span class="lvl">②</span>利润质量<br><span class="note">Chanos 主战场，定中期估值</span></td><td>折旧吸收测试</td><td>云分部利润率在 D&A 上行期能否守住（GCP 33%、AWS Q1 OI $14.2B）；D&A 增速持续 &gt; 收入增速 = 挤压开始</td><td>折旧炸弹论的正面验证</td></tr>
+<tr><td></td><td>CIP 配对测试</td><td>在建工程转固加速<b>且</b>云收入同步加速 = 良性消化；转固加速而收入不加速 = 折旧进表没人埋单。单看 CIP 方向不构成信号</td><td>Chanos-Burry 在建工程递延论</td></tr>
+<tr><td></td><td>折旧年限披露</td><td>任何一家<b>缩短</b>年限 = 公司自己坐实 Burry 的 2-3 年经济寿命测算；再延长 = 会计红旗</td><td>行业 5-6 年 vs 实际寿命之争</td></tr>
+<tr><td><span class="lvl">③</span>现金与融资<br><span class="note">定容忍度边界</span></td><td>OCF vs capex</td><td>OCF 增速是否开始快于 capex 增速；capex/OCF 持续 &gt;90% = 转向债务依赖</td><td>"投入永远追不上回报"</td></tr>
+<tr><td></td><td>表外 / SPV</td><td>Meta-Blue Owl 式结构（Meta 仅持 20%<span class="g gA">A</span>）是否被复制；表外占比上升 = 回报率不愿见光</td><td>信贷驱动地产周期类比</td></tr>
+<tr><td><span class="lvl">④</span>语言与行为<br><span class="note">领先指标，比数字早一个季度</span></td><td>管理层措辞</td><td>"capacity constrained / supply limited" → "digesting / optimizing / disciplined" 的转向；历次 capex 周期最准的拐点信号</td><td>—</td></tr>
+<tr><td></td><td>2027 capex 首口径</td><td>电话会必被追问；"2027 增速显著低于 2026" = 周期顶部信号</td><td>—</td></tr>
+<tr><td></td><td>公告后股价反应</td><td>大额算力/capex 公告后市场反应方向（判例：Meta 4/29 上调当日 -8.6%、IBM 7/14 预告 miss 单日 -25%<span class="g gA">A</span>）</td><td>"为承诺定价 → 为现实定价"的切换进度</td></tr>
+</table>
+</div>
+
+<h2>一、分公司记分卡（业绩后实时更新区）</h2>
+<div class="note" style="margin-bottom:10px">锚点数字均为本会话 WebSearch 独立核实（2026-07-19）；「实际」列待披露后填入，判定：<span class="v-beat">超</span> / <span class="v-inline">符</span> / <span class="v-miss">低</span>。</div>
+<div id="companies"></div>
+
+<h2>二、双向证伪线（业绩季总裁决）</h2>
+<div class="twocol">
+<div class="card">
+<h3 style="color:var(--down)">空头（Chanos 剧本）被证实 —— 四条中两条即启动</h3>
+<ul id="bearlines"></ul>
+</div>
+<div class="card">
+<h3 style="color:var(--up)">空头被证伪 —— 四条同时出现则只剩时点问题</h3>
+<ul id="bulllines"></ul>
+</div>
+</div>
+
+<h2>三、场外对照指标（不在财报里，同期要盯）</h2>
+<div class="card">
+<ul>
+<li><b>GPU 现货租金 / 长约续租价</b>——多头最后的实证支点（Zlatev 论据），转弱则需求叙事失去锚</li>
+<li><b>CoreWeave / Nebius 8 月财报</b>——利用率与定价；Nebius 7/15 已转"轻资产"模式（重资产叙事自我否定的判例）<span class="g gA">A</span></li>
+<li><b>CCC 信用利差</b>——目前 CCC 走阔、BBB-BB 未走阔的哑铃分化<span class="g gB">B</span>；向 BB/BBB 扩散 = 融资端恶化升级</li>
+<li><b>AAPL（7/30）作为轻资产对照组</b>——其相对表现本身是市场对"重资产 AI"的投票</li>
+<li><b>NVDA（8/26）</b>——云厂 capex 的下游确认读数，本手册结论在此闭环</li>
+</ul>
+</div>
+
+<h2>四、纪律备忘（引用前必读）</h2>
+<div class="card">
+<ul>
+<li>Chanos"增量 ROIC 40%→20%→10%"查无原始出处，属其单方自算 <span class="g gC">C</span>；Meta 自披口径为"增量 ROIC 20% 以上"<span class="g gA">A</span>。两者口径冲突未解，禁止当已核实数据引用</li>
+<li>"Azure &lt;35% = 严重减速"是对一致预期 35-36% 的口语化概括<span class="g gB">B</span>，不是市场公认硬门槛</li>
+<li>数据中心电力成本占营收 5-6% 之说无任何可查佐证 <span class="g gC">C</span></li>
+<li>时序纪律：本季只裁决①②层；③层 FCF 拐点是 2027 年的题，本季恶化不加分也不一票否决</li>
+</ul>
+</div>
+
+<div class="foot">
+建立：2026-07-19 · 数据锚点均经 WebSearch 独立核实（来源等级 A=公司披露 / B=多源交叉 / C=单方估算）。<br>
+<b>更新方法</b>：业绩披露后仅修改本文件 &lt;script&gt; 内 DATA 对象——把对应公司 status 改为 "reported"，在 rows 的 actual 填实际值、verdict 填 beat/inline/miss，certlines 的 status 改 hit/safe；页面自动重渲染，正文勿动。
+</div>
+</div>
+
+<script>
+/* ============================================================
+   DATA 区 —— 业绩出来后只改这里
+   verdict: "" 待披露 | "beat" 超 | "inline" 符 | "miss" 低
+   ============================================================ */
+const DATA = {
+  updated: "2026-07-19（业绩前基线）",
+  companies: [
+    {
+      ticker:"GOOGL · Alphabet", date:"7/22 周三盘后", status:"pending",
+      anchors:[
+        {t:"2026Q1 Cloud 收入增速 +63%，分部经营利润率 33%（创纪录）", g:"A"},
+        {t:"backlog 近 $4,600 亿（较 FY25Q4 的 $2,400 亿近翻倍）", g:"A"},
+        {t:"2026 capex 指引 $1,800-1,900 亿（含并购已自 $1,750-1,850 亿上调）；管理层预告折旧增速明显加快", g:"A"}
+      ],
+      rows:[
+        {k:"Cloud 增速", e:"守住 60%+（二阶导不转负）", a:"", v:""},
+        {k:"Cloud 分部利润率", e:"折旧上行下守住 33% 附近", a:"", v:""},
+        {k:"backlog 与 12 个月确认节奏", e:"环比续增、确认比例不恶化", a:"", v:""},
+        {k:"capex 指引", e:"是否年内再上修 + 2027 首口径", a:"", v:""},
+        {k:"管理层措辞", e:"仍 supply constrained，未现 digesting", a:"", v:""}
+      ]
+    },
+    {
+      ticker:"MSFT · Microsoft（FY26Q4）", date:"7/29 周三盘后", status:"pending",
+      anchors:[
+        {t:"上季 Azure +39-40%（固定汇率）；本季一致预期约 35-36%", g:"A"},
+        {t:"AI 业务 run-rate $370 亿（+123% YoY）", g:"A"},
+        {t:"商业 RPO $6,270 亿，平均期限约 2.5 年，未来 12 个月仅确认约 25%（含 OpenAI）", g:"A"},
+        {t:"2026 日历年 capex 约 $1,900 亿，其中约 $250 亿为元件涨价、约 2/3 为 GPU/CPU 等短寿命资产", g:"A"}
+      ],
+      rows:[
+        {k:"Azure CC 增速", e:"vs 一致预期 35-36%", a:"", v:""},
+        {k:"AI run-rate 更新", e:"续披露且贡献点数不降", a:"", v:""},
+        {k:"剔 OpenAI 后 bookings / RPO 质量", e:"多元化改善、12 个月确认比例不降", a:"", v:""},
+        {k:"FY27 capex 口径", e:"电话会首答；增速是否显著放缓", a:"", v:""},
+        {k:"折旧年限披露", e:"不变（缩短=坐实空头 / 延长=会计红旗）", a:"", v:""}
+      ]
+    },
+    {
+      ticker:"META · Meta", date:"7/29 周三盘后", status:"pending",
+      anchors:[
+        {t:"2026 capex 指引 $1,250-1,450 亿（4/29 自 $1,150-1,350 亿二次上调，当日股价 -8.6%）", g:"A"},
+        {t:"公司承诺 2026 全年经营利润高于 2025", g:"A"},
+        {t:"Hyperion（路易斯安那）Blue Owl SPV：Meta 仅持 20% 股权，出资方 Pimco $180 亿 + BlackRock 等", g:"A"}
+      ],
+      rows:[
+        {k:"capex 指引", e:"是否年内第三次上调", a:"", v:""},
+        {k:"广告收入增速 vs capex 增速剪刀差", e:"剪刀差不再扩大", a:"", v:""},
+        {k:"经营利润承诺", e:"重申 2026 高于 2025", a:"", v:""},
+        {k:"表外结构", e:"Blue Owl 式 SPV 是否复制到新项目", a:"", v:""},
+        {k:"AI→广告转化的量化证据", e:"转化率/时长/定价至少一项给数", a:"", v:""}
+      ]
+    },
+    {
+      ticker:"AMZN · Amazon", date:"7/30 周四盘后", status:"pending",
+      anchors:[
+        {t:"2026Q1 AWS +28%，AWS 分部经营利润 $142 亿", g:"A"},
+        {t:"TTM FCF 已降至 $12 亿（单季 -$172 亿）；四家中现金流压力最大", g:"A"},
+        {t:"2026 capex 指引约 $2,000 亿（vs 2025 实际 $1,310 亿）；管理层称相当部分 2027-28 才变现", g:"A"}
+      ],
+      rows:[
+        {k:"AWS 增速", e:"28% 能否加速（二阶导为正）", a:"", v:""},
+        {k:"AWS 分部利润率", e:"折旧上行下不掉头", a:"", v:""},
+        {k:"FCF 路径", e:"给出 2027 修复可见度（不要求本季转正）", a:"", v:""},
+        {k:"capex 构成", e:"量增 vs 涨价拆分；客户承诺期限披露", a:"", v:""},
+        {k:"管理层措辞", e:"未现 digesting / optimizing", a:"", v:""}
+      ]
+    }
+  ],
+  bearlines:[
+    {t:"Azure <35% 且指引模糊", status:"pending"},
+    {t:"GCP / AWS 同步减速（二阶导转负）", status:"pending"},
+    {t:"FCF 普遍恶化且无 2027 修复路径", status:"pending"},
+    {t:"任一家措辞转向 digesting / 消化产能", status:"pending"}
+  ],
+  bulllines:[
+    {t:"云收入增速普遍加速", status:"pending"},
+    {t:"AI 收入量化口径上调（run-rate / 贡献点数）", status:"pending"},
+    {t:"D&A/收入比稳定，分部利润率守住", status:"pending"},
+    {t:"RPO 高增且客户多元化、12 个月确认比例上升", status:"pending"}
+  ]
+};
+
+/* ---------- 渲染逻辑（勿动） ---------- */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function vcls(v){return v==="beat"?"v-beat":v==="miss"?"v-miss":v==="inline"?"v-inline":"v-wait"}
+function vtxt(v){return v==="beat"?"超":v==="miss"?"低":v==="inline"?"符":"—"}
+document.getElementById("updateline").textContent="最近更新："+DATA.updated;
+document.getElementById("companies").innerHTML = DATA.companies.map(c=>`
+  <div class="card">
+    <div class="cohead"><span class="tk">${esc(c.ticker)}</span><span class="dt">${esc(c.date)}</span>
+      <span class="chip ${c.status==="reported"?"reported":"pending"}">${c.status==="reported"?"已披露":"待披露"}</span></div>
+    <div class="note" style="margin-bottom:6px">${c.anchors.map(a=>`· ${esc(a.t)}<span class="g g${a.g}">${a.g}</span>`).join("<br>")}</div>
+    <div class="tablebox"><table>
+      <tr><th style="width:220px">关注点</th><th>预期 / 门槛</th><th style="width:200px">实际</th><th style="width:56px">判定</th></tr>
+      ${c.rows.map(r=>`<tr><td><b>${esc(r.k)}</b></td><td>${esc(r.e)}</td><td>${r.a?esc(r.a):"<span class='v-wait'>待披露</span>"}</td><td class="${vcls(r.v)}">${vtxt(r.v)}</td></tr>`).join("")}
+    </table></div>
+  </div>`).join("");
+function lines(id,arr,hitLabel){document.getElementById(id).innerHTML=arr.map(l=>{
+  const s=l.status==="hit"?`<b style="color:var(--up)">✔ 已出现</b>`:l.status==="safe"?`<b style="color:var(--flat)">✘ 未出现</b>`:`<span class="v-wait">待观察</span>`;
+  return `<li>${esc(l.t)} —— ${s}</li>`}).join("")}
+lines("bearlines",DATA.bearlines);lines("bulllines",DATA.bulllines);
+</script>
+</body>
+</html>
