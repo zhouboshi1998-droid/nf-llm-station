@@ -35,6 +35,7 @@ SITES = [
  ("12","https://liquid-cooling-onepagers.pages.dev/","liquid-cooling",["液冷"]),
  ("13","https://hk-internet-scans.pages.dev/","hk-internet-scans",["云计算","大模型/AI应用(港股)"]),
  ("14","https://aiappilication.pages.dev/","aiappilication",["大模型/AI应用"]),
+ ("15","https://throbbing-salad-ccec.zjz506014992.workers.dev/","ai-supply-scanner",["存储","AI芯片","硅片"]),
 ]
 
 def fetch(url):
@@ -57,9 +58,11 @@ def norm(y,m,d): return f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
 
 def scrape_date(t):
     if not t: return ""
-    # 1) 带 label 的最优
-    m = re.search(r'(?:数据截至|更新至|最后更新|截至|更新)\s*[:：]?\s*(20\d{2})[-/.年](\d{1,2})[-/.月](\d{1,2})', t)
-    if m: return norm(*m.groups())
+    t = re.sub(r'<[^>]+>', ' ', t)   # 先去标签，避免"发布日期：<b>2026-07-20</b>"把 label 和日期断开
+    # 1) 带 label 的日期全取，选最近（同事声明"发布/更新/数据截至"里最新的一个＝最近刷新）
+    lab = [norm(*m.groups()) for m in re.finditer(
+        r'(?:数据截至|更新至?|最后更新|截至|发布日期|发布)\s*[:：]?\s*(20\d{2})[-/.年](\d{1,2})[-/.月](\d{1,2})', t)]
+    if lab: return max(lab)
     # 2) 文件名日期戳 _YYYYMMDD
     fn = re.findall(r'_(20\d{2})(\d{2})(\d{2})', t)
     if fn: return norm(*max(fn))
