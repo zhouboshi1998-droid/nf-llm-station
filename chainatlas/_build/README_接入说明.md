@@ -56,3 +56,16 @@
 **自动化**：`run_daily.ps1` 建站后顺跑 `chain_status.py → build_atlas.py`（在 robocopy 同步公网前），每天一次、14 个小请求约 200KB、零 token。同事推站 → 次日看板自动往前排。
 
 **成本/维护**：纯 curl+stdlib，无接口无 key。加/删站或改板块映射：改 `chain_status.py` 的 `SITES` + `build_atlas.py` 的站清单，重跑两脚本。
+
+---
+
+## 同源镜像（2026-07-21 加）——解决"公司网/国内打不开 workers.dev"
+
+**问题**：`*.workers.dev`（Cloudflare Workers）在国内/公司网常被墙——3 个 workers.dev 站（**01 PCB刀具钻针 / 02 新材料 / 15 存储·AI芯片·硅片**）研究员本机就打不开；另 **14 大模型AI应用**是 SPA、点个股不跳对应卡片。pages.dev/surge/github 那 11 个站正常。
+
+**方案**：`mirror_sites.py` 把这 4 站**整站抓到同源 `mirror/<key>/`**（随图谱走 nf-llm-station.pages.dev，pages.dev 可达），`build_atlas.py` 对这些站把 iframe/个股 href 改指 `mirror/<key>/...`（不再指 workers.dev）；14 的 `app.js` 抓下后**追加深链补丁**（读 `location.hash` → `#公司名` 直达卡片），图谱链接 → `mirror/14/index.html#智谱`。
+- `MIRROR = {"01","02","14","15"}`（在 build_atlas.py）；`sec()` 对镜像站 `live→mirror/<key>/index.html`，另存 `srcurl`＝外网原站供左树"源 ↗"参考；看板卡点击也改开 mirror（外网存 `ext_url`）。
+- 页面均 self-contained（内联 CSS/JS），镜像=下载 HTML 即可；个股清单：01/02/14 解析 index 相对链接、15 解析 index 里 `const DATA`。
+- **自动更新照旧**：`run_daily` 顺序 `chain_status → mirror_sites → build_atlas`，每天重抓 4 站（≤1 天陈旧）；同事推站次日镜像自动跟新。抓取失败保留上次镜像、不清空。
+- **代价**：镜像站的板块/看板点击打开的是**每日快照**（非实时 live）；"源 ↗"仍指外网原站。其余 11 站仍直连实时 live。
+- **若公司网连 pages.dev 也封**：把 `mirror_sites.py` 的 `SITES` + `build_atlas.py` 的 `MIRROR` 扩到全 15 站即可（脚本已按此设计）；或整体挪到公司内网托管。
