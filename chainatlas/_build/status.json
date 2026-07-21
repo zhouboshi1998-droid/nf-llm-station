@@ -1,0 +1,226 @@
+{
+ "generated_at": "2026-07-21T09:08:41+08:00",
+ "today": "2026-07-21",
+ "sites": [
+  {
+   "key": "02",
+   "url": "https://aimaterials.1243069066.workers.dev/",
+   "domain": "aimaterials",
+   "sectors": [
+    "新材料"
+   ],
+   "stated_date": "2026-07-19",
+   "last_change": "",
+   "refreshed": "2026-07-19",
+   "hash": "6cbd9e80ae2ab9afa45a31d5e9bd9610a561d30c",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "09",
+   "url": "https://benwu514.github.io/scanner-site/",
+   "domain": "benwu-scanner",
+   "sectors": [
+    "玻璃基板"
+   ],
+   "stated_date": "2026-07-19",
+   "last_change": "",
+   "refreshed": "2026-07-19",
+   "hash": "ac62661623434228fd5517e855cbf09edf4970ff",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "11",
+   "url": "https://272ed63d.scanner-onepager-pilot.pages.dev/",
+   "domain": "scanner-onepager-pilot",
+   "sectors": [
+    "CCL/覆铜板",
+    "PCB",
+    "半导体材料",
+    "半导体设备",
+    "半导体零部件",
+    "封测",
+    "晶圆厂",
+    "被动元件"
+   ],
+   "stated_date": "2026-07-19",
+   "last_change": "",
+   "refreshed": "2026-07-19",
+   "hash": "95e13feb1f0e7a925a28730ffc7c10de0fdcc1ee",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "13",
+   "url": "https://hk-internet-scans.pages.dev/",
+   "domain": "hk-internet-scans",
+   "sectors": [
+    "云计算",
+    "大模型/AI应用(港股)"
+   ],
+   "stated_date": "2026-07-19",
+   "last_change": "",
+   "refreshed": "2026-07-19",
+   "hash": "5cae91847d29c4e994f2e2e0ff87a32a8c743ce2",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "06",
+   "url": "https://pcb-copper-foil.pages.dev/",
+   "domain": "pcb-copper-foil",
+   "sectors": [
+    "铜箔"
+   ],
+   "stated_date": "2026-07-18",
+   "last_change": "",
+   "refreshed": "2026-07-18",
+   "hash": "02d0d8c22868ab1f34ac964e02205c3decc4f000",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "07",
+   "url": "https://pcb-e-glass-cloth-research.pages.dev/",
+   "domain": "pcb-e-glass-cloth",
+   "sectors": [
+    "电子布"
+   ],
+   "stated_date": "2026-07-18",
+   "last_change": "",
+   "refreshed": "2026-07-18",
+   "hash": "a76ec65b0692a69a02991ad4492758bb6e166a27",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "04",
+   "url": "https://reports.ty-workplace.com/public/ai-materials-onepagers/",
+   "domain": "ty-workplace",
+   "sectors": [
+    "AI材料"
+   ],
+   "stated_date": "2026-07-17",
+   "last_change": "",
+   "refreshed": "2026-07-17",
+   "hash": "f1881526096291ec350bfaca126bde9777438128",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "08",
+   "url": "https://ai-equipment-onepages.pages.dev/",
+   "domain": "ai-equipment",
+   "sectors": [
+    "AI设备"
+   ],
+   "stated_date": "2026-07-17",
+   "last_change": "",
+   "refreshed": "2026-07-17",
+   "hash": "e68e5b772782182dcb45807b0f7cb2fd1f5bab9d",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "10",
+   "url": "https://yiyezhi-scanner.pages.dev/",
+   "domain": "yiyezhi-scanner",
+   "sectors": [
+    "光纤光缆",
+    "服务器",
+    "AIDC/算力租赁"
+   ],
+   "stated_date": "2026-07-17",
+   "last_change": "",
+   "refreshed": "2026-07-17",
+   "hash": "06ee20c71afb93c70040a85581de1ad364630c26",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "01",
+   "url": "https://company-one-page.frederick521033.workers.dev/",
+   "domain": "company-one-page",
+   "sectors": [
+    "PCB刀具钻针"
+   ],
+   "stated_date": "2026-07-15",
+   "last_change": "",
+   "refreshed": "2026-07-15",
+   "hash": "1fb41b5e2c18bd217c44135dd102f2dd03035011",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "03",
+   "url": "https://e8a31769.ai-power-onepager.pages.dev/",
+   "domain": "ai-power-onepager",
+   "sectors": [
+    "电源"
+   ],
+   "stated_date": "2026-07-07",
+   "last_change": "",
+   "refreshed": "2026-07-07",
+   "hash": "35f5db0207651d2c9b6aabe1012c64681feb6f12",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "12",
+   "url": "https://liquid-cooling-onepagers.pages.dev/",
+   "domain": "liquid-cooling",
+   "sectors": [
+    "液冷"
+   ],
+   "stated_date": "2026-06-24",
+   "last_change": "",
+   "refreshed": "2026-06-24",
+   "hash": "f203d678034941800998aab0b4b4118d0e3e3e21",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "05",
+   "url": "https://nf-scanners.surge.sh/",
+   "domain": "nf-scanners",
+   "sectors": [
+    "光通信(光模块/光芯片)"
+   ],
+   "stated_date": "",
+   "last_change": "",
+   "refreshed": "",
+   "hash": "72b5404fcba1d87673c4842dc5a8ac2cefe7ab16",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  },
+  {
+   "key": "14",
+   "url": "https://aiappilication.pages.dev/",
+   "domain": "aiappilication",
+   "sectors": [
+    "大模型/AI应用"
+   ],
+   "stated_date": "",
+   "last_change": "",
+   "refreshed": "",
+   "hash": "b7738f12ea6875ce90974a297a8f58fdfe607b75",
+   "ok": true,
+   "checked_at": "2026-07-21T09:08:41+08:00",
+   "changed_since_stated": false
+  }
+ ]
+}
