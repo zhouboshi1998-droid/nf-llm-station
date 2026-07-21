@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>有研硅(688432)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">有研硅</span><span class="code">688432</span>
+      <div class="tags">国内 8 寸硅片 + 刻蚀用硅材料/部件双轮龙头 · 12 寸参股布局 · AI 间接敞口（晶圆厂扩产受益）</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥46.14　总市值 ≈577 亿</div>
+      <div class="meta">PE-TTM ~276x · PB ~13.0x · 12.50 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘（当日涨停）</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>有研硅是国内<b>半导体硅片</b>（6/8 寸抛光片）＋<b>刻蚀用硅材料/部件</b>双轮龙头，并参股 28% 山东有研艾斯布局 12 寸。硅片属半导体<b>周期股</b>，AI 敞口偏<b>间接</b>——刻蚀用硅电极/硅环等是晶圆刻蚀设备耗材，随晶圆厂扩产与稼动率放量；抛光片下游约 70% 为功率器件，价格仍处底部。2025 营收 10.05 亿（+0.9%）、归母 2.09 亿（<b>-10.1%</b>，增收不增利），综合毛利率 37.6%。近期股价快速拉升（6/24 的 24 元→7/07 的 46.14 元），估值（PE-TTM ~276x）已显著透支，中性乃至乐观 2028E 情景均低于现价（见 §04）。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">10.05 亿</div><div class="s up">+0.9% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">2.09 亿</div><div class="s dn">-10.1% YoY</div></div>
+    <div class="stat"><div class="k">2025 综合毛利率</div><div class="v">~37.6%</div><div class="s">净利率 ~24.5%</div></div>
+    <div class="stat"><div class="k">刻蚀硅材料毛利率</div><div class="v">52.2%</div><div class="s dn">-8.3pct（海外弱）</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.50 亿</div><div class="s dn">-1.2%</div></div>
+    <div class="stat"><div class="k">2026Q1 营收</div><div class="v">3.14 亿</div><div class="s up">+18.0%</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径 · 主营）</h2><span class="tip">按营收占比降序 · 主营合计 9.81 亿 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>半导体硅抛光片（6/8 寸，下游 ~70% 功率）</td><td class="num">6.16</td><td class="num">62.8%</td><td class="num up">+0.9%</td><td class="num">31.4%</td><td class="num">52.5%</td></tr>
+        <tr class="key"><td>◆ 刻蚀设备用硅材料/部件</td><td class="num">2.99</td><td class="num">30.5%</td><td class="num up">+3.6%</td><td class="num">52.2%</td><td class="num">42.4%</td></tr>
+        <tr><td>其他</td><td class="num">0.66</td><td class="num">6.7%</td><td class="num">未披露</td><td class="num">~28.2%</td><td class="num">5.1%</td></tr>
+        <tr class="total"><td>合计（主营）</td><td class="num">9.81</td><td class="num">100%</td><td class="num up">+5.2%</td><td class="num">37.5%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">硅抛光片占营收 62.8%（基本盘、价格底部）；<b>刻蚀用硅材料/部件</b>占 30.5%、毛利率 52.2%（板块内最高），是 AI 间接弹性核心；AI 直接敞口低——不做先进制程大硅片直供。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">刻蚀用硅电极/硅环等高纯硅部件是晶圆刻蚀设备（Lam / TEL / 北方华创）<b>耗材</b>；客户含北方华创 / Lam / TEL / 台积电；已收购 DGT 切部件成品，对应约百亿级市场。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">抛光片毛利率 31.4%（+3.96pct），8 寸产销创新高、红磷超低阻/区熔/MCz 高端突破；刻蚀硅材料毛利率 52.2% 但同比 -8.3pct（海外需求弱、价格承压）；综合毛利率 37.6%，板块内最高且已盈利。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">12 寸：参股 28% 山东有研艾斯（已达 15 万片/月），远期持股提升有望并表，打开成长空间；刻蚀部件国产替代与 DGT 上量为第二成长极。</div></div>
+      <div class="bl"><div class="t">涨价/放量口径利润</div><div class="x">刻蚀硅材料收入基数 2.99 亿 + 抛光片高端提价，价格/稼动率提升对利润高杠杆（测算，见 §03）；周期底部利润弹性弹性大。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝半导体硅片周期反转预期＋AI 晶圆扩产拉动刻蚀耗材；股价 2 周内近乎翻倍（24→46 元、连续涨停），交易极度拥挤；现市值 577 亿已远超 2028E 乐观情景（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>硅片涨价 / 稼动率提升敏感性</h2></div>
+      <div class="p"><b>逻辑：</b>AI 驱动先进制程晶圆扩产→刻蚀工序及硅电极/硅环等高纯硅部件需求放量；同时硅片行业周期底部，高端抛光片（红磷超低阻/区熔/MCz）提价 + 8 寸产销创新高。价格/稼动率上行对底部利润高度杠杆。</div>
+      <div class="p"><b>弹性假设：</b>以硅抛光片+刻蚀硅材料 2025 合计收入 9.15 亿为基准，涨价增量约 70% 落净利（测算）。</div>
+      <table>
+        <thead><tr><th>硅片/部件涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值(30x)</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 年报均价口径）</td><td class="num">—</td><td class="num">~2.1 亿</td><td class="num up">~63 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">+0.6 亿</td><td class="num">~2.7 亿</td><td class="num up">~81 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">+1.3 亿</td><td class="num">~3.4 亿</td><td class="num up">~102 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">+1.9 亿</td><td class="num">~4.0 亿</td><td class="num up">~120 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（量不变，测算）；弹性段＝硅片+部件收入 9.15 亿×涨幅×70% 落净利；公司净利基数取 2025 归母 2.09 亿。注：表内情景市值（63–120 亿）远低于现市值 577 亿，反映市场已定价远超周期高点的盈利预期。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判（沿用老版）</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">跟随晶圆厂扩产与刻蚀工序增加，刻蚀用硅材料/部件需求随产能爬坡释放，逻辑相对独立于硅片普涨；抛光片靠 8 寸放量+高端对冲价格底部。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">供给紧平衡、尚无明显缺口；晶圆厂扩产持续即支撑需求，景气随存储/先进制程资本开支。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">开始逐季涨价，但抛光片价格仍底部、刻蚀材料海外需求弱；乐观情景（~100% 涨价）兑现度低。关键变量：海外景气回暖、部件国产替代上量。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 刻蚀硅材料/部件 ·30x</td><td class="cn as">晶圆扩产拉动、部件国产替代（测算）</td><td class="cn num nn">1.8</td><td class="op as bd">海外回暖+DGF放量+提价（测算）</td><td class="op num no">3.6</td></tr>
+        <tr><td>硅抛光片+12寸并表 ·20x</td><td class="cn as">8寸放量+高端提价、12寸爬坡（测算）</td><td class="cn num nn">4.2</td><td class="op as bd">硅片周期上行、12寸并表贡献（测算）</td><td class="op num no">8.4</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">刻蚀 1.8 / 硅片 4.2</span></td><td class="cn num">~6</td><td class="op bd"><span class="sub">刻蚀 3.6 / 硅片 8.4</span></td><td class="op num">~12</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 577 亿</td><td class="cn"><span class="sub">整体 20x（研究员给定）</span></td><td class="cn num dn">~120亿 (-79%)</td><td class="op bd"><span class="sub">整体 30x（研究员给定）</span></td><td class="op num dn">~360亿 (-38%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 6 亿 / 乐观 12 亿）× 假设 PE（中性 20x / 乐观 30x）。分段净利按 2025 刻蚀/硅片贡献比例拆分为情景测算，合计等于老版给定归母，仅供参考。<b>结论：</b>开始逐季涨价，但乐观情景（~100% 涨价）兑现度低；<b>近期股价大涨后，中性与乐观 2028E 情景市值均显著低于现价（-79% / -38%）</b>，估值透支明显、需高度警惕回调。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① AI 驱动先进制程晶圆扩产→刻蚀用硅电极/硅环等部件需求放量；② 8 寸产销创新高、红磷超低阻/区熔/MCz 高端提价放量；③ DGT 切部件成品上量、刻蚀部件国产替代；④ 参股 12 寸有研艾斯（15 万片/月）持股提升/并表预期；⑤ 硅片行业周期反转、逐季涨价落地。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① <b>估值极端偏高</b>（PE-TTM ~276x、PB ~13x），中性 2028E 情景市值 120 亿低于现价约 -79%、乐观 360 亿仍 -38%；② 抛光片下游 70% 为功率、价格仍底部，增收不增利（2025 归母 -10.1%）；③ 刻蚀材料海外需求弱、毛利率同比 -8.3pct；④ 股价 2 周近乎翻倍、连续涨停，交易极度拥挤、波动放大；⑤ 周期反转与涨价兑现度低、AI 为间接敞口。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07 收盘）；有研硅 2025 年年度报告及 2026 年一季报（主营分部为 2025 年报口径，主营合计 9.81 亿）；华经产业研究院、中信证券半导体硅片研究等公开资料；公开券商研报及调研纪要。2028E 归母（研究员给定中性/乐观值）、价格弹性与市值空间为情景测算，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>

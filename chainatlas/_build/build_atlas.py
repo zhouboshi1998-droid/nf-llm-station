@@ -36,7 +36,11 @@ S = {
  "14":"https://aiappilication.pages.dev/",
  "15":"https://throbbing-salad-ccec.zjz506014992.workers.dev/",
 }
-def deep(site, fname): return S[site] + q(fname)
+# workers.dev(01/02/15)公司网常被墙 + 14 SPA → 镜像到同源 mirror/（见 mirror_sites.py）
+MIRROR = {"01", "02", "14", "15"}
+def deep(site, fname):
+    if site in MIRROR: return f"mirror/{site}/{q(fname)}"
+    return S[site] + q(fname)
 
 # ---------- 各站个股清单（截至 2026-07-20 快照） ----------
 t01=[("鼎泰高科","301377"),("欧科亿","688308"),("新锐股份","688257"),("华锐精密","688059"),("沃尔德","688028"),("劲拓股份","300400")]
@@ -87,11 +91,11 @@ d13_ai=[{"name":"快手","code":"01024","href":deep("13","快手-W(01024)_扫描
 
 # 02 新材料（日期戳文件名 → 只链 hub 根，避免下次改名断链）
 t02=["东材科技","圣泉集团","联瑞新材","容大感光","广信材料","雅克科技","新宙邦","彤程新材","兴福电子","上海新阳","飞凯材料","晶瑞电材","江化微","万润股份","中船特气","昊华科技","广钢气体","华特气体","金宏气体","国瓷材料","蓝晓科技","泛亚微透"]
-d02=[{"name":n,"code":"","href":S["02"]} for n in t02]
+d02=[{"name":n,"code":"","href":"mirror/02/index.html"} for n in t02]
 
 # 14 大模型/AI应用（SPA，无个股直链 → 只链 hub 根）
 t14=["智谱","MiniMax","卓易信息","中控技术","合合信息"]
-d14=[{"name":n,"code":"","href":S["14"]} for n in t14]
+d14=[{"name":n,"code":"","href":"mirror/14/index.html#"+q(n)} for n in t14]  # 深链到打过补丁的镜像 SPA
 
 # ---------- 15 ai-supply-scanner：存储 / AI芯片 / 硅片（2026-07-20 补齐，最后 3 个板块转 LIVE） ----------
 def d15(arr): return [{"name":n,"code":c,"href":deep("15",f"{n}({c})_扫描一页纸.html")} for n,c in arr]
@@ -100,7 +104,12 @@ t15_aichip=[("寒武纪","688256"),("海光信息","688041"),("沐曦股份","68
 t15_storage=[("兆易创新","603986"),("江波龙","301308"),("大普微","301666"),("佰维存储","688525"),("德明利","001309"),("香农芯创","300475"),("北京君正","300223"),("普冉股份","688766"),("澜起科技","688008"),("东芯股份","688110"),("国科微","300672"),("联芸科技","688449"),("聚辰股份","688123")]
 
 def sec(live_key, mode, comps):
-    return {"live":S[live_key],"src":S[live_key].replace("https://","").rstrip("/"),"mode":mode,"companies":comps}
+    mirrored = live_key in MIRROR
+    dom = S[live_key].replace("https://","").rstrip("/")
+    return {"live": f"mirror/{live_key}/index.html" if mirrored else S[live_key],
+            "srcurl": S[live_key],
+            "src": dom + ("（同源镜像）" if mirrored else ""),
+            "mode": mode, "companies": comps}
 
 DATA = {
  "upstream":{"title":"上游 · 基础材料 & 器件","color":"#2F77C9","sectors":{
@@ -133,18 +142,23 @@ DATA = {
  }},
  "downstream":{"title":"下游 · 云 & 应用","color":"#159068","sectors":{
     "云计算": sec("13","deep",d13_cloud),
-    "大模型/AI应用": {"live":S["14"],"src":"aiappilication.pages.dev + hk-internet-scans","mode":"mix",
+    "大模型/AI应用": {"live":"mirror/14/index.html","srcurl":S["14"],
+                 "src":"aiappilication（同源镜像）+ hk-internet-scans","mode":"mix",
                  "companies": d14 + d13_ai},
  }},
 }
 
 DATA_JSON = json.dumps(DATA, ensure_ascii=False)
 # 更新看板数据：读 chain_status.py 产出的 status.json（无则给空壳，首页显示建库中）
+# 镜像站的看板卡点击 → 开同源 mirror（外网 url 存 ext_url 供"源站"参考）
 STATUS_PATH = HERE / "status.json"
 try:
-    STATUS_JSON = STATUS_PATH.read_text(encoding="utf-8")
-    if '"sites"' not in STATUS_JSON:
-        raise ValueError
+    _st = json.loads(STATUS_PATH.read_text(encoding="utf-8"))
+    for _s in _st.get("sites", []):
+        if _s.get("key") in MIRROR:
+            _s["ext_url"] = _s.get("url", "")
+            _s["url"] = f"mirror/{_s['key']}/index.html"
+    STATUS_JSON = json.dumps(_st, ensure_ascii=False)
 except Exception:
     STATUS_JSON = '{"generated_at":"","today":"","sites":[]}'
 OUT.write_text(TEMPLATE.replace("__DATA__", DATA_JSON).replace("__STATUS__", STATUS_JSON), encoding="utf-8")

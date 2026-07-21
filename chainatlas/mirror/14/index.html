@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI产业链一页纸合集</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">NF LLM Station · 产业链一页纸合集</p>
+        <h1>AI产业链一页纸动态工作台</h1>
+      </div>
+      <div class="status">
+        <span>事实由AI整理</span>
+        <strong>观点由研究员确认</strong>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="筛选工具">
+        <div class="search">
+          <span>搜索</span>
+          <input id="searchInput" type="search" placeholder="公司 / 代码 / 产业链环节" />
+        </div>
+        <div class="tabs" id="tabs"></div>
+      </section>
+
+      <section class="summary-grid" id="summaryGrid"></section>
+
+      <section class="layout">
+        <aside class="company-list" id="companyList" aria-label="公司列表"></aside>
+        <article class="detail" id="detail"></article>
+      </section>
+    </main>
+
+    <template id="companyButtonTemplate">
+      <button class="company-button" type="button">
+        <span class="company-name"></span>
+        <span class="company-meta"></span>
+      </button>
+    </template>
+
+    <script src="./onepagers.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

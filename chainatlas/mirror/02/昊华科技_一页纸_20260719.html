@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>昊华科技(600378)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;--zebra:#F2F6FB;
+  --ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;--red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">昊华科技</span><span class="code">600378</span>
+      <div class="tags">氟化工龙头·中化系 · 含氟电子特气·PVDF · 制冷剂/氟材料全国领先</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥46.88　总市值 604.8 亿</div>
+      <div class="meta">PE-TTM ~39x · PB 3.3x · 12.90 亿股</div>
+      <div class="date">数据截至 2026-07-17</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>昊华科技是中化集团旗下大型化工新材料平台、国内<b>氟化工龙头</b>，业务涵盖高端氟材料（含氟聚合物 PVDF/PTFE、制冷剂）、<b>电子化学品</b>（含氟电子特气 NF3/SF6/CF4）、高端制造化工材料（橡胶密封/民航轮胎/聚氨酯）与工程技术服务。核心看点是电子化学品（含氟电子特气，半导体刻蚀/清洗刚需）与高端氟材料结构升级；2025 高端氟材料收入 99.4 亿（+31%、毛利率 +8.2pct）带动业绩 +37%。公司多元均衡、估值相对温和（PE-TTM ~39x）。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">166.89 亿</div><div class="s up">+19.5% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">14.44 亿</div><div class="s up">+37.1% YoY</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">~25.3%</div><div class="s">净利率 ~8.7%</div></div>
+    <div class="stat"><div class="k">高端氟材料营收</div><div class="v">99.39 亿</div><div class="s up">占 59.6% · +30.8%</div></div>
+    <div class="stat"><div class="k">电子化学品营收</div><div class="v">11.38 亿</div><div class="s up">含氟电子特气·+23.9%</div></div>
+    <div class="stat"><div class="k">2026Q1 归母净利</div><div class="v">3.08 亿</div><div class="s up">+66.7% YoY</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 占比四舍五入 · 非氟材料分部毛利率为测算</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>高端氟材料（含氟聚合物/制冷剂）</td><td class="num">99.39</td><td class="num">59.6%</td><td class="num up">+30.8%</td><td class="num">21.6%</td><td class="num">51.0%</td></tr>
+        <tr><td>高端制造化工材料（橡胶/民航轮胎）</td><td class="num">29.33</td><td class="num">17.6%</td><td class="num up">+3.4%</td><td class="num">32.0%</td><td class="num">22.3%</td></tr>
+        <tr><td>工程技术服务及贸易</td><td class="num">26.79</td><td class="num">16.1%</td><td class="num up">+2.5%</td><td class="num">27.9%</td><td class="num">17.7%</td></tr>
+        <tr class="key"><td>◆ 电子化学品（含氟电子特气 NF3 等）</td><td class="num">11.38</td><td class="num">6.8%</td><td class="num up">+23.9%</td><td class="num">34.0%</td><td class="num">9.2%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">166.89</td><td class="num">100%</td><td class="num">+19.5%</td><td class="num">25.3%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">高端氟材料 2025 收入 99.4 亿、占 59.6%、+30.8%、毛利率 +8.2pct，是业绩主引擎；电子化学品（含氟电子特气）11.4 亿、+23.9% 是半导体看点。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">国内氟化工龙头，制冷剂 R123 全球独家、R134a/R125 全球前三、HFCs 配额国内领先；电子特气（NF3/SF6/CF4）市场份额行业前列。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">含氟聚合物从跟跑到并跑，四氟树脂 5.1 万吨、氟橡胶 5500 吨、PVDF 2.25 万吨；2025 整体毛利率约 25.3%。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">2.6 万吨/年高性能有机氟材料项目投产；延伸四氟乙烯/六氟丙烯自产配套；电子特气/高端氟材料占比提升。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">以核心电子及高端氟材料 2028E 收入约 40 亿为基数，涨价 10% × 落净利 55% ≈ 2.2 亿增量净利（测算）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）交易制冷剂配额价值 + 含氟电子特气/PVDF 高端化 + 氟材料涨价；估值相对温和，业绩确定性较高。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>制冷剂（HFCs）配额制下供给受限、价格中枢上移；含氟电子特气受半导体刻蚀/清洗需求拉动、AI/存储扩产带动；高端有机氟材料（PVDF/PTFE）国产替代与结构升级。公司配额与产能优势突出，量价与结构改善共同抬升盈利，2025 高端氟材料毛利率 +8.2pct。</div>
+      <div class="p"><b>弹性假设：</b>以核心电子化学品及高端氟材料高端部分 2028E 收入约 40 亿为基准，涨价增量约 55% 落到净利（测算，配额/高端品紧俏、成本传导较顺），量不变、仅测价格敏感性。</div>
+      <table>
+        <thead><tr><th>电子/氟材料涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E 中性）</td><td class="num">9.5 亿</td><td class="num">28.6 亿</td><td class="num up">800 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">11.7 亿</td><td class="num">30.8 亿</td><td class="num up">866 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">13.9 亿</td><td class="num">33.0 亿</td><td class="num up">932 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">16.1 亿</td><td class="num">35.2 亿</td><td class="num up">998 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（中性量不变）；基准以核心电子及高端氟材料 2028E 收入约 40 亿为口径，增量净利按核心 30x 计入市值（40 亿×10%×55%=2.2 亿→×30x=66 亿）。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">2.6 万吨/年高性能有机氟材料已投产、四氟树脂 5.1 万吨、氟橡胶 5500 吨、PVDF 2.25 万吨；电子特气产能行业前列。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">高性能有机氟材料 2025 投产、爬坡；电子特气随半导体扩产逐步放量。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">制冷剂配额制下供给刚性、价格中枢上移；电子特气/高端氟属渗透升级型；要盯配额政策、半导体需求、原料价格。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心业务 30x / 传统主业 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 电子化学品 + 高端氟材料高端 ·30x</td><td class="cn as">收入约 40 亿 · 净利率约 24%</td><td class="cn num nn">9.5</td><td class="op as bd">半导体放量+涨价 · 收入约 53 亿 · 净利率约 30%</td><td class="op num no">16.0</td></tr>
+        <tr><td>传统主业（制冷剂/氟聚合物/橡胶/工程）·20x</td><td class="cn as">收入约 190 亿 · 净利率约 10%</td><td class="cn num nn">19.1</td><td class="op as bd">收入约 200 亿 · 净利率约 12%</td><td class="op num no">24.0</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 9.5 / 传统 19.1</span></td><td class="cn num">~28.6</td><td class="op bd"><span class="sub">核心 16.0 / 传统 24.0</span></td><td class="op num">~40.0</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 604.8 亿</td><td class="cn"><span class="sub">目标市值 · 隐含 ~28x</span></td><td class="cn num up">~800亿 (+32%)</td><td class="op bd"><span class="sub">目标市值 · 隐含 ~25x</span></td><td class="op num up">~1000亿 (+65%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>核心电子/高端氟材料按满产收入 × 净利率（30x）、传统按收入 × 净利率（20x），分段净利 × 倍数加总。严格分段口径中性约 667 亿、乐观约 960 亿；目标市值采用内部提供口径——中性约 800 亿（+32%）、乐观约 1000 亿（+65%），隐含 2028E 归母约 28x / 25x；2028E 分段净利率与倍数为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 制冷剂配额价值 + 价格中枢上移；② 含氟电子特气随半导体/AI 扩产放量；③ 2.6 万吨高性能有机氟材料爬坡；④ PVDF/四氟树脂高端化；⑤ 碳减排/工程订单。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 估值 PE-TTM ~39x，中性/乐观目标市值（800 / 1000 亿，+32% / +65%）隐含 2028E 归母约 28x / 25x（严格框架口径约 667 / 960 亿），需靠电子/高端氟材料放量与制冷剂景气兑现；② 制冷剂/氟材料价格与配额政策波动；③ 电子特气竞争、原料（萤石/钨等）价格；④ 多元业务季度盈利波动（2024 曾下滑）。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2025 年报及 2026 一季报、公告、互动易（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-17）；进门财经及券商研报；公开网络资料及内部提供资料。暂无统一卖方盈利预测一致预期覆盖，2026-2028E 营收与归母净利采用内部提供资料；2028E 分段净利率、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -202,7 +202,7 @@ STREAM_KEYS.forEach(sk=>{
     const cl=document.createElement('div'); cl.className='clist';
     if(isLive){
       const s=document.createElement('div'); s.className='src';
-      s.innerHTML=`源 · <a href="${sd.live}" target="_blank" rel="noopener">${sd.src} ↗</a>`;
+      s.innerHTML=`源 · <a href="${sd.srcurl||sd.live}" target="_blank" rel="noopener">${sd.src} ↗</a>`;
       cl.appendChild(s);
     }
     sd.companies.forEach(c=>{

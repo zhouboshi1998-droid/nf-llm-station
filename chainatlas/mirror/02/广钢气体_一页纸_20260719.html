@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>广钢气体(688548)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;--panel:#EDF2F8;--zebra:#F2F6FB;
+  --ink:#333940;--gray:#595959;--gray2:#A5A5A5;--line:#D6DCE5;--red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">广钢气体</span><span class="code">688548</span>
+      <div class="tags">电子大宗气体龙头 · 存储扩产订单·氦气涨价 · 电子大宗新增市占41%</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥37.76　总市值 498.2 亿</div>
+      <div class="meta">PE-TTM ~155x · PB 8.2x · 13.19 亿股</div>
+      <div class="date">数据截至 2026-07-17</div>
+    </div>
+  </div>
+
+  <div class="lead"><b>一句话看懂：</b>广钢气体是国内<b>电子大宗气体</b>（供应晶圆厂/面板厂的高纯氮氢氧氩氦等"现场制气"气体，长约供气 10-15 年、类公用事业）自主可控龙头，2024 年电子大宗气新增项目市占率 41% 全国第一、长鑫存储市占 70%。核心看点：<b>存储/晶圆厂加速扩产带动在手订单快速增长</b>（25 年底装机约 45 万方 → 在手项目投产后约 102 万方，2026 年新签订单 45-50 万方、同比约 +275%），叠加<b>全球氦气供需趋紧、电子用氦签长协涨价</b>（公司为唯一从卡塔尔直接长单氦源的内资厂商）。2026H1 归母净利预增 87%-138%。</div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">24.25 亿</div><div class="s up">+15.3% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">2.86 亿</div><div class="s up">+15.2% YoY</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">~25.6%</div><div class="s">净利率 ~11.9%</div></div>
+    <div class="stat"><div class="k">电子大宗气占比</div><div class="v">71.4%</div><div class="s up">+16.4% · 毛利率30%</div></div>
+    <div class="stat"><div class="k">在手项目装机</div><div class="v">~102 万方</div><div class="s">25 年底约 45 万方</div></div>
+    <div class="stat"><div class="k">2026H1 归母预告</div><div class="v">2.2-2.8 亿</div><div class="s up">+87%~138%</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 占比四舍五入 · 其他行同比为测算</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr class="key"><td>◆ 电子大宗气体（晶圆厂现场制气）</td><td class="num">17.32</td><td class="num">71.4%</td><td class="num up">+16.4%</td><td class="num">30.0%</td><td class="num">83.7%</td></tr>
+        <tr><td>通用工业气体及其他</td><td class="num">6.93</td><td class="num">28.6%</td><td class="num up">+12.7%</td><td class="num">14.6%</td><td class="num">16.3%</td></tr>
+        <tr class="total"><td>合计</td><td class="num">24.25</td><td class="num">100%</td><td class="num">+15.3%</td><td class="num">25.6%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">电子大宗气体 2025 收入 17.32 亿、占 71.4%、毛利率 30%；采用现场制气长协（10-15 年）、类公用事业、现金流稳定。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">存储核心供应商（长鑫市占 70%、长存供气），服务 10-11 座 12 寸晶圆厂；2024 新增项目市占 41% 全国第一；氦气唯一从卡塔尔直接长单的内资厂商。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">吸收林德剥离氦气与气体项目、自主发展；现场制气重资产、前期折旧大侵蚀表观利润，EBITDA 更能反映盈利；2025 毛利率 25.6%。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">两存十五五新增 150 万片/月、对应用气增量约 195 万方/H；公司在手订单 27 年底约 200 万方、30 年底 300+ 万方；超临界 CO2（净利率 40%+）、四大电子特气基地打开增量。</div></div>
+      <div class="bl"><div class="t">满产口径利润</div><div class="x">在手 102 万方项目对应收入 50+ 亿、利润 10-12 亿；150 万方对应收入 75 亿、利润 15-19 亿（EBITDA 30-40 亿）。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（26 年 7 月）交易氦气涨价 + 存储扩产订单放量 + 国产替代；中报预增超预期，市场以 EV/EBITDA 或远期订单空间定价，PE-TTM ~155x。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价逻辑与价格弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>全球氦气供需趋紧（卡塔尔装置损毁+关停、俄罗斯气源受限）、25 年初起海外提价 10-20%，国内电子用氦开始签长协涨价、40L 瓶装氦气升至 530 元/立方米以上；公司为唯一从卡塔尔直接长单的内资氦源厂商、释放战略库存获价差。同时存储/晶圆厂加速扩产带来大宗气放量。氦价与放量共同抬升盈利，26H1 归母预增 87%-138%。</div>
+      <div class="p"><b>弹性假设：</b>以核心气体（电子大宗 + 氦气）2028E 收入约 80 亿为基准，涨价增量约 45% 落到净利（测算，大宗气长协价格较刚性、氦气价格弹性大，取中值），量不变、仅测价格敏感性。</div>
+      <table>
+        <thead><tr><th>氦气/气体涨价</th><th class="num">弹性段净利</th><th class="num">公司总净利</th><th class="num">对应市值</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2028E 中性）</td><td class="num">11.0 亿</td><td class="num">11.5 亿</td><td class="num up">600 亿</td></tr>
+          <tr><td class="base">+10%</td><td class="num">14.6 亿</td><td class="num">15.1 亿</td><td class="num up">708 亿</td></tr>
+          <tr><td class="base">+20%</td><td class="num">18.2 亿</td><td class="num">18.7 亿</td><td class="num up">816 亿</td></tr>
+          <tr><td class="base">+30%</td><td class="num">21.8 亿</td><td class="num">22.3 亿</td><td class="num up">924 亿</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">纯价格敏感性（中性量不变）；基准以核心气体 2028E 收入约 80 亿为口径，增量净利按核心 30x 计入市值（80 亿×10%×45%=3.6 亿→×30x=108 亿）。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">两存十五五新增 150 万片/月、用气增量约 195 万方/H；公司 25 年底装机约 45 万方 → 在手投产后约 102 万方；26 年新签 45-50 万方。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">26 年为交付大年、预计投产 20+ 万方（约 20 亿资本开支）；建厂周期缩短至 8-12 个月，招标节奏提前。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">电子大宗气属国产替代 + 存储扩产渗透型（长协稳定）；氦气受全球供需扰动、涨价延续；要盯存储扩产招标、氦气价格与货源。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（核心业务 30x / 传统主业 20x）</h2></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 电子大宗气体 + 氦气 ·30x</td><td class="cn as">收入约 80 亿 · 净利率约 14%</td><td class="cn num nn">11.0</td><td class="op as bd">氦价+放量 · 收入约 100 亿 · 净利率约 29%</td><td class="op num no">29.0</td></tr>
+        <tr><td>传统主业（通用工业气体等）·20x</td><td class="cn as">收入约 5 亿 · 净利率约 10%</td><td class="cn num nn">0.5</td><td class="op as bd">收入约 5 亿 · 净利率约 20%</td><td class="op num no">1.0</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">核心 11.0 / 传统 0.5</span></td><td class="cn num">~11.5</td><td class="op bd"><span class="sub">核心 29.0 / 传统 1.0</span></td><td class="op num">~30.0</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 498.2 亿</td><td class="cn"><span class="sub">目标市值 · 隐含 ~52x</span></td><td class="cn num up">~600亿 (+20%)</td><td class="op bd"><span class="sub">目标市值 · 隐含 ~33x</span></td><td class="op num up">~1000亿 (+101%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>核心气体按满产收入 × 净利率（30x）、传统按收入 × 净利率（20x）加总，严格分段口径中性约 340 亿、乐观约 890 亿；目标市值采用内部提供口径——中性约 600 亿（+20%）、乐观约 1000 亿（+101%），隐含 2028E 归母约 52x / 33x。<b>注：</b>广钢气体现场制气为重资产模式，前期项目投产折旧大、侵蚀表观利润（表观 PE 偏高），市场更倾向以 <b>EV/EBITDA（约 20-25x）</b>或在手订单/远期潜在市场空间估值，而非简单 PE 30x——按在手/远期订单口径，150 万方对应 EBITDA 约 30-40 亿、300 万方约 60-80 亿，对应 EV/EBITDA 20-25x 约 600-2000 亿。分段净利率与倍数为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① 存储扩产招标放量（两存 150 万片/月、26 年新签 45-50 万方、约 +275%）；② 氦气价格上涨、长协涨价 + 库存套利（26H1 预增 87%-138%）；③ 在手项目投产（25 年底约 45 万方 → 102 万方）；④ 超临界 CO2（净利率 40%+）、四大电子特气基地（10-12 亿收入）；⑤ 海外（三星平泽/海力士）0-1 拓展。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① 现价 PE-TTM ~155x 偏高，中性/乐观目标市值（600 / 1000 亿，+20% / +101%）隐含 2028E 归母约 52x / 33x、高于严格 30x/20x 框架口径（约 340 / 890 亿）；现场制气重资产折旧大、市场倾向 EV/EBITDA（20-25x）或订单空间估值（见 §04 注）；② 氦气价格/货源波动（卡塔尔恢复满产）、存储扩产招标节奏；③ 竞争加剧、限售股解禁；④ 重资产资本开支大、折旧压制表观利润。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>公司 2025 年报及 2026 半年度业绩预告、公告、互动易（巨潮）；iFinD、Wind（行情 / 估值 / 主营构成，截至 2026-07-17）；进门财经及券商研报（国泰海通、国金等）；公开网络资料及内部提供资料。暂无统一卖方盈利预测一致预期覆盖，2026-2028E 营收与归母净利采用内部提供资料；2028E 分段净利率、涨价弹性与市值空间为情景测算，仅为情景推演、可证伪。</div>
+  </div>
+
+</div>
+</body>
+</html>

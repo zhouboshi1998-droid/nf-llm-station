@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI产业链 · 个股扫描一页纸合集</title>
+<meta name="description" content="AI产业链（存储 / AI芯片 / 硅片）个股扫描一页纸合集 · 事实由AI整理，观点由研究员确认">
+<style>
+:root{
+  --navy:#1F497D;--navy2:#17365D;--blue:#4F81BD;--lblue:#96C5FF;
+  --panel:#EDF2F8;--zebra:#F2F6FB;--ink:#333940;--gray:#595959;--gray2:#A5A5A5;
+  --line:#D6DCE5;--red:#FD625E;--redd:#C7362F;--dn:#1E8449;--keybg:#FDF0EF;--coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#E9ECF1;color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;padding:0 0 40px}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* 头部 */
+.hero{background:var(--navy);color:#fff;position:relative;overflow:hidden;padding:26px 0 22px;margin-bottom:18px}
+.hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--red)}
+.kick{font-size:11px;letter-spacing:3px;color:var(--lblue);font-weight:700;margin-bottom:8px}
+.hero h1{font-size:27px;font-weight:800;letter-spacing:.5px;line-height:1.1}
+.hero h1 .en{display:block;font-size:12px;font-weight:600;color:#9FB6D4;letter-spacing:2px;margin-top:6px}
+.tagline{font-size:13px;color:#C9D8EC;margin-top:10px}
+.tagline b{color:#fff}
+.metabar{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:14px;font-size:11.5px;color:#AEC3DE}
+.metabar span b{color:#fff;font-weight:700}
+.mech{margin-top:12px;font-size:11px;color:#93A9C6;border-top:1px solid rgba(255,255,255,.12);padding-top:10px;line-height:1.6}
+.mech b{color:#DCE7F4}
+
+/* 控制条 */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--line);border-radius:8px;font-size:13px;background:#fff;color:var(--ink)}
+.search input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,129,189,.15)}
+.search::before{content:"🔍";position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.5}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{padding:7px 14px;border:1px solid var(--line);background:#fff;border-radius:20px;font-size:12.5px;font-weight:700;color:var(--gray);cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--blue);color:var(--navy)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip .n{font-weight:600;opacity:.7;margin-left:4px;font-size:11px}
+.count{font-size:12px;color:var(--gray);margin:2px 0 12px}
+
+/* 分组标题 */
+.grp{margin:22px 0 10px;display:flex;align-items:baseline;gap:9px;border-bottom:1.5px solid var(--navy);padding-bottom:5px}
+.grp h2{font-size:16px;font-weight:800;color:var(--navy2)}
+.grp .gn{font-size:12px;color:var(--red);font-weight:800}
+.grp .gt{margin-left:auto;font-size:11px;color:var(--gray2)}
+
+/* 卡片网格 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.card{display:block;background:#fff;border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:8px;padding:13px 15px 14px;transition:.16s;position:relative}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,30,50,.13);border-top-color:var(--red)}
+.card .sec{display:inline-block;font-size:10px;font-weight:700;color:var(--blue);background:var(--coolbg);border-radius:4px;padding:2px 7px;margin-bottom:8px}
+.card .sec.s2{color:var(--redd);background:var(--keybg)}
+.card .sec.s3{color:var(--dn);background:#EAF6EE}
+.card .nm{font-size:16.5px;font-weight:800;color:var(--navy2)}
+.card .cd{font-size:12px;font-weight:700;color:var(--red);margin-left:6px}
+.card .tag{font-size:11.5px;color:var(--gray);line-height:1.5;margin-top:6px;min-height:34px}
+.card .kv{display:flex;gap:16px;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
+.card .kv div{font-size:10px;color:var(--gray)}
+.card .kv b{display:block;font-size:14px;font-weight:800;color:var(--navy2);margin-top:1px}
+.card .go{position:absolute;right:13px;bottom:12px;font-size:11px;font-weight:700;color:var(--blue)}
+.card:hover .go{color:var(--red)}
+
+.empty{text-align:center;color:var(--gray2);font-size:13px;padding:40px 0;display:none}
+
+/* 页脚 */
+.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;color:var(--gray);line-height:1.7}
+.foot b{color:var(--navy)}
+.foot code{background:var(--panel);padding:1px 6px;border-radius:4px;font-size:10.5px}
+
+@media(max-width:560px){.hero h1{font-size:22px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kick">NF LLM STATION · 产业链一页纸合集</div>
+    <h1>AI产业链 · 个股扫描一页纸<span class="en">AI SUPPLY-CHAIN ONE-PAGER SCANNER · 存储 / AI芯片 / 硅片 · 23 NAMES</span></h1>
+    <div class="tagline">事实由 AI 整理 · <b>观点由研究员确认</b> · 点卡片打开该公司完整一页纸</div>
+    <div class="metabar">
+      <span>发布日期：<b>2026-07-20</b></span>
+      <span>研究员：<b>＿＿＿（请替换为本人姓名）</b></span>
+      <span>行情/财务数据截至：<b>2026-07-07 收盘</b></span>
+      <span>估值口径：<b>分部加总 · 周期主业 PE + 核心成长独立倍数 · 情景测算市值空间</b></span>
+    </div>
+    <div class="mech">
+      <b>更新机制：</b>研究员本地「AI 提案 → 逐条勾选 → Wrangler 一键部署」，链接实时刷新。结论段（评级 / 目标价 / 市值空间）由研究员本人拍板，AI 仅负责事实 / 数字类字段的增量核对与提案。
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="search"><input id="q" type="text" placeholder="搜索公司名 / 代码 / 关键词（如 DRAM、GPU、大硅片）…" autocomplete="off"></div>
+    <div class="chips" id="chips">
+      <span class="chip on" data-s="all">全部<span class="n" id="c-all"></span></span>
+      <span class="chip" data-s="存储">存储<span class="n" id="c-存储"></span></span>
+      <span class="chip" data-s="AI芯片">AI芯片<span class="n" id="c-AI芯片"></span></span>
+      <span class="chip" data-s="硅片">硅片<span class="n" id="c-硅片"></span></span>
+    </div>
+  </div>
+  <div class="count" id="count"></div>
+
+  <div id="list"></div>
+  <div class="empty" id="empty">没有匹配结果，请换一个关键词。</div>
+
+  <div class="foot">
+    <b>免责声明：</b>本页为行业研究资料导航，内容仅供研究讨论，不构成任何投资建议。所有数据来自公司公告、iFinD/Wind、进门财经研报及公开网络资料；情景测算（价格弹性 / 分部市值空间 / 2028E 归母）基于卖方一致预期与建模假设，可证伪。个股页面行情、估值及经营数据以各页标注日期为准。<br>
+    <b>更新说明：</b>结论段（评级 / 目标价 / 市值空间）由研究员本人拍板，AI 仅负责事实 / 数字类字段的增量核对与提案。<br>
+    <b>公开链接：</b>Cloudflare Pages 托管 · 研究员本地 <code>deploy.ps1</code> / <code>wrangler pages deploy</code> 实时刷新。
+  </div>
+</div>
+
+<script>
+const DATA = [
+  // 存储 (13)
+  {s:"存储",n:"兆易创新",c:"603986",t:"利基存储龙头（NOR全球前三）+ 自研DRAM + MCU 平台",p:"¥620.00",m:"≈4,347亿"},
+  {s:"存储",n:"江波龙",c:"301308",t:"存储模组龙头（嵌入式/SSD/Lexar 移动存储）",p:"¥627.90",m:"≈2,656亿"},
+  {s:"存储",n:"大普微",c:"301666",t:"企业级 SSD（eSSD）主控 + 模组",p:"¥568.68",m:"≈2,481亿"},
+  {s:"存储",n:"佰维存储",c:"688525",t:"存储模组（嵌入式/PC）+ 先进封测",p:"¥425.00",m:"≈2,004亿"},
+  {s:"存储",n:"德明利",c:"001309",t:"存储模组（SSD/嵌入式/移动存储）+ 自研主控",p:"¥851.00",m:"≈1,930亿"},
+  {s:"存储",n:"香农芯创",c:"300475",t:"存储分销（SK海力士）+ 自研海普存储",p:"¥244.33",m:"≈1,147亿"},
+  {s:"存储",n:"北京君正",c:"300223",t:"车规存储 + 计算 + 模拟互连平台",p:"¥231.20",m:"≈1,118亿"},
+  {s:"存储",n:"普冉股份",c:"688766",t:"NOR Flash + EEPROM + MCU",p:"¥710.00",m:"≈1,056亿"},
+  {s:"存储",n:"澜起科技",c:"688008",t:"内存接口芯片龙头（DDR5）+ 高性能运力芯片",p:"¥253.20",m:"≈3,122亿"},
+  {s:"存储",n:"东芯股份",c:"688110",t:"利基存储（NAND/DRAM/NOR）+ 砺算 GPU 参股",p:"¥169.17",m:"≈748亿"},
+  {s:"存储",n:"国科微",c:"300672",t:"存储主控 + 广电/智能监控 SoC",p:"¥246.50",m:"≈535亿"},
+  {s:"存储",n:"联芸科技",c:"688449",t:"SSD 主控 + AIoT 信号处理芯片",p:"¥74.79",m:"≈344亿"},
+  {s:"存储",n:"聚辰股份",c:"688123",t:"EEPROM + SPD（DDR5）+ 音圈马达驱动",p:"¥212.54",m:"≈338亿"},
+  // AI芯片 (4)
+  {s:"AI芯片",n:"寒武纪",c:"688256",t:"国产 AI 训推芯片龙头（云端智能芯片/加速卡）",p:"¥1,388.00",m:"≈8,721亿"},
+  {s:"AI芯片",n:"海光信息",c:"688041",t:"国产 CPU + DCU（AI 加速协处理器）",p:"¥342.60",m:"≈7,963亿"},
+  {s:"AI芯片",n:"沐曦股份",c:"688802",t:"国产 GPGPU（训推一体，次新股）",p:"¥833.99",m:"≈3,337亿"},
+  {s:"AI芯片",n:"摩尔线程",c:"688795",t:"国产全功能 GPU（AI + 图形渲染，次新股）",p:"¥663.20",m:"≈3,117亿"},
+  // 硅片 (6)
+  {s:"硅片",n:"西安奕材",c:"688783",t:"12 英寸大硅片龙头（次新股）",p:"¥53.26",m:"≈2,151亿"},
+  {s:"硅片",n:"沪硅产业",c:"688126",t:"大硅片（300mm/SOI）龙头",p:"¥36.28",m:"≈1,199亿"},
+  {s:"硅片",n:"有研硅",c:"688432",t:"半导体硅片（抛光片）+ 刻蚀硅材料",p:"¥46.14",m:"≈577亿"},
+  {s:"硅片",n:"立昂微",c:"605358",t:"硅片 + 功率器件 + 化合物半导体",p:"¥60.53",m:"≈467亿"},
+  {s:"硅片",n:"神工股份",c:"688233",t:"刻蚀用大直径硅材料 + 8 寸轻掺硅片",p:"¥182.00",m:"≈310亿"},
+  {s:"硅片",n:"上海合晶",c:"688584",t:"半导体外延片 + 抛光片",p:"¥35.71",m:"≈239亿"},
+];
+const SECS=["存储","AI芯片","硅片"];
+const secClass={"存储":"","AI芯片":"s2","硅片":"s3"};
+let curSec="all", curQ="";
+
+// 计数
+document.getElementById("c-all").textContent="("+DATA.length+")";
+SECS.forEach(s=>document.getElementById("c-"+s).textContent="("+DATA.filter(d=>d.s===s).length+")");
+
+function fileHref(d){return encodeURI(d.n+"("+d.c+")_扫描一页纸.html");}
+
+function render(){
+  const list=document.getElementById("list");
+  list.innerHTML="";
+  let shown=0;
+  const q=curQ.trim().toLowerCase();
+  SECS.forEach(sec=>{
+    if(curSec!=="all" && curSec!==sec) return;
+    const items=DATA.filter(d=>d.s===sec).filter(d=>{
+      if(!q) return true;
+      return (d.n+d.c+d.t).toLowerCase().includes(q);
+    });
+    if(!items.length) return;
+    const gn={"存储":"01","AI芯片":"02","硅片":"03"}[sec];
+    const grp=document.createElement("div");
+    grp.className="grp";
+    grp.innerHTML='<span class="gn">'+gn+'</span><h2>'+sec+'</h2><span class="gt">'+items.length+' 家 · 数据截至 2026-07-07 收盘</span>';
+    list.appendChild(grp);
+    const grid=document.createElement("div");
+    grid.className="grid";
+    items.forEach(d=>{
+      shown++;
+      const a=document.createElement("a");
+      a.className="card";
+      a.href=fileHref(d);
+      a.innerHTML=
+        '<span class="sec '+secClass[d.s]+'">'+d.s+'</span>'+
+        '<div><span class="nm">'+d.n+'</span><span class="cd">'+d.c+'</span></div>'+
+        '<div class="tag">'+d.t+'</div>'+
+        '<div class="kv"><div>现价<b>'+d.p+'</b></div><div>总市值<b>'+d.m+'</b></div></div>'+
+        '<span class="go">打开 →</span>';
+      grid.appendChild(a);
+    });
+    list.appendChild(grid);
+  });
+  document.getElementById("empty").style.display=shown?"none":"block";
+  document.getElementById("count").textContent="显示 "+shown+" / "+DATA.length+" 家";
+}
+document.getElementById("q").addEventListener("input",e=>{curQ=e.target.value;render();});
+document.getElementById("chips").addEventListener("click",e=>{
+  const c=e.target.closest(".chip"); if(!c) return;
+  curSec=c.dataset.s;
+  document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x===c));
+  render();
+});
+render();
+</script>
+</body>
+</html>

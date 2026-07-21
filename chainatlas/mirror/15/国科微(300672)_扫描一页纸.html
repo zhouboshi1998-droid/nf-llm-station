@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>国科微(300672)_扫描一页纸</title>
+<style>
+:root{
+  --navy:#1F497D;   --navy2:#17365D;  --blue:#4F81BD;   --lblue:#96C5FF;
+  --panel:#EDF2F8;  --zebra:#F2F6FB;  --ink:#333940;    --gray:#595959;
+  --gray2:#A5A5A5;  --line:#D6DCE5;   --red:#FD625E;    --redd:#C7362F;
+  --dn:#1E8449;     --keybg:#FDF0EF;  --coolbg:#EAF1F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#E9ECF1;color:var(--ink);padding:20px 12px;
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Hiragino Sans GB","Noto Sans CJK SC",sans-serif;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.sheet{width:210mm;min-height:295mm;margin:0 auto;background:#fff;padding:9mm 10mm 8mm;
+  box-shadow:0 3px 22px rgba(20,30,50,.16);border-radius:3px}
+b{font-weight:700}
+.up{color:var(--redd);font-weight:700}
+.dn{color:var(--dn);font-weight:700}
+
+.hdr{background:var(--navy);border-radius:5px;position:relative;overflow:hidden;
+  padding:11px 18px 12px 20px;display:flex;justify-content:space-between;align-items:flex-end}
+.hdr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+.hdr .kick{font-size:8.5px;letter-spacing:2.5px;color:var(--lblue);font-weight:700;margin-bottom:5px}
+.hdr .name{font-size:25px;font-weight:800;color:#fff;letter-spacing:.5px;line-height:1}
+.hdr .code{font-size:14px;font-weight:700;color:var(--red);margin-left:10px}
+.hdr .tags{font-size:10.5px;color:#C9D8EC;margin-top:7px}
+.hdr .r{text-align:right}
+.hdr .px{font-size:14.5px;font-weight:800;color:#fff}
+.hdr .meta{font-size:10px;color:#C9D8EC;margin-top:4px}
+.hdr .date{font-size:9.5px;color:#8FA6C4;margin-top:3px}
+.lead{font-size:11px;color:#3C4A57;line-height:1.55;margin:9px 2px 0;padding-left:9px;border-left:3px solid var(--red)}
+.lead b{color:var(--navy)}
+
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:11px 0 4px}
+.stat{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);border-radius:5px;padding:7px 9px}
+.stat .k{font-size:9px;color:var(--gray)}
+.stat .v{font-size:14px;font-weight:800;color:var(--navy2);margin-top:2px;line-height:1.05}
+.stat .s{font-size:9px;font-weight:700;margin-top:3px;color:var(--gray)}
+
+.sec{margin-top:13px}
+.sec-h{display:flex;align-items:baseline;gap:8px;border-bottom:1.5px solid var(--navy);padding-bottom:4px;margin-bottom:7px}
+.sec-h .sn{font-size:11px;font-weight:800;color:var(--red);letter-spacing:.5px}
+.sec-h h2{font-size:14px;font-weight:800;color:var(--navy2);letter-spacing:.2px}
+.sec-h .tip{margin-left:auto;font-size:9px;color:var(--gray2);font-weight:400}
+
+table{width:100%;border-collapse:collapse;font-size:9.2px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+th{background:var(--navy);color:#fff;font-size:9px;font-weight:700;text-align:left;padding:5px 7px}
+td{padding:4.5px 7px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+table:not(.val) tbody tr:nth-child(even) td{background:var(--zebra)}
+.num{text-align:right;white-space:nowrap}
+th.num{text-align:right}
+.el-cap{font-size:8.6px;color:var(--gray);margin-top:4px}
+
+.biz tbody tr.key td{background:var(--keybg);font-weight:700}
+.biz tbody tr.key td:first-child{color:var(--redd);border-left:3px solid var(--red)}
+.biz tbody tr.total td{background:var(--navy);color:#fff;font-weight:700;border-top:2px solid var(--navy2)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bl{margin-bottom:5px}
+.bl .t{font-size:10px;font-weight:700;color:var(--navy)}
+.bl .t::before{content:"▪ ";color:var(--red)}
+.bl .x{font-size:9.3px;color:#3C4A57;line-height:1.5;margin-top:1px}
+.p{font-size:9.5px;color:#3C4A57;line-height:1.55;margin-bottom:6px}
+.p b{color:var(--navy)}
+td.base{color:var(--navy2);font-weight:700}
+
+.exp{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:7px 9px;margin-top:7px}
+.exp .eh{font-size:9.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.exp .er{display:flex;gap:7px;margin-bottom:3px}
+.exp .lb{flex:0 0 52px;font-size:8.8px;font-weight:700;color:var(--blue)}
+.exp .er.rv .lb{color:var(--redd)}
+.exp .vv{font-size:8.8px;color:#3C4A57;line-height:1.45}
+
+.val .cnh{background:var(--navy2);color:#fff}
+.val .oph{background:var(--red);color:#fff}
+.val .cn{background:var(--coolbg)}
+.val .op{background:var(--keybg)}
+.val .bd{border-left:2px solid var(--red)}
+.val .as{color:#3C4A57}
+.val .nn{font-weight:800;color:var(--navy2)}
+.val .no{font-weight:800;color:var(--redd)}
+tr.ai-row td:first-child{background:var(--keybg);color:var(--redd);font-weight:700;border-left:3px solid var(--red)}
+tr.ai-row .cn{background:#DEE9F4}
+tr.ai-row .op{background:#FBE3E1}
+tr.sum td{background:var(--navy);color:#fff;font-weight:700}
+tr.sum .cn,tr.sum .op{background:var(--navy);color:#fff}
+tr.sum td .sub{font-weight:500;color:#C9D8EC;font-size:8.6px}
+tr.mc td{background:var(--zebra);color:var(--ink);font-weight:700;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+tr.mc .cn,tr.mc .op{background:var(--zebra)}
+tr.mc td .sub{font-weight:600;color:var(--gray);font-size:8.6px}
+.note{font-size:8.6px;color:var(--gray);margin-top:5px;line-height:1.5}
+
+.cos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.co{border-radius:5px;padding:8px 11px}
+.co.key{background:var(--coolbg);border:1px solid var(--blue)}
+.co.risk{background:var(--keybg);border:1px solid var(--red)}
+.co .h{font-size:10px;font-weight:700;margin-bottom:3px}
+.co.key .h{color:var(--navy)}
+.co.risk .h{color:var(--redd)}
+.co .x{font-size:9px;color:#3C4A57;line-height:1.5}
+.src{font-size:8.6px;color:var(--gray);line-height:1.5;margin-top:9px}
+.src b{color:var(--navy)}
+
+@page{size:A4;margin:0}
+@media print{
+  html,body{background:#fff;padding:0;margin:0}
+  .sheet{width:210mm;min-height:0;box-shadow:none;border-radius:0;margin:0}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- 页眉 -->
+  <div class="hdr">
+    <div class="l">
+      <div class="kick">个股扫描 · 一页纸</div>
+      <span class="name">国科微</span><span class="code">300672</span>
+      <div class="tags">国产超高清/智慧视觉 SoC + 固态存储主控 · 「锁定晋华产能」为核心催化 · AI 间接敞口（治理存瑕疵）</div>
+    </div>
+    <div class="r">
+      <div class="px">现价 ¥246.50　总市值 ≈535 亿</div>
+      <div class="meta">PE-TTM 亏损 · PB ~13.7x · 2.17 亿股</div>
+      <div class="date">数据截至 2026-07-07 收盘</div>
+    </div>
+  </div>
+
+  <!-- 一句话看懂 -->
+  <div class="lead"><b>一句话看懂：</b>国科微是国产<b>超高清显示 / 智慧视觉 SoC</b>（系统级芯片）＋<b>固态存储主控</b>（SSD 主控）设计企业，覆盖"感知+连接+存储+计算"。核心看点：市场交易的是"<b>锁定晋华产能</b>切入存储颗粒→明后年业绩弹性大"（研究员观点，<b>公开未充分证实</b>），叠加 2026 年 1 月起合封 KGD 涨价 40–80% 修复毛利。2025 上市首亏（归母 -2.33 亿、毛利率 22.9%），2026Q1 已扭亏（归母 0.55 亿、毛利率 33.6%）；但 AI 为<b>间接</b>敞口、晋华产能不确定性高，<b>公司治理与质地存较大瑕疵</b>，估值处高位。</div>
+
+  <!-- KPI 条：6 格关键指标 -->
+  <div class="stats">
+    <div class="stat"><div class="k">2025 营收</div><div class="v">17.91 亿</div><div class="s dn">-9.4% YoY</div></div>
+    <div class="stat"><div class="k">2025 归母净利</div><div class="v">-2.33 亿</div><div class="s dn">上市首亏</div></div>
+    <div class="stat"><div class="k">2025 毛利率</div><div class="v">22.9%</div><div class="s dn">-3.4pct（料价压制）</div></div>
+    <div class="stat"><div class="k">智慧视觉占比</div><div class="v">44.7%</div><div class="s">安防/视频 SoC 基本盘</div></div>
+    <div class="stat"><div class="k">2026Q1 归母</div><div class="v">0.55 亿</div><div class="s up">+6.7%（扭亏）</div></div>
+    <div class="stat"><div class="k">2026Q1 毛利率</div><div class="v">33.6%</div><div class="s up">营收 +107.5%</div></div>
+  </div>
+
+  <!-- §01 业务构成 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">01</span><h2>业务构成（2025 年报口径）</h2><span class="tip">按营收占比降序 · 分部毛利率未披露 · 占比四舍五入</span></div>
+    <table class="biz">
+      <thead><tr>
+        <th>业务板块</th><th class="num">营业收入（亿元）</th><th class="num">占比</th><th class="num">同比</th><th class="num">毛利率</th><th class="num">毛利占比</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>智慧视觉（安防/视频 SoC）</td><td class="num">7.99</td><td class="num">44.6%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>超高清智能显示（机顶盒/商显）</td><td class="num">7.13</td><td class="num">39.8%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>物联网（WiFi 芯片等）</td><td class="num">1.91</td><td class="num">10.6%</td><td class="num">未披露</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr class="key"><td>◆ 固态存储（SSD 主控）</td><td class="num">0.45</td><td class="num">2.5%</td><td class="num up">+49.4%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr><td>集成电路研发设计及服务</td><td class="num">0.42</td><td class="num">2.3%</td><td class="num up">+36.9%</td><td class="num">未披露</td><td class="num">未披露</td></tr>
+        <tr class="total"><td>合计</td><td class="num">17.91</td><td class="num">100%</td><td class="num dn">-9.4%</td><td class="num">22.9%</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §02 | §03 左右两栏 -->
+  <div class="two">
+    <div class="sec">
+      <div class="sec-h"><span class="sn">02</span><h2>核心敞口、弹性与产业链位置</h2></div>
+      <div class="bl"><div class="t">当前敞口</div><div class="x">智慧视觉 SoC（占 44.7%）＋超高清显示（占 39.8%）为基本盘；<b>固态存储 SSD 主控</b>占 2.5%（+49%）是弹性入口。AI 为<b>间接</b>敞口——靠合封 KGD/存储主控涨价修复毛利，非直接算力/HBM。</div></div>
+      <div class="bl"><div class="t">产业链卡位</div><div class="x">Fabless（无晶圆设计）：视觉 SoC + SSD 主控；主控为设计环节、产能跟随代工，自身不受产能约束。SSD 主控搭载国产 CPU IP、过国密国测双认证。</div></div>
+      <div class="bl"><div class="t">技术 &amp; 盈利力</div><div class="x">2025 综合毛利率 22.9%（-3pct，内存等料价大涨压制）；2026Q1 已修复至 33.6%。自研"圆鸮"AI ISP 领先，GKNPU 4.0 / 4K AI 视觉切入端侧 AI、AI PC、机器人。</div></div>
+      <div class="bl"><div class="t">远期结构变化</div><div class="x">市场核心逻辑＝<b>锁定晋华产能</b>切入存储颗粒、明后年业绩弹性大（研究员观点，公开未充分证实）；物联网 WiFi 芯片 0→1、车载 AI ISP+SerDes 前瞻布局构成第二成长极。</div></div>
+      <div class="bl"><div class="t">涨价口径利润</div><div class="x">2026 年 1 月起合封 512Mb/1Gb/2Gb KGD 涨价 40%/60%/80%，带动智慧视觉/存储主控毛利修复（见 §03）；2025 售价未提而料价大涨曾压制毛利。</div></div>
+      <div class="bl"><div class="t">市场在交易什么</div><div class="x">（2026 年 7 月）主线＝存储超级周期＋"晋华产能"弹性预期＋端侧 AI；股价年内暴涨（6 月冲 ~330 元、现回落 246.5 元），交易高度拥挤；现市值 535 亿已隐含 2028E 强假设盈利（见 §04）。</div></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h"><span class="sn">03</span><h2>涨价/毛利修复与盈利弹性</h2></div>
+      <div class="p"><b>涨价逻辑：</b>AI 拉动存储超级周期→合封 KGD、存储主控涨价；2026 年 1 月起 512Mb/1Gb/2Gb KGD 分别涨价 40%/60%/80%，修复此前被料价压制的毛利。主逻辑非公司单品自主提价，而是<b>毛利率修复＋量增</b>。</div>
+      <div class="p"><b>弹性假设：</b>毛利率修复弹性为主。以 2025 营收 17.91 亿为基数，毛利率每修复 1pct 增厚毛利约 0.18 亿（测算）。</div>
+      <table>
+        <thead><tr><th>毛利率情景</th><th class="num">较2025增厚毛利</th><th class="num">口径说明</th><th class="num">对应净利弹性</th></tr></thead>
+        <tbody>
+          <tr><td class="base">基准（2025 全年 22.9%）</td><td class="num">—</td><td class="num">上市首亏基数</td><td class="num dn">归母 -2.33 亿</td></tr>
+          <tr><td class="base">修复至 28%（+5pct）</td><td class="num">+0.9 亿</td><td class="num">向 26Q1 靠拢</td><td class="num up">趋近盈亏平衡</td></tr>
+          <tr><td class="base">修复至 33.6%（26Q1 水平）</td><td class="num">+1.9 亿</td><td class="num">KGD 涨价传导</td><td class="num up">明确扭亏</td></tr>
+          <tr><td class="base">修复至 38%（+15pct）</td><td class="num">+2.7 亿</td><td class="num">量价齐升+费用摊薄</td><td class="num up">显著盈利弹性</td></tr>
+        </tbody>
+      </table>
+      <div class="el-cap">量价/毛利敏感性（测算）；增厚毛利＝2025 营收 17.91 亿×毛利率变动 pct；净利弹性另受研发费用（2025 大增）、政府补助与销量影响，方向性示意。国科微主逻辑为"毛利修复＋放量"而非纯单品涨价，故以毛利率情景替代涨价弹性 4 行。</div>
+      <div class="exp">
+        <div class="eh">▪ 环节扩产 · 供需反转研判</div>
+        <div class="er"><span class="lb">扩产节奏</span><span class="vv">主控为设计环节、产能跟随代工，自身不受产能约束；景气跟随 NAND/SSD 与企业级/数据中心需求。所谓"锁定晋华产能"切入颗粒为核心弹性来源，但公开未充分证实。</span></div>
+        <div class="er"><span class="lb">扩产时点</span><span class="vv">跟随存储大周期，2026 合封 KGD 涨价传导中；企业级/信创需求回暖是关键变量。</span></div>
+        <div class="er rv"><span class="lb">供需反转</span><span class="vv">28 年前利基颗粒紧缺延续支撑景气；关键变量＝晋华产能能否落地、AI 拉动是否延续、客户集中度风险。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §04 市值空间 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">04</span><h2>乐观 / 中性 市值空间（2028E 分段情景 · 研究员给定归母）</h2><span class="tip">全部为情景测算 · 强假设、确定性低</span></div>
+    <table class="val">
+      <thead><tr>
+        <th>业务（2028E · 假设倍数）</th><th class="cnh">中性 · 2028E 假设</th><th class="cnh num">净利</th><th class="oph bd">乐观 · 2028E 假设</th><th class="oph num">净利</th>
+      </tr></thead>
+      <tbody>
+        <tr class="ai-row"><td>◆ 存储/主控相关 ·15x</td><td class="cn as">晋华产能落地、颗粒放量（测算）</td><td class="cn num nn">70</td><td class="op as bd">产能+涨价+毛利上行（测算）</td><td class="op num no">150</td></tr>
+        <tr><td>其他（视觉/超高清/物联网）·15x</td><td class="cn as">SoC 稳健、AI/车载起量（测算）</td><td class="cn num nn">30</td><td class="op as bd">端侧AI/车载超预期（测算）</td><td class="op num no">50</td></tr>
+        <tr class="sum"><td>合计归母净利（亿元）</td><td class="cn"><span class="sub">存储 70 / 其他 30</span></td><td class="cn num">~100</td><td class="op bd"><span class="sub">存储 150 / 其他 50</span></td><td class="op num">~200</td></tr>
+        <tr class="mc"><td>对应市值 vs 现价 535 亿</td><td class="cn"><span class="sub">整体 15x（研究员给定）</span></td><td class="cn num up">~1,500亿 (+180%)</td><td class="op bd"><span class="sub">整体 15x（研究员给定）</span></td><td class="op num up">~3,000亿 (+461%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>估值法：</b>锚定 2028E 归母（研究员给定：中性 100 亿 / 乐观 200 亿，均基于"晋华产能"强假设）× 假设 PE 15x。分段净利按存储/非存储贡献拆分为情景测算，合计等于研究员给定归母。<b>结论：</b>锁定晋华产能则明后年业绩弹性极大，但盈利假设弹性极大、确定性低，且公司治理与质地存较大瑕疵；隐含空间大但可证伪性强。</div>
+  </div>
+
+  <!-- §05 催化剂 · 风险 · 数据来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="sn">05</span><h2>催化剂 · 风险 · 数据来源</h2></div>
+    <div class="cos">
+      <div class="co key"><div class="h">▶ 催化剂（看兑现）</div><div class="x">① "锁定晋华产能"切入存储颗粒落地验证（核心弹性，待证实）；② 2026 合封 KGD 涨价 40–80% 持续传导、毛利率延续修复（26Q1 已至 33.6%）；③ 物联网 WiFi 芯片放量、固态存储信创回暖；④ 端侧 AI（GKNPU/MLPU）、车载 AI ISP+SerDes 量产上市。</div></div>
+      <div class="co risk"><div class="h">▶ 风险 / 证伪点</div><div class="x">① <b>公司治理与质地存较大瑕疵</b>、客户集中度高；② "晋华产能"公开未充分证实，中性/乐观盈利均为强假设、确定性低；③ 2025 上市首亏、PE-TTM 亏损、PB ~13.7x 估值偏高；④ 存储景气/AI 拉动减弱或涨价传导不及预期→毛利修复证伪；⑤ 股价年内暴涨、交易拥挤，波动放大。</div></div>
+    </div>
+    <div class="src"><b>数据来源：</b>同花顺 iFinD（行情 / 估值 / 财务，截至 2026-07-07 收盘）；国科微 2025 年年度报告及 2026 年一季报（主营分部为 2025 年报口径，分部毛利率未单独披露）；国联民生证券深度报告、CFM 闪存市场等公开资料；公开券商研报及会议纪要。2028E 归母（研究员给定中性/乐观值，基于"晋华产能"强假设）、毛利/盈利弹性与市值空间为情景测算，弹性极大、确定性低，仅为情景推演、可证伪，不构成投资建议。</div>
+  </div>
+
+</div>
+</body>
+</html>
