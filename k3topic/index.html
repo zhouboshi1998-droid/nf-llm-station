@@ -35,6 +35,11 @@ body{
 .tile .glyph{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:23px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3);margin-bottom:14px;}
 .tile.t1 .glyph{background:linear-gradient(180deg,#C46FE8,#7B44D0);}
 .tile.t2 .glyph{background:linear-gradient(180deg,#48C6DB,#1D8FA3);}
+.tile.t3{grid-column:1/-1;}
+.tile.t3 .glyph{background:linear-gradient(180deg,#5AA2F0,#1C5CAB);}
+.tile.t3 .badge{background:rgba(42,120,214,.11);color:#1C5CAB;}
+.tile.t3 .open{color:#1C5CAB;}
+.tile .new{display:inline-flex;font-size:10px;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:#2a78d6;color:#fff;margin-left:8px;vertical-align:2px;}
 .tile .badge{align-self:flex-start;font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
 .tile.t1 .badge{background:rgba(154,61,201,.11);color:#7B2FA8;}
 .tile.t2 .badge{background:rgba(29,143,163,.12);color:#16697A;}
@@ -56,12 +61,21 @@ body{
 <div class="wrap">
 
   <div class="hero">
-    <div class="eyebrow">Kimi K3 专题 · 2026-07-19</div>
+    <div class="eyebrow">Kimi K3 专题 · 更新 2026-07-27</div>
     <h1>Kimi K3 专题看板</h1>
-    <p>把 K3 拆成两条线看：<b>怎么算（算法机制 → 硬件需求传导）</b> 与 <b>市场怎么评（多源反馈全景）</b>。两张全屏视图，点击卡片打开。</p>
+    <p>三条线看 K3：<b>官方怎么说（7-27 权重开源 + 47 页技术报告全解）</b>、<b>怎么算（算法机制 → 硬件需求传导）</b>、<b>市场怎么评（多源反馈全景）</b>。点击卡片打开全屏视图。</p>
   </div>
 
   <div class="cards">
+    <a class="tile t3" href="技术报告全解_图表版.html" target="_blank" rel="noopener">
+      <div class="glyph">📊</div>
+      <span class="badge">研究整理 · A 级·报告原文逐字核对 + 独立审计</span>
+      <h2>技术报告全解 · 图表版<span class="new">7-27 NEW</span></h2>
+      <p>权重如期开源当日的全景拆解：<b>发布兑现线与 License 三道闸</b>（$2,000 万 MaaS 钩子）→ <b>K2→K3 规模跃迁与 93 层构成</b>（69 KDA + 24 MLA · 896 选 16）→ <b>Benchmark 坐标</b>（8 项第一 vs 7 项落后，AA 指数差 2.8 分）→ <b>性能-成本前沿</b>（BrowseComp 最高分 $2.03/任务）→ <b>网络安全章</b>（16 个未知漏洞 + 美英政府联合评估）→ <b>工程全栈</b>（5,121 万沙箱 · 自我改进闭环）→ 四条买方判断（含可证伪条件）。</p>
+      <div class="meta"><span class="chip">License 三道闸</span><span class="chip">K2→K3 跃迁</span><span class="chip">Benchmark 全表</span><span class="chip">成本前沿</span><span class="chip">网络安全</span><span class="chip">RL 环境工程</span><span class="chip">买方判断</span></div>
+      <div class="open">打开技术报告全解 →</div>
+    </a>
+
     <a class="tile t1" href="算法机制与硬件需求传导_全景图.html" target="_blank" rel="noopener">
       <div class="glyph">⚙</div>
       <span class="badge">研究整理 · A 级核实</span>
@@ -82,8 +96,8 @@ body{
   </div>
 
   <div class="foot">
-    <b>出处与口径：</b>左卡（算法×硬件）为研究整理，K3 架构/定价/Mooncake 等核心数字 <span class="badge-a">A 级</span> 已独立 WebSearch 多源核实；机制传导为框架推断。右卡（市场反馈）为 <b>Kimi K3 自产</b>多源反馈汇总（<span class="badge-c">by_kimi</span>），数据口径以其标注来源方为准、厂商自测与第三方混排处已标注，作为市场感知参考、非独立数字 source。<br>
-    整理挂载：2026-07-19 · 隶属「大模型产业动态站 · 专题与沉淀」
+    <b>出处与口径：</b>顶卡（技术报告全解）数字以 2026-07-27 官方权重/47 页报告/License 原文为准（<span class="badge-a">A 级</span>·经独立审计逐项 verify）；算法×硬件卡为研究整理，核心数字 <span class="badge-a">A 级</span> 已独立 WebSearch 多源核实、机制传导为框架推断；市场反馈卡为 <b>Kimi K3 自产</b>多源反馈汇总（<span class="badge-c">by_kimi</span>），作为市场感知参考、非独立数字 source。<br>
+    整理挂载：2026-07-19 · 最近更新 2026-07-27（权重开源日）· 隶属「大模型产业动态站 · 专题与沉淀」
   </div>
 
 </div>
