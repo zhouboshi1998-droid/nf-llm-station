@@ -106,6 +106,24 @@ footer code{font-family:var(--mono);background:#f2f2f7;padding:1px 6px;border-ra
 .ec-body li{font-size:12px;line-height:1.5;margin-bottom:5px;color:#3a3a3c;}
 .ec-body li b{color:var(--ink);font-weight:600;}
 .ec-body .cav{color:var(--warn);}
+/* ── 已发公司详细版：四宫格（业绩要点/指引/外部分析/我的分析） ── */
+.ec-body.q4{grid-template-columns:1fr 1fr;gap:16px 22px;}
+.ec-r h5{color:#7a4b00;} .ec-x h5{color:#5b4b8a;} .ec-m h5{color:#0a6b3d;}
+.ec-m{background:#f4fbf7;border-radius:8px;padding:2px 12px 10px;margin-top:6px;}
+.ec-x{background:#f8f7fc;border-radius:8px;padding:2px 12px 10px;margin-top:6px;}
+.byl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;color:var(--hint);
+     font-weight:400;text-transform:none;margin-top:3px;line-height:1.45;}
+.src{display:inline-block;font-family:var(--mono);font-size:9.5px;color:#5b4b8a;background:#efecf7;
+     border-radius:4px;padding:0 5px;margin-right:5px;vertical-align:1px;font-weight:600;}
+.ec-m .src{color:#0a6b3d;background:#e4f4ec;}
+.gr{font-family:var(--mono);font-size:9.5px;color:var(--hint);font-weight:400;}
+/* 表内「看详细版」跳转 */
+.more{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent);
+      border:1px solid var(--accent);border-radius:5px;padding:1px 7px;margin-top:5px;text-decoration:none;
+      white-space:nowrap;}
+.more:hover{background:var(--accent);color:#fff;}
+.ec:target{box-shadow:0 0 0 2px var(--accent);border-radius:9px;}
+.focus.slim{max-width:430px;}
 @media(max-width:720px){.cards{grid-template-columns:1fr;}h1{font-size:21px;}.wrap{padding:18px 13px 44px;}.ec-body{grid-template-columns:1fr;gap:4px;}.ec-sum{display:none;}}
 body.embed .wrap{max-width:none;padding:16px 20px 44px;}
 body.embed header{display:none;}
@@ -153,7 +171,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">€9.3bn <span class="beat">超指引上限</span><span class="vs">指引 €8.4–9.0bn · 超出主因＝装机管理业务(Installed Base Mgmt，非 IBM 公司)</span></td>
   <td class="num act">€7.59 <span class="beat">beat</span><span class="vs">共识 €6.8–7.4 · ⚠️€ 口径，$8.69 是 ADR 口径勿混比</span></td>
-  <td class="focus"><b>✅ 全年指引大幅上修 €36–40bn → €43–45bn</b>（中值 +15.8%，vs FY25 +34.6%）；GM 指引 51–53% → <b>54–56%</b>（+300bps，已摸 2030 目标 56–60% 下沿、提前约 4 年）。⚠️<b>中国出口管制未成 overhang</b>——中国占比 ~20% 与整体同步。详见下方纪要要点</td>
+  <td class="focus slim">✅ <b>全年指引大幅上修 €36–40bn → €43–45bn</b>、GM 51–53% → <b>54–56%</b>（提前约 4 年摸到 2030 目标下沿）。⚠️但超预期来自<b>装机管理业务</b>，不是台数——量的故事正在变成价的故事。<br><a class="more" href="#d-asml">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">EUR</td>
 </tr>
 <tr class="done">
@@ -162,7 +180,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">US$40.2bn <span class="beat">指引上沿</span><span class="vs">NT$1.27 万亿（+36.0% YoY / +12.0% QoQ）· 指引区间 39.0–40.2 的最上沿〔A〕</span></td>
   <td class="num act">NT$27.25 <span class="beat">beat</span><span class="vs">ADR 口径 $4.31 vs 共识 $3.87（FMP）· ⚠️净利 +77.4% 内含出售世界先进(VIS)股权一次性收益 NT$632 亿（≈当季净利 9%），剔除后利润 beat 与经营端 +3.3% 对齐，55.6% 净利率不可外推</span></td>
-  <td class="focus"><b>✅ 毛利率 67.7%</b>（超自家指引上限 67.5%、环比 +1.5pct，且是在 N2 首季放量稀释＋存货天数 +7 天＋海外厂稀释三重逆风下做出来的）；经营利润率 60.3%（超上限 58.5%）。<b>FY26 capex 指引大幅上修 $520–560 亿 → $600–640 亿</b>，单季实际 $157 亿环比 +41.4% 创新高，CFO 口径"未来三年资本支出显著高于过去三年"——<b>对 ASML/AMAT/KLA 与先进封装链的 read-across 价值大于对 TSM 自身利润</b>。全年美元营收增速指引上修至 "slightly above 40%"（原 above 30%）。结构：HPC 66%（上季 61%）、手机 22%。<b>⚠️3Q 指引毛利率中值 66%</b>（较 2Q 回落 1.7pct，且内嵌台币贬值顺风），N2 稀释真实体量大于表面。详见本地 <b>2Q26 业绩点评</b></td>
+  <td class="focus slim">✅ <b>毛利率 67.7% 超自家指引上限</b>，且是在 N2 稀释＋备货＋海外厂三重逆风下做出来的。<b>FY26 capex 上修 $520–560 亿 → $600–640 亿</b>——对设备与先进封装链的 read-across 大于对 TSM 自身利润。<br><a class="more" href="#d-tsm">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 </tbody></table></div>
@@ -177,7 +195,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$119.8bn <span class="beat">beat</span><span class="vs">共识 $116.5bn（+2.8%）· YoY +24%〔A〕</span></td>
   <td class="num act">$9.11 <span class="beat">GAAP·失真</span><span class="vs">⚠️ GAAP EPS 含权益投资浮盈，与共识 $2.86 不可比；<b>核心 EPS ≈$2.68 为研究员估算〔C〕</b>。看经营利润更干净：OI $407.7 亿 / OPM 34.0%</span></td>
-  <td class="focus"><b>✅ 云是主角：Cloud 收入 $248 亿、经营利润 $88 亿（OM 35.6%）、backlog $5,140 亿</b>——AI 订单能见度是本季最强读数。Google Services $945 亿（搜索及其他广告 $633 亿 / YouTube 广告 $111 亿 / 订阅 $129 亿）。<b>⚠️代价在现金流：单季 capex $449 亿，FY26 capex 指引 $1,950–2,050 亿，当季 FCF 转负 −$59 亿</b>（CFO $391 亿 &lt; capex）——"AI 重投入吞自由现金流"在四大云厂里 GOOGL 最先显性化。Gemini 3 变现 vs 搜索流量分流的分歧本季未被证伪也未被证实。详见本地 <b>2026Q2 业绩点评</b></td>
+  <td class="focus slim">✅ <b>Cloud 收入 $248 亿、YoY +82% 连续两季加速，backlog $5,140 亿</b>，是本季最强边际信号。⚠️代价是 capex 指引再上修至 $1,950–2,050 亿、<b>单季 FCF 转负 −$59 亿</b>。<br><a class="more" href="#d-googl">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 <tr class="done">
@@ -186,7 +204,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$28.24bn <span class="beat">beat</span><span class="vs">共识 $25.5–26.4bn（+7~10%）· 创单季营收新高〔A〕</span></td>
   <td class="num act">$0.33 <span class="miss">miss</span><span class="vs">调整后口径，共识 $0.49–0.50（−33%）· 收入超预期而利润不及＝价跌换量〔A〕</span></td>
-  <td class="focus"><b>营收 beat + 利润 miss 的组合，症结在毛利率</b>：整体 GM 16.8%，<b>剔除监管积分的汽车毛利率 16.3%——同比是升的，环比从 19.2% 掉下来</b>（单车 ASP 下滑 + 积分收入减少）。<b>⚠️现金流：单季 capex $58 亿、FCF −$11 亿，2026 全年 capex 指引上调至 $250 亿以上</b>。Robotaxi 从 Austin 扩到 Dallas/Houston/Miami/Orlando/Tampa，累计付费里程约 225 万英里（2025 年中起算）。<b>股价盘后 −4.05%</b>——市场买的是自动驾驶叙事，卖的是汽车业务的经营杠杆恶化</td>
+  <td class="focus slim"><b>营收创新高 + 利润 miss</b>：交付 48.0 万辆创纪录，但经营利润率压到 1.4%、FCF −$10.9 亿。市场看的不是卖了多少车，是<b>AI 投入还能不能由汽车现金流供养</b>。<br><a class="more" href="#d-tsla">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 <tr class="done">
@@ -195,7 +213,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">€9.9bn <span class="beat">+9%</span><span class="vs">固定汇率 +11%；ADR 口径 $11.24bn 略低于共识 $11.30bn〔A/B〕</span></td>
   <td class="num act">$1.85/ADR <span class="miss">miss</span><span class="vs">共识 $2.00（−7.5%，FMP）〔B〕</span></td>
-  <td class="focus"><b>✅ 核心指标全好：云收入 €63 亿 +22%（固汇 +24%）；当前云订单额 CCB €229 亿 +27%（固汇 +26%）——较 Q1 加速，且扭转了"backlog 增速慢于云收入增速"的前期趋势</b>，这是订单能见度真实改善的信号。<b>⚠️利润指引下修才是股价的解释项：non-IFRS 经营利润全年指引砍到 €118–122 亿，原因是 7 月完成的两笔 AI/数据并购（Dremio 数据湖仓、Prior Labs 表格基础模型）下半年确定亏损</b>——属主动买增长的稀释，与经营恶化不同性质，但市场当季不给估值。<b>判断：基本面读数（CCB 加速）优于利润读数</b></td>
+  <td class="focus slim">✅ <b>CCB €229 亿 +27% 环比加速</b>，扭转了“backlog 慢于云收入”的前期趋势。⚠️利润指引下修至 €118–122 亿系 Dremio/Prior Labs 并购稀释（>€1 亿），属主动买增长。<br><a class="more" href="#d-sap">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">EUR</td>
 </tr>
 <tr>
@@ -365,7 +383,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$16.13bn <span class="beat">大幅 beat</span><span class="vs">共识 $14.34bn（+12.4%）· YoY +25%，15 年来最快单季营收增速〔A〕</span></td>
   <td class="num act">$0.42 <span class="beat">2× 共识</span><span class="vs">Non-GAAP，共识 $0.21。⚠️GAAP EPS −$2.16，系 CHIPS 法案托管股权(Escrowed Shares)公允价值损失 $125.29 亿，非经营非现金〔A〕</span></td>
-  <td class="focus"><b>✅ 三条分部线同向走对：DCAI 收入 +59% 至 $62.62 亿；代工外部收入环比 +68% 至 $2.93 亿（此前连续两季环比下滑，本季是拐点）；capex 指引从"与去年持平"上调到 $200 亿以上、并预告 2027 显著更高。</b>合起来说明的不是"18A 终于做出来了"（Q1 就在讲），而是<b>外部客户开始为 Intel 产能掏钱</b>——把"外部代工客户能否从 LTA 变成规模收入"这条最悬的证伪线暂时按下去了（一个季度的拐点还不够构成商业闭环）。<b>⚠️代价：上半年调整后自由现金流 −$84 亿</b>。详见本地 <b>Q2 FY26 业绩点评</b></td>
+  <td class="focus slim">✅ <b>三线同向：DCAI +59%、代工外部收入环比 +68%（此前连跌两季）、capex 上调至 $200 亿+</b>。外部世界开始为 Intel 产能掏钱。⚠️代价是上半年调整后 FCF −$84 亿。<br><a class="more" href="#d-intc">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 <tr>
@@ -383,7 +401,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$5.463bn <span class="beat">beat</span><span class="vs">共识 $5.258bn（+3.9%）· YoY +23% / QoQ +13.2%〔A〕</span></td>
   <td class="num act">$2.14 <span class="beat">beat</span><span class="vs">共识 $1.91（+12%）· TXN 不发 Non-GAAP，此为 GAAP〔A〕</span></td>
-  <td class="focus"><b>业绩本身是干净的 beat：毛利率 61.4%、经营利润率 42.3%，模拟周期复苏兑现。</b><b>⚠️但股价当日 −4.5%，卖点在两处</b>：① <b>Q3 指引中值营收 $59.0 亿 / EPS $2.40 未给出加速信号</b>；② <b>存货 46.05 亿美元、196 天</b>，周期股在复苏中段扛这么高的库存天数，是"补库存需求"还是"真实终端拉动"没被证伪。收盘 $284.48、市值 $2,599 亿，卖方一致目标价 $307.94。详见本地 <b>Q2 FY2026 业绩点评</b></td>
+  <td class="focus slim">✅ 干净的 beat：GM 61.4%、<b>库存天数连续两季下行 222→209→196</b>，去库存兑现。⚠️但股价 −4.5%——好消息已 price-in，后续看指引斜率而非预期修正。<br><a class="more" href="#d-txn">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 <tr class="grp"><td colspan="7">■ 芯片制造 · 设备 / EDA / 封测 / 材料</td></tr>
@@ -420,7 +438,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">FY27 Q1</td>
   <td class="num act">¥662.4bn <span class="miss">低于共识</span><span class="vs">共识 ¥684.9bn（−3.3%）· YoY +5.4%（去年同期 ¥628.6bn）〔A/B〕</span></td>
   <td class="num act">¥70.24 <span class="beat">beat</span><span class="vs">共识 ¥67.7（+3.7%）· 归母净利 ¥1,308 亿 vs 去年 ¥1,264 亿〔A/B〕</span></td>
-  <td class="focus"><b>收入低于共识、利润高于共识——增量在结构不在总量</b>：经营利润 ¥1,738 亿（去年同期 ¥1,668 亿，+4.2%），利润增速快于收入增速说明高毛利的半导体材料（硅晶圆/光刻胶）占比在提升、低毛利 PVC 周期拖累被稀释。<b>全年指引（截至 2027 年 3 月）：营收 ¥2.70 万亿 +5%、经营利润 ¥7,000 亿 +10.2%</b>——指引同样是"利润增速＞收入增速"，与季度结构一致。<b>作为 AI 芯片最上游材料端，读数是稳健而非爆发，跟半导体设备端（ASML/TEL）的强度不在一个量级</b></td>
+  <td class="focus slim">利润增速（+4.2%）快于收入增速（+5.4% 但低于部分口径共识）＝高毛利半导体材料占比提升、PVC 拖累被稀释。全年指引同为“利润快于收入”。<b>上游材料端是稳健而非爆发</b>，与设备端不在一个量级。<br><a class="more" href="#d-shinetsu">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">JPY</td>
 </tr>
 <tr class="grp"><td colspan="7">■ 基础设施 · 互连 / 光通信 / 存储 / 硬件</td></tr>
@@ -467,7 +485,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$11.10bn <span class="beat">beat</span><span class="vs">共识 $10.79bn（+2.9%）· YoY +12%〔A〕</span></td>
   <td class="num act">$2.47 <span class="miss">miss</span><span class="vs">共识 $3.17（−22%）· 但调整后 EBITDA $12 亿 +61%〔A/B〕</span></td>
-  <td class="focus"><b>✅ 本季最强读数不在利润表，在订单：Q2 订单 $242 亿、同比 +88%，在手订单 $1,760 亿</b>；<b>电气化分部上半年数据中心订单超 $50 亿，已是 2025 全年两倍以上</b>——这是 AI 电力需求兑现成合同的直接证据（能源层最硬的一条链）。<b>全年指引上调：营收 $455–465 亿、自由现金流 $115–125 亿</b>，管理层归因于订单激增＋利润率改善＋预付款比例提高。<b>⚠️弱项在风电：订单 −40%、单季 EBITDA 亏损 $2.75 亿</b>——GEV 的 alpha 在燃机+电网，风电是持续拖累项</td>
+  <td class="focus slim">✅ <b>订单 $242 亿 +88%、在手 $1,760 亿；电气化上半年数据中心订单 >$50 亿＝2025 全年两倍以上</b>。⚠️EPS miss 22%，但 FCF 指引近乎翻倍上修——现金先到、利润后认。<br><a class="more" href="#d-gev">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 <tr class="grp"><td colspan="7">■ 软件 · 应用</td></tr>
@@ -477,7 +495,7 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$3.987bn <span class="beat">beat</span><span class="vs">共识 $3.927bn（+1.5%）· 其中订阅收入 $38.77 亿，超指引上限 150bps〔A〕</span></td>
   <td class="num act">$0.90 <span class="beat">beat</span><span class="vs">共识 $0.86（+4.7%）〔B〕</span></td>
-  <td class="focus"><b>✅ 领先指标好于当期报表：cRPO 固汇 +21.5%，比指引高 2 个点以上</b>；订阅超指引来自净新增 ACV 超预期＋本地部署收入结构好于预期。<b>全年订阅收入指引上调至 $157.60–157.80 亿（报告口径 +22.5% / 固汇 +21%）</b>。<b>⚠️代价在毛利率：全年毛利率指引下修，原因是更多客户走超大规模云厂合作部署 + 客户 AI 采用加速——AI 变现在 NOW 这里先体现为成本，再体现为收入。</b>本季前 YTD 股价已 −38%，这份财报是叙事修复的第一个支点</td>
+  <td class="focus slim">✅ <b>AI ACV 单季破 $10 亿、净新增环比加速 40%+</b>，cRPO 固汇 +21.5% 超指引 2pct+。⚠️订阅毛利率 83.0%→80.5%——<b>AI 变现在 NOW 先体现为成本</b>。<br><a class="more" href="#d-now">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 <tr class="done">
@@ -486,94 +504,53 @@ body.embed .cards{margin-top:0;}
   <td class="q">CY26 Q2</td>
   <td class="num act">$17.16bn <span class="miss">miss</span><span class="vs">7/22 正式值，YoY 仅 +1%；vs 预警前共识 $17.86bn（−3.9%）〔A〕</span></td>
   <td class="num act">$2.93 <span class="miss">miss</span><span class="vs">调整后；vs 预警前共识 $3.01–3.03。GAAP EPS $2.27〔A〕</span></td>
-  <td class="focus"><b>🔴 7/14 负面预披露，盘中一度 -25% 至 ~$215</b>（1987 年来最差单日）。分部：基础设施 <b>-7%</b>、软件 +5%（MSe +11%）、咨询 +1%(CC)；毛利率较 MSe 低 130bps，靠成本削减把 PTI 护在 19.2%；红帽 +11% 仍稳。<b>❗归因存分歧</b>：MS＝客户把资本开支挪去抢<b>内存密集服务器/存储</b>、砍大型机与软件（认为可能延续 2H26–CY27）；IBM 管理层＝仅"几个大单"短期递延；Bernstein＝大型机平台弱化（净 54% CIO 拟减 IBM 支出，史上最差）。<b>7/22 看点＝3Q 是否恢复正常，即可裁决"短期 vs 结构性"</b></td>
+  <td class="focus slim">🔴 <b>大机 Z 收入 −42%，单挑掉整体增速 5pct 以上</b>；<b>全年指引下修至 +4–5%</b>（原 5%+）。机制是 AI 抢内存→企业预算前置囤服务器→大机升级被挤出，IBM 是 AI 的<b>二阶受害者</b>。<br><a class="more" href="#d-ibm">看详细版：要点 · 指引 · 外部分析 · 我的分析 ↓</a></td>
   <td class="ccy">USD</td>
 </tr>
 </tbody></table></div>
 
-<h2 class="sec">各公司 · Guidance &amp; 纪要要点 <span class="win">已发的 3 家默认展开 · 其余折叠点击展开 · 共 35 家（头部 21 + 配套 14）</span></h2>
-<p class="ec-intro">下方每家是<b>最近一次已召开</b>的业绩会——管理层给的 guidance 与纪要要点。上方表格的"一致预期"正是市场对这些 guidance 的延伸。〔A〕＝公司原话/公告，〔B〕＝卖方/媒体转述，<span class="cav">⚠️＝口径存疑未采信精确值</span>。<br><b>本季已发的公司（ASML／IBM／三星）已换成本季实际＋新指引，默认展开</b>；其余仍是上一季 guidance（即市场预期的锚）。</p>
+<h2 class="sec" id="detail">各公司 · 详细版（要点 · 指引 · 外部分析 · 我的分析） <span class="win">已发 11 家＝四宫格详细版·默认展开 · 未发 24 家＝上季 guidance·折叠</span></h2>
+<p class="ec-intro">每家一张卡。<b>已发业绩的公司（本季 11 家）已升级为「详细版四宫格」并默认展开</b>——<b>📊 业绩要点</b>（公司公告/IR 原件）· <b>🎯 指引</b>（管理层原话）· <b>🏛 外部分析</b>（卖方/媒体/专家，<b>每块都标了作者</b>）· <b>🧠 我的分析</b>（by_claude，与外部观点分开呈现，读者自行对照）。上方表格是<b>简化版一句话</b>，点行内「看详细版」按钮跳到这里。<br>未发的公司仍是<b>上一季 guidance</b>（即市场预期的锚），保持两栏格式。〔A〕＝公司原话/公告，〔B〕＝卖方/媒体转述，〔C〕＝研究员估算/卖方预测，<span class="cav">⚠️＝口径存疑未采信精确值</span>。</p>
 <div class="ec-list">
 
-<details class="ec" open><summary><span class="ec-co">阿斯麦 <b>ASML</b></span><span class="ec-meta">✅ 2026 Q2 · 07-15 已发</span><span class="ec-sum">指引大幅上修 €43–45B／GM 54–56%；但超预期来自装机管理，不是台数</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance（全〔A〕· 本地 transcript 逐句核对）</h5><ul>
-<li>〔A〕<b>FY26 净销售 €43–45B</b>（原 €36–40B，中值 €38B→€44B <b>+15.8%</b>；vs FY25 €32.7B <b>+34.6%</b>）；<b>GM 54–56%</b>（原 51–53%，<b>+300bps</b>）——CFO 原话："we now expect total net sales between EUR 43 billion and EUR 45 billion, with a gross margin between 54% and 56%"</li>
-<li>〔A〕GM 指引已摸到公司 <b>2030 目标 56–60% 的下沿，提前约 4 年</b></li>
-<li>〔A〕<b>3Q26 净销售 €11–12B</b>（中值环比 <b>+23.3%</b>）、<b>GM 55–57%</b>；3Q 装机管理 ~€2.9B、R&amp;D ~€1.2B、SG&amp;A ~€0.4B（隐含 3Q OI ≈ €4.84B、OPM ≈ 42.1%）</li>
-<li>〔A〕<b>2026 EUV 出货 ~65 台 Low-NA</b>（"around 65"），对应 <b>EUV 收入 +45%</b>；浸润 DUV <b>~130 台</b>（"similar to the output level of these systems in 2025"）</li>
-<li>〔A〕非 EUV 系统收入 <b>+25%</b>；<b>装机管理 &gt;+30%</b>（服务收入 + 客户 productivity upgrade 需求）</li>
-<li>〔A〕<b>2027 产能 +30%</b>（隐含 EUV ~85 / 浸润 ~170），措辞 "planning to increase"＝已定，且 <b>"close to being fully covered with orders"</b>；<b>2028 再 +30% 措辞是 "investigate"＝在研究的软指引</b><span class="cav">⚠️ 两者分量差很远，勿当已定产能建模</span></li>
-<li>〔A〕所有扩产 <b>within existing footprint</b>（无需新洁净室）；2026 动工的新园区 target beyond 2028，<b>不服务 2027–28</b></li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点（transcript）</h5><ul>
-<li><b>2Q26 实际</b>：净销售 <b>€9.3B</b>（<b>超指引 €8.4–9.0bn 上限</b>）；net system sales €6.6B（EUV €3.8B，含 <b>1 台 High-NA</b>／非 EUV €2.8B）；logic 51% / memory 49%；净利 €2.9B、净利率 31.3%、<b>EPS €7.59</b>、<b>GM 54.0%</b>；FCF €1.3B</li>
-<li>❗<b>超预期原因被 CFO 点名＝装机管理（Installed Base Mgmt）€2.8B、超指引近 €300M，"driven primarily by additional upgrade business"</b>——<b>不是台数、不是蔡司放量</b>。这是全份财报最 load-bearing 的一句</li>
-<li>❗<b>"65 台" 与 "EUV 收入 +45%" 出现在同一句里</b>：<b>台数不动、收入 +45%，差额全在 ASP/mix</b>——"量的故事"正在变成"价的故事"。浸润 130 台"≈2025 水平"更说明问题：需求这么强，台数却不加</li>
-<li>❗<b>65 台封顶不是利空，恰是"设备＝瓶颈"最硬的证据</b>；但也意味着 2027 是"量锁死、订单拿满"的<b>高确定性、低惊喜</b>之年，upside 只剩不吃产能的 upgrade 与 High-NA ASP</li>
-<li>〔A〕FY26 分项增速：<b>存储 +75%</b> 🔥 / 先进逻辑代工 +25% / 中国 <b>~20%</b>（mainstream logic，与整体同步）<span class="cav">⚠️ "存储+75%/逻辑+25%" 出自 ASML 官方视频访谈文字稿（Fouquet），<b>不在分析师电话会 transcript 里</b>；两份同为〔A〕但分属不同文件，引用勿混标</span></li>
-<li>✅ <b>上季最大 overhang（中国出口管制）本次未兑现</b>：中国占比 ~20% 与整体同步增长，管理层未提额外限制</li>
-<li>⚠️ 卖方流传的"14% 缺口／EUV 缺 40 台"<b>系统性高估</b>——按台数外推，未计入管理层明说的<b>每台产出 +45%</b></li>
-</ul></div>
+<details class="ec" id="d-asml" open><summary><span class="ec-co">阿斯麦 <b>ASML</b></span><span class="ec-meta">✅ 2026 Q2 · 07-15 已发</span><span class="ec-sum">指引大幅上修，但超预期来自装机管理不是台数</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕净销售 <b>€9.3bn</b>（<b>超指引 €8.4–9.0bn 上限</b>）；系统净销售 €6.6bn（EUV €3.8B 含 <b>1 台 High-NA</b>／非 EUV €2.8B）</li><li>〔A〕逻辑 51% / 存储 49%；净利 €2.9B、净利率 31.3%、<b>EPS €7.59</b>、<b>毛利率 54.0%</b>；FCF €1.3B</li><li>❗〔A〕<b>超预期原因被 CFO 点名＝装机管理（Installed Base Mgmt）€2.8B、超指引近 €300M</b>，原话「driven primarily by additional upgrade business」——<b>不是台数、不是蔡司放量</b>。这是全份财报最 load-bearing 的一句</li><li>✅〔A〕<b>上季最大 overhang（中国出口管制）本次未兑现</b>：中国占比 ~20% 与整体同步增长，管理层未提额外限制</li><li>〔A〕FY26 分项增速：<b>存储 +75%</b> 🔥／先进逻辑代工 +25%／中国 ~20%<span class="gr">〔⚠️该组数字出自 ASML 官方视频访谈文字稿（Fouquet），不在分析师电话会 transcript 里；两份同为 A 级但分属不同文件，引用勿混标〕</span></li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>❗〔A〕<b>FY26 净销售 €36–40B → €43–45B</b>（中值 €38B→€44B，<b>+15.8%</b>；vs FY25 €32.7B <b>+34.6%</b>）；<b>GM 51–53% → 54–56%（+300bps）</b></li><li>〔A〕GM 指引<b>已摸到公司 2030 目标 56–60% 的下沿，提前约 4 年</b></li><li>〔A〕<b>3Q26 净销售 €11–12B</b>（中值环比 +23.3%）、GM 55–57%；隐含 3Q 经营利润 ≈€4.84B、OPM ≈42.1%</li><li>❗〔A〕<b>2026 EUV 出货 ~65 台 Low-NA</b>（原话 “around 65”），对应 <b>EUV 收入 +45%</b>；浸润 DUV ~130 台（“similar to the output level of these systems in 2025”）</li><li>〔A〕<b>2027 产能 +30%</b>（隐含 EUV ~85／浸润 ~170），措辞 “planning to increase”＝已定，且 <b>“close to being fully covered with orders”</b>；<b>2028 再 +30% 措辞是 “investigate”＝软指引</b><span class="cav">⚠️两者分量差很远，勿当已定产能建模</span></li><li>〔A〕所有扩产 <b>within existing footprint</b>；2026 动工新园区 target beyond 2028，<b>不服务 2027–28</b></li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：广发证券（香港）GFHK · Yang Zhou / Jeff Pu, CFA / Michelle Jing，《ASML 2Q26 Review》（2026-07-15，B 级）／申万宏源 ASML 财报解读（comein，B 级）</span></h5><ul><li><span class="src">评级</span>维持 <b>Buy</b>、目标价 <b>$2,571</b>（基于 40x 2027E P/E，不变）<span class="gr">〔B〕</span></li><li><span class="src">上修</span>2026/2027 EPS 上修至 <b>€38.88／€54.46</b>（净利 €14.9／€20.8bn），较旧预测分别上修 <b>+15.7%／+20.9%</b><span class="gr">〔B·卖方外推〕</span></li><li><span class="src">WFE</span>全球 WFE 预测 <b>$163bn(2026) → $236bn(2027) → $295bn(2028)</b>，称为「<b>史上最强 WFE 上行周期</b>」；驱动含存储 capex（三星/海力士 2028 达 ₩100tn/70tn）、Terafab、TSMC capex、Intel 扩产、中国需求<span class="gr">〔B〕</span></li><li><span class="src">渠道</span>广发 checks 显示 <b>2028 客户需求已超 110 台 EUV</b>；公司持续在蔡司之外寻替代镜头供应商以缓解瓶颈<span class="gr">〔B·渠道调研〕</span></li><li>⚠️<span class="src">存疑</span>卖方流传的「14% 缺口／EUV 缺 40 台」<b>系统性高估</b>——按台数外推，未计入管理层明说的<b>每台产出 +45%</b></li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地 2Q26 transcript 逐句核对 · 2026-07-27 复核）</span></h5><ul><li>❗<b>本季最该记住的一句：超预期来自装机管理，不是台数。</b>「65 台」与「EUV 收入 +45%」出现在同一句里——<b>台数不动、收入 +45%，差额全在 ASP/mix</b>。浸润 130 台「≈2025 水平」更说明问题：需求这么强，台数却不加</li><li><b>这意味着 ASML 的「量的故事」正在变成「价的故事」。</b>对建模的直接含义：拿台数线性外推收入的模型会系统性失真，必须把 upgrade 业务和 ASP 提升单独建线</li><li><b>65 台封顶不是利空，恰是「设备＝瓶颈」最硬的证据。</b>但也意味着 2027 是「量锁死、订单拿满」的<b>高确定性、低惊喜</b>之年——upside 只剩下不吃产能的 upgrade 与 High-NA 的 ASP</li><li>❗<b>对 2027 vs 2028 的产能措辞差异必须敏感</b>：2027「planning to increase」＋「close to being fully covered with orders」＝已定；2028「investigate」＝在研究的软指引。<b>把后者当已定产能建模，是本季最容易犯的建模错误</b></li><li><b>与卖方的分歧点</b>：广发给的 WFE 三年翻倍路径（$163bn→$295bn）建立在存储 capex 与 Terafab 同时兑现的假设上，属乐观档；而 ASML 自己的产能措辞（2028 仅 investigate）比这个路径保守。<b>当公司比卖方更保守时，通常应该信公司</b></li></ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">台积电 <b>TSM</b></span><span class="ec-meta">2026 Q1 · 04-16</span><span class="ec-sum">全年上修超 30% 增长，AI 需求 extremely robust</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕Q2 2026 营收指引 <b>$390–402 亿</b>（QoQ +10%、YoY 中值 +32%）；毛利率 65.5–67.5%</li>
-<li>〔A〕全年 2026 营收增速<b>上修至美元口径"高于 30%"</b></li>
-<li>〔A〕2026 capex 维持 $520–560 亿区间高端</li>
-<li>〔A〕2nm 爬坡拖累全年毛利率 2–3pct；海外厂稀释初期 2–3%、后期扩至 3–4%</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>HPC 平台占 Q1 营收 61%（QoQ +20%），手机 26%；先进制程(7nm 及以下)占 74%</li>
-<li>魏哲家：AI 需求"extremely robust"，agentic AI 推动 token 消耗跃升</li>
-<li>新增 3nm 扩产：台南新厂(27H1)、Arizona 二厂(27H2)、日本二厂(28)；供给紧张持续到 2027</li>
-<li>AI 加速器长期 CAGR 维持"中高 50%区间"，<b>未因近期强需求上调</b></li>
-</ul></div>
+<details class="ec" id="d-tsm" open><summary><span class="ec-co">台积电 <b>TSM</b></span><span class="ec-meta">✅ 2026 Q2 · 07-16 已发</span><span class="ec-sum">经营端货真价实的 beat，净利大超里有 632 亿一次性水分</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>NT$1.27 万亿 / US$40.2bn</b>（YoY +36.0%、QoQ +12.0%），打到自家指引区间 39.0–40.2 的<b>最上沿</b></li><li>〔A〕<b>毛利率 67.7%</b>（超指引上限 67.5%、环比 +1.5pct）；<b>经营利润率 60.3%</b>（超上限 58.5%）</li><li>〔A〕净利 NT$7,066 亿（YoY +77.4%）、净利率 55.6%、<b>EPS NT$27.25</b>；ADR 口径 $4.31 vs 共识 $3.87</li><li>❗〔A〕<b>净利里含出售世界先进(VIS) 8.1% 股权的处分＋重估收益 NT$632 亿</b>，约当季净利 9%——剔除后利润 beat 与经营端 +3.3% 对齐</li><li>〔A〕结构：<b>HPC 占 66%</b>（上季 61%）、手机 22%（26%）；先进制程(≤7nm) 77%；<b>N2 首季贡献 3% 晶圆收入</b></li><li>〔A〕单季 capex <b>US$157 亿</b>（QoQ +41.4%）创单季新高；存货天数 87 天（+7 天，主因 N2 备货）</li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>〔A〕<b>3Q26 营收 US$44.6–45.8bn</b>（QoQ 中值 +12.4%，强于会前预期）；<b>毛利率中值 66%</b>（较 2Q 回落 1.7pct）</li><li>〔A〕<b>FY26 capex 大幅上修 $520–560 亿 → $600–640 亿</b>；同场追加亚利桑那 US$1,000 亿投资（累计 2,650 亿）</li><li>〔A〕CFO 原话口径：<b>未来三年资本支出比过去三年「更加显著」地高</b></li><li>〔A〕<b>FY26 美元营收增速指引上修至 “slightly above 40%”</b>（原 above 30%，高于会前市场预期的 ~35%）</li><li>〔A〕AI 加速器五年 CAGR：管理层称比 1 月说的 mid-to-high 50s <b>更强</b>，但不给具体数</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：申万宏源《台积电财报解读 — 半导体设备海外研究10讲》（2026-07-19，comein 纪要，B 级）</span></h5><ul><li><span class="src">要点</span>Q2 营收 400 亿美元 / 净利 220 亿美元均超预期，Q3 营收指引中值同比 <b>+37%</b>，较 Q2 进一步<b>加速</b></li><li><span class="src">定调</span>管理层明确本轮 AI 需求为<b>超级大周期，能见度至少到 2029–2030 年</b>，供给瓶颈凸显设备的战略地位</li><li><span class="src">格局</span>全球代工份额约 75%、先进制程收入占比 80–90%、<b>CoWoS 封装产能份额约 70%</b></li><li><span class="src">读法</span>毛利率指引 65–67% 而非更高，被解读为<b>公司主动控制涨价节奏以维护客户长期需求</b>——侧面印证供需极度紧张</li><li><span class="src">外溢</span>capex 70–80% 投向先进制程；对国产设备链，光刻/刻蚀/量检测/后道测试等国产化率极低环节弹性更大 <span class="gr">〔B·卖方路演〕</span></li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>这份业绩要拆成两半读：一半真金，一半挤水。</b>净利 beat 13.2% ≠ 经营超预期 13.2%——差的那约 10 个点里，NT$632 亿是 VIS 股权一次性收益。<b>55.6% 的净利率不可外推</b>，真实经营 beat 是 3 个点。依然优秀，但量级完全不同</li><li><b>毛利率才是本季主角。</b>67.7% 是在 N2 首季稀释＋存货 +7 天＋海外厂稀释<b>三重逆风</b>下做出来的，还能环比 +1.5pct、连续第二季破自家指引上限——这直接回答了上季留下的核心待验问题「N2 初期稀释能否被涨价+mix 对冲」，<b>首验通过</b></li><li><b>链条信号比自身利润更值钱。</b>capex 中值一次上修 $80 亿 + 「未来三年显著更高」的表态，对 ASML/AMAT/KLA 及先进封装设备链是<b>多年期需求能见度的直接背书</b>——对链上标的的 read-across 价值大于对 TSM 本身</li><li><b>判断（维持 7/14 卡上判断：持有 · 非核心覆盖）</b>：现价市值 ~$2.18 万亿、forward PE ~27x，中性情景已基本定价，边际弹性押在乐观档兑现。<b>业绩本身不构成加仓催化</b></li><li><b>证伪条件</b>：① 3Q 毛利率指引中值 &lt;66%（N2 稀释失控）；② FY26 capex 反向收缩至区间下半段；③ 云厂 H2’26 订单信号转弱。<b>置信度：高</b>——本季核心数字全 A 级（IR 原始 PDF）</li></ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">谷歌 <b>GOOGL</b></span><span class="ec-meta">Q1 2026 · 04-29</span><span class="ec-sum">Cloud +63%、capex 上调，利润含大额浮盈</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕2026 全年 capex <b>上调至 $180–190bn</b>（原 $175–185bn，含 Wiz）；2027 capex"显著增加"</li>
-<li>〔A〕Wiz 并购拖累 Google Cloud 营业利润率低个位数 pct（2026 剩余季度）</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>Google Cloud 收入 +63% 至 $200 亿，AI 解决方案收入 +800%，<b>backlog 环比近翻倍至 $4620 亿</b></li>
-<li>Pichai：仍受算力制约，产能更足云收入本可更高</li>
-<li>净利 $626 亿含 <b>$369 亿股权投资浮盈</b>（≈EPS $2.35），管理层明确不可持续、非经营</li>
-<li>Waymo 周度全自动订单 &gt;50 万单，覆盖 11 城</li>
-</ul></div>
+<details class="ec" id="d-googl" open><summary><span class="ec-co">谷歌 <b>GOOGL</b></span><span class="ec-meta">✅ 2026 Q2 · 07-22 已发</span><span class="ec-sum">Cloud 连续两季加速是真信号，EPS $9.11 是假信号</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>$119.8bn（YoY +24%，固汇 +23%）</b>，超共识约 +2.4%，连续第 12 季双位数增长</li><li>〔A〕<b>经营利润 $40.77bn、OPM 34.0%</b>（YoY +30%）；GAAP 净利 $112.2bn、摊薄 EPS $9.11</li><li>❗〔A〕<b>EPS 绝大部分非经营</b>：OI&amp;E 单季 $98.0bn，管理层原话「主要由于股权证券投资组合未实现收益」<span class="gr">（市场普遍归因 Anthropic 持仓重估，B 级）</span></li><li>〔C·研究员测算〕剔除 OI&amp;E 后<b>核心经营 EPS 约 $2.68</b>，低于市场对核心口径的 $2.87–2.89 预期</li><li>〔A〕<b>Cloud 营收 $24.8bn、YoY +82%（Q1 为 +63%，再加速 19pp）</b>；Cloud 经营利润 $8.8bn、<b>OPM 35.6%</b>（Q1 32.9%）；<b>backlog $514bn</b></li><li>〔A〕Google Services $94.5bn（+15%）：搜索及其他 $63.3bn（+17%）／YouTube 广告 $11.1bn（+13%）／Network $7.3bn（−1%）／订阅等 $12.9bn（+15%）</li><li>〔A〕CFO 口径经营现金流 $39.1bn、<b>capex $44.9bn、单季 FCF 转负 −$5.9bn</b>（近年首次）</li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>〔A〕<b>2026 capex 指引连续第二季上修：$180–190bn → $195–205bn</b>（中点 +$15bn），归因「加速交付产能」而非需求走弱</li><li>〔A〕CFO 明确 capex 投入无上限表态：as long as we see attractive returns</li><li>〔A〕<b>Q3 新增两个下行因子</b>：第三方算力过桥（third-party capacity bridging）将对 Q3 Cloud OPM 造成「温和」压力；FX 由 Q2 +1pp 顺风转为轻微逆风</li><li>〔A〕供给受限状态「连续多季度」未改善，收敛节奏慢于此前市场预期</li><li>〔A〕TPU 系统对外销售本季<b>首次确认收入</b>，管理层强调剔除该影响后 Cloud 增速仍显著加速</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：BofA（经媒体转述）／国信证券互联网组专家访谈（comein）／FMP 数据校验</span></h5><ul><li><span class="src">归因</span>BofA 估算 Anthropic 持仓重估对 OI&amp;E 贡献约 <b>$80bn</b>（Anthropic 估值季内 ~$380bn → ~$965bn）<span class="gr">〔B〕</span></li><li><span class="src">分歧</span>市场对 GAAP EPS 大幅超预期的解读分裂——头条口径写「EPS 三倍于预期」，但按核心经营口径其实<b>小幅不及</b></li><li><span class="src">专家</span>会前谷歌云专家 1v1（国信互联网，2026-07-17）已提示 GCP 增速与 AI 订单 backlog 是本季观察核心 <span class="gr">〔B·专家访谈〕</span></li><li><span class="src">口径</span>⚠️ FMP cashflow 端点该季 OCF 读数 $28.16bn，与业绩会原文 $39.1bn 差约 $11bn，疑数据质量问题——采信一手 call</li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>本季最需要点破的认知差：GAAP EPS 大超预期，核心经营层面可能小幅不及。</b>$9.11 里绝大部分是股权浮盈，与共识 $2.86 根本不是同一口径的东西。<b>把它当成经营超预期的证据，是本季最容易犯的错</b></li><li><b>真正的强信号在 Cloud：+82% 且连续两季加速，OPM 从 32.9% 提到 35.6%。</b>更关键的是管理层强调剔除 TPU 对外销售后增速仍显著加速——说明<b>不是靠一次性硬件出货撑量</b>。backlog $514bn 环比 +$500 亿以上，但增速已从上季近翻倍放缓到个位数环比，这条要盯</li><li><b>代价开始显性化：单季 FCF 转负 −$59 亿，是近年首次。</b>H1 实际 capex $806 亿，隐含 H2 还需约 $1,194 亿（单季 ~$597 亿），较 Q2 的 $449 亿再提速约 33%。<b>四大云厂里，谷歌最先把「AI 重投入吞自由现金流」摆到台面上</b></li><li><b>Gemini 3 变现 vs 搜索流量分流这个最大分歧，本季既未被证伪也未被证实</b>——搜索及其他广告 +17% 没有崩，但也没有给出「AI 带来增量货币化」的直接证据</li><li><b>待验清单</b>：① 8 月中旬 10-Q 的 fair value 附注核实 OI&amp;E 暴增是否唯一来源为 Anthropic；② Q3 Cloud OPM 被第三方算力过桥压制的实际幅度；③ H2 单季 capex 能否真提速到 ~$60bn</li></ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">特斯拉 <b>TSLA</b></span><span class="ec-meta">Q1 2026 · 04-22</span><span class="ec-sum">Capex 上修至 250 亿，Robotaxi 今年难兑现</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔B〕2026 全年 capex <b>上修至 &gt;$250 亿</b>（原 $200 亿，投 AI 算力/Cybercab/Optimus）</li>
-<li>〔A〕Musk：Robotaxi 2026 无 material 贡献，实质推迟到 2027；未给单车交付量化指引</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>营收 $224 亿(+16%)，汽车 $162 亿；EPS $0.41 超预期 14%</li>
-<li>战略重心从车企<b>转向 AI+机器人</b>，FSD 是核心产品、车是交付载体</li>
-<li>汽车毛利率(剔积分)改善至 19.2%，但含一次性 $2.3 亿质保冲回</li>
-<li>储能 Q1 部署 8.8GWh(QoQ −38%)，毛利率创纪录 39.5%(含一次性关税确认，后续回落)</li>
-</ul></div>
+<details class="ec" id="d-tsla" open><summary><span class="ec-co">特斯拉 <b>TSLA</b></span><span class="ec-meta">✅ 2026 Q2 · 07-22 已发</span><span class="ec-sum">创纪录交付撑不住 1.4% 的经营利润率</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>$28.24bn 创单季新高</b>，超共识 $25.5–26.4bn；TTM 营收<b>首次突破 $1,000 亿</b></li><li>〔A〕<b>交付 480,126 辆（YoY +25%）</b>，高出分析师预期约 7.4 万辆，是<b>两年来首次同比正增长</b></li><li>❗〔A〕调整后 <b>EPS $0.33</b> vs 共识 $0.49–0.54（miss 33–38%），同比 −18%</li><li>❗〔A〕<b>经营利润率压缩至 1.4%</b>；整体毛利率 16.8%，<b>剔除监管积分的汽车毛利率 16.3%</b>（同比升、但环比从 19.2% 回落）</li><li>〔A〕<b>capex $57.9 亿（YoY +142%）、FCF −$10.9 亿</b>，投向 AI 算力、Cybercab 模具、Fremont 的 Optimus 产线改造</li><li>〔A〕Robotaxi 从 Austin 扩到 Dallas/Houston/Miami/Orlando/Tampa；<b>累计付费里程约 225 万英里</b></li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>〔A〕<b>2026 全年 capex 指引上调至 $250 亿以上</b>，继续投自动驾驶、机器人与产能</li><li>〔A〕<b>Cybercab 已在德州工厂投产</b>，已装年产能超 12.5 万辆</li><li>〔A〕Fremont 的 Model S/X 产线<b>已拆除以让位 Optimus</b>，一代产线安装中，2026 年内开始产出</li><li>⚠️〔B〕多家媒体统计：本次业绩材料中<b>有三个产品的「2026 量产」措辞消失</b>——时间表口径在软化</li><li>〔A〕未给单车交付量化指引（延续以往做法）</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：Morgan Stanley／Barclays／GLJ Research（均经媒体转述，B 级）</span></h5><ul><li><span class="src">大摩</span>Morgan Stanley 维持 Equal-Weight，目标价 $415 → <b>$417</b>（不降反微升）<span class="gr">〔B〕</span></li><li><span class="src">巴克莱</span>Barclays 维持 Equal-Weight，目标价 $360 → <b>$370</b><span class="gr">〔B〕</span></li><li><span class="src">空方</span>GLJ Research 重申 Sell，目标价 <b>$24.86</b>——多空目标价差超 16 倍，是全表分歧最极端的标的<span class="gr">〔B〕</span></li><li><span class="src">共识</span>媒体统计口径：华尔街普遍下调目标价但<b>少有人真正撤出</b></li><li><span class="src">解读</span>「创纪录交付＋创纪录营收挡不住盘中跌 5%，说明机构注意力不在卖了多少车，而在<b>AI 基建支出是否由汽车现金流可持续供养</b>」<span class="gr">〔B·媒体分析〕</span></li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>营收 beat + 利润 miss 的组合，症结在毛利率而不在需求。</b>交付超预期 7.4 万辆、两年来首次同比正增长，需求侧其实是这两年最好的一份；但经营利润率被压到 1.4%——<b>量是买来的</b>，单车 ASP 下滑加上积分收入减少，价跌换量的性质很清楚</li><li><b>剔积分汽车毛利率 16.3% 这个数要看环比不看同比。</b>同比是升的（去年基数低），但从上季 19.2% 掉下来近 3 个点，且上季那 19.2% 本身还含一次性质保冲回。<b>真实的经营杠杆在恶化</b></li><li><b>capex +142%、FCF 转负，是本季真正的分水岭。</b>过去特斯拉的 AI/机器人投入还能被汽车业务的现金流覆盖，这季度覆盖不住了。市场当天跌的不是交付，是这件事</li><li><b>「2026 量产」措辞在三个产品上消失</b>——如果后续被证实是系统性口径软化，那么 Robotaxi/Optimus 这条把估值撑在天上的叙事线，其兑现时点要整体右移，这比单季利润重要得多</li><li><b>判断：本季不改变「叙事驱动、基本面滞后」的定价结构，但削弱了叙事的资金基础。</b>多空目标价从 $24.86 到 $417 相差 16 倍，说明这不是一个可以用基本面共识定价的标的——<b>置信度：低</b>（分歧过大且核心变量为不可验证的时间表承诺）</li></ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">思爱普 <b>SAP</b></span><span class="ec-meta">2026 Q1 · 04-23</span><span class="ec-sum">云 +27% 强劲，中东扰动下半年指引</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔B〕全年重申：云收入 €25.8–26.2bn、non-IFRS 营业利润 €11.9–12.3bn（<b>依赖中东局势缓和假设</b>）</li>
-<li>〔A〕CCB 后续季度小幅放缓；Q2 云收入增速环比放缓(Q1 有一次性有利因素)</li>
-<li>〔A〕2027 收入增速较 2026 <b>再加速</b>（backlog 27 年释放更多）</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>Q1：云收入 +27% 至近 €60 亿；CCB +25% 至 €219 亿；营业利润率 30%(+2.9pt)</li>
-<li>公有云订单占季度订单 &gt;70%，环比继续加速</li>
-<li>AI 消费型收入转型"渐进式"、非颠覆式；到 2028 末 AI 内部节省 €20 亿 run-rate</li>
-<li>中东：Q1 P&amp;L 基本无损，但已影响下半年管道；霍尔木兹持续关闭列为全年指引实质拖累情景</li>
-</ul></div>
+<details class="ec" id="d-sap" open><summary><span class="ec-co">思爱普 <b>SAP</b></span><span class="ec-meta">✅ 2026 Q2 · 07-23 已发</span><span class="ec-sum">订单簿在加速，利润指引被并购稀释砍了一刀</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕总营收 <b>€9.9bn（+9%，固汇 +11%）</b>；ADR 口径 $11.24bn 略低于共识 $11.30bn</li><li>〔A〕<b>云收入 €6.3bn（+22%，固汇 +24%）</b></li><li>❗〔A〕<b>当前云订单额 CCB €22.9bn，YoY +27%（固汇 +26%）</b>——较 Q1 <b>加速</b>，且扭转了此前「backlog 增速慢于云收入增速」的趋势</li><li>〔B〕ADR EPS $1.85 vs 共识 $2.00（−7.5%，FMP 口径）</li><li>〔B〕股价此前已在 52 周低位附近徘徊，反垄断和解与 Dremio 并购均未带动估值修复</li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>❗〔A〕<b>2026 non-IFRS 经营利润指引下修至 €11.8–12.2bn</b>（固汇口径），原因是 7 月完成的 <b>Dremio ＋ Prior Labs</b> 两笔并购下半年确定亏损，预计稀释 <b>&gt;€1 亿</b></li><li>〔A〕两笔标的定位：Dremio＝高性能数据湖仓，打通非 SAP 数据实时接入；Prior Labs＝面向企业表格数据的基础模型</li><li>〔A·上季口径仍有效〕2027 收入增速较 2026 <b>再加速</b>（backlog 在 27 年释放更多）</li><li>〔A·上季〕AI 消费型收入转型定性为「渐进式」而非颠覆式；到 2028 年末 AI 内部节省 €20 亿 run-rate</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：Jefferies／UBS／Deutsche Bank／DZ Bank（均经媒体转述，B 级）</span></h5><ul><li><span class="src">Jefferies</span>重申目标价 <b>€230</b>，理由是 Dremio 平台的协同<span class="gr">〔B〕</span></li><li><span class="src">UBS</span>Michael Briest 于 7/15 将目标价 <b>€205 → €164</b>（维持 Buy），理由是「<b>AI agent 变现的高复杂度</b>」＋整体估值调整<span class="gr">〔B〕</span></li><li><span class="src">德银</span>Deutsche Bank €200；<span class="src">DZ Bank</span>最谨慎，目标价降至 <b>€155</b>，仅略高于现价<span class="gr">〔B〕</span></li><li><span class="src">共识</span>27 家给买入，中位目标价 €214.81<span class="gr">〔B·媒体汇总〕</span></li><li>⚠️<b>卖方分歧本身是本季最值得注意的信息</b>：同一份财报，目标价区间从 €155 到 €230，分歧点全在「AI agent 能不能变现」这一条上</li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>把两件事分开：基本面读数和利润读数，本季走的是反方向。</b>CCB +27% 且环比加速、并扭转了 backlog 慢于收入的前期趋势——这是订单能见度<b>真实改善</b>的硬信号，比当季云收入增速更有前瞻性</li><li><b>利润指引下修是主动买增长的稀释，不是经营恶化。</b>€1 亿多的拖累来自两笔 7 月刚完成的并购，性质上和「需求走弱导致利润下修」完全不同。市场当季不给这个区分，但建模时必须区分</li><li><b>卖方从 €155 到 €230 的目标价分歧，暴露的是同一个问题：AI agent 变现路径无法被现有指标验证。</b>UBS 砍 20% 目标价的理由是「变现复杂度高」，Jefferies 加价的理由是「并购协同」——两边都不是在争论已发生的数字，是在争论一个还没有可观测代理变量的假设</li><li><b>判断：本季应看作基本面优于股价表现的一季。</b>CCB 加速这条如果在 Q3 延续，则 UBS 的下修属于过度反应；若 Q3 CCB 增速回落到 20% 出头，则「AI 变现难」的说法会被坐实。<b>置信度：中</b>——CCB 是 A 级公司披露，但对它的解读依赖 2027 释放假设（C 级）</li><li><b>可证伪</b>：① Q3 CCB 固汇增速跌回 22% 以下；② 2027「再加速」表述被撤回或软化；③ 两笔并购的亏损幅度超过指引的 €1 亿</li></ul></div>
 </div></details>
 
 <details class="ec"><summary><span class="ec-co">联发科 <b>MediaTek</b></span><span class="ec-meta">2026 Q1 · 04-30</span><span class="ec-sum">ASIC 动能强，手机业务疲软拖累</span><span class="ec-tw"></span></summary>
@@ -803,18 +780,12 @@ body.embed .cards{margin-top:0;}
 
 <div style="margin:16px 0 6px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--coral-dk);letter-spacing:.04em;border-top:1px dashed var(--line);padding-top:12px;">▼ AI 产业链配套标的（14 家 · 按层，与上表对应）</div>
 
-<details class="ec"><summary><span class="ec-co">英特尔 <b>INTC</b></span><span class="ec-meta">2026 Q1 · 04-23</span><span class="ec-sum">18A 爬坡超预期，外部代工破局</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔B〕Q2 营收指引 $138–148 亿、non-GAAP 毛利率中值 39%、EPS $0.20</li>
-<li>〔B〕2026 capex 与去年持平但设备支出 +25%；OpEx 高于此前 $160 亿目标(通胀+薪酬)</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>Q1 营收 $136 亿超指引 $14 亿；non-GAAP 毛利率 41%(超指引 650bp)，18A 爬坡执行好</li>
-<li>14A："multiple customers actively evaluating"，进度快于 18A 同期</li>
-<li>DCAI 营收 $51 亿(+22%)，陈立武："The CPU is reinserting itself as the indispensable foundation of the AI era"</li>
-<li>Foundry $54 亿(环比+20%)但<b>外部代工仅 $1.74 亿、经营亏 $24 亿</b>；季内签多份长约(含 Google)</li>
-</ul></div>
+<details class="ec" id="d-intc" open><summary><span class="ec-co">英特尔 <b>INTC</b></span><span class="ec-meta">✅ 2026 Q2 · 07-23 已发</span><span class="ec-sum">外部世界终于开始为 Intel 的产能掏钱包</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>$161.28 亿（YoY +25%、QoQ +19%）</b>，远超共识 $143 亿——<b>15 年来最快单季营收增速</b></li><li>〔A〕<b>Non-GAAP EPS $0.42</b> vs 共识 $0.21（<b>两倍</b>）；Non-GAAP 毛利率 41.8%；Non-GAAP 净利 $22 亿，由亏转盈</li><li>❗〔A〕<b>GAAP EPS −$2.16</b>，系 CHIPS 法案托管股权（Escrowed Shares）公允价值损失 <b>$125.29 亿</b>——<b>非经营、非现金</b>，与经营无关</li><li>❗〔A〕<b>DCAI（数据中心与 AI）收入 +59% 至 $62.62 亿</b>，是超预期的主要来源</li><li>❗〔A〕<b>代工外部收入环比 +68% 至 $2.93 亿</b>——此前 Q4→Q1 连续两季环比下滑，本季是明确拐点</li><li>〔A〕上半年调整后<b>自由现金流 −$84 亿</b></li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>〔A〕<b>3Q26 收入指引 $163 亿</b>（QoQ +1%）vs 一致预期 $151 亿；<b>Non-GAAP 毛利率指引 42.0%</b> vs 一致预期 39.8%——<b>业绩与指引双超</b></li><li>❗〔A〕<b>2026 capex 指引从「与去年持平」上调至 &gt;$200 亿</b>，并明示 <b>2027 年「显著更高」</b></li><li>〔A〕公司称供给紧张将在 <b>3Q26 后段</b>有所缓解</li><li>〔A〕制程：<b>18A 良率好于内部目标</b>；18A-P 已进入风险量产；<b>14A 时间表明确</b>——PDK 0.9 版 10 月、外部客户风险量产与量产在 2028 下半年</li><li>〔A〕CEO 陈立武措辞从 Q1 的「这是一段漫长的旅程」变为「<b>我对代工路线图的信心显著增强</b>」</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：广发证券（香港）GFHK · Jeff Pu, CFA / Henry Huang，《Intel 2Q26 Beat-and-Raise, Foundry Making Strides》（2026-07-24，B 级）</span></h5><ul><li><span class="src">评级</span>维持 <b>Buy</b>，目标价 $135 → <b>$136</b>（估值切换到 5x 2027E BVPS，或 34x 2028E EPS）<span class="gr">〔B〕</span></li><li><span class="src">上修</span>2026E/2027E EPS 上修 <b>+3%/+11%</b>；但<b>收入只上修 4%/2%，营业利润却上修 28%/16%</b>——全部来自营业利润率假设抬升（2026E 13.9%→17.2%）<span class="gr">〔C·卖方预测〕</span></li><li><span class="src">逻辑</span>把 Intel 的 capex 上台阶与其 7/16 下调台积电的判断连起来讲：<b>台积电本轮 capex 加速偏晚，给 Intel 留出了空间</b>，叠加 Made in U.S. 与执行力改善<span class="gr">〔B〕</span></li><li><span class="src">TAM</span>维持 2030 年服务器 CPU TAM <b>$2,110 亿</b>（对应 2026 年起 44% CAGR）；14A 客户管线以 Apple 手机 SoC 与服务器 CPU/交换芯片为主<span class="gr">〔C〕</span></li><li><span class="src">风险</span>研报自列四条：AI 需求放缓、新产品/节点延期、良率、竞争</li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>这一次不是小超，是把去年一整年的怀疑一次性打回去了。</b>但真正值钱的不是营收和 EPS 两个头条数字，是<b>藏在分部里的三条线同时往对的方向走</b>：DCAI +59%、代工外部收入环比 +68%、capex 指引上调到 $200 亿+</li><li><b>三条线合起来说明的不是「18A 终于做出来了」（这事 Q1 就在讲），而是「做出来之后有人愿意付钱了」。</b>外部代工收入环比 +68% 是过去三个季度第一次出现明显拐点——把 T3（外部客户能否从保密协议变成真金白银）这条最悬的证伪线<b>暂时按下去了</b>。但一个季度的拐点不等于商业闭环已形成</li><li>❗<b>对卖方那份上修，我要提示一个结构性风险：收入只上修 4%，营业利润上修 28%。</b>这是高经营杠杆公司在收入超预期时的<b>利润凸性</b>——推理依据是 Intel 折旧与固定成本占比高，增量收入的边际利润率远高于平均。<b>反过来也成立：若收入回落到旧假设，营业利润的回撤幅度会显著大于收入回撤幅度</b></li><li>❗<b>卖方自己的预测表里，2026–2028 年 FCF 连续三年为 −$160 亿到 −$170 亿量级，累计约 −$500 亿。</b>也就是说这份 Buy 的逻辑完全建立在「利润表修复 + 产能兑现」上，<b>现金流层面在预测期内不提供任何支撑</b>，资产负债表靠净负债率从 25.6%（2025）升到 46.3%（2028）来填。利润表的漂亮和现金流的失血是同一枚硬币的两面</li><li><b>核心矛盾已经从「技术能不能用」转向「capex 能不能追上需求」。</b>这是一家仍在拿命换未来产能的公司——赔率取决于这批 capex 投出去的产能，最终是被客户订单填满，还是变成新一轮的产能过剩</li></ul></div>
 </div></details>
 
 <details class="ec"><summary><span class="ec-co">高通 <b>QCOM</b></span><span class="ec-meta">FY26 Q2 · 04-29</span><span class="ec-sum">Apple 基带流失兑现，数据中心破局</span><span class="ec-tw"></span></summary>
@@ -831,18 +802,12 @@ body.embed .cards{margin-top:0;}
 </ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">德州仪器 <b>TXN</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">工业复苏 broad-based，数据中心近翻倍</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕Q2 营收指引 $50–54 亿、EPS $1.77–2.05</li>
-<li>〔A〕剔除折旧的增量利润率(fall-through) 75–85%；capex 维持 $20–30 亿</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>Q1 营收 $48 亿(+19%)，毛利率扩至 58%，超指引上限</li>
-<li>工业 +30%+、broad 复苏；CEO："growth was broad across all sectors, regions, customer sizes"</li>
-<li><b>数据中心业务同比约 +90%</b>(AI 基础设施拉动)</li>
-<li>宣布收购 Silicon Labs 强化嵌入式无线连接</li>
-</ul></div>
+<details class="ec" id="d-txn" open><summary><span class="ec-co">德州仪器 <b>TXN</b></span><span class="ec-meta">✅ 2026 Q2 · 07-22 已发</span><span class="ec-sum">干净的 beat 换来 −4.5%：好消息已经 price-in</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>$5.463bn（YoY +23%、QoQ +13.2%）</b>，超共识 $5.258bn 约 +3.9%</li><li>〔A〕<b>毛利率 61.4%、经营利润率 42.3%</b>；净利 $1.98bn；<b>EPS $2.14</b> vs 共识 $1.91（TXN 不发 Non-GAAP，此为 GAAP）</li><li>❗〔A〕<b>库存 $4.605bn、库存天数 196 天（QoQ −13 天）</b>——连续两季下行 222→209→196</li><li>〔A〕<b>汽车 +mid-teens YoY、+高单位数 QoQ</b>（Q1 分别为中个位数 YoY、持平 QoQ），是四大端市场里<b>加速幅度最大的一个</b>；CEO 原话需求「led by China…really led by EVs and hybrids」</li><li>〔A〕TTM 经营现金流 $8.67bn、TTM capex $3.3bn、TTM FCF $6.53bn</li><li>❗〔A〕<b>CHIPS Act 现金流口径本季切换</b>：Q1 为「直接补贴」（$555M/季、TTM $965M），Q2 改为「ITC＋直接补贴合计」（本季 $549M 为 ITC 相关付款、TTM 合计 $1.6bn）——<b>口径变了，不可直接连续外推</b></li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>❗〔A〕<b>Q3 指引中值营收 $5.90bn（隐含 QoQ +8%）</b>，高于市场此前一致预期 ~$5.57bn，是 <b>above-seasonal</b> 而非「刚好达标」式指引；EPS 指引中值 $2.40</li><li>〔A〕<b>涨价从「暗示」落地为「已开始 customer-by-customer 执行」</b>，CEO：「we have started executing price increases…some of it will start to play in, in Q3」；但<b>对 Q3 增长贡献「almost insignificant」</b>，真正 price benefit 要等 Q4 及以后</li><li>〔A〕CEO 对「客户是否在囤库存」的直接回应：「<b>I do believe that customers are early and are not yet building inventory</b>」</li><li>〔A〕工业仍比 2022 峰值低 5–6 个百分点，管理层判断「a lot of room to grow ahead」——上行周期仍在早段</li><li>〔A〕CFO 明确未来 capex 将<b>不成比例投向境外封测</b>（不享受 ITC）——ITC 对现金流的边际贡献可能趋降</li><li>〔A〕FCF 框架重申：营收 $20bn 对应 FCF $8–9bn、$22bn 对应 $9–10bn（总额口径）</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：电话会分析师问答（JPMorgan 等，A 级 transcript）／市场一致预期（FMP，B 级）</span></h5><ul><li><span class="src">追问</span>JPMorgan 分析师在电话会上<b>直接追问是否重演去年的减速</b>；CEO 回应：「we see a setup of stronger demand, and it’s broader…we are seeing demand growing to the automotive market」<span class="gr">〔A·transcript 原话〕</span></li><li><span class="src">板块</span>同日 STM 给出软指引，拖累模拟板块整体情绪<span class="gr">〔B〕</span></li><li><span class="src">共识</span>卖方一致目标价 <b>$307.94</b>；收盘 $284.48、市值 $2,599 亿<span class="gr">〔B·FMP〕</span></li><li>⚠️注：本标的<b>无本地卖方深度研报</b>，外部视角主要来自 transcript 里的分析师提问与市场反应，非独立第三方分析</li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>业绩本身是干净的 beat，卖点在两处。</b>① Q3 指引虽然 above-seasonal，但没给出加速信号；② 库存 196 天——周期股在复苏中段扛这么高的库存天数，「补库存需求」还是「真实终端拉动」没被彻底证伪</li><li><b>不过库存天数连续两季同向下行（222→209→196），是支持「真实需求」判断的量化证据在持续累积。</b>叠加 CEO 明确说客户「还没有开始建库存」，我倾向于这一轮是真实需求而非补库脉冲——<b>但这是定性表态，不是可验证数据，等 Q3 再确认</b></li><li><b>本季最大边际变化是汽车，且方向反转。</b>从 Q1 的「中国下滑、其他地区上升」反转为「<b>中国主导加速</b>」，驱动逻辑从「份额/结构性风险」切换为「渠道去库存到极低水位后的回补」——<b>回补是脉冲还是趋势，Q3 见分晓</b></li><li>❗<b>股价反应与 Q1 形成鲜明对比：Q1 财报后 +19.4%，Q2 大幅超预期反而跌 4–5%。</b>这说明市场对 TXN 上行周期的定价<b>已相当充分</b>——后续驱动股价的将是「指引持续超预期的斜率」，而不是「从悲观到乐观的预期修正」。这个切换对建仓时点的含义比业绩本身大</li><li>❗<b>建模警告：CHIPS Act 现金流口径已切换，不宜简单外推 Q2 的 $549M/季。</b>CFO 已明说未来 capex 不成比例投向不享受 ITC 的境外封测</li><li><b>待验</b>：① H2 false start 风险需 10 月 Q3 实绩 + Q4 指引才算解除；② 汽车中国回补可持续性；③ 数据中心 ASSP 设计导入的收入转化（管理层至今只给定性确认，未给数字）</li></ul></div>
 </div></details>
 
 <details class="ec"><summary><span class="ec-co">泛林 <b>LRCX</b></span><span class="ec-meta">FY26 Q3 · 04-22</span><span class="ec-sum">WFE 上修至 1400 亿，HBM 驱动存储回升</span><span class="ec-tw"></span></summary>
@@ -887,19 +852,12 @@ body.embed .cards{margin-top:0;}
 </ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">信越化学 <b>4063</b></span><span class="ec-meta">FY26 全年 · 04-28</span><span class="ec-sum">AI 硅片需求上修，PVC 因中东暂缓指引</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕<b>FY27 不给具体营收/利润指引</b>——中东(伊朗)冲突推高油价、PVC 盈利难预测</li>
-<li>〔A〕FY27 capex ¥3500 亿；宣布最高 ¥2500 亿回购(约市值 2%)</li>
-<li>〔实绩〕FY26 营收 ¥2.574 万亿(+0.5%)、营业利润 ¥6352 亿(−14%)</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>电子材料 FY26 营收 +9%；"advanced sector remains strong as AI-related market expands"，PC/手机等常规需求已触底</li>
-<li>300mm 硅片对 FY27 Q1 及以后展望上修——"growth rate higher than initially anticipated"</li>
-<li>AI 相关产品占总营收约 15%；专用 AI 芯片(GPU/HBM)硅片占 300mm &lt;10%，广义 AI 相关(含数据中心)&gt;20%</li>
-<li>光刻材料/光纤预制棒需求"reminiscent of around 2000"；PVC 北美已提价对冲</li>
-</ul></div>
+<details class="ec" id="d-shinetsu" open><summary><span class="ec-co">信越化学 <b>4063</b></span><span class="ec-meta">✅ FY27 Q1 · 07-24 已发</span><span class="ec-sum">利润增速快于收入增速；beat/miss 判定随共识口径而反转</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕净销售 <b>¥662.42bn</b>（去年同期 ¥628.55bn，<b>+5.4%</b>）</li><li>〔A〕<b>经营利润 ¥173.80bn</b>（去年同期 ¥166.80bn，+4.2%）</li><li>〔A〕归母净利 <b>¥130.83bn</b>（去年同期 ¥126.43bn）；<b>EPS ¥70.24</b>（去年同期 ¥66.45）</li><li>❗<b>beat/miss 判定随共识来源反转，此处不下定论</b>：对本页原采用的共识（营收 ¥684.9bn／EPS ¥67.7）是<b>营收 −3.3% miss、EPS +3.7% beat</b>；但另一口径统计为<b>营收 +3.48% beat、EPS −10.95% miss</b><span class="gr">〔B·两套第三方共识不一致，实际值本身为 A 级〕</span></li><li>〔B〕财报后股价 <b>+4.3%</b></li><li>〔B〕17 家分析师平均评级 Buy，12 个月目标价 ¥8,086（隐含约 +10.2%）</li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>〔A〕<b>全年（截至 2027 年 3 月）指引：净销售 ¥2.70 万亿（+5%）、经营利润 ¥7,000 亿（+10.2%）</b></li><li>❗<b>指引结构与本季一致：利润增速（+10.2%）显著快于收入增速（+5%）</b></li><li>〔A〕股息指引：中期每股 ¥58、期末每股 ¥58，全年合计 <b>¥116</b></li><li>⚠️公司未在本次披露中给出硅晶圆／光刻胶等分部的单独前瞻数字（本页不做分部 margin 推断，避免无披露编造）</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：第三方数据商共识汇总（B 级，两套口径不一致已标注）</span></h5><ul><li><span class="src">共识</span>17 家覆盖，平均评级 <b>Buy</b>，目标价 ¥8,086（+10.2%）<span class="gr">〔B〕</span></li><li><span class="src">反应</span>财报后股价 +4.3%——市场对这份「收入平淡、利润稳健」的组合给了正面定价<span class="gr">〔B〕</span></li><li>⚠️<span class="src">口径</span><b>不同数据商对本季 beat/miss 的判定相反</b>（见左侧业绩要点）——引用任何一方的「超预期/不及预期」结论前，必须先确认其共识基准</li><li>⚠️注：<b>本地无该标的深度研报或纪要</b>；公开渠道亦未检索到针对半导体材料分部与 PVC 分部的详细外部拆解</li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>收入平淡、利润稳健，增量在结构不在总量。</b>经营利润增速 +4.2% 与收入 +5.4% 大体同步，但<b>全年指引给的是利润 +10.2% vs 收入 +5%</b>——公司自己预期下半年利润弹性会打开，隐含的是高毛利的半导体材料（硅晶圆/光刻胶）占比继续提升、低毛利 PVC 的周期拖累被稀释</li><li>❗<b>但我要明确标注一个纪律边界：公司本次没有披露分部利润率，上面这条结构解释属于推断而非事实。</b>按取数纪律，无公司披露时不得用「行业常识」编造分部 margin——所以这里只给方向性判断，<b>不给任何分部拆分数字</b></li><li>❗<b>两套第三方共识对同一份财报给出相反的 beat/miss 结论</b>（一方营收 miss/EPS beat，另一方营收 beat/EPS miss）。这不是谁算错了，是共识基准不同。<b>这类分歧本身就是「不要拿单一数据商的 surprise 百分比当结论」的现成案例</b>——本页因此不给 beat/miss 定性</li><li><b>作为 AI 芯片最上游的材料端，这份读数是稳健而非爆发。</b>对照同处上游的设备端（ASML 全年指引一次上修 15.8%、GM +300bps），<b>材料端和设备端完全不在一个强度量级</b>——这符合材料是「随晶圆产出线性增长」而设备是「随 capex 脉冲增长」的基本结构差异</li><li><b>含义</b>：想通过上游抓 AI 弹性，设备 &gt; 材料；材料端更适合作为「AI 周期是否真实」的<b>验证性指标</b>而非弹性来源。<b>置信度：中低</b>——实际数字 A 级，但无分部披露、无本地深度覆盖</li></ul></div>
 </div></details>
 
 <details class="ec"><summary><span class="ec-co">安费诺 <b>APH</b></span><span class="ec-meta">2026 Q1 · 04-29</span><span class="ec-sum">AI 数据中心驱动订单创纪录 +78%</span><span class="ec-tw"></span></summary>
@@ -957,48 +915,28 @@ body.embed .cards{margin-top:0;}
 </ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">GE Vernova <b>GEV</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">AI 数据中心电力需求驱动全年指引上调</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕FY26 营收 $44.5–45.5bn(上调 $0.5bn)、调整后 EBITDA 利润率 12–14%(上调 100bp)、FCF $6.5–7.5bn</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li>Q1 订单 $18.3bn(+71%)，backlog $163bn，设备类 backlog +80% 且利润率改善</li>
-<li>燃气轮机：under contract 从 83GW→100GW；2026 燃机订单定价较 25Q4 高 10–20 点；产能 2026 年中年化 20GW、2028 目标 24GW</li>
-<li><b>数据中心订单 Q1 达 $2.4bn(超 2025 全年)</b>；100GW under contract 中约 20% 明确用于数据中心</li>
-<li>核电 SMR：加拿大 OPG 获批；美日联合支持在美建 SMR 最高 $40bn；电网 backlog 从 $9bn 增至 $42bn</li>
-</ul></div>
+<details class="ec" id="d-gev" open><summary><span class="ec-co">GE Vernova <b>GEV</b></span><span class="ec-meta">✅ 2026 Q2 · 07-22 已发</span><span class="ec-sum">EPS miss 22%，订单 +88%——利润表和订单簿讲两个故事</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>$11.10bn（YoY +21.9%）</b>，超一致预期 $10.73bn；经 TradingKey／BigGo／MarketScreener 三方独立报道交叉确认</li><li>❗〔A〕<b>调整后 EPS $2.47</b> vs 一致预期 $3.17–3.18（FactSet $3.18）——<b>收入 beat + EPS miss 组合</b></li><li>〔A〕GAAP 口径反而是改善的：毛利 $2.36bn（毛利率 21.3%，YoY +1.0pct）、经营利润 $655M（5.9%，YoY +1.8pct）、净利 $668M——<b>miss 出在调整后口径与一致预期的落差</b></li><li>❗〔A〕<b>Q2 订单 $24.2bn（YoY +88%）</b>，在手订单升至 <b>$176bn</b>（Q1 为 $163bn）</li><li>❗〔A〕<b>电气化分部上半年数据中心相关订单超 $5bn</b>，已是 2025 全年的两倍以上</li><li>〔A〕<b>风电仍是拖累：订单 YoY −40%，单季 EBITDA 亏损 $275M</b></li><li>〔A〕当日收盘 $1,011.14（−6.27%），盘前一度跌超 10%；市值 $2,717 亿、PE-TTM 29.02x</li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>❗〔A〕<b>FY2026 收入指引上修：$44.5–45.5bn → $45.5–46.5bn</b>（中枢 +$1bn / +2.2%）</li><li>❗〔A〕<b>FY2026 自由现金流指引大幅上修：$6.5–7.5bn → $11.5–12.5bn</b>（中枢 +$5bn，接近翻倍）</li><li>〔A〕调整后 EBITDA margin 维持 <b>12–14% 不变</b></li><li>❗〔A〕管理层将 FCF 大幅上修归因于<b>订单激增带来的客户预付款（down payments）</b>增厚，<b>而非经营利润率的结构性跃升</b>——这与调整后 EPS miss 并不矛盾：现金流提前确认，利润表确认节奏滞后</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：TradingKey／BigGo Finance／MarketScreener（三方独立报道交叉，B 级）／公司 8-K（A 级）</span></h5><ul><li><span class="src">要点</span>订单激增＋利润率改善＋预付款提高，共同支撑本次指引上修<span class="gr">〔B·管理层转述〕</span></li><li><span class="src">结构</span>Power 与 Electrification 是主要增长驱动，含重型燃机需求；<b>风电是唯一明确的弱项</b><span class="gr">〔B〕</span></li><li><span class="src">市场</span>盘前跌超 10% 后收盘收窄至 −6.27%，反映「EPS miss 冲击」与「订单/FCF 指引上修」两股力量<b>部分对冲</b><span class="gr">〔B〕</span></li><li><span class="src">口径</span>MarketScreener Earnings Flash 与本站 earnings_calendar_pull.py 队列口径（$3.17）对 FactSet $3.18 一致——<b>miss 不是口径误差</b><span class="gr">〔B〕</span></li><li>⚠️注：<b>本季无本地卖方深度研报</b>，外部视角来自三家财经媒体的独立报道交叉，非独立第三方投研分析</li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>本季最强读数不在利润表，在订单簿。</b>订单 +88%、在手 $1,760 亿，其中<b>电气化上半年数据中心订单超 $50 亿、已是 2025 全年两倍以上</b>——这是 AI 电力需求<b>兑现成合同</b>的直接证据，是能源层目前最硬的一条链</li><li><b>EPS miss 与 FCF 上修不矛盾，理解这一点是读懂这份财报的关键。</b>管理层明说 FCF 翻倍上修来自客户预付款而非利润率跃升——<b>现金先到、利润后认</b>。对重型设备这种长周期订单业务，预付款增厚本身就是需求强度的证明</li><li><b>本季不改变「AI 电力设备供给受限」的核心叙事</b>：订单/backlog 加速验证需求端未见拐点，EPS miss 是口径性落差而非需求走弱信号</li><li>❗<b>但有一条要紧盯：调整后 EPS 已连续两个季度低于一致预期。</b>Q1 是 GAAP 口径干扰、本次是调整后口径 miss，性质不同——<b>若 Q3 继续 miss 且伴随 margin 而非现金流的解释，则「需求强但利润兑现慢」会从容忍项升级为估值压制因素</b></li><li><b>风电应纳入 KPI 观察表</b>：订单 −40% ＋ EBITDA 转亏 $2.75 亿，对应 entity 卡的风电亏损红线（FY2026 EBIT 亏损显著差于 −$4 亿指引）——目前仍在阈值内，但趋势要跟</li><li><b>监测清单</b>：① Q2 transcript 核对调整后 EPS miss 的具体驱动（分部 mix／一次性费用／税率）；② 10 月下旬看电气化订单能否维持 $50 亿+/半年节奏；③ 风电 Q3 EBITDA 是否止损</li></ul></div>
 </div></details>
 
-<details class="ec"><summary><span class="ec-co">ServiceNow <b>NOW</b></span><span class="ec-meta">2026 Q1 · 04-22</span><span class="ec-sum">AI 变现目标大幅上调，订阅指引齐升</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>Guidance</h5><ul>
-<li>〔A〕Q2 订阅收入 $3.815–3.820bn(cc +21%)；FY26 订阅上调至 $15.735–15.775bn(cc 20.5–21%)</li>
-<li>〔A〕营业利润率 FY26 31.5%、FCF 利润率 ~35%；Q1 GAAP EPS $0.45 vs 非 GAAP $0.97(差距大，未单列全年 GAAP)</li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点</h5><ul>
-<li><b>Now Assist AI 收入目标上调 $10 亿→$15 亿(+50%)</b>；含 3+ Now Assist 产品的交易同比增近 70%</li>
-<li>CPO Zavery："all of our products now have AI built in"(非独立 sidecar)</li>
-<li>内部 agentic："90% of employee IT requests resolved autonomously"；外部已促成 6 笔净新增 ACV &gt;$100 万</li>
-<li><b>50% 净新增来自非按坐席定价(tokens/基础设施等)</b>；"full speed ahead out of AI experimentation into full-scale deployment"</li>
-</ul></div>
+<details class="ec" id="d-now" open><summary><span class="ec-co">ServiceNow <b>NOW</b></span><span class="ec-meta">✅ 2026 Q2 · 07-22 已发</span><span class="ec-sum">AI ACV 破 10 亿的同时，毛利率被 AI 吃掉 250bps</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕总营收 <b>$3.987bn</b> vs 共识 $3.927bn；<b>订阅收入 $3.877bn，超指引区间上限 150bps</b></li><li>〔A〕超指引来源＝<b>净新增 ACV 超预期 ＋ 本地部署（on-premise）收入结构好于预期</b></li><li>❗〔A〕<b>cRPO（当前剩余履约义务）固汇 +21.5%，比指引高 2 个点以上</b>——领先指标好于当期报表</li><li>❗〔A〕<b>AI ACV 单季突破 $10 亿</b>，净新增 AI ACV <b>环比加速 40% 以上</b></li><li>❗〔A〕<b>Non-GAAP 订阅毛利率 80.5%，较去年同期 83.0% 下滑 250bps</b>——公司归因于客户更多使用超大规模云厂合作部署 ＋ AI 采用加速</li><li>〔B〕EPS $0.90 vs 共识 $0.86；本季前股价 YTD 已 <b>−38%</b></li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>❗〔A〕<b>FY2026 订阅收入指引上调至 $15,760–15,780M</b>（报告口径 +22.5%、固汇 +21%），以反映净新增 ACV 的强度</li><li>❗〔A〕<b>FY2026 毛利率指引反映「客户更多使用超大规模云厂合作部署 + 客户 AI 采用加速」</b>——即公司主动预告毛利率承压</li><li>〔A〕FX：预计对 Q3 cRPO 构成约 <b>$3,500 万</b>的同比逆风</li><li>〔A〕<b>全年 AI ACV $15 亿目标</b>在本季数据后被视为可达而非空中楼阁</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：媒体汇总的卖方评级分布／CLSA／24-7 Wall St.（均 B 级转述）</span></h5><ul><li><span class="src">评级</span>44 家覆盖中 <b>36 家 Strong Buy</b>、3 家 Moderate Buy、4 家 Hold、1 家 Strong Sell<span class="gr">〔B〕</span></li><li><span class="src">分歧</span>目标价区间极宽：平均 <b>$143.93</b>（隐含约 +44%）；最乐观 24/7 Wall St. <b>$331.60</b>；<b>CLSA 给 Underperform、目标价 $72</b><span class="gr">〔B〕</span></li><li><span class="src">焦点</span>市场普遍把 <b>$15 亿 AI ACV 目标</b>当作本季最关键的单一指标——本季 $10 亿＋净新增环比 +40% 之后，「<b>目标从 aspirational 变成 credible</b>」<span class="gr">〔B·媒体分析〕</span></li><li><span class="src">争议</span>另有观点认为 NOW 曾被视为「AI 要杀死的 SaaS 股」，但数字并不支持这个论断<span class="gr">〔B〕</span></li><li>⚠️注：<b>本地仅有一份 ThirdBridge 元数据 stub（2026-07-01），无本季深度外部研报</b></li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>领先指标好于当期报表，这是本季最该抓的结构。</b>cRPO 固汇 +21.5% 超指引 2 个点以上，AI ACV 单季破 $10 亿且净新增环比加速 40%+——订单端的强度明显强于收入端，说明<b>兑现还在后面</b></li><li>❗<b>但代价被公司自己写进指引里了：订阅毛利率 83.0% → 80.5%，掉 250bps。</b>归因是客户更多走超大规模云厂部署 ＋ AI 采用加速。翻译成大白话：<b>客户用 AI 用得越多，NOW 付给云厂的推理成本越高</b>——<b>AI 变现在 NOW 这里先体现为成本，再体现为收入</b></li><li><b>这条对整个应用层 SaaS 是通用的读数。</b>过去 SaaS 的估值逻辑建立在 80%+ 毛利率的软件经济学上；当 AI 功能的边际成本是真实算力开销而非零，<b>软件的毛利率结构本身在被重写</b>。NOW 只是第一个把这件事写进指引的</li><li><b>判断：本季是叙事修复的第一个支点，但不是终点。</b>YTD −38% 的位置上，AI ACV 可信度提升足以支撑估值修复；但毛利率若继续以每季 100bps+ 的速度下滑，则「AI 带来收入」和「AI 吃掉利润」谁跑得快会重新成为主要矛盾。<b>置信度：中</b></li><li><b>可证伪</b>：① Q3 订阅毛利率跌破 79%；② AI ACV 净新增环比转负；③ 全年 $15 亿 AI ACV 目标被下修。<b>卖方目标价从 $72 到 $331.60 的 4.6 倍分歧，本身就说明这不是一个已经形成共识的定价</b></li></ul></div>
 </div></details>
 
-<details class="ec" open><summary><span class="ec-co">IBM <b>IBM</b></span><span class="ec-meta">🔴 7/14 已预披露（完整 7/22）</span><span class="ec-sum">营收/EPS 双 miss、盘中 -25%；归因存分歧＝内存挤压 vs 平台弱化</span><span class="ec-tw"></span></summary>
-<div class="ec-body">
-<div class="ec-g"><h5>7/14 预披露实际（尚无新 guidance，7/22 完整业绩会给）</h5><ul>
-<li>〔B〕营收 <b>$17.2bn</b>（较共识 $17.86bn <b>-3.7%</b>、较 MSe $18.2bn <b>-5%</b>）；EPS <b>$2.93</b>（共识 $3.02–3.03）——<b>盘中一度 -25% 至 ~$215</b>，1987 年来最差单日</li>
-<li>〔B〕分部：基础设施 <b>-7%</b>（MSe +2%，差近 $0.4bn）／软件 <b>+5%</b>（MSe +11%，差 $0.5bn）／咨询 +1%(CC，基本符合)</li>
-<li>〔B〕因大型机与交易处理是高毛利业务，<b>毛利率较 MSe 低 130bps</b>；靠成本削减把 <b>PTI 利润率护在 19.2%</b></li>
-<li>❗<b>对照上季 guidance＝直接打脸</b>：Q1 时公司把软件增速<b>上调至 10%+</b>，本季实际仅 <b>+5%</b>；基础设施原指引"低个位数下降"，实际 <b>-7%</b></li>
-</ul></div>
-<div class="ec-t"><h5>纪要要点 · 归因分歧（7/22 的真正看点）</h5><ul>
-<li>❗<b>三方归因不同，别合并成一句话</b>：<b>MS</b>＝客户 2Q 把资本开支优先投向<b>快速涨价的内存密集服务器/存储</b>，代价是压缩大型机硬件、交易处理、数据与自动化软件的 ELA 采购并推迟季末大单，且认为内存是<b>结构性多年期逆风、可能延续 2H26–CY27</b>；<b>IBM 管理层</b>＝仅属"资本开支决策的短期优化"、只涉及<b>几个大单</b>递延；<b>Bernstein</b>＝<b>大型机平台地位加速弱化</b>（净 <b>54%</b> CIO 拟减少 IBM 支出，调查以来最差、前值 49%；<b>33%</b> 拟五年内降 MIPS 容量，前值 23%）</li>
-<li>季内强弱分化：承压＝IBM Z／交易处理／数据与自动化软件；<b>稳健＝红帽 +11%</b>、HashiCorp、Confluent——说明<b>不是全面放缓</b></li>
-<li>〔B〕MS 点名的二阶受益方（内存挤压的另一面）：CDW、DELL、HPE、INGM、NTAP、SNX、<b>STX(Top Pick)</b>、WDC</li>
-<li>〔B〕MS 底部测算：回归式 FCF 指向 <b>$207</b>、SOTP <b>$164–219</b>，"关键在于什么是正确的 EPS/FCF 基数"<span class="cav">⚠️ 其表头 TP $293／收盘 $290.23 取自 Jul 13，<b>早于 7-14 暴跌，已滞后，勿当事件后最新观点引用</b></span></li>
-<li>🎯 <b>7/22 裁决点</b>：3Q 是否恢复正常 → 直接裁决"短期递延 vs 结构性挤压"。这不只关乎 IBM——<b>它是"内存涨价开始吃掉其他 IT 预算"这条链的第一个实证样本</b></li>
-</ul></div>
+<details class="ec" id="d-ibm" open><summary><span class="ec-co">IBM <b>IBM</b></span><span class="ec-meta">✅ 2026 Q2 · 07-22 已发（7/14 曾预披露）</span><span class="ec-sum">AI 抢内存，把大机升级挤出了预算表——IBM 是二阶受害者</span><span class="ec-tw"></span></summary>
+<div class="ec-body q4">
+<div class="ec-r"><h5>📊 业绩要点（本季实际）<span class="byl">来源：公司公告 / IR 原件 · 逐条标等级</span></h5><ul><li>〔A〕营收 <b>$17.16bn（YoY 仅 +1%）</b>，低于预警前共识 $17.86bn 约 −3.9%</li><li>〔A〕<b>GAAP EPS $2.27（YoY −2%）；调整后经营 EPS $2.93</b>，低于预警前共识 $3.01–3.03</li><li>❗〔A〕<b>大机 Z 收入暴跌 42%</b>，CFO Kavanaugh 明确表示这<b>单挑掉整体增速 5 个百分点以上</b></li><li>〔A〕<b>软件 +5% 至 $7.76bn</b>：混合云（Red Hat）+11%、数据 +18~19%、自动化 +3%——但对照 Q1 的 +11%，软件是<b>腰斩</b></li><li>〔A〕咨询持平（固汇 +1%）；基础设施 −7%</li><li>〔A〕自由现金流 $2.5bn；<b>7/14 预警当日股价盘中一度 −25%</b>（1987 年来最差单日），7/22 正式财报后反而 +1.85%</li></ul></div>
+<div class="ec-g"><h5>🎯 指引（管理层给的）<span class="byl">来源：业绩会 / 公告原话</span></h5><ul><li>❗〔A〕<b>全年收入指引下修：固汇增速 5%+ → 4–5%</b></li><li>〔A〕全年自由现金流仍指引同比增加约 <b>$10 亿</b></li><li>〔A〕<b>软件全年增速指引修正为 6–8%</b>（预警时口径曾称软件将「加速到 10%+」——口径已实质回撤）</li><li>〔A〕CEO Krishna 对大机的定调：「<b>尽管本季有挑战，Z17 仍是有记录以来最好的换机周期……我们没有看到客户迁出大机的证据</b>」</li><li>〔A〕减速归因（CEO 原话口径）：6 月底客户把资本开支<b>前置转向服务器、存储和内存</b>，抢在供给收紧与涨价之前下单</li></ul></div>
+<div class="ec-x"><h5>🏛 外部分析<span class="byl">作者：CFRA（Brooks Idlet，经媒体转述）／卖方一致预期（FMP）／媒体汇总，均 B 级</span></h5><ul><li><span class="src">修正</span>预披露后卖方普遍下调盈利预测；正式财报后市场反应<b>反而温和转正</b>（+1.85%），说明利空已在 7/14 一次性出清<span class="gr">〔B〕</span></li><li><span class="src">CFRA</span>Brooks Idlet：「就整个软件板块而言，这应被视为一个正面的季度」<span class="gr">〔B〕</span></li><li><span class="src">口径</span>一致目标价 $312.85（high 360 / low 191 / median 320）为<b>崩前 stale 值</b>，几乎必然被系统性下修<span class="gr">〔B·FMP〕</span></li><li><span class="src">估值</span>崩后现价 ~$227、PE(ttm) ~18x、forward non-GAAP PE ~20x（崩前 ~23x）<span class="gr">〔B〕</span></li></ul></div>
+<div class="ec-m"><h5>🧠 我的分析<span class="byl">作者：Claude（by_claude · 本地业绩点评 · 2026-07-27 复核）</span></h5><ul><li><b>7/14 那波 20%+ 的杀跌，本质是「叙事去溢价」，不是「业绩崩塌」——这两件事必须分开看。</b>盈利本身没崩：GAAP EPS 只跌 2%、调整后还涨 5%。真正的问题是收入 miss 3.7% ＋ <b>质地（mix）恶化</b>。市场此前把 IBM 当「AI 再加速」的故事定价，估值从历史 ~15x forward 抬到崩前 ~23x。<b>当一只票被按「加速」定价却交出「减速」，被打掉的首先是那块溢价</b></li><li>❗<b>减速的机制值得科技投资人单独记一笔，它是一个 AI 的二阶效应（挤出效应）。</b>AI 数据中心疯抢内存/HBM，把 DRAM 价格和交期顶上去；企业 IT 部门一看要涨价，赶紧把有限预算砸去囤服务器和内存，<b>大机这种可以往后拖的大额升级就被挤到一边</b>。IBM 不是 AI 的直接受益者，本季反而成了 <b>AI infra 繁荣虹吸传统 IT 预算的受害者</b></li><li><b>这条线索对「AI 五层蛋糕」框架是个提醒：算力层的超级景气，正在从需求侧挤压应用层/企业 IT 的升级周期。</b>值得横向检查其他传统 IT 硬件与企业软件标的是否有同样特征</li><li>❗<b>7/22 完整财报把预披露时留下的红旗坐实了一半：全年指引确实下修（5%+ → 4–5%），软件口径也从「加速到 10%+」回撤到 6–8%。</b>我在 7/14 就写过——「连提前一周发预警都说明管理层被打了措手不及，那凭什么信它下半年软件加速到 10%+」。这条<b>已被验证</b></li><li><b>剩下的核心分歧仍是：timing 还是 structural。</b>管理层坚称 Z17 是有记录以来最好的换机周期、无客户迁出证据——若属实则大机是「递延不是丢失」。但<b>软件从 +11% 到 +5% 是独立于大机的问题，不能被「大机 timing」论一笔带过</b></li><li><b>赔率</b>：现价 ~$227 对应 forward non-GAAP PE ~20x、EV/FCF ~22x，对一个个位数增长的公司不算便宜也不算贵。下行看历史估值底 15x（~$165，−27%），上行看 timing 证伪后修复回 22–23x（~$255–265，+12–17%）——<b>对称偏鸡肋。置信度：低</b>（新覆盖 · 无本地历史 thesis）</li></ul></div>
 </div></details>
 
 </div>
