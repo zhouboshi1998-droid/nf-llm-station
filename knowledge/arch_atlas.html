@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>InfraTech 架构图全解：11 个开源模型逐张图解 · 知识解读深读</title>
+<style>
+body{margin:0;background:#f4f2ec;color:#2C2C2A;font-family:"Microsoft YaHei",system-ui,sans-serif;
+line-height:1.8;font-size:15.5px}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+.card{background:#fffefa;border:1px solid #e6e3da;border-radius:16px;padding:34px 40px}
+.meta{color:#8b8a83;font-size:13px;margin:10px 0 26px}
+.back{display:inline-block;margin-bottom:14px;color:#C05A2E;text-decoration:none;font-size:14px}
+h1{font-size:24px;line-height:1.4;margin:6px 0 4px}
+h2{font-size:19px;border-bottom:1px solid #eee9dd;padding-bottom:6px;margin-top:38px}
+h3{font-size:16.5px;margin-top:28px}
+a{color:#C05A2E}
+img{max-width:100%;border:1px solid #e6e3da;border-radius:10px;background:#fff}
+blockquote{border-left:3px solid #D85A30;margin:14px 0;padding:4px 16px;background:#faf8f3;
+border-radius:0 8px 8px 0;color:#5a5a54}
+code{background:#f0ede4;border-radius:4px;padding:1px 5px;font-size:.9em}
+pre{background:#f0ede4;border-radius:10px;padding:14px 16px;overflow-x:auto}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e6e3da;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#f0ede4;white-space:nowrap}
+hr{border:none;border-top:1px solid #eee9dd;margin:30px 0}
+</style></head><body><div class="wrap">
+<a class="back" href="../index.html">← 返回研究站 · 知识解读</a>
+<div class="card">
+<h1>InfraTech 架构图全解：11 个开源模型逐张图解</h1>
+<div class="meta">2026-07-25 · 深读专题库 · 本页由 vault 源文件自动构建（更新源文件后重跑 build_site 即同步）</div>
+<h1>InfraTech 架构图全解：11 个开源大模型逐张图解</h1>
+<blockquote>
+<p><strong>这套图为什么值得单独建库</strong>：市面上的模型架构图（论文图、公众号图）绝大多数是"概念图"——画到 Attention/FFN 这个颗粒度就停了。这套图是<strong>推理部署视角的数据流图</strong>：从 HuggingFace config.json 和 transformers 源码逆向画出，每一条边都标了张量形状 <code>[seq_len, hidden_size]</code>，每一个权重矩阵都标了具体维度，还画出了论文里通常不画的<strong>推理工程细节</strong>（KV cache 放哪、MLA 的权重吸收 absorb 技巧、prefill 与 decode 两种模式的区别）。看懂一张，等于把这个模型"在 GPU 上怎么跑"过了一遍脑子。</p>
+</blockquote>
+<hr />
+<h2>〇、怎么读这套图（通用模板，5 分钟上手）</h2>
+<p>【事实】全系列图共用一套画法，掌握一次全部通用：</p>
+<ol>
+<li><strong>左侧竖列 = 模型主干</strong>：从下往上是数据流向——<code>Text → Tokenizer → Embedding → N×(前几层 Dense 层) → M×(MoE 层) → RMSNorm → LM-Head → MTP</code>。每层内部结构画在虚线框里（Attention 模块 + FFN/MoE 模块，各带残差连接 ⊕）。</li>
+<li><strong>右侧大框 = 放大镜</strong>：把主干里的 MoE、MLP(FFN)、Attention 三个模块逐一放大，画出内部每一个算子（Linear/RoPE/Split/Cat/Softmax）。</li>
+<li><strong>每条边上的方括号 = 张量形状</strong>：如 <code>[seq_len, heads, qk_head_dim]</code>。这是这套图最大的价值——照着形状就能手推每一步矩阵乘的计算量和显存占用。</li>
+<li><strong>红色块 = KV cache</strong>（推理时驻留显存、决定长上下文成本的东西）；<strong>梯形块 = 升维/降维投影</strong>（上宽下窄=升维）；<strong>模块图里的 W[...] = 权重矩阵形状</strong>（决定参数量）。</li>
+<li><strong>左下角固定标注</strong>：context length 与 vocab_size。</li>
+<li><strong>主干顶部的 MTP</strong>（Multi-Token Prediction）= 一次多预测几个 token 的附加头，推理时用于 speculative decoding 加速，主流开源旗舰已成标配（图中 11 个模型几乎全带）。</li>
+</ol>
+<p>【观点】读这套图的正确姿势是"横着比"：同一个部位（比如 Attention 虚线框）在 11 张图里换了什么、没换什么，就是 2025-2026 开源模型演化的全部主线。下面第一节先给横切结论，再逐张讲。</p>
+<hr />
+<h2>一、先看全景：11 个模型其实只有一个主战场（结论先行）</h2>
+<p>【事实】11 张图放在一起，MoE 部分高度趋同（256~896 个细粒度专家 + 1~2 个共享专家 + top-k 路由，激活比普遍压到 3~6%），FFN 清一色 SwiGLU，Norm 清一色 RMSNorm。<strong>真正的分歧全部集中在 Attention 模块</strong>——因为长上下文时代，attention 的 KV cache 和计算量是推理成本的大头。</p>
+<p>【事实】四条技术路线（按图中出现归类）：</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>白话解释</th>
+<th>代表模型</th>
+<th>KV cache 成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GQA 全注意力</strong></td>
+<td>最经典做法：多个 Q 头共用少数 KV 头，压缩 cache 但每个历史 token 都算</td>
+<td>MiniMax M2.5、Step 3.5 Flash（+滑窗）、Qwen3-VL</td>
+<td>中（随上下文线性涨）</td>
+</tr>
+<tr>
+<td><strong>MLA 低秩压缩</strong></td>
+<td>把 KV 先压成一个 512 维的"压缩包"存起来，用时再解压/或干脆在压缩域里算</td>
+<td>DeepSeek V3、Kimi K2、K2.5</td>
+<td>低（每 token 只存 512+64 维）</td>
+</tr>
+<tr>
+<td><strong>DSA/CSA 稀疏注意力</strong></td>
+<td>在 MLA 基础上再加一个轻量"索引器"，每个 token 只挑最相关的 top-k 个历史 token 算注意力</td>
+<td>DeepSeek V3.2、<strong>GLM-5</strong>、DeepSeek V4</td>
+<td>低 + 计算量从 O(L²) 降到 O(L·k)</td>
+</tr>
+<tr>
+<td><strong>线性/混合注意力</strong></td>
+<td>大部分层改用 RNN 式线性注意力（状态固定大小、不随上下文膨胀），每隔几层留一层全注意力兜底</td>
+<td>Qwen3.5（DeltaNet 3:1）、Kimi K3（KDA 3:1）、Step 3.5（SWA 3:1）</td>
+<td>极低（线性层状态恒定）</td>
+</tr>
+</tbody>
+</table>
+<p>【观点】投研含义一句话：<strong>这四条路线是"推理单位成本"的四个档位</strong>。2026 年上半年国产旗舰集体从第一档往后三档迁移（GLM-5 弃 GQA 转 DSA、Qwen3.5 转线性混合、Kimi K3 转 KDA），方向是把"上下文越长越贵"这条成本曲线打平——这是 token 通缩（同等能力价格下行）的架构层驱动力，与 MaaS 定价、Agent 长任务经济性直接挂钩。谁能在 1M 上下文下把每 token 成本压到最低，谁就能在 Agent 时代打价格战。</p>
+<hr />
+<h2>二、逐模型图解</h2>
+<h3>1. DeepSeek V3（671B A37B）——全系列的"模板"，MLA+MoE 范式的定义者</h3>
+<p><img alt="DeepSeek V3 架构图" src="img/arch_atlas/deepseek_v3_deepseek_v3_architecture.jpg" /></p>
+<p>【事实】图上关键信息：
+- 主干：3 层 Dense + 58 层 MoE，128K 上下文，vocab 129280。
+- MoE 放大框：<strong>256 个路由专家 + 1 个共享专家，每 token 激活 8 个</strong>；hidden_size=7168，单专家 moe_intermediate_size=2048（Dense 层 FFN 是 18432）——"很多小专家"而非"少数大专家"，是 DeepSeek 定义、后被全行业抄走的细粒度专家范式。
+- MLA 放大框（MHA mode，即 prefill 阶段画法）：Q 和 KV 都走"先降维再升维"的低秩瓶颈——Q 压到 q_lora_rank=1536，KV 压到 <strong>kv_lora_rank=512</strong>；RoPE 位置信息单独走一条 64 维的小通道（qk_rope_head_dim=64），与内容通道（nope 128 维）分离；图右侧两个红块 pe cache + kv cache——<strong>推理时只缓存 512 维压缩 KV + 64 维位置键</strong>，而不是 128 头×两份×128 维的完整 KV，这就是 MLA 省显存的本质。
+- heads=128，qk_head_dim=192（128 nope + 64 rope），v_head_dim=128。</p>
+<p>【观点】看点：这张图是理解后面所有图的钥匙——Kimi K2/K2.5 直接继承它，V3.2/GLM-5 在它上面加稀疏索引，V4 把它推向极端。MLA 的第一性逻辑：注意力头之间的 KV 信息高度冗余 → 用低秩分解把冗余压掉 → 显存省一个数量级，代价是多两次小矩阵乘（用算力换显存，而算力比显存带宽便宜）。</p>
+<hr />
+<h3>2. Kimi K2（1T A32B）——"放大版 V3"，改动只有四个数字</h3>
+<p><img alt="Kimi K2 架构图" src="img/arch_atlas/kimi_k_2_kimi_k_2_architecture.jpg" /></p>
+<p>【事实】图与 V3 逐块对照，结构完全一致，只改参数：专家数 256→<strong>384</strong>（总参数 671B→1T 的主要来源）、attention heads 128→<strong>64</strong>（砍半，长上下文时省 attention 计算）、Dense 层 3→1、vocab 129280→163840、上下文 128K→256K。每 token 仍激活 8 专家，MLA 超参（kv_lora_rank=512 等）原样保留。</p>
+<p>【观点】看点：K2 证明了"抄对作业 + 只动刀在专家数和头数"就能做出旗舰。头数砍半是长上下文成本考量（attention 计算量∝头数），专家数×1.5 是能力容量考量（总参数涨、激活参数反而 37B→32B 略降）——<strong>"总参数涨、激活参数不涨"是 MoE 时代做大模型的标准姿势</strong>：容量用稀疏堆，成本用激活控。</p>
+<hr />
+<h3>3. DeepSeek V3.2（671B A37B）——DSA 首发：给注意力装一个"检索器"</h3>
+<p><img alt="DeepSeek V3.2 架构图" src="img/arch_atlas/deepseek_v3_2_deepseek_v3_2_architecture.jpg" /></p>
+<p>【事实】主干与 V3 完全相同（3 Dense + 58 MoE、参数量不变），唯一改动：MLA 虚线框换成 <strong>DSA</strong>。放大框里多出两个新部件：
+- <strong>Indexer（右下蓝色虚线框）</strong>：一个轻量打分头（index_n_heads=64、index_head_dim=128），对每个 query 给所有历史 token 打相关性分；
+- <strong>Select(top k)</strong>：按打分挑 <strong>index_topk=2048</strong> 个最相关历史 token，只把这 2048 个的压缩 KV 喂给注意力。
+- 注意力主体仍是 MLA 的 MQA-absorb 形态（Q absorb / O absorb，在 512 维压缩域里算），K/V 输入形状从 <code>[context_len, ...]</code> 变成 <code>[index_topk, ...]</code>——<strong>这就是"稀疏"落在张量形状上的直接证据</strong>。</p>
+<p>【观点】看点：DSA 的第一性逻辑——上下文很长时，绝大多数历史 token 对当前预测没贡献，与其全算（O(L²)），不如先用一个便宜的小模型（indexer）筛出 top-2048 再精算（O(L·k)）。上下文越长省得越多，128K 时注意力计算量约省 98%。代价是 indexer 本身要全量打分（但它是单头级别的轻量计算 + FP8 量化，图中 q_fp8/k_fp8 块可见）。</p>
+<hr />
+<h3>4. GLM-5（744B A40B）——用户问的这张：DeepSeek 路线的"最佳实践集成者"</h3>
+<p><img alt="GLM-5 架构图" src="img/arch_atlas/glm_5_glm_5_architecture.jpg" /></p>
+<p>【事实】图上关键信息（注意：图标题为 744B，目录 README 写 774B 系笔误，以图和官方 config 为准）：
+- 主干：3 层 Dense + <strong>75 层 MoE</strong>（比 V3.2 的 58 层深），200K 上下文，vocab 154880。
+- MoE：256 专家 + 1 共享、激活 8 个，与 V3 完全同构；hidden_size=6144（比 V3 的 7168 瘦），Dense FFN intermediate=12288。
+- DSA 放大框：与 V3.2 的 DSA 几乎逐块相同——同样的 Indexer（index_topk=2048、index_head_dim=128）+ Select(top k) + MQA absorb 主体，同样的 Cached KV 红块。差异在超参：<strong>q_lora_rank=2048</strong>（V3.2 是 1536）、<strong>heads=64</strong>（V3.2 是 128，学了 Kimi 的砍半）、<strong>qk_nope_head_dim=192 / v_head_dim=256</strong>（单头更宽）。
+- 从 GLM-4.x 的 GQA 直接跳到 DSA，是国产模型里第一个整建制采用 DeepSeek 稀疏注意力路线的旗舰。</p>
+<p>【观点】看点：GLM-5 这张图的信息量在于"<strong>它选择了谁的哪个零件</strong>"——MoE 抄 V3（256+1/激活8）、稀疏注意力抄 V3.2（DSA 整套）、头数砍半学 K2（64 头）、然后自己把网络加深（75 层）加瘦（6144 hidden）。【观点·投研】这印证一个判断：DeepSeek 的架构开源事实上成了国产大模型的"公共技术底座"，头部玩家的架构差异化在收敛，竞争重心移向数据、RL 后训练和工程化——看架构图已经越来越难分出谁是谁，这对"算法护城河"叙事是减分项，对"执行力/数据飞轮"叙事是加分项。</p>
+<hr />
+<h3>5. DeepSeek V4 Pro（1.6T A49B）——全系最复杂的一张图：三种注意力混合 + 1M 上下文</h3>
+<p><img alt="DeepSeek V4 架构图" src="img/arch_atlas/deepseek_v4_deepseek_v4_architecture.jpg" /></p>
+<p>【事实】图上关键信息（这张图信息密度全系最高）：
+- 主干：3 层 Hash 块 + 58 组 MoE 块，<strong>上下文直接标到 1M</strong>，vocab 129280；MoE 升级为 <strong>384 专家、每 token 激活 6 个</strong>、带 hash 路由的 Router(Gate)（左上角放大框：token_id 经 hash map 映射专家，Sigmoid+Topk 选择）。
+- Attention 不再是单一模块，而是 <strong>CSA / HCA / SWA 三种混排</strong>：
+  - <strong>CSA（Compressed Sparse Attention，右侧橙框）</strong>：V3.2 DSA 的进化版——Token level Compressor（C4A，4 个 token 压成 1 个压缩 KV，coff×compress_ratio=2×4）+ Indexer（index_topk=1024）+ 滑窗 KV cache（window_size=128）双轨：近处细看（窗口内全量）、远处粗看（压缩+top-k 检索）。
+  - <strong>HCA（Heavily Compressed Attention，左侧绿框）</strong>：更激进的 C128A——<strong>128 个 token 压成 1 个</strong>，配合 KV cache(window) + KV cache(compress) 两级缓存，处理超远距离上下文。
+  - 图下方两个 Compressor 放大框画出了压缩器内部：kv_state/score_state 状态累积 + softmax 加权求和，本质是把一段 token "摘要"成一个向量。
+- heads=128、head_dim=512、o_groups=16、q_lora_rank=1536；另有 sink token（图中 Q 侧小块）稳定长上下文。</p>
+<p>【观点】看点：V4 回答的问题是"1M 上下文怎么才能算得起"——答案是<strong>分级压缩</strong>：128 token 窗口内全精度、中距离 4:1 压缩 + top-1024 检索、超远距离 128:1 重压缩。类比人的记忆：工作记忆全保真、近期记忆摘要、远期记忆只留梗概。【观点·投研】这张图是"长上下文成本工程化"的教科书——1M 上下文的 Agent 任务（整个代码库、整季财报堆）单位成本能否打平 128K 时代，决定 Agent 订阅的毛利结构，值得对照各家 API 的 1M 定价验证。</p>
+<hr />
+<h3>6. Kimi K2.5（1T A32B）——K2 + 眼睛：MoonViT 视觉塔接入</h3>
+<p><img alt="Kimi K2.5 架构图" src="img/arch_atlas/kimi_k_2_5_kimi_k_2_5_architecture.jpg" /></p>
+<p>【事实】图分上下两半：上半 Language Model 与 K2 完全一致（384+1 专家、激活 8、MLA 64 头、256K）；下半新增 VisionModel——<strong>27 层 MoonViT Encoder</strong>（vt_hidden_size=1152、16 头、LayerNorm+GELU 的经典 ViT 配方，图中标注 Pretrained），图像经 ImageProcessor → PatchEmbed → 27×编码 → <strong>PatchMergerMLP</strong>（2×2 相邻 patch 合一，N_k=4，mm_hidden_size=1152→投到文本 hidden 7168）→ 与文本 embedding 在 Merge 处拼接进语言模型。</p>
+<p>【观点】看点：这是"外挂式多模态"的标准图纸——语言模型冻结不动，视觉塔单独预训练后经一个 MLP 适配器接入。视觉 token 与文本 token 之后完全同权走 MoE+MLA，没有任何视觉专用层。对比下面 Qwen3-VL 的 DeepStack 多层注入，K2.5 是最简接法。</p>
+<hr />
+<h3>7. Kimi K3（2.8T，草稿版）——线性注意力上桌：KDA + 全系最激进的容量</h3>
+<p><img alt="Kimi K3 架构图" src="img/arch_atlas/kimi_k_3_kimi_k_3_architecture.jpg" /></p>
+<p>【事实】图标注"草稿版"（权重与技术报告发布前作者按已知信息先画，转录时注意此图为 C 级待定稿）：
+- 容量拉满：<strong>896 个路由专家 + 2 个共享专家、每 token 激活 16 个</strong>，MoE 还带 stable latent 结构（专家计算夹在 Linear(down)/Linear(up) 之间的低维潜空间里做）；2.8T 总参数、1M 上下文。
+- Attention 混排：<strong>1 层 FullAttention（Gated MLA）: 3 层 LinearAttention（KDA）</strong>。KDA 放大框（左中绿框）：Kimi Delta Attention——Q/K/V 各走 Conv+SiLU+L2 归一，α/β 两条 sigmoid 门控，本质是带遗忘门的 RNN 式状态更新（delta rule），状态大小固定，不随上下文长度膨胀。
+- Gated MLA 框：K2 的 MLA 加了输出门（Sigmoid⊗，图右侧新增支路）。
+- 每个块还有 <strong>Block Attention Residual</strong>（左上灰框）：跨块的注意力残差旁路（einsum 聚合各 block 输出），是这张图独有的新部件。
+- 视觉塔与 K2.5 相同（27 层 MoonViT）。</p>
+<p>【观点】看点：K3 与 Qwen3.5 殊途同归——都押注"3/4 的层用线性注意力扛量、1/4 的层用全注意力保质"。1M 上下文下，线性层的 KV 成本为零（固定状态），只有 1/4 的层还在花 cache 钱。【观点】2.8T/激活16专家的组合说明 Kimi 在赌"容量堆到极致 + 成本用线性注意力打平"两头吃，是 11 张图里最激进的配置；定稿后值得重点核对激活参数量。</p>
+<hr />
+<h3>8. MiniMax M2.5（229B A10B）——大道至简的反例：全 GQA、不玩任何花活</h3>
+<p><img alt="MiniMax M2.5 架构图" src="img/arch_atlas/minimax_m_2_5_minimax_m_2_5_architecture.jpg" /></p>
+<p>【事实】图上关键信息：62 层清一色同构（无 Dense/MoE 分段、无混合注意力）：<strong>Full Attention = 纯 GQA</strong>（Q 48 头 / KV 8 头、head_dim=128、Partial RoPE 64 维）+ MoE（256 专家、激活 8、专家 intermediate 仅 1536、带 jitter_noise 训练正则）。hidden_size=3072（全系最瘦），200K 上下文，vocab 200064。图右侧 Router 放大框：Sigmoid 打分 + Top-k + Select/Sum，标准配方。</p>
+<p>【观点】看点：M2.5 是"工程保守主义"样本——2026 年了还用最老实的 GQA，但把激活参数压到 <strong>10B</strong>（全系最低），用"瘦身"而不是"稀疏注意力"实现低成本。MiniMax 此前在 M1 上试过 Lightning Attention（线性路线先驱），M2 系回撤到 GQA。【观点】这与其"性价比 API + 海外 Agent 产品"的商业定位自洽：A10B 意味着单卡并发高、serving 简单稳定，牺牲的是超长上下文的成本曲线（GQA 的 cache 随长度线性涨）——200K 封顶也印证了这一点。</p>
+<hr />
+<h3>9. Qwen3.5 397B-A17B（+27B Dense 小兄弟）——线性混合注意力的"标准解"</h3>
+<p><img alt="Qwen3.5 397B 架构图" src="img/arch_atlas/qwen3_5_qwen_3_5_397b_a17b_architecture.jpg" /></p>
+<p>【事实】397B-A17B 图上关键信息：
+- <strong>15×（3 层 LinearAttention + 1 层 FullAttention）</strong>的 4 层循环节，共 60 层；262K 上下文，vocab 248320（全系最大词表）。
+- LinearAttention 层 = <strong>Gated DeltaNet</strong>（绿框）：Q/K 16 头、V 64 头，各走 Conv+SiLU（+Q/K 加 L2 归一），α/β 门控，Gated Delta Rule 状态更新——与 Kimi K3 的 KDA 同宗（都源自 DeltaNet 线性注意力家族）。
+- FullAttention 层 = <strong>Gated Attention</strong>（橙框）：GQA（Q 32 头/KV 2 头、head_dim=256）+ 输出 Sigmoid 门。
+- MoE：<strong>512 专家、每 token 选 10 个</strong>、专家 intermediate 仅 1024——比 DeepSeek 更细更碎的专家切法。
+- 主干还标了 vision_embeds 入口（为 VL 版预留）。27B 版（第二张图）是同配方的 Dense 化：MoE 换回大 FFN（intermediate 17408→25600），GQA 24 头/KV 4 头，供端侧/低成本档。</p>
+<p><img alt="Qwen3.5 27B 架构图" src="img/arch_atlas/qwen3_5_qwen_3_5_27b_architecture.jpg" /></p>
+<p>【观点】看点：Qwen3.5 与 Kimi K3 独立收敛到同一个 3:1 混合比，基本可认为"线性:全注意力=3:1"是当前工程共识甜点。A17B + 3/4 层零 cache，是"高并发低价 serving"的架构底子。【观点·投研】阿里的打法是全尺寸覆盖（27B Dense 到 397B MoE 同配方），架构上为云上推理成本而生——与其云业务"卖 token 不如卖吞吐"的逻辑一致。</p>
+<hr />
+<h3>10. Qwen3-VL（235B-A22B / 32B）——多模态的另一种接法：DeepStack 多层注入</h3>
+<p><img alt="Qwen3-VL 235B 架构图" src="img/arch_atlas/qwen3_vl_qwen_3_vl_235b_a22b_architecture.jpg" /></p>
+<p>【事实】235B-A22B 图上关键信息（2025-10 发布，图中语言塔仍是 Qwen3 世代的纯 GQA+MoE，无线性混合）：
+- TextModel：91 层 Decoder（GQA 64 头/KV 4 头 + MoE 128 专家激活 8）+ 3 层"Decoder(add deepstack)"。
+- VisionModel：27 层 VisionDecoder（1152 hidden、16 头、2D RoPE）+ Merge（fc1+GELU+fc2 投到文本 4096）。
+- <strong>DeepStack（红色虚线框，本图独有）</strong>：视觉特征不是只在入口注入一次——deepstack_visual_indexes=[8,16,24]，把视觉塔第 8/16/24 层的中间特征分别旁路注入语言模型的前 3 层（visual_pos_mask 对齐位置）。浅层视觉特征保留细节（纹理/小字），深层特征提供语义，多层注入让语言模型同时拿到两者。
+- Attention(text) 框里 MRoPE（多模态 RoPE：时间/宽/高三轴 T,W,H 分频段编码）替代普通 RoPE。</p>
+<p><img alt="Qwen3-VL 32B 架构图" src="img/arch_atlas/qwen3_vl_qwen_3_vl_32b_architecture.jpg" /></p>
+<p>【事实】32B 版：61 层 Dense（GQA 64/8 头、hidden 5120、FFN 25600），视觉塔与 235B 完全相同——视觉部分是可复用组件，语言塔按档位换。</p>
+<p>【观点】看点：与 K2.5 的"单点接入"对照，DeepStack 是"多层浇灌"。代价是训练/推理管线更复杂，收益是细粒度视觉任务（OCR/图表/文档）更强——Qwen 系一贯把文档理解当主打场景，架构选择与产品定位对得上。</p>
+<hr />
+<h3>11. Step 3.5 Flash（196B A11B）——滑窗路线代表：SWA 3:1 + 部分层砍 MoE</h3>
+<p><img alt="Step 3.5 Flash 架构图" src="img/arch_atlas/step_3_5_flash_step_3_5_flash_architecture.jpg" /></p>
+<p>【事实】图上关键信息：
+- 48 blocks，循环节 = <strong>3 层 SlidingAttention + 1 层 FullAttention</strong>；前 3 块用 Dense FFN，其余 MoE（288 专家、激活 8、专家 intermediate 1280）；hidden 4096、256K 上下文。
+- SlidingAttention（左侧红/青框）：<strong>SWA 滑窗注意力，sliding_window=512</strong>——每个 token 只看最近 512 个 token，Q 96 头/KV 12 头，Mask(window) 显式画出；KV cache 只需存窗口内。
+- FullAttention（右侧橙框）：GQA 64 头/KV 8 头，负责跨窗口的长程依赖。
+- MTP 照配。</p>
+<p>【观点】看点：SWA 是"线性化"的第三种实现——不改注意力算法（仍是 softmax attention），只改可见范围。3:1 的混合比又一次出现（与 Qwen3.5、Kimi K3 相同），三家用三种不同机制（DeltaNet/KDA/SWA）收敛到同一个结构比例，进一步坐实 3:1 是工程甜点。A11B + 窗口 cache 恒定，同属"高并发低价"档。阶跃把它标成 Flash（快线产品），架构与定位一致。</p>
+<hr />
+<h2>三、模块深潜图（4 张，DeepSeek 文件夹内）</h2>
+<h3>MLA 双模式：为什么同一个模型要画两张图</h3>
+<p><img alt="MLA MHA 模式" src="img/arch_atlas/deepseek_v3_MLA_MHA.jpg" />
+<img alt="MLA MQA 模式" src="img/arch_atlas/deepseek_v3_MLA_MQA.jpg" /></p>
+<p>【事实】MLA 数学上等价于两种算法，部署时按阶段切换，这两张图分别给出全部张量形状（batch 例：seq_len=2048 vs decode 时 seq_len=1）：
+- <strong>MHA 模式（prefill 用）</strong>：把压缩 KV 用 KV up_proj 解压回 128 头完整 K/V，走标准多头注意力。一次算一大段 prompt 时计算密集，解压划算。
+- <strong>MQA 模式（decode 用）</strong>：不解压——把 KV 上采样矩阵 W_UK <strong>吸收</strong>进 Q 侧（图左上标注"KV向上采样计算转移：W_UK→W_UQ，W_UV→W_O"），注意力直接在 512 维压缩域里算，等效于所有头共享一个 512 维 KV 的 MQA。逐 token 生成时避免反复解压，省显存带宽。
+- 图中 cache 1023/4095 等红字 = 已缓存的历史长度示例。</p>
+<p>【观点】这两张图是全库最"工程"的两张——论文只告诉你 MLA 省显存，这两张图告诉你 vLLM/SGLang 里它实际怎么跑、为什么 prefill 和 decode 要走不同 kernel。理解了 absorb，才能理解为什么 MLA 的 decode 吞吐能做高。</p>
+<h3>DSA 双模式：稀疏检索版的 prefill/decode</h3>
+<p><img alt="DSA MHA 模式" src="img/arch_atlas/deepseek_v3_2_DSA_MHA.jpg" />
+<img alt="DSA MQA 模式" src="img/arch_atlas/deepseek_v3_2_DSA_MQA.jpg" /></p>
+<p>【事实】在 MLA 双模式基础上加 Indexer+Top-k 的完整数据流（MQA 图右半即 Indexer 放大）：Indexer 侧 q/k 各自过 RoPE 后 <strong>FP8 量化</strong>（q_fp8/k_fp8 + q_scale/k_scale 块），Matmul 出 logits → ReLU → 加权 Sum → Scale 得 index_score → mask → <strong>top-k 取 2048 个索引</strong> → 回主路 Select 挑出对应压缩 KV。k_cache/k_scale 均缓存（红块，cached 4095）。
+【观点】值得注意的工程细节：indexer 全程 FP8 + 单独小 cache——检索器必须比正主便宜一个数量级，这套图把"便宜在哪"画到了算子级。</p>
+<hr />
+<h2>四、横切速查表（从图中转录，B 级）</h2>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>总参/激活</th>
+<th>层结构</th>
+<th>Attention</th>
+<th>专家配置</th>
+<th>上下文</th>
+<th>每 token cache 特征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DeepSeek V3</td>
+<td>671B/37B</td>
+<td>3D+58MoE</td>
+<td>MLA 128头</td>
+<td>256+1 选8</td>
+<td>128K</td>
+<td>512+64 维压缩</td>
+</tr>
+<tr>
+<td>Kimi K2</td>
+<td>1T/32B</td>
+<td>1D+60MoE</td>
+<td>MLA 64头</td>
+<td>384+1 选8</td>
+<td>256K</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>DeepSeek V3.2</td>
+<td>671B/37B</td>
+<td>3D+58MoE</td>
+<td>DSA(MLA+top2048)</td>
+<td>256+1 选8</td>
+<td>128K</td>
+<td>压缩+稀疏读取</td>
+</tr>
+<tr>
+<td><strong>GLM-5</strong></td>
+<td>744B/40B</td>
+<td>3D+75MoE</td>
+<td>DSA(MLA+top2048) 64头</td>
+<td>256+1 选8</td>
+<td>200K</td>
+<td>压缩+稀疏读取</td>
+</tr>
+<tr>
+<td>DeepSeek V4 Pro</td>
+<td>1.6T/49B</td>
+<td>3Hash+58MoE</td>
+<td>CSA/HCA/SWA 混排</td>
+<td>384+1 选6</td>
+<td><strong>1M</strong></td>
+<td>分级压缩(4:1/128:1)+窗口</td>
+</tr>
+<tr>
+<td>Kimi K2.5</td>
+<td>1T/32B</td>
+<td>K2+MoonViT27层</td>
+<td>MLA 64头</td>
+<td>384+1 选8</td>
+<td>256K</td>
+<td>同 K2</td>
+</tr>
+<tr>
+<td>Kimi K3(草稿)</td>
+<td>2.8T/?</td>
+<td>1Full:3Linear</td>
+<td>KDA+Gated MLA</td>
+<td>896+2 选16</td>
+<td>1M</td>
+<td>3/4 层固定状态</td>
+</tr>
+<tr>
+<td>MiniMax M2.5</td>
+<td>229B/10B</td>
+<td>62 同构</td>
+<td>GQA 48/8头</td>
+<td>256 选8</td>
+<td>200K</td>
+<td>常规 GQA cache</td>
+</tr>
+<tr>
+<td>Qwen3.5 397B</td>
+<td>397B/17B</td>
+<td>1Full:3Linear ×15</td>
+<td>GatedAttn+DeltaNet</td>
+<td>512+1 选10</td>
+<td>262K</td>
+<td>3/4 层固定状态</td>
+</tr>
+<tr>
+<td>Qwen3-VL 235B</td>
+<td>235B/22B</td>
+<td>91+3DeepStack</td>
+<td>GQA 64/4头 MRoPE</td>
+<td>128 选8</td>
+<td>256K</td>
+<td>常规 + 视觉token</td>
+</tr>
+<tr>
+<td>Step 3.5 Flash</td>
+<td>196B/11B</td>
+<td>1Full:3SWA ×12</td>
+<td>GQA+滑窗512</td>
+<td>288+1 选8</td>
+<td>256K</td>
+<td>3/4 层窗口恒定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>五、库使用说明</h2>
+<ul>
+<li>高清原图在各模型子文件夹，Obsidian 内点开图片可放大到算子级；本文嵌图即原图。</li>
+<li><code>modules/rope_principle.ipynb</code>、<code>kimi_k_2_5/vision_text_merge_demo.ipynb</code> 为可运行的原理演示 notebook。</li>
+<li>上游同步方法见 [[_入库说明]]；作者更新勤（新模型发布后数周内出图），DeepSeek V4 全量版 / Kimi K3 定稿版可关注补录。</li>
+<li>数字纪律：本文全部数字转录自架构图（作者依据官方 config 绘制，B 级）；Kimi K3 为草稿版 C 级；任何 benchmark 分数、成本测算引用前按 L1.2.1 另行校实。</li>
+</ul>
+<h2>关联</h2>
+<ul>
+<li>[[_入库说明]]（本库来源与更新方法）</li>
+<li>[[20260617_国产大模型技术横切_稀疏注意力与coding能力_by_claude]]（2026-06 稀疏注意力横切，本文是其架构层更新底座）</li>
+<li>[[20260720_comein_长江AI产业链深度巡演（1）：大模型后续会如何迭代？]]</li>
+<li>[[DeepSeek]] · [[智谱]] · [[MiniMax]] · [[阿里千问]]（厂商文件夹）</li>
+<li>[[_模型层导航]]</li>
+</ul>
+</div></div></body></html>

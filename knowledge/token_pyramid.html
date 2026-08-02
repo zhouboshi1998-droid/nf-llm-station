@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Token 商业化：三层价值结构（倒金字塔 · NF 配色版）</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #FFFFFF; }
+  body { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  svg { width: min(1280px, 100vw); height: auto; display: block; background: #FFFFFF; }
+  text { font-family: "Microsoft YaHei", "PingFang SC", -apple-system, "Helvetica Neue", sans-serif; }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Token 三层价值结构倒金字塔示意图（NF 配色）">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 10 L 5 0 L 10 10 z" fill="#808080"/>
+    </marker>
+  </defs>
+
+  <!-- ========== 标题区 ========== -->
+  <text x="40" y="50" font-size="29" font-weight="700" fill="#595959">Token 商业化：三层价值结构</text>
+  <text x="40" y="79" font-size="14" fill="#808080">模型 = 能力放大器（价值 = 用户自身能力 × 放大倍数，幂律继承能力分布）｜token 消耗 = 任务自主运行时长，深度由验证闭环决定</text>
+  <line x1="40" y1="96" x2="1240" y2="96" stroke="#B0C4DE" stroke-width="1"/>
+
+  <!-- ========== 左侧纵轴：价值空间向上展开 ========== -->
+  <line x1="24" y1="646" x2="24" y2="126" stroke="#808080" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text transform="translate(15 388) rotate(-90)" font-size="12" fill="#808080" text-anchor="middle">价值空间向上展开</text>
+
+  <!-- ========== 倒金字塔：三层梯形，越往上越宽 ========== -->
+  <!-- L3（顶层，最宽，虚线 = 未证明） -->
+  <polygon points="40,115 740,115 678,280 102,280" fill="#FAFAFA" stroke="#A5A5A5" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <!-- L2（中层） -->
+  <polygon points="102,280 678,280 615,450 165,450" fill="#F2F6FC" stroke="#4F81BD" stroke-width="2"/>
+  <!-- L1（底层，最窄，当前现实） -->
+  <polygon points="165,450 615,450 540,650 240,650" fill="#E6EEF9" stroke="#004098" stroke-width="2"/>
+
+  <!-- ---- L3 内容 ---- -->
+  <text x="390" y="143" text-anchor="middle" font-size="18" font-weight="700" fill="#595959">L3 全面替代 <tspan font-size="12" font-weight="400" fill="#808080">未证明 · 无时间表</tspan></text>
+  <text x="390" y="180" text-anchor="middle" font-size="34" font-weight="800" fill="#595959">$10 万亿+ / 年</text>
+  <text x="390" y="205" text-anchor="middle" font-size="13" fill="#595959">数字员工「入职学两个月」直接顶岗</text>
+  <text x="390" y="226" text-anchor="middle" font-size="13" fill="#595959">普通用户到这一层才真正打开</text>
+  <rect x="278" y="237" width="224" height="24" rx="12" fill="#FFFFFF" stroke="#A5A5A5" stroke-width="1"/>
+  <text x="390" y="253" text-anchor="middle" font-size="12" fill="#595959">10⁹+ / 日 · 每 agent · 上不封顶</text>
+
+  <!-- 门槛②（L2 → L3） -->
+  <rect x="243" y="266" width="294" height="28" rx="14" fill="#FFFFFF" stroke="#808080" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="390" y="285" text-anchor="middle" font-size="13" fill="#595959">门槛 ② 持续学习：从放大到替代</text>
+
+  <!-- ---- L2 内容 ---- -->
+  <text x="390" y="314" text-anchor="middle" font-size="18" font-weight="700" fill="#4F81BD">L2 可验证行业 + 办公 <tspan font-size="12" font-weight="400" fill="#4F81BD">解锁中</tspan></text>
+  <text x="390" y="349" text-anchor="middle" font-size="31" font-weight="800" fill="#595959">$2–3 万亿</text>
+  <text x="390" y="374" text-anchor="middle" font-size="13" fill="#595959">深档：审计 · 网安 · 法律 —— 客观 yes/no，机器可校验</text>
+  <text x="390" y="395" text-anchor="middle" font-size="13" fill="#595959">浅档：通用办公 —— 产出给人读，只能按 seat 订阅</text>
+  <rect x="228" y="406" width="324" height="24" rx="12" fill="#FFFFFF" stroke="#4F81BD" stroke-width="1"/>
+  <text x="390" y="422" text-anchor="middle" font-size="12" fill="#4F81BD">深档 10⁵–10⁷ ・ 浅档 10³–10⁵（单任务 token）</text>
+
+  <!-- 门槛①（L1 → L2） -->
+  <rect x="238" y="436" width="304" height="28" rx="14" fill="#FFFFFF" stroke="#808080" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="390" y="455" text-anchor="middle" font-size="13" fill="#595959">门槛 ① 验证闭环移植出 coding</text>
+
+  <!-- ---- L1 内容 ---- -->
+  <text x="390" y="496" text-anchor="middle" font-size="18" font-weight="700" fill="#004098">L1 Coding <tspan font-size="12" font-weight="400" fill="#595959">已解锁</tspan></text>
+  <text x="390" y="533" text-anchor="middle" font-size="31" font-weight="800" fill="#595959">$0.5–1 万亿</text>
+  <text x="390" y="559" text-anchor="middle" font-size="13" fill="#595959">Coding Agent 机器全闭环</text>
+  <text x="390" y="580" text-anchor="middle" font-size="13" fill="#595959">当前 ARR 几乎全部在此层</text>
+  <rect x="268" y="592" width="244" height="24" rx="12" fill="#FFFFFF" stroke="#004098" stroke-width="1"/>
+  <text x="390" y="608" text-anchor="middle" font-size="12" fill="#004098">单任务 token 10⁶–10⁸</text>
+
+  <!-- ========== 右栏卡片 1：增长引擎 ========== -->
+  <rect x="790" y="115" width="450" height="235" rx="12" fill="#FFFFFF" stroke="#B0C4DE" stroke-width="1"/>
+  <text x="812" y="146" font-size="16" font-weight="700" fill="#004098">增长引擎：头部放大 ≫ 渗透率</text>
+  <text x="812" y="178" font-size="12" fill="#808080">头部用户日耗 token</text>
+  <rect x="812" y="186" width="336" height="24" rx="4" fill="#FD625E"/>
+  <text x="824" y="203" font-size="12.5" font-weight="600" fill="#FFFFFF">10⁷ → 10⁹ / 日（半年 ≈ 100×）</text>
+  <text x="812" y="238" font-size="12" fill="#808080">新增普通用户日耗</text>
+  <rect x="812" y="246" width="52" height="24" rx="4" fill="#A5A5A5"/>
+  <text x="876" y="263" font-size="12.5" fill="#808080">10⁴–10⁵ / 日</text>
+  <rect x="804" y="284" width="424" height="52" rx="8" fill="#F2F6FC"/>
+  <text x="812" y="304" font-size="13.5" font-weight="700" fill="#C00000">1 个头部用户的增长 ≈ 新增上万普通用户</text>
+  <text x="812" y="326" font-size="13.5" font-weight="700" fill="#C00000">（约 4 个数量级）—— 渗透率是二阶项</text>
+
+  <!-- ========== 右栏卡片 2：TAM 公式 ========== -->
+  <rect x="790" y="375" width="450" height="185" rx="12" fill="#FFFFFF" stroke="#B0C4DE" stroke-width="1"/>
+  <text x="812" y="406" font-size="16" font-weight="700" fill="#004098">空间测算</text>
+  <text x="812" y="459" font-size="21" font-weight="800" fill="#595959">TAM</text>
+  <text x="864" y="458" font-size="17" fill="#808080">=</text>
+  <rect x="886" y="436" width="102" height="36" rx="8" fill="#F2F6FC" stroke="#B0C4DE"/>
+  <text x="937" y="459" text-anchor="middle" font-size="13.5" fill="#595959">可验证任务</text>
+  <text x="998" y="460" font-size="16" fill="#808080">×</text>
+  <rect x="1013" y="436" width="102" height="36" rx="8" fill="#F2F6FC" stroke="#B0C4DE"/>
+  <text x="1064" y="459" text-anchor="middle" font-size="13.5" fill="#595959">运行深度</text>
+  <text x="1125" y="460" font-size="16" fill="#808080">×</text>
+  <rect x="1140" y="436" width="86" height="36" rx="8" fill="#F2F6FC" stroke="#B0C4DE"/>
+  <text x="1183" y="459" text-anchor="middle" font-size="13.5" fill="#595959">捕获率</text>
+  <text x="812" y="508" font-size="12.5" fill="#808080">算力需求只由深 token 场景驱动（L1 + L2 深档）</text>
+
+  <!-- ========== 页脚 ========== -->
+  <text x="40" y="702" font-size="12" fill="#808080" font-style="italic">注：价值量为约数区间、非精确测算；虚线层 = 尚未证明、无时间表；对比条长度为数量级示意。</text>
+</svg>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>推理端 Token 成本驱动变量框架 · 第一性原理 + 案例 + 贡献度</title>
+<style>
+  :root{
+    --bg:#f4f2ec; --paper:#ffffff; --ink:#2C2C2A; --muted:#5F5E5A; --hint:#888780;
+    --line:#e6e3da; --line2:#ececec;
+    --blue:#2F77C9; --bluebg:#E8F1FB;
+    --amber:#C98A1E; --amberbg:#FAF1DD;
+    --coral:#D85A30; --coralbg:#FBEBE4;
+    --teal:#159068; --tealbg:#E2F4ED;
+    --purple:#7A6FD0; --purplebg:#EEEDFA;
+    --mono:"JetBrains Mono",ui-monospace,"SF Mono",Consolas,monospace;
+    --sans:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       line-height:1.75;-webkit-font-smoothing:antialiased;font-size:15px;}
+  .layout{display:flex;max-width:1220px;margin:0 auto;gap:34px;padding:0 24px;}
+
+  /* 左侧目录 */
+  aside.toc{width:250px;flex-shrink:0;position:sticky;top:0;align-self:flex-start;height:100vh;overflow-y:auto;padding:32px 8px 40px 0;}
+  aside.toc .brand{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin:0 0 4px;}
+  aside.toc h2{font-size:16px;font-weight:700;margin:0 0 16px;line-height:1.35;}
+  aside.toc nav a{display:block;font-size:13px;color:var(--muted);text-decoration:none;padding:6px 12px;border-left:2px solid var(--line);margin:1px 0;border-radius:0 6px 6px 0;transition:.15s;}
+  aside.toc nav a:hover{color:var(--ink);background:#ece9e0;}
+  aside.toc nav a.active{color:var(--coral);border-left-color:var(--coral);background:var(--coralbg);font-weight:600;}
+  aside.toc nav a b{font-family:var(--mono);font-size:11px;color:var(--hint);margin-right:7px;font-weight:400;}
+  aside.toc .legend{margin-top:20px;padding:13px 14px;background:var(--paper);border:1px solid var(--line);border-radius:10px;font-size:12px;}
+  aside.toc .legend .lt{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--hint);text-transform:uppercase;margin:0 0 7px;}
+  aside.toc .legend .row{display:flex;align-items:center;gap:7px;margin:5px 0;color:var(--muted);flex-wrap:wrap;}
+  .pill{font-family:var(--mono);font-size:10px;padding:1px 7px;border-radius:8px;white-space:nowrap;}
+  .pill.down{background:var(--tealbg);color:var(--teal);} .pill.up{background:var(--coralbg);color:var(--coral);} .pill.mixed{background:var(--amberbg);color:var(--amber);}
+  .cchip{font-family:var(--mono);font-size:10px;padding:0 6px;border-radius:6px;border:1px solid;white-space:nowrap;background:transparent;}
+  .cchip.hw{color:var(--amber);border-color:var(--amber);} .cchip.sw{color:var(--teal);border-color:var(--teal);}
+  .cchip.econ{color:var(--blue);border-color:var(--blue);} .cchip.use{color:var(--purple);border-color:var(--purple);}
+  .stars{font-size:11px;letter-spacing:1px;} .stars.s3{color:var(--coral);} .stars.s2{color:var(--amber);} .stars.s1{color:var(--hint);}
+  .gb{font-family:var(--mono);font-size:10px;font-weight:700;padding:1px 6px;border-radius:7px;}
+  .gb.A{background:var(--tealbg);color:var(--teal);} .gb.B{background:var(--bluebg);color:#1A4E86;} .gb.C{background:var(--amberbg);color:#7A5410;}
+
+  /* 右侧正文 */
+  main{flex:1;min-width:0;max-width:900px;padding:36px 0 90px;}
+  header.top{border-bottom:2px solid var(--ink);padding-bottom:20px;}
+  header.top .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin:0 0 9px;}
+  header.top h1{font-size:28px;line-height:1.24;font-weight:700;margin:0 0 12px;letter-spacing:-.01em;}
+  header.top .meta{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;}
+  header.top .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;border:1px solid var(--teal);color:var(--teal);background:var(--tealbg);}
+  .lede{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:0 12px 12px 0;padding:17px 22px;margin:24px 0 8px;font-size:15.5px;}
+  .lede b{font-weight:600;} .lede .key{background:linear-gradient(transparent 62%, #ffe7b8 62%);padding:0 1px;font-weight:600;}
+
+  section{scroll-margin-top:16px;margin:0 0 12px;}
+  h2.sec{font-size:21px;font-weight:700;margin:46px 0 4px;padding-top:20px;border-top:1px solid var(--line2);}
+  h2.sec .n{font-family:var(--mono);font-size:14px;color:var(--coral);margin-right:10px;}
+  .dek{color:var(--muted);font-size:14px;margin:2px 0 16px;}
+
+  /* 公理块 */
+  .axiom{border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;background:var(--paper);padding:13px 18px;margin:12px 0;}
+  .axiom .tag{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 9px;border-radius:5px;background:var(--bluebg);color:#1A4E86;margin-bottom:6px;letter-spacing:.02em;}
+  .axiom .at{font-weight:700;font-size:15.5px;margin:0 0 5px;}
+  .axiom .ab{font-size:14px;color:#3a3a37;line-height:1.7;margin:0;} .axiom .ab b{color:var(--ink);}
+
+  .eqn{background:var(--ink);color:#f4f2ec;border-radius:14px;padding:18px 22px;margin:16px 0;}
+  .eqn .big{font-family:var(--mono);font-size:15px;line-height:1.55;color:#fff;} .eqn .big b{color:#ffd76b;} .eqn .big i{color:#8fd0b8;font-style:normal;}
+  .eqn .chain{font-family:var(--mono);font-size:12.5px;color:#c8c4ba;margin-top:9px;line-height:1.7;} .eqn .chain s{color:#fff;text-decoration:none;}
+
+  .coro{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 18px;margin:11px 0;border-left:4px solid var(--coral);}
+  .coro .ct{font-weight:700;font-size:15px;margin:0 0 4px;color:#9C3A18;}
+  .coro .cb{font-size:14px;color:#3a3a37;line-height:1.7;margin:0;} .coro .cb b{color:var(--ink);background:linear-gradient(transparent 62%, #ffe7b8 62%);padding:0 1px;}
+  .remember{background:var(--tealbg);border:1px solid #bfe6d6;border-radius:10px;padding:13px 18px;margin:16px 0;font-size:14.5px;line-height:1.7;}
+  .remember::before{content:"📌 一句话记住";font-family:var(--mono);font-size:11px;font-weight:700;color:var(--teal);display:block;margin-bottom:4px;letter-spacing:.04em;} .remember b{font-weight:700;}
+
+  /* 四轴地图 */
+  .map{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0;}
+  .map .mc{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 12px;border-top:3px solid var(--hint);}
+  .map .mk{font-family:var(--mono);font-weight:700;font-size:15px;} .map .mn{font-size:12.5px;font-weight:600;margin:2px 0 3px;} .map .md{font-size:11.5px;color:var(--muted);line-height:1.5;}
+
+  /* 高影响杠杆榜 */
+  .lev2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0;}
+  .levbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:6px 4px;}
+  .levbox .lh{font-weight:700;font-size:14px;padding:8px 14px 6px;border-bottom:1px solid var(--line2);}
+  .levbox .lh.down{color:var(--teal);} .levbox .lh.up{color:var(--coral);}
+  .lev{display:flex;gap:9px;align-items:flex-start;padding:8px 14px;border-bottom:1px solid var(--line2);font-size:13px;}
+  .lev:last-child{border-bottom:none;}
+  .lev .lid{font-family:var(--mono);font-size:11px;color:#fff;background:#a9a79e;border-radius:5px;padding:0 6px;flex-shrink:0;margin-top:2px;}
+  .lev .lx{flex:1;} .lev .lx .ln{font-weight:600;} .lev .lx .le{color:var(--muted);font-size:12px;}
+
+  /* 筛选条 */
+  .ctrl{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;margin:6px 0 4px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;}
+  .ctrl .lb{font-family:var(--mono);font-size:11px;color:var(--hint);margin-right:2px;}
+  .btn{font-size:12px;padding:3px 11px;border-radius:20px;border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;transition:.12s;}
+  .btn:hover{border-color:var(--hint);}
+  .btn.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn.on.hw{background:var(--amber);border-color:var(--amber);} .btn.on.sw{background:var(--teal);border-color:var(--teal);}
+  .btn.on.econ{background:var(--blue);border-color:var(--blue);} .btn.on.use{background:var(--purple);border-color:var(--purple);}
+  .sep{width:1px;height:18px;background:var(--line);margin:0 4px;}
+
+  /* 轴区块 */
+  h2.sec .axb{display:inline-flex;width:26px;height:26px;border-radius:7px;color:#fff;font-family:var(--mono);font-weight:700;align-items:center;justify-content:center;font-size:14px;vertical-align:middle;margin-right:9px;}
+  .axnote{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--paper);border:1px solid var(--line);padding:2px 9px;border-radius:8px;}
+  .principle{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:10px 0 12px;font-size:14px;line-height:1.7;color:#3a3a37;}
+  .principle::before{content:"第一性原理";font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--blue);background:var(--bluebg);padding:2px 8px;border-radius:5px;margin-right:9px;}
+  .principle b{color:var(--ink);}
+  .grpblk{margin:0 0 6px;}
+  .grp-t{font-family:var(--mono);font-size:11px;color:var(--hint);font-weight:600;margin:12px 0 6px;letter-spacing:.04em;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:9px;}
+
+  /* 变量卡（可展开） */
+  .vc{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--paper);cursor:pointer;transition:.12s;}
+  .vc:hover{border-color:var(--hint);box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .vc.piv{box-shadow:0 0 0 2px #ffd76b inset;}
+  .vc-h{display:flex;align-items:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;}
+  .vid{font-family:var(--mono);font-size:11px;color:#fff;background:#a9a79e;border-radius:5px;padding:0 6px;}
+  .vn{font-weight:600;font-size:13.5px;} .vc-h .pill{margin-left:auto;}
+  .vc-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--hint);}
+  .vc-meta .caret{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--coral);}
+  .vc.open .caret .t1{display:none;} .vc .caret .t2{display:none;} .vc.open .caret .t2{display:inline;}
+  .detail{display:none;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);}
+  .vc.open .detail{display:block;}
+  .dl{font-size:12.5px;line-height:1.6;margin:5px 0;color:#3a3a37;}
+  .dl b{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--hint);background:#f0eee7;border-radius:4px;padding:1px 6px;margin-right:7px;vertical-align:1px;}
+  .dl.eff b{color:var(--teal);background:var(--tealbg);}
+  .dl.case b{color:var(--blue);background:var(--bluebg);}
+
+  /* 面板 */
+  .panelwrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:12px 0;background:var(--paper);}
+  table{border-collapse:collapse;width:100%;font-size:13px;}
+  th,td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:top;}
+  thead th{background:#faf8f3;color:var(--ink);font-size:12px;font-weight:600;}
+  tbody tr:hover td{background:#faf8f3;} tbody tr:last-child td{border-bottom:none;}
+  td.v{font-family:var(--mono);font-weight:600;font-size:12.5px;}
+  .trend{font-family:var(--mono);font-weight:700;font-size:14px;text-align:center;} .trend.down{color:var(--teal);} .trend.up{color:var(--coral);} .trend.flat{color:var(--hint);}
+  .src{font-size:11.5px;color:var(--muted);} .upd{font-family:var(--mono);font-size:10.5px;color:var(--hint);}
+
+  footer{margin-top:44px;padding-top:18px;border-top:2px solid var(--ink);font-size:12.5px;color:var(--muted);line-height:1.8;}
+  footer b{color:var(--ink);} footer code{font-family:var(--mono);font-size:11.5px;background:#f0eee7;padding:1px 5px;border-radius:4px;} .warn{color:var(--coral);}
+  @media(max-width:820px){aside.toc{display:none;}.map,.lev2{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="toc">
+    <div class="brand">Inference Economics</div>
+    <h2>推理端 Token 成本<br>驱动变量框架</h2>
+    <nav id="nav"></nav>
+    <div class="legend">
+      <div class="lt">方向</div>
+      <div class="row"><span class="pill down">↓ 降本</span><span class="pill up">↑ 升本</span><span class="pill mixed">↔ 双向</span></div>
+      <div class="lt" style="margin-top:10px">类别</div>
+      <div class="row"><span class="cchip hw">硬件</span><span class="cchip sw">软件·算法</span></div>
+      <div class="row"><span class="cchip econ">经济·部署</span><span class="cchip use">使用·负载</span></div>
+      <div class="lt" style="margin-top:10px">贡献度 & 溯源</div>
+      <div class="row"><span class="stars s3">★★★</span>高 <span class="stars s2">★★☆</span>中 <span class="stars s1">★☆☆</span>低</div>
+      <div class="row"><span class="gb A">A</span>一手 <span class="gb B">B</span>多源 <span class="gb C">C</span>估算</div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="top">
+      <p class="kicker">AI 模型层 · 推理经济学 · 第一性原理 + 案例库</p>
+      <h1>推理端 Token 成本驱动变量框架</h1>
+      <div class="meta" id="meta"></div>
+    </header>
+
+    <div class="lede" id="lede"></div>
+
+    <section id="s0">
+      <h2 class="sec"><span class="n">00</span>公理层 · 成本为什么必然是这个形状</h2>
+      <p class="dek">不背变量清单，先立不可再分的公理，再让主方程和四条轴从公理里"长"出来——每个变量为什么影响成本，都是推导出来的。</p>
+      <div id="axioms"></div>
+      <div class="eqn" id="eqn"></div>
+      <div id="coros"></div>
+      <div class="remember" id="remember"></div>
+    </section>
+
+    <section id="lev">
+      <h2 class="sec"><span class="n">01</span>先看结论 · 34 个变量里真正重要的这几个</h2>
+      <p class="dek">变量多，但数量级级别的杠杆就 ★★★ 这一撮。左=把成本往下压的、右=往上顶的；标签区分硬件/软件——<b>软件·算法轴集中了最多高影响降本杠杆，且它是"免费的"（会被商品化传给客户）；硬件降本被硬件厂用定价权吃掉</b>。</p>
+      <div class="lev2" id="levbox"></div>
+    </section>
+
+    <section id="map">
+      <h2 class="sec"><span class="n">02</span>四轴地图 · 每条轴动的是哪条公理</h2>
+      <div class="map" id="axmap"></div>
+    </section>
+
+    <section id="allvars" style="scroll-margin-top:16px">
+      <h2 class="sec"><span class="n">03</span>全变量 · 点开看机制 / 案例 / 效果</h2>
+      <p class="dek">卡片默认只显示 名字 + 方向 + 类别 + 贡献度；<b>点任意卡片展开机制·案例·量化效果</b>。用下面的筛选器按类别 / 贡献度收窄。</p>
+      <div class="ctrl">
+        <span class="lb">类别</span>
+        <button class="btn on" data-k="cls" data-v="all" onclick="flt(this)">全部</button>
+        <button class="btn hw" data-k="cls" data-v="hw" onclick="flt(this)">硬件</button>
+        <button class="btn sw" data-k="cls" data-v="sw" onclick="flt(this)">软件·算法</button>
+        <button class="btn econ" data-k="cls" data-v="econ" onclick="flt(this)">经济·部署</button>
+        <button class="btn use" data-k="cls" data-v="use" onclick="flt(this)">使用·负载</button>
+        <span class="sep"></span>
+        <span class="lb">贡献度</span>
+        <button class="btn on" data-k="imp" data-v="all" onclick="flt(this)">全部</button>
+        <button class="btn" data-k="imp" data-v="3" onclick="flt(this)">仅 ★★★</button>
+        <button class="btn" data-k="imp" data-v="2" onclick="flt(this)">★★☆ 以上</button>
+        <span class="sep"></span>
+        <button class="btn" id="expall" onclick="expAll()">展开全部</button>
+      </div>
+      <div id="axes"></div>
+    </section>
+
+    <section id="panel">
+      <h2 class="sec"><span class="n">04</span>量化追踪面板 · 活层（主要更新对象）</h2>
+      <p class="dek">框架稳定不常动；这张表是你按季度刷的地方，每格独立标 A/B/C。</p>
+      <div class="panelwrap">
+        <table id="ptbl"><thead><tr>
+          <th style="min-width:150px">指标</th><th style="min-width:240px">最新值</th>
+          <th style="text-align:center;width:52px">趋势</th><th style="width:44px">等级</th><th>source</th><th style="width:78px">更新日</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+    </section>
+
+    <footer id="foot"></footer>
+  </main>
+</div>
+
+<script>
+/*DATA_START*/  /* 更新：数据点改 panel[]；框架/案例改 axioms[]/axes[]（每个变量含 cls类别 imp贡献度 mc机制 case案例 eff效果） */
+const DATA = {
+  meta:{ as_of:"2026-07-01", scope:"4 轴 · 34 变量（每个含案例+效果+贡献度）· 16 追踪指标", badge:"by_claude · 案例为图示、数字带 A/B/C · 不含投资评级" },
+  lede:'一句话：<span class="key">单 token 成本 = 每 GPU·小时多少钱 ÷ 每 GPU·小时吐多少 token</span>，再乘两个楔子（成本→账单、token→任务）。34 个变量都挂在这个等式上。这版给每个变量配了<b>具体案例 + 量化效果（点开看）</b>、标了<b>贡献度 ★</b>、并区分<b>硬件 / 软件·算法</b>——先看 §01 结论榜，再按需展开。',
+  axioms:[
+    {tag:"公理 1 · 经济｜折旧", t:"GPU 是按秒贬值的机器，你租的是「开机时间」",
+     b:"GPU 是一次性买入、按时间贬值的资本品——开机的每一秒都在烧折旧 + 电 + 资金 + 运维，用不用都烧。所以成本最原始的单位是 <b>每 GPU·小时多少钱（TCO rate）</b>，token 成本是它的二级派生。⟹ 降本先问：这一小时的机器账单能否更低（= 分子）。"},
+    {tag:"公理 2 · 物理｜内存墙", t:"每吐 1 个 token，必须把权重 + KV 从 HBM 搬一遍",
+     b:"自回归 decode 每生成 1 个 token，都要把这一步的模型权重 + 全部 KV cache 从 HBM 读进计算核一次；算力再强也得等数据搬完。所以 <b>tokens/秒 ≤ HBM 带宽 ÷ 每 token 搬运字节数</b>。这就是「内存墙」——decode 是 memory-bound，不是 compute-bound。是整个推理经济学的物理地基。"},
+    {tag:"公理 3 · 数学｜恒等式", t:"每 token 成本 ≡ 每秒烧的钱 ÷ 每秒吐的 token",
+     b:"这是除法定义、不是经验：<b>单 token 成本 = TCO_rate ÷ throughput</b>。分子（公理 1）与分母（公理 2）各自独立可动 → 框架天然裂成 <b>A 轴（压分子）</b>和 <b>B 轴（抬分母）</b>。"},
+    {tag:"公理 4 · 经济｜价成解耦", t:"卖价由定价权定，成本只画地板",
+     b:"供给受限或能力有差异时，卖价由「客户愿付」决定，不由成本决定；成本只设下限。⟹ 从理论 COGS 到客户实收账单之间横着一层 <b>经济楔子 C</b>。这解释了为什么同样成本坍塌，前沿闭源实验室毛利扩张、commodity API 却薄利。"},
+    {tag:"公理 5 · 使用｜效用单位", t:"买方买的是「完成一个任务」，不是一个 token",
+     b:"最小有用单位是一个完成的任务。<b>每任务成本 = 单 token 成本 × 任务消耗 token 数</b>。⟹ 当 reasoning 吐大量思考 token、agentic 多轮循环把任务 token 数顶上去（<b>横切 D</b>），per-token 降本会被 per-task 抵消甚至反超。"}
+  ],
+  equation:{
+    big:'单 token 成本 = <b>满载 $/GPU·小时 (TCO)</b> ÷ <b>( tokens/秒/GPU × 3600 )</b> &nbsp;<i>← 公理1÷公理2</i>',
+    chain:'理论 COGS ──× <s>〔C 经济楔子〕</s> ──▶ 客户实收 blended 价 &nbsp;｜&nbsp; 理论 COGS ──× <s>〔D 每任务 token 数〕</s> ──▶ 每个「有用结果」成本'
+  },
+  coros:[
+    {t:"推论 1 · 所有推理降本招数，物理上是同一招：每 token 少搬字节",
+     b:"因为 decode 是 memory-bound（公理 2），主战场不是堆 FLOPS，而是砍「每 token 从 HBM 搬运的字节数」。<b>FP8→FP4</b>（每个数减半字节）、<b>MoE</b>（只搬激活的那部分参数）、<b>GQA/MLA</b>（压 KV cache 体积）、<b>投机解码/MTP</b>（搬一次多吐几个 token）——看着四种技术，本质同一动作。"},
+    {t:"推论 2 · batching 的「成本↔延迟」取舍，是内存墙的直接推论",
+     b:"搬一次权重可同时服务一整批请求（权重读被 batch 摊薄）→ batch 越大每 token 越便宜，直到算力打满转 compute-bound；代价是延迟上升。取舍不是工程口味，是公理 2 逼出来的。"},
+    {t:"推论 3 · HBM 是等式里唯一「两边站」的量 → 它是枢纽",
+     b:"HBM 同时决定 <b>分子</b>（A 轴：GPU BOM 大头、涨价售罄）和 <b>分母</b>（B 轴：带宽/容量是吞吐物理约束）。没有第二个量同时压分子、抬分母 → HBM 是整个成本结构的支点。"}
+  ],
+  remember:'两句话：① <b>降本越狠，单 token 吃的内存越多</b>（推论 1+3）→ HBM 是成本坍塌的燃料、不是受害者。② <b>判断 AI 真实降本看 per-task，不看 per-token</b>（公理 5）→ 单价降 96% 的 headline 会骗人，任务变复杂把账单顶回去。',
+  axmap:[
+    {k:"A", c:"var(--amber)", n:"分子 TCO", d:"每 GPU·小时机器成本 · 动公理 1"},
+    {k:"B", c:"var(--teal)", n:"分母 吞吐", d:"每 GPU 每秒吐多少 token · 动公理 2"},
+    {k:"C", c:"var(--blue)", n:"楔子", d:"理论成本→客户账单 · 动公理 4"},
+    {k:"D", c:"var(--purple)", n:"横切", d:"每任务几个 token · 动公理 5"}
+  ],
+  axes:[
+    {key:"A", color:"var(--amber)", title:"分子 · 单位算力多少钱（$/GPU·h TCO）", note:"越低越好 · 线性战场",
+     principle:'分子 = 每 GPU·小时全成本（TCO）。由公理 1，它是所有 token 成本的原始来源。A 轴每个变量都在问：<b>这一小时的机器，总账单能否更低</b>——买它多少钱、多快摊完、电多贵、内存多贵、有没有在干活。决定成本的「地板高度」，是线性战场（差几十个百分点，不是数量级）。',
+     groups:[{sub:"", vars:[
+      {id:"A1", n:"GPU 采购价", cls:"hw", imp:2, d:"mixed", mc:"芯片单价摊到每小时",
+       case:"H100 约 $3 万/卡；GB300 单卡更贵但单位算力更便宜（NVDA 每代 perf/$ 提升）",
+       eff:"代际 perf/$ 改善，但 NVDA 定价权吃掉大半（仍约 40% 提价空间，C）"},
+      {id:"A2", n:"折旧年限 / 残值", cls:"econ", imp:2, d:"up", mc:"摊得多快；快迭代→残值风险",
+       case:"MSFT/GOOG 2023 把服务器折旧从 3 年拉到 5-6 年（会计变更，B）",
+       eff:"折旧年限 +1 年→年摊销成本约 -15~20%（机械测算，C）；但残值风险上升"},
+      {id:"A3", n:"资金成本 WACC", cls:"econ", imp:1, d:"up", mc:"资本极密集，融资成本进 TCO",
+       case:"neocloud 靠债扩张（CoreWeave 高息借款、以 GPU 抵押）",
+       eff:"利率每 +1pct→TCO 抬升个位数%（C）；neocloud 利率敏感度高于 hyperscaler"},
+      {id:"A4", n:"电价 $/kWh", cls:"econ", imp:2, d:"up", mc:"直接进 TCO",
+       case:"美国德州 vs 弗吉尼亚电价差；中国工业电价更低更稳",
+       eff:"电力占 AI DC 运营成本约 10-20%（C）；美国电力是 5-10 年 hard constraint"},
+      {id:"A5", n:"功耗 × PUE", cls:"hw", imp:2, d:"down", mc:"电量 = 功率×时间×PUE",
+       case:"液冷把 PUE 从约 1.5 降到约 1.1（先进 DC）",
+       eff:"PUE 1.5→1.1 总电量约 -27%；GB300 每 token 能耗↓（perf/W 提升）"},
+      {id:"A6", n:"DC / 制冷 / 地产 $/MW", cls:"hw", imp:1, d:"mixed", mc:"建设成本摊销",
+       case:"液冷改造 capex↑但机柜算力密度↑",
+       eff:"单 MW 建设成本摊到更多算力→净影响 mixed"},
+      {id:"A7", n:"网络硬件分摊", cls:"hw", imp:1, d:"up", mc:"scale-up 网络成本",
+       case:"NVL72 铜背板 + scale-out 光模块（800G→1.6T）",
+       eff:"网络占系统 BOM 单位数~低两位数%（C），随 scale-up 规模上升"},
+      {id:"A8", n:"HBM / 内存成本", cls:"hw", imp:3, d:"up", pivot:true, mc:"占 GPU BOM 比例上升 + 涨价",
+       case:"HBM 是 GB200/GB300 物料成本大头；2026 产能售罄、demand>supply 3 年（A）",
+       eff:"HBM 涨价直接抬分子；但它同时是吞吐前提 → 枢纽（推论 3）"},
+      {id:"A9", n:"利用率", cls:"econ", imp:3, d:"down", mc:"idle 也烧钱；有效 $/token = TCO ÷ 实际干活小时",
+       case:"长约锁定 vs 现货闲置；推理 MFU 从 2-3% 提到 30-40%（AceCamp，C）",
+       eff:"利用率翻倍→有效 $/token 减半（线性但幅度大，★★★ 就在这）"},
+      {id:"A10", n:"运维 / 人力 / 软件 license", cls:"econ", imp:1, d:"down", mc:"固定成本分摊",
+       case:"规模化摊薄运维团队 + 平台软件成本",
+       eff:"占比小，规模效应温和"},
+      {id:"A11", n:"（国产链）换卡降本", cls:"hw", imp:2, d:"down", mc:"国产卡替代→降卡价+电价",
+       case:"华为 910B 集群、字节/DeepSeek 换国产卡训推（美团 LongCat 全程国产卡）",
+       eff:"国产卡性能约 H200 的 75-80%（C）+ 更低卡价/电价 → 国内特有降本"}
+     ]}]},
+    {key:"B", color:"var(--teal)", title:"分母 · 单位算力吐多少 token（throughput）", note:"越高越好 · 14x 降本主战场",
+     principle:'分母 = 每 GPU 每秒吐多少 token。由公理 2，decode 阶段它被 <b>HBM 带宽 ÷ 每 token 搬运字节数</b> 卡死。撬它有三层：硬件（把带宽/算力/精度做上去）、软件·算法（让每 token 要搬的字节更少）、系统（把理论峰值真正打满）。数量级级别的战场——SemiAnalysis 的 14x 软件降本全在这一轴，且几乎每招都在兑现推论 1（少搬字节）。',
+     groups:[
+      {sub:"硬件 · 芯片本身能力", vars:[
+        {id:"B1", n:"算力 FLOPS", cls:"hw", imp:2, d:"down", mc:"prefill（读入 prompt）的计算约束",
+         case:"Blackwell vs Hopper 稠密 FLOPS 大幅提升",
+         eff:"prefill 受益明显；decode memory-bound，纯 FLOPS 提升受益有限"},
+        {id:"B2", n:"HBM 带宽 GB/s", cls:"hw", imp:3, d:"down", pivot:true, mc:"decode 的真实物理天花板",
+         case:"HBM3E 约 8TB/s → HBM4 更高（SK 海力士/美光）",
+         eff:"decode 吞吐 ≈ 带宽 ÷ 每 token 字节 → 带宽是硬天花板（★★★）"},
+        {id:"B3", n:"HBM 容量 GB", cls:"hw", imp:2, d:"down", pivot:true, mc:"决定 batch / context 上限",
+         case:"GB300 每 GPU 288GB HBM3E",
+         eff:"容量↑→更大 batch / 更长 context → 间接抬吞吐（接推论 2）"},
+        {id:"B4", n:"互联 NVLink / scale-up", cls:"hw", imp:2, d:"down", mc:"大模型/大 EP 分布式前提",
+         case:"NVL72 900GB/s 全互联 72 卡",
+         eff:"AceCamp 称 NVL72 推理性价比约为 H20 的 6x+（C）"},
+        {id:"B5", n:"数值精度 FP16→FP8→FP4", cls:"hw", imp:3, d:"down", mc:"每 token 搬运字节减半",
+         case:"Blackwell 原生 FP4；DeepSeek FP8 训练/推理",
+         eff:"每降一档 ≈ 吞吐约 2x（GB300 FP4 vs FP8 约 2x，SA，C）→ 结构性降本"}
+      ]},
+      {sub:"软件·算法 · 每 token 要搬多少", vars:[
+        {id:"B6", n:"激活参数（dense vs MoE）", cls:"sw", imp:3, d:"down", mc:"每 token 只搬被激活的专家",
+         case:"DeepSeek-V3 671B 总参 / 每 token 仅激活 37B（技术报告，B）",
+         eff:"每 token 只算约 5.5% 参数 → 少搬字节（推论 1，★★★）"},
+        {id:"B7", n:"注意力 MHA→GQA→MLA", cls:"sw", imp:3, d:"down", mc:"压 KV cache 体积",
+         case:"DeepSeek MLA；GQA（Llama/Mistral）",
+         eff:"MLA 把 KV cache 压到 MHA 的约 1/10~1/13（DeepSeek-V2 报告 KV -93%，B）"},
+        {id:"B8", n:"上下文长度", cls:"use", imp:2, d:"up", mc:"长 context 撑大 KV cache",
+         case:"128k → 1M context（Gemini 长上下文）；agentic 长历史",
+         eff:"每 token 搬运字节随 context 线性上升 → 长 context 是升本方向（跨轴：负载顶 B 轴分母）"},
+        {id:"B9", n:"蒸馏 / 小模型", cls:"sw", imp:2, d:"down", mc:"student 参数少",
+         case:"DeepSeek-R1 蒸馏到 32B/7B；GPT mini 档",
+         eff:"小模型服务成本降数倍（视规模，C）；牺牲部分能力"},
+        {id:"B10", n:"投机解码 / MTP", cls:"sw", imp:3, d:"down", mc:"搬一次权重多吐几个 token",
+         case:"DSpark（本地文件）、EAGLE、Medusa；DeepSeek MTP",
+         eff:"decode 约 2-3x 加速（学界普遍，B）；SA 14x 里 MTP 贡献一档"}
+      ]},
+      {sub:"系统·软件 · 把硬件打得多满", vars:[
+        {id:"B11", n:"批处理 batching", cls:"sw", imp:3, d:"mixed", mc:"摊薄权重读，代价延迟↑",
+         case:"continuous batching（vLLM / TGI）",
+         eff:"大 batch 每 token 成本大降，但延迟上升（推论 2 的核心取舍，★★★）"},
+        {id:"B12", n:"PD 分离（prefill/decode）", cls:"sw", imp:3, d:"down", mc:"计算约束段/带宽约束段拆开优化",
+         case:"SA RL 纪要 GLM-5：32 prefill + 32 decode GPU 分离 + 每节点 1TB KV offload",
+         eff:"已成事实标准；wideEP+disagg 从 1000→8000 tok/s（约 8x，SA，C）的一半靠它"},
+        {id:"B13", n:"专家并行 wideEP", cls:"sw", imp:2, d:"down", mc:"MoE 大规模专家并行解锁",
+         case:"DeepSeek 大规模 EP；SA InferenceX",
+         eff:"wideEP+disagg 合计约 8x（SA，C），对 MoE 收益最大、稠密模型受益小"},
+        {id:"B14", n:"KV cache 管理", cls:"sw", imp:2, d:"down", mc:"决定并发数 / 扩容量",
+         case:"PagedAttention（vLLM）；KV offload 到 SSD；KV 量化",
+         eff:"并发数↑→单 token 摊薄；SSD 分层扩容量（AMD 买 MEXT 争内存调度权）"},
+        {id:"B15", n:"调度 chunked prefill", cls:"sw", imp:1, d:"down", mc:"填满流水线减空转",
+         case:"chunked prefill 调度（vLLM / Sarathi）",
+         eff:"逼近带宽峰值，增益温和"}
+      ]}
+    ]},
+    {key:"C", color:"var(--blue)", title:"经济楔子 · 理论 COGS → 客户实收账单", note:"决定 sticker vs cost 差几倍",
+     principle:'楔子 = 从理论 COGS 到客户实收账单的乘数。由公理 4，成本只设地板，这一层决定 sticker 价和真实成本差几倍（agentic 可差约 5x），以及降本落进谁口袋：<b>有定价权的前沿实验室留住</b>（毛利扩张），<b>commodity / 开源 API 让给客户</b>（薄利）。这是分配轴，不是技术轴。',
+     groups:[{sub:"", vars:[
+      {id:"C1", n:"输入:输出比", cls:"econ", imp:2, d:"down", mc:"input 比 output 便宜",
+       case:"agentic 工作负载约 300:1（SA 自估，C）",
+       eff:"高 input 占比 + 缓存 → blended 价远低于 output sticker"},
+      {id:"C2", n:"缓存 / 前缀命中率", cls:"econ", imp:3, d:"down", mc:"命中的输入近乎白拿",
+       case:"Anthropic prompt caching；agentic 稳定 system prompt 命中率高",
+       eff:"缓存最高省 90% 输入成本（Anthropic 官方，A，★★★）"},
+      {id:"C3", n:"利用率 / 需求形状", cls:"econ", imp:1, d:"mixed", mc:"峰谷 / spot vs reserved",
+       case:"白天峰值、夜间闲置；预留实例 vs 竞价",
+       eff:"需求平滑度决定实际摊销，幅度中等"},
+      {id:"C4", n:"服务商毛利 / 定价模式", cls:"econ", imp:3, d:"mixed", mc:"sticker ≠ cost",
+       case:"Anthropic value-based 毛利约 70% vs DeepSeek commodity 约 25-30%（A）",
+       eff:"同成本 sticker 可差数倍 → 决定成本坍塌谁留住（★★★）"},
+      {id:"C5", n:"竞争 / 商品化", cls:"econ", imp:2, d:"down", mc:"开源设价格地板",
+       case:"开源权重（DeepSeek/Llama）逼近前沿 → 设「价格地板」",
+       eff:"商品化把降本让给客户，压前沿定价权"}
+     ]}]},
+    {key:"D", color:"var(--purple)", title:"横切 · 每「有用结果」要几个 token", note:"买方最该盯 · 越少越好",
+     principle:'横切 = 完成一个任务要几个 token。由公理 5，这是买方唯一真正付钱的单位。per-token 在 B 轴狂降，但 reasoning + agentic 把每任务 token 数顶上去 → <b>判断真实降本看 per-task，不看 per-token</b>。这是最容易被 headline「单价降 96%」误导的一轴。',
+     groups:[{sub:"", vars:[
+      {id:"D1", n:"Reasoning / test-time compute", cls:"use", imp:3, d:"up", mc:"吐大量 thinking token",
+       case:"o1/o3/R1 类推理模型：一次 query 吐数千思考 token",
+       eff:"单任务 token 数约 10-100x↑（量级，C）→ 抵消 per-token 降本（★★★）"},
+      {id:"D2", n:"Agentic 循环步数", cls:"use", imp:3, d:"up", mc:"多轮 tool call 放大消耗",
+       case:"coding agent 多轮循环；SA 自身顶级贡献者 100B token/人·月",
+       eff:"多轮循环使 per-task 成本成为账单主导项（★★★）"},
+      {id:"D3", n:"输出冗余度 verbosity", cls:"use", imp:1, d:"mixed", mc:"啰嗦 / 无效 token",
+       case:"模型过度解释、重复输出",
+       eff:"可控边际项，prompt / 后训练可压"}
+     ]}]}
+  ],
+  panel:[
+    {m:"Opus 标价（in/out）", v:"$5 / $25 per M", tr:"flat", g:"A", s:"Anthropic 官方 pricing", u:"2026-07-01"},
+    {m:"agentic blended 有效价", v:"~$0.99/M（独立重算落 $0.6-1.0）", tr:"down", g:"C", s:"SemiAnalysis 自报", u:"2026-07-01"},
+    {m:"缓存最高节省", v:"90% 输入成本", tr:"down", g:"A", s:"Anthropic 官方 prompt caching", u:"2026-07-01"},
+    {m:"输入:输出比（agentic）", v:"~300:1", tr:"down", g:"C", s:"SemiAnalysis 自估", u:"2026-07-01"},
+    {m:"数值精度前沿", v:"FP8 主流 → FP4 推进（每档~2x）", tr:"down", g:"B", s:"行业多源", u:"2026-07-01"},
+    {m:"GB300 NVL72 vs H100 吞吐", v:"独立实测 >6x；SA 最优 17x(FP8)/32x(FP4)", tr:"down", g:"C", s:"CoreWeave 博客(A 方向)/SA(C 具体)", u:"2026-07-01"},
+    {m:"软件吞吐阶梯（B300·R1）", v:"FP8 1000 → +wideEP+disagg 8000 → +MTP 14000 tok/s/GPU", tr:"down", g:"C", s:"SA InferenceX 专有（无第三方复现）", u:"2026-07-01"},
+    {m:"H100 现货租赁价", v:"$1.5-3/h（vs 24 初 $8-10，-64~75%）", tr:"down", g:"B", s:"多平台比价", u:"2026-07-01"},
+    {m:"HBM 供需", v:"2026 产能售罄；demand>supply 未来 3 年", tr:"up", g:"A", s:"SK 海力士 / 美光官方", u:"2026-07-01"},
+    {m:"HBM 占推理瓶颈", v:"~60%", tr:"flat", g:"C", s:"AceCamp 专家纪要 6/4", u:"2026-07-01"},
+    {m:"前沿 lab 推理毛利", v:"Anthropic ~70%；Q2 首盈利季 $10.9B/OP $559M", tr:"down", g:"C", s:"SA(C)/WSJ+纪要(A 盈利季)", u:"2026-07-01"},
+    {m:"commodity lab 毛利", v:"DeepSeek 月 API 2.9-3.2 亿、GM 25-30%", tr:"flat", g:"A", s:"兴证海外纪要 6/26", u:"2026-07-01"},
+    {m:"token 需求量（Jevons）", v:"OpenRouter 周 5T→>20T ≈4x；Google 累计 3.2 quadrillion", tr:"up", g:"A", s:"OpenRouter / Google I/O", u:"2026-07-01"},
+    {m:"NVDA 定价空间", v:"尚有 ~40%（租赁 $4.9/h vs 潜在 $8）", tr:"up", g:"C", s:"SemiAnalysis May 稿", u:"2026-07-01"},
+    {m:"国产卡推理性能", v:"华为 910B = H200 的 75-80%；国产 ASIC MFU 可 >80%", tr:"down", g:"C", s:"兴证(A)/AceCamp(C)", u:"2026-07-01"},
+    {m:"推理 MFU 区间", v:"2-3% → 30-40%（有优化空间）", tr:"down", g:"C", s:"AceCamp 6/4", u:"2026-07-01"}
+  ]
+};
+/*DATA_END*/
+
+const DIRLAB={down:"↓ 降本", up:"↑ 升本", mixed:"↔ 双向"};
+const TRLAB={down:"↓", up:"↑", flat:"—"};
+const CAT={hw:"硬件", sw:"软件·算法", econ:"经济·部署", use:"使用·负载"};
+const STAR={3:"★★★", 2:"★★☆", 1:"★☆☆"};
+const IMPLAB={3:"高", 2:"中", 1:"低"};
+let allVars=[];
+
+function build(){
+  const M=DATA.meta;
+  document.getElementById('meta').innerHTML='<span>数据截至 '+M.as_of+'</span><span>'+M.scope+'</span><span class="badge">'+M.badge+'</span>';
+  document.getElementById('lede').innerHTML=DATA.lede;
+  document.getElementById('axioms').innerHTML=DATA.axioms.map(a=>'<div class="axiom"><span class="tag">'+a.tag+'</span><div class="at">'+a.t+'</div><p class="ab">'+a.b+'</p></div>').join('');
+  document.getElementById('eqn').innerHTML='<div class="big">'+DATA.equation.big+'</div><div class="chain">'+DATA.equation.chain+'</div>';
+  document.getElementById('coros').innerHTML=DATA.coros.map(c=>'<div class="coro"><div class="ct">'+c.t+'</div><p class="cb">'+c.b+'</p></div>').join('');
+  document.getElementById('remember').innerHTML=DATA.remember;
+  document.getElementById('axmap').innerHTML=DATA.axmap.map(m=>'<div class="mc" style="border-top-color:'+m.c+'"><div class="mk" style="color:'+m.c+'">'+m.k+'</div><div class="mn">'+m.n+'</div><div class="md">'+m.d+'</div></div>').join('');
+
+  // 扁平化全变量（挂 axis 引用）
+  allVars=[];
+  DATA.axes.forEach(ax=>ax.groups.forEach(g=>g.vars.forEach(v=>allVars.push(Object.assign({ax:ax.key, axc:ax.color},v)))));
+
+  // §01 高影响杠杆榜
+  const down3=allVars.filter(v=>v.imp===3&&v.d==='down');
+  const up3=allVars.filter(v=>v.imp===3&&(v.d==='up'||v.d==='mixed'));
+  const levRow=v=>'<div class="lev"><span class="lid">'+v.id+'</span><div class="lx"><div class="ln">'+v.n+' <span class="cchip '+v.cls+'" style="font-size:9px">'+CAT[v.cls]+'</span></div><div class="le">'+v.eff+'</div></div></div>';
+  document.getElementById('levbox').innerHTML=
+    '<div class="levbox"><div class="lh down">↓ 数量级降本杠杆（★★★）· '+down3.length+' 个</div>'+down3.map(levRow).join('')+'</div>'+
+    '<div class="levbox"><div class="lh up">↑ 主要升本压力（★★★）· '+up3.length+' 个</div>'+up3.map(levRow).join('')+'</div>';
+
+  // §03 全变量（按贡献度降序）
+  document.getElementById('axes').innerHTML=DATA.axes.map((ax,i)=>{
+    const body=ax.groups.map(g=>{
+      const cards=g.vars.slice().sort((a,b)=>b.imp-a.imp).map(v=>
+        '<div class="vc'+(v.pivot?' piv':'')+'" data-cls="'+v.cls+'" data-imp="'+v.imp+'" onclick="tog(this)">'+
+          '<div class="vc-h"><span class="vid">'+v.id+'</span><span class="vn">'+v.n+'</span><span class="pill '+v.d+'">'+DIRLAB[v.d]+'</span></div>'+
+          '<div class="vc-meta"><span class="cchip '+v.cls+'">'+CAT[v.cls]+'</span><span class="stars s'+v.imp+'">'+STAR[v.imp]+'</span>'+
+            '<span class="caret"><span class="t1">▸ 案例/效果</span><span class="t2">▾ 收起</span></span></div>'+
+          '<div class="detail"><div class="dl"><b>机制</b>'+v.mc+'</div><div class="dl case"><b>案例</b>'+v.case+'</div><div class="dl eff"><b>效果</b>'+v.eff+'</div></div>'+
+        '</div>').join('');
+      return '<div class="grpblk">'+(g.sub?'<div class="grp-t">'+g.sub+'</div>':'')+'<div class="grid">'+cards+'</div></div>';
+    }).join('');
+    return '<section class="axsec" id="ax'+ax.key+'"><h2 class="sec"><span class="n">03·'+ax.key+'</span><span class="axb" style="background:'+ax.color+'">'+ax.key+'</span>'+ax.title.replace(/^[^·]+· /,'')+' <span class="axnote" style="font-weight:400">'+ax.note+'</span></h2>'+
+      '<div class="principle">'+ax.principle+'</div>'+body+'</section>';
+  }).join('');
+
+  // §04 面板
+  document.querySelector('#ptbl tbody').innerHTML=DATA.panel.map(p=>
+    '<tr><td>'+p.m+'</td><td class="v">'+p.v+'</td><td class="trend '+p.tr+'">'+TRLAB[p.tr]+'</td>'+
+    '<td><span class="gb '+p.g[0]+'">'+p.g+'</span></td><td class="src">'+p.s+'</td><td class="upd">'+p.u+'</td></tr>').join('');
+
+  // 目录
+  const nav=[['s0','00','公理层'],['lev','01','结论·杠杆榜'],['map','02','四轴地图'],['allvars','03','全变量']]
+    .concat(DATA.axes.map(ax=>['ax'+ax.key,'03·'+ax.key, ax.key+' '+ax.title.split(' · ')[0].replace(/^[^·]+· /,'')]))
+    .concat([['panel','04','追踪面板']]);
+  document.getElementById('nav').innerHTML=nav.map(x=>'<a href="#'+x[0]+'" data-id="'+x[0]+'"><b>'+x[1]+'</b>'+x[2]+'</a>').join('');
+
+  document.getElementById('foot').innerHTML=
+    '<b>怎么更新</b>：只改 <code>/*DATA_START*/ … /*DATA_END*/</code> 里的 <code>DATA</code> —— 数据点改 <code>panel[]</code>；变量的 案例/效果/贡献度 改 <code>axes[].groups[].vars[]</code>（字段 cls类别 / imp贡献度 / mc机制 / case案例 / eff效果）；保存双击打开，无依赖。<br>'+
+    '<b>投资含义（硬件 vs 软件的关键）</b>：硬件降本（A8/B2/B5…）被 NVDA/HBM 用定价权和稀缺吃掉→利好硬件链；软件·算法降本（B6/B7/B10/B11/B12…）是"免费的"、会被开源与竞争商品化传给客户→利好应用层与买方、压推理服务商与 commodity API。<br>'+
+    '<span class="warn">⚠ 案例为图示、效果数字均标 A/B/C；C 级（吞吐阶梯 / 17x·32x / $0.99 / 300:1 / MFU 等）为 SemiAnalysis 专有基准或估算、无第三方复现 → 当分析师观点用，勿 pass-through 当事实。MLA/MoE 数字来自 DeepSeek 公开技术报告（B）。</span><br>'+
+    '<span style="color:var(--hint)">配套 md：20260701_推理端Token成本驱动变量框架_可更新追踪_by claude.md · 入口 wiki：AI算力超级周期 / 大模型MaaS产业架构</span>';
+
+  scrollSpy();
+}
+
+function tog(el){ el.classList.toggle('open'); }
+function expAll(){
+  const b=document.getElementById('expall');
+  const on=b.textContent.indexOf('展开')>=0;
+  document.querySelectorAll('#axes .vc').forEach(v=>{ if(v.style.display!=='none') v.classList.toggle('open',on); });
+  b.textContent=on?'收起全部':'展开全部';
+}
+
+const FS={cls:'all', imp:'all'};
+function flt(btn){
+  const k=btn.dataset.k, v=btn.dataset.v; FS[k]=v;
+  document.querySelectorAll('.ctrl .btn[data-k="'+k+'"]').forEach(b=>b.classList.toggle('on', b.dataset.v===v));
+  document.querySelectorAll('#axes .vc').forEach(c=>{
+    const okC = FS.cls==='all' || c.dataset.cls===FS.cls;
+    const okI = FS.imp==='all' || (+c.dataset.imp) >= (+FS.imp);
+    c.style.display = (okC&&okI)?'':'none';
+  });
+  // 空的分组/轴收起
+  document.querySelectorAll('#axes .grpblk').forEach(g=>{
+    g.style.display=[...g.querySelectorAll('.vc')].some(c=>c.style.display!=='none')?'':'none';
+  });
+  document.querySelectorAll('#axes .axsec').forEach(s=>{
+    s.style.display=[...s.querySelectorAll('.vc')].some(c=>c.style.display!=='none')?'':'none';
+  });
+}
+
+function scrollSpy(){
+  const links=[...document.querySelectorAll('#nav a')], map={};
+  links.forEach(a=>map[a.dataset.id]=a);
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));if(map[e.target.id])map[e.target.id].classList.add('active');}});},{rootMargin:'-8% 0px -82% 0px'});
+  document.querySelectorAll('main section').forEach(s=>io.observe(s));
+}
+build();
+</script>
+</body>
+</html>

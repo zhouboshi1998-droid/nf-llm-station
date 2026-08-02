@@ -1,0 +1,545 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSpark 论文结构化精读笔记 · 知识解读深读</title>
+<style>
+body{margin:0;background:#f4f2ec;color:#2C2C2A;font-family:"Microsoft YaHei",system-ui,sans-serif;
+line-height:1.8;font-size:15.5px}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+.card{background:#fffefa;border:1px solid #e6e3da;border-radius:16px;padding:34px 40px}
+.meta{color:#8b8a83;font-size:13px;margin:10px 0 26px}
+.back{display:inline-block;margin-bottom:14px;color:#C05A2E;text-decoration:none;font-size:14px}
+h1{font-size:24px;line-height:1.4;margin:6px 0 4px}
+h2{font-size:19px;border-bottom:1px solid #eee9dd;padding-bottom:6px;margin-top:38px}
+h3{font-size:16.5px;margin-top:28px}
+a{color:#C05A2E}
+img{max-width:100%;border:1px solid #e6e3da;border-radius:10px;background:#fff}
+blockquote{border-left:3px solid #D85A30;margin:14px 0;padding:4px 16px;background:#faf8f3;
+border-radius:0 8px 8px 0;color:#5a5a54}
+code{background:#f0ede4;border-radius:4px;padding:1px 5px;font-size:.9em}
+pre{background:#f0ede4;border-radius:10px;padding:14px 16px;overflow-x:auto}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e6e3da;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#f0ede4;white-space:nowrap}
+hr{border:none;border-top:1px solid #eee9dd;margin:30px 0}
+</style></head><body><div class="wrap">
+<a class="back" href="../index.html">← 返回研究站 · 知识解读</a>
+<div class="card">
+<h1>DSpark 论文结构化精读笔记</h1>
+<div class="meta">2026-06-28 · 深读专题库 · 本页由 vault 源文件自动构建（更新源文件后重跑 build_site 即同步）</div>
+<h1>DSpark 论文结构化精读笔记</h1>
+<blockquote>
+<p><strong>一句话</strong>：这篇论文不发明新模型，而是给"投机解码"补上被忽略的一环——<strong>验证侧的动态调度</strong>，同时用"半自回归"把草稿质量也提一截。读懂它的钥匙是论文自己给的一条延迟公式，全文所有招式都挂在它的三个杠杆上。已替换上一代 MTP-1，<strong>V4-preview 发布后两周</strong>上线主力流量。</p>
+<p>口径说明：本笔记基于原论文 PDF 全文逐节通读，所有数字逐条核自原文（<strong>A 级</strong>）。带【事实】的是论文原述，带【观点】的是研究员综合判断。</p>
+</blockquote>
+<hr />
+<h2>白话速通版（基础不深先读这段）</h2>
+<blockquote>
+<p>一个比喻贯穿全程：<strong>老板写信、雇小秘书帮忙</strong>。按「原理 → 原来怎么做 → 改进了什么 → 有什么效果」走一遍。要看图请开配套 HTML（含原论文 6 张真图 + 老板/秘书流程图）。</p>
+</blockquote>
+<p><strong>打底 · 为什么大模型打字慢</strong>：大模型一个字一个字往外蹦，每蹦一个新字都要把前文重读一遍。慢的根子不是"算"，是"<strong>搬数据</strong>"——显卡计算器很快，但数据从内存一趟趟搬过来慢，计算器大半时间在干等。📌 记住：<strong>算力是闲的，瓶颈在搬数据。</strong></p>
+<p><strong>① 原理 · 投机解码</strong>：既然逐字慢，就<strong>一次蒙好几个字、再一起检查</strong>。比喻——雇个又快又便宜的小秘书（草稿模型）先把后面几个字猜出来，老板（目标模型）一眼扫一整批：对的留下、从第一个错的往后全划掉、自己补一个。为什么快？老板"检查 5 个字"和"检查 1 个字"花的力气几乎一样（瓶颈是搬数据不是算）。而且数学保证结果和老板亲写<strong>一模一样</strong> = 无损。</p>
+<p><strong>② 原来怎么做 · 两种小秘书各有毛病</strong>：
+- 老办法 A（自回归 / Eagle3）：一个字一个字蒙，连贯但慢，只能蒙短、脑子浅。
+- 老办法 B（并行 / DFlash）：一口气全蒙，快、能蒙长，但各蒙各的 → 越往后越前后不搭（"of course" + "no problem" 拼成 "of problem"）。
+- → 两难：要么连贯但慢，要么快但后面乱，只能二选一。</p>
+<p><strong>③ DSpark 改进了什么 · 两刀治两病</strong>：
+- <strong>改进①半自回归</strong>：保留"一口气蒙"的快主力，后面挂个极小的"顺一遍"小助手（Markov head）把前后顺起来。反直觉：一口气蒙的<strong>第一个字反而更准</strong>（不怕慢 → 脑子能更深），而第一个字最要命（错了后面整串作废）。效果：2 层就超 5 层的老 B、几乎不增时间（+0.2~1.3%）、蒙对长度 +最多 30%。
+- <strong>改进②聪明检查</strong>：给每个蒙的字打"把握度"，再按忙闲调度——闲时多查、忙时只查最有把握的前几个，把力气省给排队的人。效果：上线 V4 后单用户出字 <strong>+60~85%</strong>，检查长度从固定 2 个变成按忙闲在 4–6 个之间伸缩。</p>
+<p><strong>一句话总账</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>怎么做</th>
+<th>治什么毛病</th>
+<th>有什么效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>投机解码（地基）</td>
+<td>秘书先蒙、老板一次批一整批</td>
+<td>逐字太慢</td>
+<td>无损提速，质量不变</td>
+</tr>
+<tr>
+<td>改进①半自回归</td>
+<td>一口气蒙 + 小助手顺一遍</td>
+<td>一口气蒙后面会乱</td>
+<td>2 层 &gt; 5 层、+最多 30%</td>
+</tr>
+<tr>
+<td>改进②聪明检查</td>
+<td>打把握度 + 看忙闲调度</td>
+<td>高并发整串检查浪费</td>
+<td>单用户出字 +60~85%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>下面 §0 起是<strong>技术精读</strong>（公式、消融、生产部署、全主表），想深入再往下读。</p>
+</blockquote>
+<hr />
+<h2>0. 论文坐标卡</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td>DSpark: Confidence-Scheduled Speculative Decoding with Semi-Autoregressive Generation</td>
+</tr>
+<tr>
+<td>机构</td>
+<td>DeepSeek-AI + 北京大学（北大：Xin Cheng / Huishuai Zhang / Dongyan Zhao；含梁文锋 Wenfeng Liang）</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>2026-06-27</td>
+</tr>
+<tr>
+<td>开源</td>
+<td>DSpark checkpoints（V4-Flash/Pro preview）+ <strong>DeepSpec</strong> 训练框架（含 Eagle3 / DFlash / DSpark 三算法，MIT）</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>DeepSeek-V4-Flash / V4-Pro 线上流量，替换 MTP-1（V4-preview 发布后两周完成替换）</td>
+</tr>
+<tr>
+<td>性质</td>
+<td><strong>工程落地</strong>（推理服务系统升级），非模型能力迭代</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1. 一图读懂：DSpark 在解决什么</h2>
+<p>【事实】大模型逐字吐字（自回归），延迟正比于输出长度。投机解码标准套路：<strong>小草稿模型一次猜 γ 个 token → 大目标模型一次前向并行验证 → 接受最长正确前缀，遇首个错丢弃其后 + 补 1 个 bonus token</strong>。拒绝采样保证输出分布与逐字生成严格一致 → <strong>无损</strong>。</p>
+<p>每 token 接受概率：<code>min(1, p_target(x) / p_draft(x))</code>，从左到右验，首个被拒则其后全弃。</p>
+<p><strong>统御全文的延迟公式</strong>（论文 Eq.1）：</p>
+<pre><code>L = (T_draft + T_verify) / τ
+       起草耗时   验证耗时    每轮接受 token 数
+</code></pre>
+<p>【事实】提速 = 动三个杠杆，DSpark 的定位：</p>
+<table>
+<thead>
+<tr>
+<th>杠杆</th>
+<th>含义</th>
+<th>谁动它</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 降 <code>T_draft</code></td>
+<td>草稿起得更快</td>
+<td>并行草稿（一次出整串，已有技术）</td>
+</tr>
+<tr>
+<td>② 升 <code>τ</code></td>
+<td>每轮多被接受几个</td>
+<td><strong>DSpark 创新一：半自回归（§3）</strong></td>
+</tr>
+<tr>
+<td>③ 降有效 <code>T_verify</code></td>
+<td>别验注定被拒的 token</td>
+<td><strong>DSpark 创新二：置信度调度（§4）</strong></td>
+</tr>
+</tbody>
+</table>
+<p>【观点】<strong>论文真正的切口在③</strong>：过去两年所有投机解码工作都在卷①②（草稿端），<strong>没人认真管③</strong>。DSpark 第一次把"验证多长"当成一个随负载实时调度、还保证无损的问题——这是它区别于一堆同类论文的根本。</p>
+<hr />
+<h2>2. 背景：两条草稿老路的死结</h2>
+<p>【事实】草稿模型的设计决定 <code>T_draft</code> 和 <code>τ</code> 怎么权衡，已有两类：</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>代表</th>
+<th>T_draft</th>
+<th>τ（接受）</th>
+<th>死结</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>自回归草稿</strong></td>
+<td>Eagle3</td>
+<td>∝ γ（线性增长）</td>
+<td>高、连贯</td>
+<td>为压延迟只能写短块、浅网络（1 层）</td>
+</tr>
+<tr>
+<td><strong>并行草稿</strong></td>
+<td>DFlash</td>
+<td>≈ O(1)（与块长无关）</td>
+<td><strong>尾部快速衰减</strong></td>
+<td>各位置独立预测 → 多模态碰撞</td>
+</tr>
+</tbody>
+</table>
+<p>【事实】<strong>多模态碰撞</strong>（multi-modal collision）：上下文同时支持 "of course" 和 "no problem"，并行独立预测可能拼出 "of problem" / "no course"——因为每个位置在所有可能前驱上做边缘化，而非条件于实际采样的那一个。</p>
+<p>DFlash 是 SOTA 并行草稿：靠从目标模型注入 KV 上下文特征（KV injection），块内双向注意力，共享目标模型冻结的 embedding + LM head，一次前向出全部 γ 个 logits → 能用更深网络、更大块。但并行本质决定<strong>越往后越前后不一致</strong>。</p>
+<hr />
+<h2>3. 创新一：半自回归生成（升 τ，不牺牲 T_draft）</h2>
+<h3>3.1 结构：并行骨干 + 轻量串行</h3>
+<p>【事实】重活由<strong>并行骨干</strong>（就用 DFlash）一次前向干完，产出隐藏态 h₁…h_γ 和基础 logits U₁…U_γ；后接一个<strong>轻量串行模块</strong>，给每个位置补"前一个 token"的转移偏置 B_k，诱导一个因果块分布：</p>
+<pre><code>p_k(v | x_0, x_&lt;k) = softmax( U_k(v) + B_k(x_0, x_&lt;k, v) )
+</code></pre>
+<p>串行模块必须极轻（T_sequential ≪ T_parallel），整体起草延迟仍由并行阶段主导。</p>
+<h3>3.2 两种串行头（Markov 默认 / RNN 备选）</h3>
+<p>【事实】<strong>Markov head（默认）</strong>：只看紧邻前一个 token，本是 V×V 转移矩阵，用<strong>低秩分解</strong> <code>B = W₁W₂</code>（<code>W₁∈R^{V×r}, W₂∈R^{r×V}, r=256</code>）压到极小：</p>
+<pre><code>B(x_{k-1}, ·) = W₁[x_{k-1}] · W₂   ∈ R^V
+</code></pre>
+<p>W₁ 当 embedding 查表、W₂ 当 logit 投影。大词表下存储和单步计算都很小。白话：一旦位置 1 采到 "of"，Markov head 在位置 2 抬高 "course"、压低 "problem"。</p>
+<p>【事实】<strong>RNN head（备选）</strong>：维护跨整块的循环状态 s_k，记忆超过一步。<strong>实测只在长草稿上比 Markov 略好</strong>，但实现复杂、部署不划算 → <strong>默认仍用 Markov head</strong>。</p>
+<h3>3.3 反直觉发现：并行为什么赢自回归（§4.3.1）</h3>
+<p>【事实】主表显示并行(DFlash)和半自回归(DSpark)常比纯自回归(Eagle3)接受更长——与"逐字更连贯更准"的直觉相反。论文用<strong>逐位置条件接受率</strong>（剔除前缀被拒的惩罚，单看每个位置本身的预测质量，Qwen3-4B）拆出两层原因：</p>
+<ul>
+<li><strong>首位看容量</strong>：并行起草与长度无关 → 网络能更深；自回归为控 O(γ) 延迟只能浅。故第一个 token 上 <strong>DFlash 0.88 &gt; Eagle3 0.81（数学）、0.72 &gt; 0.53（对话）</strong>。</li>
+<li><strong>首位权重最高</strong>：前缀验证里第一个 token 一被拒，后面整串作废 → 起点杠杆最大，首位优势被不成比例放大。</li>
+<li><strong>尾部看依赖</strong>：位置 2→7，<strong>DFlash 衰减</strong>（代码 0.87→0.78、对话 0.72→0.63），<strong>Eagle3 反而能稳/升</strong>（对话 0.53→0.74）。</li>
+</ul>
+<p>【事实】<strong>DSpark = 深并行骨干拿高起点（数学首位 0.93）+ Markov head 补尾部衰减</strong> → 全程条件接受率又高又稳。</p>
+<h3>3.4 两个关键消融</h3>
+<table>
+<thead>
+<tr>
+<th>消融</th>
+<th>设置</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>深度</strong>（Figure 3）</td>
+<td>固定块长 7，DSpark 1→5 层 vs 5 层 DFlash</td>
+<td><strong>2 层 DSpark &gt; 5 层 DFlash</strong>（补串行比堆并行层更省参数；1→2 层边际收益最大）</td>
+</tr>
+<tr>
+<td><strong>草稿长度</strong>（Figure 4）</td>
+<td>固定 5 层，γ∈{4,8,12,16}</td>
+<td>DSpark 全程领先且<strong>优势随 γ 扩大</strong>：γ=7 时 +16%/15%/18%（数/码/对话）→ γ=15 时 <strong>+30%/26%/22%</strong></td>
+</tr>
+<tr>
+<td><strong>延迟代价</strong>（Figure 4 右）</td>
+<td>batch=128，含验证+并行草稿+串行采样</td>
+<td>草稿 4→16，整轮延迟仅 <strong>+0.2%~1.3%</strong>，却换来最高 +30% 接受长度</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 创新二：置信度调度验证（降有效 T_verify · 论文真正新角度）</h2>
+<p>【事实】草稿能写很长 ≠ 该整串都验。高并发下多验一个大概率被拒的 token，就占了目标模型本可服务别人的批量算力。瓶颈两因素：① 数据侧——代码等结构化任务接受率天然高于开放对话；② 系统侧——闲时多验近乎免费、忙时是明显浪费。三步走：</p>
+<h3>4.1 置信度头</h3>
+<p>【事实】给每个草稿位置输出标量 cₖ∈(0,1)，预测<strong>条件存活概率</strong>（前面都被接受的前提下，本位 token 能过验证的概率）：</p>
+<pre><code>c_k = σ( w^T · [ h_k ; W₁[x_{k-1}] ] )
+</code></pre>
+<p>监督信号 = 草稿与目标分布的<strong>总变差距离</strong>（TV distance 直接等于接受率）：<code>c*_k = 1 − ½·‖p_draft − p_target‖₁</code>。</p>
+<h3>4.2 STS 事后校准（为什么必须）</h3>
+<p>【事实】神经网络置信度系统性<strong>偏乐观</strong>。关键洞察——调度需要的不是"谁更有把握"的<strong>排序</strong>，而是存活概率的<strong>绝对值</strong>（要拿累积乘积 ∏cᵢ 算"该验多长"）。<strong>STS（Sequential Temperature Scaling）</strong>从左到右逐位做温度缩放，把累积乘积拉回真实接受率，且<strong>保序</strong>（不打乱原排序）。</p>
+<p>【事实】校准效果（Alpaca，Figure 6，ECE 校准前→后 / AUC）：</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>ECE 前→后</th>
+<th>ROC-AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pos 1</td>
+<td>5.7% → 2.0%</td>
+<td>0.818</td>
+</tr>
+<tr>
+<td>Pos 3</td>
+<td>8.2% → 1.7%</td>
+<td>0.812</td>
+</tr>
+<tr>
+<td>Pos 5</td>
+<td>5.8% → 0.8%</td>
+<td>0.864</td>
+</tr>
+<tr>
+<td>Pos 7</td>
+<td>3.3% → 0.4%</td>
+<td>0.907</td>
+</tr>
+</tbody>
+</table>
+<p>原始模型判别力强（AUC 0.81–0.90）但过度自信（ECE 3–8%）→ STS 后平均 ECE 降到 <strong>~1%</strong>。</p>
+<h3>4.3 硬件感知前缀调度器（Algorithm 1）</h3>
+<p>【事实】把"每请求验多长"建模成<strong>全局吞吐最大化</strong>：</p>
+<pre><code>目标 Θ = τ · SPS(B)
+  τ   = 这一批期望接受的 token 总数
+  B   = 这一批送进目标模型的 token 总数 = Σ(1 + ℓ_r)
+  SPS(B) = 引擎在批大小 B 下每秒步数（初始化时一次性测出成本表，之后 O(1) 查表）
+</code></pre>
+<ul>
+<li>存活概率 <code>a_{r,j} = ∏_{i≤j} c_{r,i}</code> 随位置单调不增 → <strong>贪心</strong>按全局存活概率降序逐个纳入即最优。</li>
+<li><strong>无损保证靠"提前停止"</strong>：吞吐一旦不再升就 break，使纳入决策只依赖到当前步为止的信息，不偷看未来 token（违反"非预期性"的反例见论文 Appendix A）。</li>
+</ul>
+<p>【观点】这一步是全文最硬的创新：<strong>第一次把投机解码的验证长度做成随系统负载伸缩、且数学无损的调度问题</strong>。MTP-1 做不到——它要么固定验 2 个，要么 MTP-3/5 固定验更多（高并发反而拖垮吞吐），没法随负载伸缩。</p>
+<hr />
+<h2>5. 训练（一节带过）</h2>
+<p>【事实】目标模型全程冻结；草稿模型共享并冻结其 embedding + LM head，只训骨干/串行块/置信度头。三 loss 加权（默认 αce=0.1, αtv=0.9, αconf=1.0）：</p>
+<pre><code>L = 0.1·L_ce(交叉熵) + 0.9·L_tv(分布匹配,最小化TV距离=最大化接受率) + 1.0·L_conf(置信度BCE)
+</code></pre>
+<p>各位置按 <code>w_k = exp(−(k−1)/γ)</code> 加权——<strong>靠前位置权重更高</strong>（呼应"首位杠杆最大"）。数据：Open-PerfectBlend 1.3M（对话17.6%/数学39.4%/代码38.9%/指令4.1%），只用 prompt、response 由各目标模型重新生成，训 10 epoch。离线对比：Eagle3=1 层，DSpark/DFlash=5 层，块长 7。</p>
+<hr />
+<h2>6. 离线实验结果（每轮接受长度 τ，越高越好）</h2>
+<h3>6.1 主表（Table 1，加粗=最优，全部 DSpark）</h3>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>草稿</th>
+<th>GSM8K</th>
+<th>MATH</th>
+<th>AIME25</th>
+<th>MBPP</th>
+<th>HumanEval</th>
+<th>LCB</th>
+<th>MT-Bench</th>
+<th>Alpaca</th>
+<th>Arena-Hard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Qwen3-4B</strong></td>
+<td>Eagle3</td>
+<td>5.14</td>
+<td>4.62</td>
+<td>3.92</td>
+<td>3.69</td>
+<td>4.16</td>
+<td>3.77</td>
+<td>2.39</td>
+<td>2.26</td>
+<td>2.55</td>
+</tr>
+<tr>
+<td></td>
+<td>DFlash</td>
+<td>5.40</td>
+<td>4.85</td>
+<td>4.15</td>
+<td>4.40</td>
+<td>4.74</td>
+<td>4.18</td>
+<td>3.07</td>
+<td>2.96</td>
+<td>2.83</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>DSpark</strong></td>
+<td><strong>6.11</strong></td>
+<td><strong>5.70</strong></td>
+<td><strong>4.89</strong></td>
+<td><strong>5.13</strong></td>
+<td><strong>5.38</strong></td>
+<td><strong>4.86</strong></td>
+<td><strong>3.64</strong></td>
+<td><strong>3.54</strong></td>
+<td><strong>3.29</strong></td>
+</tr>
+<tr>
+<td><strong>Qwen3-8B</strong></td>
+<td>Eagle3</td>
+<td>5.30</td>
+<td>4.77</td>
+<td>3.91</td>
+<td>3.96</td>
+<td>4.33</td>
+<td>4.17</td>
+<td>2.66</td>
+<td>2.54</td>
+<td>2.54</td>
+</tr>
+<tr>
+<td></td>
+<td>DFlash</td>
+<td>5.33</td>
+<td>4.91</td>
+<td>4.07</td>
+<td>4.36</td>
+<td>4.64</td>
+<td>4.39</td>
+<td>3.11</td>
+<td>2.98</td>
+<td>2.81</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>DSpark</strong></td>
+<td><strong>6.17</strong></td>
+<td><strong>5.78</strong></td>
+<td><strong>5.01</strong></td>
+<td><strong>5.16</strong></td>
+<td><strong>5.52</strong></td>
+<td><strong>5.17</strong></td>
+<td><strong>3.72</strong></td>
+<td><strong>3.58</strong></td>
+<td><strong>3.21</strong></td>
+</tr>
+<tr>
+<td><strong>Qwen3-14B</strong></td>
+<td>Eagle3</td>
+<td>5.24</td>
+<td>4.60</td>
+<td>3.71</td>
+<td>3.81</td>
+<td>4.14</td>
+<td>4.01</td>
+<td>2.62</td>
+<td>2.47</td>
+<td>2.48</td>
+</tr>
+<tr>
+<td></td>
+<td>DFlash</td>
+<td>5.41</td>
+<td>4.84</td>
+<td>3.98</td>
+<td>4.44</td>
+<td>4.59</td>
+<td>4.33</td>
+<td>3.10</td>
+<td>2.94</td>
+<td>2.72</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>DSpark</strong></td>
+<td><strong>6.21</strong></td>
+<td><strong>5.74</strong></td>
+<td><strong>4.94</strong></td>
+<td><strong>5.26</strong></td>
+<td><strong>5.43</strong></td>
+<td><strong>5.02</strong></td>
+<td><strong>3.70</strong></td>
+<td><strong>3.58</strong></td>
+<td><strong>3.13</strong></td>
+</tr>
+<tr>
+<td><strong>Gemma4-12B</strong></td>
+<td>Eagle3</td>
+<td>5.87</td>
+<td>5.46</td>
+<td>4.83</td>
+<td>4.72</td>
+<td>5.37</td>
+<td>4.16</td>
+<td>3.19</td>
+<td>3.06</td>
+<td>2.72</td>
+</tr>
+<tr>
+<td></td>
+<td>DFlash</td>
+<td>5.45</td>
+<td>5.04</td>
+<td>4.22</td>
+<td>4.39</td>
+<td>4.95</td>
+<td>3.70</td>
+<td>2.98</td>
+<td>2.84</td>
+<td>2.59</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>DSpark</strong></td>
+<td><strong>6.05</strong></td>
+<td><strong>5.78</strong></td>
+<td><strong>5.12</strong></td>
+<td><strong>5.11</strong></td>
+<td><strong>5.64</strong></td>
+<td><strong>4.51</strong></td>
+<td><strong>3.49</strong></td>
+<td><strong>3.35</strong></td>
+<td><strong>2.92</strong></td>
+</tr>
+</tbody>
+</table>
+<p>【事实】宏平均：DSpark vs Eagle3 <strong>+26.7%~30.9%</strong>；vs DFlash <strong>+16.3%~18.4%</strong>；跨模型族（Gemma4）同样成立。</p>
+<h3>6.2 域效应 + 阈值扫描（Figure 5）</h3>
+<p>【事实】结构化任务天然高于对话（Qwen3-4B：数学 5.57 / 代码 5.12 / 对话 3.49）——<strong>这正论证"固定长度验证是浪费"</strong>。置信度阈值升高 → 接受率提升（剪掉注定被拒的尾部）：<strong>对话 45.7%→95.7%</strong>（剪枝最猛）、数学 76.9%→92.5%、代码 67.6%→92.0%。</p>
+<hr />
+<h2>7. 生产部署：DeepSeek 系统能力的半壁江山</h2>
+<p>【事实】<strong>生产配置</strong>：γ=5，并行骨干=3 个 MoE 层 + mHC + 滑窗 128，Markov head，置信度头端到端联训后 STS 校准。</p>
+<h3>7.1 可扩展训练（HAI-LLM 框架）</h3>
+<ul>
+<li><strong>隐藏态通信</strong>：只传 LM head 前的隐藏态而非全词表 logits，通信复杂度 O(V≈10⁵) → <strong>O(d)</strong>。</li>
+<li><strong>锚点定界序列打包</strong>：采样固定数量草稿锚点打成密集 batch，用 token 级注意力索引而非 2D mask，把草稿计算从目标上下文长度解耦。</li>
+</ul>
+<h3>7.2 调度器落地的两个冲突 + 解法</h3>
+<p>【事实】真实 SPS(B) 不是平滑曲线而是<strong>锯齿状跳变</strong>；动态 token 数和 CUDA graph / 零开销调度 ZOS 打架。<strong>解法=异步化</strong>：用"两步前"的置信度预估本步该验多长（变成动态 top-K），当前 token 实际排序仍用最新累积置信度。"两步前"天然形成<strong>因果屏障</strong>——既能去掉提前停止做无约束全局搜索（绕锯齿陷阱），又不泄露未来 token，<strong>保住无损</strong>。</p>
+<h3>7.3 变长 kernel + 与 V4 稀疏注意力协同</h3>
+<p>【事实】变长验证需 kernel 支持：把所有请求的 token 拍平当独立元素处理，块内依赖靠 marker tensor 传入稀疏注意力实现。<strong>在 V4 架构上只需改 index-attention 和 compress 两个 kernel</strong>。</p>
+<p>【观点】这是 DSpark 与 V4 的 CSA/HCA 稀疏注意力<strong>同源协同设计</strong>的直接证据——印证 DeepSeek "算法-系统-硬件"一体化打法。</p>
+<h3>7.4 线上实测（vs MTP-1，Figure 7/8）</h3>
+<table>
+<thead>
+<tr>
+<th>引擎</th>
+<th>中等档</th>
+<th>极端档（MTP-1 近极限）</th>
+<th>同吞吐单用户提速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>V4-Flash</strong></td>
+<td>80 TPS：吞吐 +51%</td>
+<td>120 TPS：名义 <strong>+661%</strong></td>
+<td><strong>+60%~85%</strong></td>
+</tr>
+<tr>
+<td><strong>V4-Pro</strong></td>
+<td>35 TPS：吞吐 +52%</td>
+<td>50 TPS：名义 <strong>+406%</strong></td>
+<td><strong>+57%~78%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>【事实】+661%/+406% 论文自注="把可用交互档位往外扩，不是真倍数提速"。<strong>负载自适应</strong>：验证预算从 MTP-1 静态 2 token → 中等负载 <strong>4–6 token</strong>，高并发自动收紧（闲时多验、忙时留批量给排队请求）。</p>
+<h3>7.5 短板（论文自陈）</h3>
+<p>【事实】起草第一块草稿是<strong>固定开销</strong>，遇本身难、接受率低的请求收不回。后续方向=草稿模型按难度提前停（difficulty-aware early exit）。</p>
+<hr />
+<h2>8. 精读判断（观点）</h2>
+<ol>
+<li><strong>真正的新意在"验证"不在"草稿"</strong>。半自回归是把 DFlash + Eagle3 的优点缝起来（高质量工程整合）；算硬创新的是把<strong>验证长度做成随负载实时调度、还严格无损</strong>的问题——业界第一次系统性做并落主力产品。</li>
+<li><strong>"无损"是贯穿始终的纪律</strong>。拒绝采样 → 提前停止 → 异步因果屏障，每一步都小心不破坏"输出分布严格等于目标模型"。这是它敢直接换掉线上 MTP-1 的底气。</li>
+<li><strong>护城河在工程不在算法</strong>。算法已开源可复现（DeepSpec）；真正难抄的是"在 V4 生产系统跑通"那一摊——HAI-LLM 训练优化、ZOS 异步调度、变长 kernel、SPS 成本表、与稀疏注意力协同。这部分别家短期难复制。</li>
+<li><strong>协同设计的味道很重</strong>。只改 2 个 kernel 就上 V4，说明 DSpark 和 V4 稀疏注意力是一套人马协同设计。</li>
+</ol>
+<hr />
+<h2>9. 投资 read-through（简短）</h2>
+<p>【观点】放回 token 经济方程 <code>紧缺度 = g_D − (g_S + g_E)</code>，DSpark 是 <strong><code>g_E</code>（每 FLOP 产 token 效率）的一个增量</strong>——与稀疏注意力正交、可叠加的"第二把降本刀"（稀疏=少读 KV，投机=打断逐字串行）。对格局的意义不在技术本身，而在<strong>继续强化"中国大模型在受限算力下用算法/系统工程对冲硬件代差"主线</strong>：同一批 GPU 单用户出字 +60–85%，直接改写 MaaS 单位经济（每 token 成本、每卡服务用户数）。<strong>不下评级</strong>；值得跟的观察锚：① V4 线上 token 单价是否随之下调（验 g_E 是否传导到价格）② 昇腾推理集群规模化进度 ③ GLM/MiniMax/Kimi 是否跟进投机解码（目前只有 DeepSeek 在主力产品落地）。</p>
+<hr />
+<h2>关联</h2>
+<ul>
+<li><strong>原文 raw</strong>：[[20260627_DSpark论文_DeepSeek北大_原文.pdf]]（一手 A 级原文；全文检索直接看 PDF）</li>
+<li><strong>白话/可视化姊妹篇</strong>：[[20260628_DSpark投机解码_白话讲解]]（HTML，含原论文 6 张真图 + 老板/秘书流程图 + 左侧目录；本笔记的白话内容已在 §白话速通版 同步收录）</li>
+<li><strong>同主题横切</strong>：[[20260617_国产大模型技术横切_稀疏注意力与coding能力_by_claude]]（A5 节已收 DSpark · 全面展示 HTML 同目录）</li>
+<li><strong>入口 wiki</strong>：[[国内大模型梯队]]（last_event 已记 DSpark）</li>
+<li><strong>方法论参考</strong>：[[Agentic推理Token经济学]]（DSpark = g_E 增量的具体案例）/ [[极致协同设计]]（DeepSeek 算法-系统-硬件一体化）</li>
+<li><strong>公众号源头</strong>：[[Clippings/20260627 投机解码speculative decoding 推理速度更快]]（Datawhale，本笔记的最初引子）</li>
+</ul>
+<h2>工作流定位</h2>
+<ul>
+<li><strong>本次任务属于</strong>：② 信息处理（论文精读 + 结构化）+ ③ 输出展示</li>
+<li><strong>AI 能力边界</strong>：技术拆解和数字核对是高保真信息处理（A 级）；§8 判断、§9 投资 read-through 是基于研究员框架的放大，不构成独立信号</li>
+<li><strong>建议补充</strong>（① 段，研究员需自做）：① V4 线上 token 定价跟踪以验证 g_E→价格传导 ② 昇腾推理集群 channel check</li>
+</ul>
+</div></div></body></html>

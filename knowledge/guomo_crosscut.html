@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国产大模型技术横切 · 架构怎么省 + 能力从哪来</title>
+<style>
+  :root{
+    --bg:#f4f2ec; --paper:#ffffff; --ink:#2C2C2A; --muted:#5F5E5A; --hint:#888780;
+    --line:#e6e3da; --line2:#ececec;
+    --teal:#1D9E75; --tealbg:#E1F5EE; --blue:#378ADD; --bluebg:#E6F1FB;
+    --purple:#7F77DD; --purplebg:#EEEDFE; --coral:#D85A30; --coralbg:#FAECE7;
+    --amber:#EF9F27; --amberbg:#FAEEDA; --graybg:#F1EFE8;
+    --mono:"JetBrains Mono",ui-monospace,"SF Mono",Consolas,monospace;
+    --sans:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.75;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px;}
+  header.top{padding:48px 0 28px;border-bottom:2px solid var(--ink);margin-bottom:8px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin:0 0 10px;}
+  h1{font-size:29px;line-height:1.25;font-weight:700;margin:0 0 12px;letter-spacing:-.01em;}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px;}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 9px;border-radius:20px;border:1px solid var(--coral);color:var(--coral);background:var(--coralbg);}
+  .lede{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:0 12px 12px 0;padding:18px 22px;margin:26px 0 10px;font-size:16.5px;}
+  .lede b{font-weight:600;}
+  nav.toc{font-family:var(--mono);font-size:12.5px;background:var(--paper);border-right:1px solid var(--line);padding:26px 18px 40px;margin:0;
+    position:fixed;left:0;top:0;bottom:0;width:248px;overflow-y:auto;z-index:10;}
+  nav.toc .toctitle{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin:0 0 12px;font-weight:600;}
+  nav.toc a{color:var(--muted);text-decoration:none;display:block;padding:4px 6px;border-radius:6px;break-inside:avoid;line-height:1.45;}
+  nav.toc a:hover{color:var(--coral);background:var(--coralbg);}
+  nav.toc a span{color:var(--hint);margin-right:8px;}
+  nav.toc .grp{font-weight:600;color:var(--ink);padding-top:14px;}
+  .wrap{margin-left:288px;}
+  .keypoints{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--coral);border-radius:0 0 14px 14px;padding:16px 22px 10px;margin:24px 0 8px;}
+  .keypoints h3{margin:0 0 8px;font-size:13px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--coral);}
+  .kp{display:flex;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line2);font-size:14.5px;}
+  .kp:last-child{border-bottom:none;}
+  .kp .kn{font-family:var(--mono);font-weight:700;color:var(--coral);flex-shrink:0;font-size:13px;padding-top:2px;}
+  @media(max-width:1180px){
+    nav.toc{position:static;width:auto;border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:22px 0 30px;columns:2;column-gap:32px;overflow:visible;}
+    nav.toc .toctitle{column-span:all;}
+    .wrap{margin-left:auto;}
+  }
+  .partbar{margin:48px 0 4px;padding:14px 20px;border-radius:12px;background:var(--ink);color:#f4f2ec;}
+  .partbar .pk{font-family:var(--mono);font-size:12px;letter-spacing:.1em;opacity:.7;}
+  .partbar h2{border:none;margin:2px 0 0;padding:0;font-size:20px;font-weight:600;color:#fff;}
+  section{margin:0 0 14px;scroll-margin-top:16px;}
+  h2{font-size:21px;font-weight:700;margin:42px 0 6px;padding-top:18px;border-top:1px solid var(--line2);}
+  h2 .n{font-family:var(--mono);font-size:15px;color:var(--coral);margin-right:10px;}
+  h3{font-size:17px;font-weight:600;margin:24px 0 6px;}
+  p{margin:10px 0;}
+  .dek{color:var(--muted);font-size:14.5px;margin:2px 0 14px;}
+  .tag{font-family:var(--mono);font-size:11px;font-weight:500;padding:1px 7px;border-radius:4px;margin-right:6px;white-space:nowrap;}
+  .tag-f{background:var(--bluebg);color:#0C447C;} .tag-o{background:var(--amberbg);color:#633806;}
+  figure{margin:18px 0 6px;background:var(--paper);border:1px solid var(--line2);border-radius:14px;padding:18px 14px 12px;}
+  figure.orig img{width:100%;height:auto;display:block;border-radius:8px;}
+  figure.orig{padding:10px 10px 8px;}
+  figcaption{color:var(--muted);font-size:13px;margin-top:8px;text-align:center;}
+  svg{width:100%;height:auto;display:block;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;background:var(--paper);border-radius:10px;overflow:hidden;border:1px solid var(--line);}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line2);vertical-align:top;}
+  th{background:#faf8f3;font-weight:600;font-size:13px;}
+  tr:last-child td{border-bottom:none;}
+  td code,p code{font-family:var(--mono);font-size:12.5px;background:#f0eee7;padding:1px 5px;border-radius:4px;}
+  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:18px 0;}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;}
+  .card h4{margin:0 0 4px;font-size:15.5px;font-weight:600;}
+  .card .net{font-family:var(--mono);font-size:12px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);}
+  .card ul{margin:8px 0 0;padding-left:16px;font-size:13.5px;color:var(--muted);}
+  .card li{margin:3px 0;}
+  .c-compute{border-top:3px solid var(--coral);} .c-mem{border-top:3px solid var(--amber);} .c-net{border-top:3px solid var(--coral);}
+  .qbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:6px 4px;margin:16px 0;}
+  .q{display:flex;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line2);}
+  .q:last-child{border-bottom:none;}
+  .q .num{font-family:var(--mono);font-weight:700;color:var(--coral);font-size:15px;flex-shrink:0;}
+  .q .body{font-size:14.5px;}
+  .keyline{background:var(--tealbg);border-radius:10px;padding:12px 18px;margin:16px 0;font-size:15px;}
+  pre.stack{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:auto;color:var(--ink);}
+  footer{margin-top:50px;padding-top:18px;border-top:2px solid var(--ink);font-size:13px;color:var(--muted);}
+  footer a{color:var(--blue);}
+  footer h4{font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--hint);margin:14px 0 6px;}
+  .box-gray{fill:var(--graybg);stroke:var(--hint);} .box-teal{fill:var(--tealbg);stroke:var(--teal);}
+  .box-blue{fill:var(--bluebg);stroke:var(--blue);} .box-purple{fill:var(--purplebg);stroke:var(--purple);}
+  .box-coral{fill:var(--coralbg);stroke:var(--coral);} .box-amber{fill:var(--amberbg);stroke:var(--amber);}
+  rect[class^="box"]{stroke-width:.5;}
+  .t{font-size:14px;fill:var(--ink);} .ts{font-size:12px;fill:var(--muted);} .th{font-size:14px;font-weight:500;fill:var(--ink);}
+  .arr{stroke:var(--hint);stroke-width:1.5;fill:none;} .leader{stroke:var(--hint);stroke-width:.5;stroke-dasharray:3 3;fill:none;}
+  @media(max-width:680px){.cards{grid-template-columns:1fr;}nav.toc{columns:1;}h1{font-size:23px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="kicker">AI 模型层 · 横切研究 · 架构 + 训练方法</p>
+  <h1>国产大模型技术横切<br>——架构怎么省 + 能力从哪来</h1>
+  <div class="meta">
+    <span>DeepSeek · GLM 智谱 · MiniMax · Qwen · Kimi · 豆包</span>
+    <span>2026-06-17 · 06-28 增补 A5 投机解码 · 07-16 增补 A7 V4 推理优化 · 07-17 增补 A8 Kimi K3 / KDA · 07-25 增补 Part C 架构图鉴（11 模型原图）</span>
+    <span class="badge">主文 by_claude · A8 by_codex · 不含投资评级</span>
+  </div>
+</header>
+
+<div class="keypoints" id="kp">
+  <h3>核心要点 · 30 秒版</h3>
+  <div class="kp"><div class="kn">1</div><div>两层框架：<b>架构层（怎么算）开源可见、已是 commodity；能力层（怎么训）不透明、才是真护城河</b>——想懂"怎么省"看架构，想懂"为什么强"别 diff 代码。</div></div>
+  <div class="kp"><div class="kn">2</div><div>稀疏注意力三家殊途同归，只有压缩/选择两把刀：DeepSeek V4 压×选 <b>KV→2%</b>；GLM-5.2 选+复用 <b>FLOPs→1/2.9</b>；MiniMax M3 块状选 <b>decode 15×</b>。</div></div>
+  <div class="kp"><div class="kn">3</div><div>DSpark 投机解码与稀疏注意力正交叠加（无损），生产环境单用户出字 <b>+60~85%</b>（V4-Flash，A 级）——DeepSeek 两条腿都上了主力产品。</div></div>
+  <div class="kp"><div class="kn">4</div><div>V4 五图闭环（A7）：CSA/HCA 把 KV <b>做小</b> → DSpark 把出字<b>做快</b> → KV-cache 分层存储把算过的 <b>存起来复用</b>；KV 已从"显存临时变量"变成跨 DRAM/SSD/网络的存储层产品。</div></div>
+  <div class="kp"><div class="kn">5</div><div>coding 能力来源 = <b>RLVR（可验证奖励 RL）+ agentic harness</b>，与架构关系不大；智谱独一档在于把"考场"（slime RL 框架）也开源了，benchmark 分数本身各家已在噪声内。</div></div>
+  <div class="kp"><div class="kn">6</div><div>硬件 read-through：算法效率↑但需求增速更快（Jevons），算力净需求↑；存力结构性重排（DRAM/SSD/存储网络配比上升）；scale-up 互联成第一瓶颈——"算法-基建协同"部分对冲国产卡硬件代差。</div></div>
+  <div class="kp"><div class="kn">7</div><div>Kimi K3 的 KDA <b>不是稀疏注意力</b>：它把历史压进固定大小的关联记忆，用 delta rule 按预测误差更新；再以 <b>3×KDA + 1×Gated MLA</b> 混合，分别兼顾长序列效率与精确全局检索。</div></div>
+</div>
+
+<div class="lede">
+  这篇合并研究回答同一个问题的两半。把模型技术拆成两层就全通了：<b>架构层（怎么算）= 开源能看到</b>，稀疏注意力住这里；<b>能力层（学到什么）= 开源看不到</b>，coding 能力住这里。第一篇能从代码/技术报告看清，第二篇恰恰点破——<b>真正的能力来源不在你能 diff 的 GitHub 代码里。</b>
+</div>
+
+<nav class="toc">
+  <p class="toctitle">目录 · Contents</p>
+  <a href="#kp"><span>★</span>核心要点速览</a>
+  <a href="#s0"><span>00</span>统一框架：两层栈</a>
+  <a class="grp" href="#partA">Part A · 架构层（长上下文）</a>
+  <a href="#a1"><span>A1</span>注意力的两笔账</a>
+  <a href="#a2"><span>A2</span>压缩 vs 选择</a>
+  <a href="#a3"><span>A3</span>三家机制</a>
+  <a href="#a4"><span>A4</span>侧视对比</a>
+  <a href="#a5"><span>A5</span>投机解码 DSpark</a>
+  <a href="#asum"><span>A·总览</span>三刀一图对比</a>
+  <a href="#a6"><span>A6</span>硬件投资含义</a>
+  <a href="#a7"><span>A7</span>V4 推理优化五图逐帧解读</a>
+  <a href="#a8"><span>A8</span>Kimi K3：KDA + AttnRes + MoE</a>
+  <a class="grp" href="#partC">Part C · 架构图鉴（原图+图解）</a>
+  <a href="#c0"><span>C0</span>读图法 + 四路线总表</a>
+  <a href="#c1"><span>C1</span>DeepSeek V3（模板机）</a>
+  <a href="#c2"><span>C2</span>Kimi K2</a>
+  <a href="#c3"><span>C3</span>DeepSeek V3.2（DSA）</a>
+  <a href="#c4"><span>C4</span>GLM-5</a>
+  <a href="#c5"><span>C5</span>DeepSeek V4 Pro</a>
+  <a href="#c6"><span>C6</span>Kimi K2.5（+视觉）</a>
+  <a href="#c7"><span>C7</span>Kimi K3（草稿）</a>
+  <a href="#c8"><span>C8</span>MiniMax M2.5</a>
+  <a href="#c9"><span>C9</span>Qwen3.5</a>
+  <a href="#c10"><span>C10</span>Qwen3-VL</a>
+  <a href="#c11"><span>C11</span>Step 3.5 Flash</a>
+  <a href="#csum"><span>C·总览</span>11 模型速查表</a>
+  <a class="grp" href="#partB">Part B · 能力层（coding）</a>
+  <a href="#b1"><span>B1</span>为什么 coding 吃 RL</a>
+  <a href="#b2"><span>B2</span>为何 git 看不出</a>
+  <a href="#b3"><span>B3</span>智谱的真领先：slime</a>
+  <a href="#b4"><span>B4</span>各家横向对比</a>
+  <a href="#end"><span>★</span>统一洞察 + Challenge</a>
+</nav>
+
+<section id="s0">
+  <h2><span class="n">00</span>统一框架：模型技术的两层栈</h2>
+  <p class="dek">下面一切都挂在这张栈上：越往上越是护城河，但 GitHub 上只看得到最底层。</p>
+  <pre class="stack">能力层（学到什么）  ← coding 能力：数据 + RL 可验证奖励 + agentic harness
+────────────────────  ⚠️ 几乎不开源，GitHub 看不到
+架构层（怎么算）     ← 稀疏选择 / 固定状态线性注意力：怎么把 1M 上下文算得起
+────────────────────  ✅ 开源可见（modeling 代码 + 技术报告）</pre>
+  <figure>
+    <svg viewBox="0 0 680 348" role="img"><title>模型 coding 能力的四层栈</title>
+    <text class="ts" x="470" y="36" text-anchor="middle">GitHub 看得到？</text>
+    <text class="ts" x="586" y="36" text-anchor="middle">解释能力差距？</text>
+    <rect class="box-coral" x="40" y="44" width="360" height="52" rx="4"/><text class="th" x="56" y="68" text-anchor="start">④ Agentic Harness 层</text><text class="ts" x="56" y="86" text-anchor="start">沙箱 / 测试用例 / 多轮 rollout 工程</text>
+    <rect class="box-gray" x="418" y="57" width="104" height="26" rx="4"/><text class="ts" x="470" y="74" text-anchor="middle">大多 ✗</text>
+    <rect class="box-coral" x="530" y="57" width="110" height="26" rx="4"/><text class="ts" x="585" y="74" text-anchor="middle">强（真护城河）</text>
+    <rect class="box-coral" x="40" y="104" width="360" height="52" rx="4"/><text class="th" x="56" y="128" text-anchor="start">③ RL 可验证奖励层</text><text class="ts" x="56" y="146" text-anchor="start">跑测试给奖励 · 自我试错进化</text>
+    <rect class="box-gray" x="418" y="117" width="104" height="26" rx="4"/><text class="ts" x="470" y="134" text-anchor="middle">recipe ✗</text>
+    <rect class="box-coral" x="530" y="117" width="110" height="26" rx="4"/><text class="ts" x="585" y="134" text-anchor="middle">强（核心引擎）</text>
+    <rect class="box-amber" x="40" y="164" width="360" height="52" rx="4"/><text class="th" x="56" y="188" text-anchor="start">② 数据层</text><text class="ts" x="56" y="206" text-anchor="start">code 占比 + SWE 可验证数据</text>
+    <rect class="box-gray" x="418" y="177" width="104" height="26" rx="4"/><text class="ts" x="470" y="194" text-anchor="middle">部分</text>
+    <rect class="box-amber" x="530" y="177" width="110" height="26" rx="4"/><text class="ts" x="585" y="194" text-anchor="middle">中（公约数）</text>
+    <rect class="box-gray" x="40" y="224" width="360" height="52" rx="4"/><text class="th" x="56" y="248" text-anchor="start">① 架构层</text><text class="ts" x="56" y="266" text-anchor="start">MoE + 稀疏注意力 / 线性状态记忆 + MTP</text>
+    <rect class="box-teal" x="418" y="237" width="104" height="26" rx="4"/><text class="ts" x="470" y="254" text-anchor="middle">✓ 看得到</text>
+    <rect class="box-gray" x="530" y="237" width="110" height="26" rx="4"/><text class="ts" x="585" y="254" text-anchor="middle">弱（commodity）</text>
+    <rect class="box-coral" x="40" y="296" width="600" height="36" rx="4"/><text class="ts" x="340" y="318" text-anchor="middle">想 diff 的 GitHub 代码 = 最底层 ①，恰恰是最不解释 coding 差距的一层</text>
+    </svg>
+    <figcaption>图 0 · 总纲：Part A 解剖第①层（稀疏注意力），Part B 解剖第③④层（coding 能力）</figcaption>
+  </figure>
+</section>
+
+<div class="partbar" id="partA"><div class="pk">PART A</div><h2>架构层：稀疏注意力 + 线性状态记忆——怎么把长上下文跑便宜</h2></div>
+
+<section id="a1">
+  <h2><span class="n">A1</span>标准注意力的两笔账</h2>
+  <p><span class="tag tag-f">事实</span>每个 token 投影成 <b>Query / Key / Value</b>。注意力 = 当前 query 和前面每个 Key 点积打分 → softmax → 加权求和 Value。</p>
+  <figure>
+    <svg viewBox="0 0 680 230" role="img"><title>标准自注意力两笔成本</title>
+    <rect class="box-gray" x="64" y="44" width="40" height="36" rx="4"/><text class="ts" x="84" y="66" text-anchor="middle">t1</text>
+    <rect class="box-gray" x="134" y="44" width="40" height="36" rx="4"/><text class="ts" x="154" y="66" text-anchor="middle">t2</text>
+    <rect class="box-gray" x="204" y="44" width="40" height="36" rx="4"/><text class="ts" x="224" y="66" text-anchor="middle">t3</text>
+    <rect class="box-gray" x="274" y="44" width="40" height="36" rx="4"/><text class="ts" x="294" y="66" text-anchor="middle">t4</text>
+    <rect class="box-gray" x="344" y="44" width="40" height="36" rx="4"/><text class="ts" x="364" y="66" text-anchor="middle">t5</text>
+    <rect class="box-gray" x="414" y="44" width="40" height="36" rx="4"/><text class="ts" x="434" y="66" text-anchor="middle">t6</text>
+    <rect class="box-gray" x="484" y="44" width="40" height="36" rx="4"/><text class="ts" x="504" y="66" text-anchor="middle">t7</text>
+    <rect class="box-gray" x="554" y="44" width="40" height="36" rx="4"/><text class="ts" x="574" y="66" text-anchor="middle">t8</text>
+    <line x1="330" y1="160" x2="84" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="154" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="224" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="294" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="364" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="434" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="504" y2="80" stroke="#888780" stroke-width="0.5"/><line x1="330" y1="160" x2="574" y2="80" stroke="#888780" stroke-width="0.5"/>
+    <rect class="box-coral" x="250" y="160" width="160" height="40" rx="4"/><text class="th" x="330" y="185" text-anchor="middle">当前 query (t8)</text>
+    <rect class="box-coral" x="446" y="150" width="100" height="30" rx="4"/><text class="ts" x="496" y="169" text-anchor="middle">算力 ∝ L²</text>
+    <rect class="box-amber" x="446" y="188" width="120" height="30" rx="4"/><text class="ts" x="506" y="207" text-anchor="middle">显存/带宽 ∝ L</text>
+    </svg>
+    <figcaption>图 1 · 两笔账：算力 O(L²) + KV Cache 显存/带宽 O(L)</figcaption>
+  </figure>
+  <p><span class="tag tag-o">观点</span>推理分两段：<b>Prefill = 算力密集；Decode = 存力密集</b>（每吐一字都要全读 KV Cache）。长上下文让 KV Cache 爆炸 → 撞"装不下 + 读不动"两堵墙。稀疏注意力的本质就是拆这堵<b>存力墙</b>。而"逐字串行、一次只产一个 token"是另一半瓶颈——<b>A5 的投机解码（DSpark）专拆这条串行链</b>。</p>
+</section>
+
+<section id="a2">
+  <h2><span class="n">A2</span>稀疏注意力的两把刀；KDA 走第三条路</h2>
+  <table>
+    <tr><th>路线</th><th>改了什么</th><th>砍哪笔账</th><th>代价</th></tr>
+    <tr><td><b>压缩</b></td><td>让一个 KV 条目代表更多 token（m 个池化成 1 条）</td><td>主砍<b>显存</b></td><td>有损，细节可能糊</td></tr>
+    <tr><td><b>选择</b></td><td>KV 全留，只对最相关 top-k 算注意力</td><td>主砍<b>算力/带宽</b></td><td>要够便宜的打分器</td></tr>
+    <tr><td><b>固定状态记忆</b><br><span class="tag tag-f">KDA</span></td><td>KDA 层不保留逐 token KV，把历史递归压入固定大小状态矩阵</td><td>KDA 层的解码状态不随上下文线性增长</td><td>容量有限、不是精确检索，需周期性全注意力补位</td></tr>
+  </table>
+  <div class="keyline"><b>口径修正</b>：压缩省"存"，选择省"算"，这是<b>稀疏注意力</b>内部的两把刀；KDA 不挑历史 token，而是把历史改写成固定状态，属于<b>线性注意力 / 有限状态记忆</b>。DeepSeek V4 是前两把刀叠加，Kimi K3 是第三条路线与全局 MLA 混合。</div>
+</section>
+
+<section id="a3">
+  <h2><span class="n">A3</span>三家机制</h2>
+  <h3>A3.1　DeepSeek V4 = 压缩 × 选择（弃用 MLA，两路交错）</h3>
+  <figure>
+    <svg viewBox="0 0 680 410" role="img"><title>DeepSeek V4 CSA 与 HCA</title>
+    <defs><marker id="a2m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <rect class="box-gray" x="244" y="40" width="192" height="40" rx="4"/><text class="th" x="340" y="65" text-anchor="middle">原始 KV 序列 (L 个 token)</text>
+    <line class="arr" x1="340" y1="80" x2="192" y2="108" marker-end="url(#a2m)"/><line class="arr" x1="340" y1="80" x2="488" y2="108" marker-end="url(#a2m)"/>
+    <rect class="box-teal" x="66" y="108" width="252" height="40" rx="4"/><text class="th" x="192" y="133" text-anchor="middle">CSA · 压缩稀疏注意力</text>
+    <rect class="box-teal" x="66" y="164" width="252" height="40" rx="4"/><text class="t" x="192" y="189" text-anchor="middle">① 每 4 个 token 压成 1 块</text>
+    <rect class="box-teal" x="66" y="216" width="252" height="40" rx="4"/><text class="t" x="192" y="241" text-anchor="middle">② 索引器(FP4)打分选 top-k</text>
+    <rect class="box-teal" x="66" y="268" width="252" height="40" rx="4"/><text class="t" x="192" y="293" text-anchor="middle">③ 只在 top-k 块上算注意力</text>
+    <rect class="box-blue" x="362" y="108" width="252" height="40" rx="4"/><text class="th" x="488" y="133" text-anchor="middle">HCA · 重压缩注意力</text>
+    <rect class="box-blue" x="362" y="164" width="252" height="40" rx="4"/><text class="t" x="488" y="189" text-anchor="middle">① 每 128 token 压成 1 块</text>
+    <rect class="box-blue" x="362" y="216" width="252" height="40" rx="4"/><text class="t" x="488" y="241" text-anchor="middle">② 不选，对全部块 dense</text>
+    <rect class="box-blue" x="362" y="268" width="252" height="40" rx="4"/><text class="t" x="488" y="293" text-anchor="middle">③ 块极少，全看也便宜</text>
+    <line class="arr" x1="192" y1="148" x2="192" y2="164" marker-end="url(#a2m)"/><line class="arr" x1="192" y1="204" x2="192" y2="216" marker-end="url(#a2m)"/><line class="arr" x1="192" y1="256" x2="192" y2="268" marker-end="url(#a2m)"/><line class="arr" x1="488" y1="148" x2="488" y2="164" marker-end="url(#a2m)"/><line class="arr" x1="488" y1="204" x2="488" y2="216" marker-end="url(#a2m)"/><line class="arr" x1="488" y1="256" x2="488" y2="268" marker-end="url(#a2m)"/>
+    <line class="arr" x1="192" y1="308" x2="278" y2="336" marker-end="url(#a2m)"/><line class="arr" x1="488" y1="308" x2="402" y2="336" marker-end="url(#a2m)"/>
+    <rect class="box-coral" x="190" y="336" width="300" height="48" rx="4"/><text class="th" x="340" y="358" text-anchor="middle">交错堆叠 → KV 缓存 ~2% · 1M 上下文</text><text class="ts" x="340" y="376" text-anchor="middle">FP8 存 KV / FP4 索引器 / 各路再挂滑动窗口</text>
+    </svg>
+    <figcaption>图 2 · CSA 细看（压4×+选top-k）与 HCA 粗扫（压128×+全看）交错 → KV→2%</figcaption>
+  </figure>
+  <p class="dek">⚠️ m=4 / m'=128 精确参数来自 DeepSeek-V4 技术报告（B 级），本地纪要仅提概念性"10:1"。</p>
+
+  <h3>A3.2　GLM-5.2 = 选择 + 复用选择器（DSA + IndexShare）</h3>
+  <figure>
+    <svg viewBox="0 0 680 276" role="img"><title>GLM-5.2 IndexShare</title>
+    <defs><marker id="a3m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <rect class="box-amber" x="56" y="40" width="180" height="44" rx="4"/><text class="th" x="146" y="62" text-anchor="middle">索引器</text><text class="ts" x="146" y="78" text-anchor="middle">算一次 top-k 索引</text>
+    <rect class="box-blue" x="56" y="150" width="130" height="50" rx="4"/><text class="t" x="121" y="180" text-anchor="middle">① 含索引器</text>
+    <rect class="box-gray" x="196" y="150" width="130" height="50" rx="4"/><text class="t" x="261" y="180" text-anchor="middle">② 复用</text>
+    <rect class="box-gray" x="336" y="150" width="130" height="50" rx="4"/><text class="t" x="401" y="180" text-anchor="middle">③ 复用</text>
+    <rect class="box-gray" x="476" y="150" width="130" height="50" rx="4"/><text class="t" x="541" y="180" text-anchor="middle">④ 复用</text>
+    <line class="arr" x1="146" y1="84" x2="121" y2="150" marker-end="url(#a3m)"/><path class="leader" d="M236 62 L261 150" marker-end="url(#a3m)"/><path class="leader" d="M236 62 L401 150" marker-end="url(#a3m)"/><path class="leader" d="M236 62 L541 150" marker-end="url(#a3m)"/>
+    <line class="arr" x1="331" y1="200" x2="345" y2="216" marker-end="url(#a3m)"/>
+    <rect class="box-coral" x="180" y="216" width="340" height="40" rx="4"/><text class="th" x="350" y="241" text-anchor="middle">每 4 层共用 1 次索引 → FLOPs 1/2.9</text>
+    </svg>
+    <figcaption>图 3 · IndexShare：每 4 层只算一次索引器，后 3 层复用（来源 OpenLM.ai）</figcaption>
+  </figure>
+
+  <h3>A3.3　MiniMax M3 = GQA 之上块状选择（MSA）</h3>
+  <figure>
+    <svg viewBox="0 0 680 290" role="img"><title>MiniMax M3 MSA</title>
+    <defs><marker id="a4m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <rect class="box-gray" x="120" y="44" width="60" height="48" rx="4"/><text class="th" x="150" y="66" text-anchor="middle">块1</text><text class="ts" x="150" y="84" text-anchor="middle">✕ 0.2</text>
+    <rect class="box-teal" x="190" y="44" width="60" height="48" rx="4"/><text class="th" x="220" y="66" text-anchor="middle">块2</text><text class="ts" x="220" y="84" text-anchor="middle">✓ 0.9</text>
+    <rect class="box-gray" x="260" y="44" width="60" height="48" rx="4"/><text class="th" x="290" y="66" text-anchor="middle">块3</text><text class="ts" x="290" y="84" text-anchor="middle">✕ 0.1</text>
+    <rect class="box-teal" x="330" y="44" width="60" height="48" rx="4"/><text class="th" x="360" y="66" text-anchor="middle">块4</text><text class="ts" x="360" y="84" text-anchor="middle">✓ 0.8</text>
+    <rect class="box-gray" x="400" y="44" width="60" height="48" rx="4"/><text class="th" x="430" y="66" text-anchor="middle">块5</text><text class="ts" x="430" y="84" text-anchor="middle">✕ 0.3</text>
+    <rect class="box-gray" x="470" y="44" width="60" height="48" rx="4"/><text class="th" x="500" y="66" text-anchor="middle">块6</text><text class="ts" x="500" y="84" text-anchor="middle">✕ 0.2</text>
+    <rect class="box-teal" x="540" y="44" width="60" height="48" rx="4"/><text class="th" x="570" y="66" text-anchor="middle">块7</text><text class="ts" x="570" y="84" text-anchor="middle">✓ 0.7</text>
+    <rect class="box-coral" x="44" y="178" width="120" height="44" rx="4"/><text class="t" x="104" y="205" text-anchor="middle">query</text>
+    <rect class="box-amber" x="184" y="178" width="120" height="44" rx="4"/><text class="t" x="244" y="205" text-anchor="middle">索引分支打分</text>
+    <rect class="box-teal" x="324" y="178" width="120" height="44" rx="4"/><text class="t" x="384" y="205" text-anchor="middle">选 top-k 块</text>
+    <rect class="box-coral" x="464" y="178" width="120" height="44" rx="4"/><text class="t" x="524" y="205" text-anchor="middle">稀疏全注意力</text>
+    <line class="arr" x1="164" y1="200" x2="184" y2="200" marker-end="url(#a4m)"/><line class="arr" x1="304" y1="200" x2="324" y2="200" marker-end="url(#a4m)"/><line class="arr" x1="444" y1="200" x2="464" y2="200" marker-end="url(#a4m)"/>
+    <path class="leader" d="M384 178 L384 96" marker-end="url(#a4m)"/>
+    <rect class="box-gray" x="120" y="240" width="440" height="36" rx="4"/><text class="t" x="340" y="263" text-anchor="middle">块状粒度 · KV outer gather Q：每块只读一次</text>
+    </svg>
+    <figcaption>图 4 · MSA：切块 → 选 top-k 块 → 块内全看，访存连续（decode 15×）</figcaption>
+  </figure>
+</section>
+
+<section id="a4">
+  <h2><span class="n">A4</span>同序列侧视对比</h2>
+  <figure>
+    <svg viewBox="0 0 680 322" role="img"><title>三种机制同序列对比</title>
+    <rect class="box-teal" x="20" y="50" width="104" height="48" rx="4"/><text class="th" x="72" y="72" text-anchor="middle">DeepSeek V4</text><text class="ts" x="72" y="88" text-anchor="middle">CSA 压+选</text>
+    <rect class="box-gray" x="132" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="163" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="194" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="225" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="256" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="287" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="318" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="349" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="380" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="411" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="442" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="473" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="504" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="535" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="566" y="54" width="26" height="24" rx="3"/><rect class="box-gray" x="597" y="54" width="26" height="24" rx="3"/>
+    <rect class="box-coral" x="132" y="84" width="119" height="26" rx="4"/><text class="ts" x="191" y="101" text-anchor="middle">块1 选</text>
+    <rect class="box-gray" x="256" y="84" width="119" height="26" rx="4"/><text class="ts" x="315" y="101" text-anchor="middle">块2 ✕</text>
+    <rect class="box-coral" x="380" y="84" width="119" height="26" rx="4"/><text class="ts" x="439" y="101" text-anchor="middle">块3 选</text>
+    <rect class="box-gray" x="504" y="84" width="119" height="26" rx="4"/><text class="ts" x="563" y="101" text-anchor="middle">块4 ✕</text>
+    <rect class="box-blue" x="20" y="140" width="104" height="48" rx="4"/><text class="th" x="72" y="162" text-anchor="middle">GLM-5.2</text><text class="ts" x="72" y="178" text-anchor="middle">DSA + 复用</text>
+    <rect class="box-gray" x="132" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="163" y="150" width="26" height="24" rx="3"/><rect class="box-coral" x="194" y="150" width="26" height="24" rx="3"/><rect class="box-coral" x="225" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="256" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="287" y="150" width="26" height="24" rx="3"/><rect class="box-coral" x="318" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="349" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="380" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="411" y="150" width="26" height="24" rx="3"/><rect class="box-coral" x="442" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="473" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="504" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="535" y="150" width="26" height="24" rx="3"/><rect class="box-coral" x="566" y="150" width="26" height="24" rx="3"/><rect class="box-gray" x="597" y="150" width="26" height="24" rx="3"/>
+    <rect class="box-amber" x="132" y="182" width="180" height="22" rx="4"/><text class="ts" x="222" y="197" text-anchor="middle">同一组选择 · 4 层复用</text>
+    <rect class="box-purple" x="20" y="224" width="104" height="48" rx="4"/><text class="th" x="72" y="246" text-anchor="middle">MiniMax M3</text><text class="ts" x="72" y="262" text-anchor="middle">MSA 块状选</text>
+    <rect class="box-coral" x="132" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="163" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="194" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="225" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="256" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="287" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="318" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="349" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="380" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="411" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="442" y="234" width="26" height="24" rx="3"/><rect class="box-coral" x="473" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="504" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="535" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="566" y="234" width="26" height="24" rx="3"/><rect class="box-gray" x="597" y="234" width="26" height="24" rx="3"/>
+    <line x1="191" y1="264" x2="251" y2="264" stroke="#D85A30" stroke-width="2"/><line x1="315" y1="264" x2="375" y2="264" stroke="#888780" stroke-width="2"/><line x1="439" y1="264" x2="499" y2="264" stroke="#D85A30" stroke-width="2"/><line x1="563" y1="264" x2="623" y2="264" stroke="#888780" stroke-width="2"/>
+    <rect class="box-coral" x="132" y="296" width="16" height="14" rx="3"/><text class="ts" x="156" y="307" text-anchor="start">选中 = query 实际计算</text><rect class="box-gray" x="320" y="296" width="16" height="14" rx="3"/><text class="ts" x="344" y="307" text-anchor="start">灰 = 跳过</text>
+    </svg>
+    <figcaption>图 5 · DeepSeek 看压缩粗块 / GLM 看散点 token 但选一次用四层 / MiniMax 看连续整块</figcaption>
+  </figure>
+  <table>
+    <tr><th></th><th>用的刀</th><th>主砍</th><th>效果</th></tr>
+    <tr><td><b>DeepSeek V4</b></td><td>压缩×选择</td><td>存+算</td><td><b>KV→2%</b></td></tr>
+    <tr><td><b>GLM-5.2</b></td><td>选择+复用选择器</td><td>算</td><td><b>FLOPs→1/2.9</b></td></tr>
+    <tr><td><b>MiniMax M3</b></td><td>GQA+块状选择</td><td>存靠GQA/算靠选块</td><td><b>decode 15×/算力1/20</b></td></tr>
+  </table>
+</section>
+
+<section id="a5">
+  <h2><span class="n">A5</span>投机解码（DSpark）——降本第二把刀：打断"逐字串行"</h2>
+  <p class="dek">A1–A4 拆的是"存力墙"（每字都要重读 KV）；推理慢还有另一半——"逐字串行、一次只吐一个 token"。投机解码拆的是这条<b>串行链</b>，与稀疏注意力正交、可叠加。⚠️ 本节数字已逐条核对 DSpark 原论文（DeepSeek-AI + 北京大学，2026-06-27，<b>A 级</b>）。</p>
+
+  <div class="keyline"><b>两把刀的分工</b>：<b>稀疏注意力（A1–A4）= 少读</b>（砍 KV 的存/算）；<b>投机解码（A5）= 一次多吐</b>（砍逐字串行的延迟）。DeepSeek V4 两条腿都上：CSA/HCA + DSpark，后者已替换上一代 <code>MTP-1</code> 跑在 V4-Flash/Pro 线上流量——这是 DeepSeek 推理效率长线（MLA→MTP→稀疏注意力→DSpark）第一次直接落到主力产品。</div>
+
+  <h3>A5.1　机制：草稿猜一批，目标模型并行验证（无损）</h3>
+  <figure>
+    <svg viewBox="0 0 680 240" role="img"><title>投机解码机制</title>
+    <defs><marker id="a5am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <rect class="box-amber" x="20" y="40" width="124" height="40" rx="4"/><text class="th" x="82" y="60" text-anchor="middle">草稿模型</text><text class="ts" x="82" y="76" text-anchor="middle">小 · 快</text>
+    <line class="arr" x1="144" y1="60" x2="170" y2="60" marker-end="url(#a5am)"/>
+    <rect class="box-gray" x="172" y="40" width="68" height="40" rx="4"/><text class="t" x="206" y="65" text-anchor="middle">d1</text>
+    <rect class="box-gray" x="246" y="40" width="68" height="40" rx="4"/><text class="t" x="280" y="65" text-anchor="middle">d2</text>
+    <rect class="box-gray" x="320" y="40" width="68" height="40" rx="4"/><text class="t" x="354" y="65" text-anchor="middle">d3</text>
+    <rect class="box-gray" x="394" y="40" width="68" height="40" rx="4"/><text class="t" x="428" y="65" text-anchor="middle">d4</text>
+    <rect class="box-gray" x="468" y="40" width="68" height="40" rx="4"/><text class="t" x="502" y="65" text-anchor="middle">d5</text>
+    <rect class="box-gray" x="542" y="40" width="68" height="40" rx="4"/><text class="t" x="576" y="65" text-anchor="middle">d6</text>
+    <text class="ts" x="390" y="110" text-anchor="middle">目标模型一次前向 · 并行验证整批 ↓</text>
+    <line class="leader" x1="206" y1="80" x2="206" y2="150"/><line class="leader" x1="502" y1="80" x2="502" y2="150"/>
+    <rect class="box-coral" x="20" y="150" width="124" height="40" rx="4"/><text class="th" x="82" y="170" text-anchor="middle">目标模型</text><text class="ts" x="82" y="186" text-anchor="middle">完整</text>
+    <line class="arr" x1="144" y1="170" x2="170" y2="170" marker-end="url(#a5am)"/>
+    <rect class="box-teal" x="172" y="150" width="68" height="40" rx="4"/><text class="t" x="206" y="175" text-anchor="middle">✓ d1</text>
+    <rect class="box-teal" x="246" y="150" width="68" height="40" rx="4"/><text class="t" x="280" y="175" text-anchor="middle">✓ d2</text>
+    <rect class="box-teal" x="320" y="150" width="68" height="40" rx="4"/><text class="t" x="354" y="175" text-anchor="middle">✓ d3</text>
+    <rect class="box-teal" x="394" y="150" width="68" height="40" rx="4"/><text class="t" x="428" y="175" text-anchor="middle">✓ d4</text>
+    <rect class="box-coral" x="468" y="150" width="68" height="40" rx="4"/><text class="ts" x="502" y="174" text-anchor="middle">✗ 首拒</text>
+    <rect class="box-gray" x="542" y="150" width="68" height="40" rx="4"/><text class="ts" x="576" y="174" text-anchor="middle">丢弃</text>
+    <text class="ts" x="340" y="222" text-anchor="middle">本轮 = 4 接受 + 1 bonus = 5 token，仅 1 次目标模型前向；遇首拒(d5)丢弃其后 · 数学等价逐字 = 无损</text>
+    </svg>
+    <figcaption>图 6 · 草稿猜一批 → 目标模型 1 次前向并行验证 → 接受最长正确前缀 + 1 bonus，遇首个错即丢弃其后</figcaption>
+  </figure>
+  <p><span class="tag tag-o">观点</span><b>为什么"顺手多验"几乎免费</b>（接 A1 的 roofline）：decode 阶段是<b>存力密集</b>，目标模型验证 1 个 token 和验证 6 个 token，读的权重/KV 几乎一样多——瓶颈是搬数据不是算。算力本来就闲着，投机解码就是<b>拿闲置算力换被带宽卡住的时间</b>。所以它的核心指标是"平均接受长度"。</p>
+
+  <h3>A5.2　草稿的两条老路 + DSpark 的半自回归</h3>
+  <table>
+    <tr><th>路线</th><th>代表</th><th>优点</th><th>死穴</th></tr>
+    <tr><td>自回归草稿</td><td>Eagle3</td><td>逐个往后写，连贯</td><td>起草时间随长度线性增长 → 只能写短、网络浅</td></tr>
+    <tr><td>并行草稿</td><td>DFlash</td><td>一次出整串，耗时与长度无关 → 能写长</td><td>各位置独立 → 尾部"多模态碰撞"，接受率往后掉</td></tr>
+    <tr><td><b>半自回归</b></td><td><b>DSpark</b></td><td><b>并行骨干出整串 + 轻量串行补尾</b></td><td>串行模块仅 +0.2–1.3% 延迟</td></tr>
+  </table>
+  <figure>
+    <svg viewBox="0 0 680 300" role="img"><title>逐位置接受率</title>
+    <line x1="80" y1="60" x2="630" y2="60" stroke="#ececec" stroke-width="1"/><text class="ts" x="72" y="64" text-anchor="end">1.0</text>
+    <line x1="80" y1="120" x2="630" y2="120" stroke="#ececec" stroke-width="1"/><text class="ts" x="72" y="124" text-anchor="end">0.8</text>
+    <line x1="80" y1="180" x2="630" y2="180" stroke="#ececec" stroke-width="1"/><text class="ts" x="72" y="184" text-anchor="end">0.6</text>
+    <line x1="80" y1="240" x2="630" y2="240" stroke="#888780" stroke-width="1"/><text class="ts" x="72" y="244" text-anchor="end">0.4</text>
+    <line x1="80" y1="56" x2="80" y2="240" stroke="#888780" stroke-width="1"/>
+    <text class="ts" x="44" y="150" text-anchor="middle" transform="rotate(-90 44 150)">条件接受率</text>
+    <polyline points="80,81 170,84 260,84 350,87 440,87 530,90 620,90" fill="none" stroke="#D85A30" stroke-width="2.5"/>
+    <polyline points="80,96 170,105 260,114 350,120 440,126 530,129 620,132" fill="none" stroke="#378ADD" stroke-width="2.5"/>
+    <polyline points="80,117 170,117 260,117 350,117 440,114 530,114 620,114" fill="none" stroke="#EF9F27" stroke-width="2.5"/>
+    <circle cx="80" cy="81" r="3" fill="#D85A30"/><text class="ts" x="92" y="76" text-anchor="start">首位 0.93</text>
+    <text class="ts" x="80" y="258" text-anchor="middle">1</text><text class="ts" x="170" y="258" text-anchor="middle">2</text><text class="ts" x="260" y="258" text-anchor="middle">3</text><text class="ts" x="350" y="258" text-anchor="middle">4</text><text class="ts" x="440" y="258" text-anchor="middle">5</text><text class="ts" x="530" y="258" text-anchor="middle">6</text><text class="ts" x="620" y="258" text-anchor="middle">7</text>
+    <text class="ts" x="350" y="276" text-anchor="middle">草稿位置（越往后越难）</text>
+    <line x1="138" y1="290" x2="166" y2="290" stroke="#D85A30" stroke-width="2.5"/><text class="ts" x="172" y="294" text-anchor="start">DSpark 半自回归</text>
+    <line x1="318" y1="290" x2="346" y2="290" stroke="#378ADD" stroke-width="2.5"/><text class="ts" x="352" y="294" text-anchor="start">DFlash 并行</text>
+    <line x1="468" y1="290" x2="496" y2="290" stroke="#EF9F27" stroke-width="2.5"/><text class="ts" x="502" y="294" text-anchor="start">Eagle3 自回归</text>
+    </svg>
+    <figcaption>图 7 · 逐位置接受率（数学域示意）：DFlash 起点高但尾部衰减、跌破 Eagle3；DSpark 深并行骨干拿高起点(首位 0.93)+ Markov head 补尾 → 全程最高且稳</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>反直觉发现：并行草稿首位比自回归更准</b>。因并行起草与长度无关 → 网络能做更深 → 第一个 token 接受率反而高（数学 DFlash 0.88 vs Eagle3 0.81；对话 0.72 vs 0.53）。而前缀验证里<b>第一个 token 权重最高</b>（它一被拒后面整串作废）。DSpark 的串行模块默认 <code>Markov head</code>（只看紧邻前一个 token，低秩 <code>r=256</code>，几乎不增计算），把尾部连贯性补回来。</p>
+
+  <h3>A5.3　第二个创新：让"验证"也按负载动态调度</h3>
+  <p><span class="tag tag-o">观点</span>过去两年都在卷"草稿准不准"，DSpark 把矛头指向被忽略的<b>验证成本</b>：高并发下多验一个大概率被拒的 token，就占了目标模型本可服务别人的算力。三步走：</p>
+  <div class="qbox">
+    <div class="q"><div class="num">1</div><div class="body"><b>置信度头</b>：预测每个草稿 token 通过验证的概率。</div></div>
+    <div class="q"><div class="num">2</div><div class="body"><b>STS 事后校准</b>：神经网络给的置信度偏乐观 → 校准把它拉回真实接受率（<b>ECE 3–8% → ~1%</b>），只改绝对值不改排序。</div></div>
+    <div class="q"><div class="num">3</div><div class="body"><b>硬件感知调度器</b>：把"验多长"建模成吞吐最大化问题，按当前负载动态定——闲时多验多接受、忙时收紧（中等负载每请求验 4–6 token）。</div></div>
+  </div>
+
+  <h3>A5.4　效果（原论文 A 级）</h3>
+  <table>
+    <tr><th>维度</th><th>数字</th><th>口径</th></tr>
+    <tr><td>平均接受长度 vs Eagle3</td><td><b>+26.7%–30.9%</b></td><td>离线 · Qwen3 4B/8B/14B + Gemma4-12B</td></tr>
+    <tr><td>平均接受长度 vs DFlash</td><td><b>+16.3%–18.4%</b></td><td>同上</td></tr>
+    <tr><td>单用户出字提速 · V4-Flash</td><td><b>+60%–85%</b></td><td>生产环境 · 同吞吐 vs MTP-1</td></tr>
+    <tr><td>单用户出字提速 · V4-Pro</td><td><b>+57%–78%</b></td><td>同上</td></tr>
+    <tr><td>极端档（120 tok/s/user）</td><td>名义 +661%</td><td>⚠️ 扩"可用交互档位"，非真实 6× 提速（论文自注）</td></tr>
+  </table>
+  <p class="dek">短板：起草第一块草稿是固定开销，遇本身难、接受率低的复杂请求收不回成本；后续方向 = 让草稿模型按难度提前停。｜ 论文署名 <b>DeepSeek-AI + 北京大学</b>（中文公众号"北大合作"准确，英文二手 MarkTechPost 反而漏标北大）。</p>
+</section>
+
+<section id="asum">
+  <h2><span class="n">A·总览</span>三刀一图：QKV → 稀疏 → 投机，各在哪一环动刀</h2>
+  <p class="dek">把 A1（QKV 两笔账）+ A2–A4（稀疏）+ A5（投机）缝成一张图：谁在"生成一个 token"的流水线哪一环优化、效果、代价。</p>
+  <figure>
+    <svg viewBox="0 0 700 300" role="img"><title>三种推理优化在生成流水线上的位置</title>
+    <defs><marker id="asm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <rect class="box-coral" x="260" y="40" width="132" height="42" rx="8"/><text class="th" x="326" y="59" text-anchor="middle">① 稀疏注意力</text><text class="ts" x="326" y="75" text-anchor="middle">只和少数 K 算</text>
+    <path class="leader" d="M326 82 L326 116" marker-end="url(#asm)"/>
+    <rect class="box-gray" x="20" y="118" width="104" height="46" rx="7"/><text class="t" x="72" y="146" text-anchor="middle">历史序列</text>
+    <rect class="box-gray" x="140" y="118" width="104" height="46" rx="7"/><text class="t" x="192" y="146" text-anchor="middle">投影 Q/K/V</text>
+    <rect class="box-gray" x="260" y="118" width="132" height="46" rx="7"/><text class="t" x="326" y="137" text-anchor="middle">注意力</text><text class="ts" x="326" y="153" text-anchor="middle">Q·K → softmax → ·V</text>
+    <rect class="box-gray" x="408" y="118" width="92" height="46" rx="7"/><text class="t" x="454" y="146" text-anchor="middle">FFN / MoE</text>
+    <rect class="box-gray" x="516" y="118" width="120" height="46" rx="7"/><text class="t" x="576" y="146" text-anchor="middle">下一个 token</text>
+    <path class="arr" d="M124 141 L138 141" marker-end="url(#asm)"/>
+    <path class="arr" d="M244 141 L258 141" marker-end="url(#asm)"/>
+    <path class="arr" d="M392 141 L406 141" marker-end="url(#asm)"/>
+    <path class="arr" d="M500 141 L514 141" marker-end="url(#asm)"/>
+    <text class="ts" x="306" y="186" text-anchor="middle" font-style="italic">QKV 基准 · 两笔账：算力 O(L²) ＋ 存力 KV cache O(L)</text>
+    <path class="arr" d="M576 164 L576 204 Q576 212 568 212 L80 212 Q72 212 72 204 L72 166" marker-end="url(#asm)"/>
+    <text class="ts" x="324" y="206" text-anchor="middle">逐字串行 · 每轮只产 1 个 token</text>
+    <path class="leader" d="M326 212 L326 244" marker-end="url(#asm)"/>
+    <rect class="box-blue" x="210" y="246" width="232" height="44" rx="8"/><text class="th" x="326" y="265" text-anchor="middle">② 投机解码</text><text class="ts" x="326" y="281" text-anchor="middle">草稿猜 N 个 · 一次并行验证整批</text>
+    </svg>
+    <figcaption>图 8 · 稀疏注意力在"注意力计算"环少读 KV（有损）；投机解码在"逐字循环"环一次多产（无损）；两者正交可叠加</figcaption>
+  </figure>
+  <table>
+    <tr><th>维度</th><th>QKV 标准注意力</th><th>稀疏注意力</th><th>投机解码</th></tr>
+    <tr><td><b>优化环节</b></td><td>基准 · 注意力计算本身</td><td>注意力计算（单次前向内）</td><td>逐字生成循环（跨前向）</td></tr>
+    <tr><td><b>怎么改</b></td><td>Q·K·V 全算全读</td><td>Q 只和压缩/选出的少数 K 算</td><td>草稿猜 N 个 → 目标一次并行验证</td></tr>
+    <tr><td><b>砍哪笔账</b></td><td>定义两笔账：算力 O(L²)＋存力 O(L)</td><td>存力为主（少读 KV）＋部分算力</td><td>串行延迟（N 次串行→1 次并行）</td></tr>
+    <tr><td><b>效果</b></td><td>（基准）</td><td>长上下文跑得起 · KV→~2% / decode 15×</td><td>单用户出字 +60~85% · 吃闲置算力</td></tr>
+    <tr><td><b>代价 / 有损</b></td><td>—</td><td><b>⚠️ 有损</b>：近似、可能漏远程依赖；需又快又准的选择器/索引器</td><td><b>✅ 无损</b>：但多花算力（草稿开销＋被拒 token 验证浪费）；需草稿模型</td></tr>
+  </table>
+  <div class="keyline"><b>一句话</b>：稀疏注意力和投机解码动的是<b>不同环节</b>（一个在注意力内"少读"、一个在生成循环"多产"）→ <b>正交、可叠加</b>。根上看代价性质：稀疏改了"算什么"→拿质量换成本（有损）；投机只改"一次算几个"→拿额外算力换时间（无损）。DeepSeek V4 两条腿都上：CSA/HCA ＋ DSpark。</div>
+</section>
+
+<section id="a6">
+  <h2><span class="n">A6</span>硬件投资含义：算力 / 存力 / 连接</h2>
+  <div class="cards">
+    <div class="card c-compute"><h4>算力 · GPU</h4><p style="font-size:13.5px;color:var(--muted);margin:4px 0 0;">单 token 算力↓，但 agentic 总量暴涨</p><ul><li>prefill 仍吃稠密</li><li>decode 变稀疏/不规则</li><li>算法效率成新乘数</li></ul><div class="net" style="color:var(--coral);">净需求：↑（Jevons）</div></div>
+    <div class="card c-mem"><h4>存力 · HBM+分层</h4><p style="font-size:13.5px;color:var(--muted);margin:4px 0 0;">per-token KV↓，但上下文爆炸对冲</p><ul><li>1M 上下文变可用</li><li>KV 卸载 CXL/SSD</li><li>内存层级变厚</li></ul><div class="net" style="color:#854F0B;">净方向：结构性重排</div></div>
+    <div class="card c-net"><h4>连接 · 超节点</h4><p style="font-size:13.5px;color:var(--muted);margin:4px 0 0;">稀疏没动它，MoE 让它成第一瓶颈</p><ul><li>scale-up &gt; scale-out</li><li>NVLink/超节点决定性</li><li>国产超节点对标</li></ul><div class="net" style="color:var(--coral);">净需求：↑（scale-up）</div></div>
+  </div>
+  <p><span class="tag tag-o">观点</span><b>总算力 ↔ 基建</b>：从"被存力封顶"变成"被算法放大"——每单位基建榨出的有效 token 跃升；但需求增速 &gt; 效率增速，绝对基建仍扩张（Jevons）。竞争力从"卡的数量"部分转向"算法-基础设施协同设计"，<b>部分抵消国产卡硬件劣势</b>——这是对国产算力链最值得记的 read-through。<b>A5 投机解码再叠一层</b>：同一批 GPU 单用户出字 +60–85%，等于在稀疏注意力之上又把"每张卡的有效 token 产出"往上顶——两把刀共同把"国产卡硬件代差"换算成"算法工程领先"去对冲。</p>
+</section>
+
+<section id="a7">
+  <h2><span class="n">A7</span>V4 推理优化五图逐帧解读（07-16 增补）</h2>
+  <p class="dek">研究员提供的 DeepSeek V4 推理优化总览图（技术报告图组转绘，B 级），共 5 帧：① CSA ② HCA ③ DSpark 解码循环 ④ 实测吞吐收益 ⑤ KV-cache 读路径。前四帧对应 A3.1 / A5 已有章节，这里对着原图逐帧、逐组件拆；<b>第⑤帧（KV-cache 分层存储读路径）是全新内容</b>——它揭示 KV cache 已经从"显存里的临时变量"变成一个跨 DRAM/SSD/网络的存储层产品。</p>
+  <figure class="orig">
+    <img src="20260716_DSV4推理优化五图_原图.png" alt="DeepSeek V4 Inference Optimizations 原图（五帧总览）">
+    <figcaption>原图 · DeepSeek V4 Inference Optimizations 五帧总览（下文逐帧切片解读）</figcaption>
+  </figure>
+
+  <h3>A7.1　帧①：CSA 压缩稀疏注意力——图上五个组件各干什么</h3>
+  <figure class="orig">
+    <img src="20260716_DSV4推理优化_p1_CSA.png" alt="帧① CSA 压缩稀疏注意力原图">
+    <figcaption>帧① 原图 · CSA：底部黄色条 = 原始 KV 隐状态；左路压缩、虚线框索引打分、汇合到顶部灰条</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span>对着原图看数据流。<b>起点是底部那排黄色小条</b>（Hidden States of KV Tokens，历史 token 的隐状态），从这里兵分两路，最终汇合到<b>顶部灰色长条</b>（Shared Key-Value Multi-Query Attention）；右侧绿色的 Queries / Hidden State of Query Token 是当前正在生成的 token，它全程只在最后一步进场。图上五个组件：</p>
+  <div class="qbox">
+    <div class="q"><div class="num">1</div><div class="body"><b>左下梯形 · Token 级压缩器（Token-Level Compressor）</b>：可学习的池化模块，把相邻 m 个 token 的 KV 压成 1 条——图上底部一长排黄条进去、上面只出来 5 个小条（Compressed KV Entries），就是在画"条目数被除掉"（A3.1：m=4）。这是"压缩"这把刀。</div></div>
+    <div class="q"><div class="num">2</div><div class="body"><b>右侧虚线框 · Lightning Indexer</b>：一个独立的迷你注意力，专职打分不产出。注意虚线框里<b>有自己的一个 Token-Level Compressor</b>（右下梯形）——索引器用的是自己压缩的"索引键"（Compressed Indexer Keys），配上绿色的 Indexer Queries 跑一遍轻量 Multi-Query Attention，输出图中那撮绿色小柱状图（Index Scores，每个压缩块与当前 query 的相关性分）。要点：它不碰真正的 V，算得极便宜（A3.1：FP4 精度），约等于"免费的目录检索"。</div></div>
+    <div class="q"><div class="num">3</div><div class="body"><b>中部倒梯形 · Top-k Selector</b>：接住 Index Scores（图上从右往左那根箭头），按分挑出最相关的 k 个压缩块（Selected Compressed KV Entries）——这是"选择"这把刀。压缩后再选，两把刀串联。</div></div>
+    <div class="q"><div class="num">4</div><div class="body"><b>左上角三个小黄块 · 滑动窗口 KV（Sliding Window KV Entries）</b>：最近若干 token 的 KV <b>不压缩、原样保留</b>。因为压缩对"刚说过的话"损伤最大（局部细节糊掉），窗口兜住近处，压缩+选择管远处。它和选中的压缩块在 Concatenation 处拼接。</div></div>
+    <div class="q"><div class="num">5</div><div class="body"><b>顶部灰条 · 共享 KV 多查询注意力</b>：所有 query 头共用同一套 KV（MQA 思路），KV 只存一份——在压缩×选择之外再省一层显存。注意 V4 这里已<b>弃用 MLA</b>，换成"压缩 KV + 共享 MQA"的组合。</div></div>
+  </div>
+  <div class="keyline"><b>一句话读图①</b>：先把书每 4 页装订成 1 摞（压缩器），再让一个飞快的图书管理员（索引器）告诉你哪几摞和手头问题相关（top-k），你只翻这几摞 + 手边最近几页（滑动窗口）。三重省：压缩省存、选择省算、共享 KV 再省存。</div>
+
+  <h3>A7.2　帧②：HCA 重压缩注意力——和 CSA 差在"删掉了选择"</h3>
+  <figure class="orig">
+    <img src="20260716_DSV4推理优化_p2_HCA.png" alt="帧② HCA 重压缩注意力原图">
+    <figcaption>帧② 原图 · HCA：对比帧①，整个虚线框（索引器）和 Top-k 选择器都没了，只剩一个压缩器</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span>把帧②和帧①并排看，差异一眼可见：<b>整个 Lightning Indexer 虚线框、Top-k 选择器、Index Scores 全部消失</b>，只剩一条极简通路——底部 KV 隐状态 → 唯一的梯形 Token-Level Compressor（压得狠得多，A3.1：128 个 token 压 1 条）→ Heavily Compressed KV Entries，与左侧滑动窗口 KV 在 Concatenation 拼接后直接进顶部共享 KV 多查询注意力——<b>对所有压缩块 dense 全看，不做筛选</b>。原图 caption 也点了题："激进合并 KV 条目，同时用滑动窗口 KV 保住局部上下文"。</p>
+  <table>
+    <tr><th></th><th>帧① CSA</th><th>帧② HCA</th></tr>
+    <tr><td>压缩比</td><td>温和（4:1）</td><td>激进（128:1）</td></tr>
+    <tr><td>选不选</td><td>索引器打分选 top-k</td><td>不选，全看（块已极少，全看也便宜）</td></tr>
+    <tr><td>看到什么</td><td>远处的<b>细节</b>（选中的块保真度较高）</td><td>远处的<b>大意</b>（每块是 128 token 的梗概）</td></tr>
+    <tr><td>类比</td><td>精读选中的章节</td><td>只看全书目录+摘要</td></tr>
+  </table>
+  <p><span class="tag tag-o">观点</span>为什么要两种层交错堆叠（A3.1 图 2 的结论）：CSA 层负责"找得准"，HCA 层负责"看得全"——纯 CSA 怕索引器漏选关键远程依赖，纯 HCA 怕细节全糊；交错后 HCA 层像天上的低分辨率全景雷达，CSA 层像地面的变焦镜头，互补把 KV 压到 ~2% 而精度损失可控。两帧图都保留滑动窗口，说明"近处永远不许糊"是两种层共同的底线。</p>
+
+  <h3>A7.3　帧③：DSpark 解码循环——一轮循环的三步棋</h3>
+  <figure class="orig">
+    <img src="20260716_DSV4推理优化_p3_DSpark.png" alt="帧③ DSpark 解码循环原图">
+    <figcaption>帧③ 原图 · 左侧上下两个 Target Model 是同一模型的两个时刻；右侧大框是草稿模型（下并行块、上串行块）+ 调度器</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span>这帧要按图上的圈号 ①→③ 逆时针走一轮（左下 → 右框自下而上 → 左上）：</p>
+  <div class="qbox">
+    <div class="q"><div class="num">①</div><div class="body"><b>左下框 · 目标模型正常吐 1 个字</b>：输入 A,B,C → 输出 D。这是循环的种子。</div></div>
+    <div class="q"><div class="num">②</div><div class="body"><b>右框自下而上 · 草稿模型猜一串</b>：D 和三个 <b>Mask 占位符</b>一起进绿色 <b>Parallel Block（并行块）</b>——一次前向同时产出所有位置的 Logits（图中四个并排的 Logits 框，位置间互不等待）；再过上方绿色 <b>Sequential Block（串行块）</b>——轻量串行模块（A5.2 的 Markov head，图上虚线弧表示"只看紧邻前一位"）把各位置独立的猜测"缝"成连贯的 E,F,G,H。这就是<b>半自回归</b>：深并行骨干管准度、轻串行补连贯，串行部分只加 0.2–1.3% 延迟。</div></div>
+    <div class="q"><div class="num">②′</div><div class="body"><b>右框顶部 · 硬件感知前缀调度器（漏斗图标）</b>：每个草稿 token 带一个置信度 C₁,C₂,C₃,C₄（A5.3 的置信度头 + STS 校准；注意图上 C₄ 是灰的），调度器按当前集群负载决定验证多长——E,F,G 落进"Keep"栏、H 落进"Drop"栏：H 通过验证的概率不值得占用目标模型算力，忙时宁可少验。</div></div>
+    <div class="q"><div class="num">③</div><div class="body"><b>左上框 · 目标模型一次前向并行验证</b>：D,E,F,G 一起进目标模型，逐位核对——图上 D✓ E✓ F✓、G* 打红叉。接受最长正确前缀，本轮多个 token 只花 1 次目标模型前向；G 之后作废，从 F 之后开下一轮（图左上角 next round 小字）。数学上严格等价逐字生成 = <b>无损</b>。</div></div>
+  </div>
+  <div class="keyline"><b>图③相对 A5 图 6 的增量信息</b>：图 6 讲的是"投机解码"通用机制；这帧图把 DSpark 的两个私货画出来了——<b>草稿内部的并行块+串行块两段式结构</b>（半自回归的具象），和<b>验证之前多了一道调度器闸门</b>（验多长不再固定，按负载动态定）。前者管"猜得准"，后者管"验得省"。</div>
+
+  <h3>A7.4　帧④：实测吞吐收益——散点图怎么读、六个百分比各是什么</h3>
+  <figure class="orig">
+    <img src="20260716_DSV4推理优化_p4_吞吐.png" alt="帧④ 实测吞吐收益原图">
+    <figcaption>帧④ 原图 · 左 V4-Flash / 右 V4-Pro；蓝 = MTP、绿 = DSpark；虚线框标注竖量（throughput）与横量（TPS）两种收益口径</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span>两幅散点图（左 V4-Flash、右 V4-Pro），横轴 <b>TPS = 单用户出字速度</b>（token/s/user），纵轴 <b>Throughput = 单卡总吞吐</b>（token/s/gpu）；蓝色点云 = 上一代 MTP，绿色点云 = DSpark。每朵点云都是一条<b>右下倾斜的前沿</b>——这是推理服务的根本取舍：想让每个用户更快（右移），就得少塞并发，单卡总产出下降（下移）。图上标了 6 个百分比：Flash 侧 +51% throughput / +60% TPS / +61% throughput / +85% TPS，Pro 侧 +52% throughput·+57% TPS / +40% throughput·+78% TPS——同一对点云在不同工作点量出来的数。</p>
+  <p><span class="tag tag-o">观点</span>DSpark 的意义是<b>整条前沿外移</b>，图上虚线就是两种量法的辅助线：<b>竖着量</b>（固定单用户速度，看单卡吞吐多多少）——Flash 在 ~75 TPS 处 +51%、Pro 在 ~40 TPS 处 +52%；<b>横着量</b>（固定单卡吞吐，看用户能快多少）——Flash +60%~85% TPS（越往高速档收益越大，+85% 出现在曲线右端低吞吐区），Pro +57%~78% 同理。同一条曲线的两种切法，对应两种商业化姿势：<b>竖切 = 同样体验下省卡（降成本）；横切 = 同样卡数下提速（卖体验，如 Pro 高速档定价）</b>。A5.4 表里的"+60–85%"就是横切口径。</p>
+  <p class="dek">⚠️ 读图纪律：点云在低 TPS 端收益收窄（两团点云趋近），说明重负载、高并发下闲置算力少，投机解码"拿闲算力换时间"的空间被压缩——收益不是常数，报数字必须带工作点（A5.4 的"极端档名义 +661%"即此陷阱）。</p>
+
+  <h3>A7.5　帧⑤：KV-cache 读路径——全新内容：KV 变成了一个存储产品</h3>
+  <figure class="orig">
+    <img src="20260716_DSV4推理优化_p5_KV读路径.png" alt="帧⑤ KV-cache 读路径原图">
+    <figcaption>帧⑤ 原图 · 左 (a) PE Read Path（紫红箭头）/ 右 (b) DE Read Path（蓝箭头）；每侧图例：粗箭头 = Full Block 整块搬、细箭头 = Layer Block 按层搬；箭头旁 (1)(2)… 是搬运步骤序号</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span>这帧图的前提是 <b>PD 分离（Prefill/Decode Disaggregation）</b>：读题（prefill，算力密集）和吐字（decode，存力密集）拆到两组不同的机器上跑，各自按瓶颈配硬件——图上左右两半里都同时画了 Prefill Engine 和 Decoding Engine 两个节点（node），两半的区别不是硬件，而是<b>命中的 KV 从仓库爬进系统的两条不同路线</b>。每个节点内部是一条四层存储阶梯：</p>
+  <pre class="stack">节点内的存储阶梯（从慢到快）：
+  持久化存储 Persistent Storage（跨节点共享的 KV 仓库，容量最大最便宜）
+      ↑ SNIC（Storage NIC · 存储网卡：节点 ↔ 存储网络）
+  DRAM（主机内存：GPU 显存放不下的 KV 暂存区）
+      ↑ CNIC（Compute NIC · 计算网卡：节点 ↔ 节点，PE→DE 传 KV 走这里）
+  GPU（HBM 显存：正在算的 KV 才配住这里）</pre>
+  <figure>
+    <svg viewBox="0 0 680 300" role="img"><title>KV-cache 命中后的两条读路径</title>
+    <defs><marker id="a7m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    <rect class="box-blue" x="40" y="40" width="270" height="168" rx="8"/><text class="th" x="175" y="62" text-anchor="middle">Prefill 节点（读题机）</text>
+    <rect class="box-teal" x="60" y="76" width="100" height="34" rx="4"/><text class="t" x="110" y="98" text-anchor="middle">GPU</text>
+    <rect class="box-gray" x="190" y="76" width="100" height="34" rx="4"/><text class="t" x="240" y="98" text-anchor="middle">CNIC</text>
+    <rect class="box-amber" x="60" y="124" width="230" height="30" rx="4"/><text class="t" x="175" y="144" text-anchor="middle">DRAM</text>
+    <rect class="box-coral" x="60" y="168" width="100" height="30" rx="4"/><text class="t" x="110" y="188" text-anchor="middle">SNIC</text>
+    <rect class="box-blue" x="380" y="40" width="270" height="168" rx="8"/><text class="th" x="515" y="62" text-anchor="middle">Decode 节点（吐字机）</text>
+    <rect class="box-gray" x="400" y="76" width="100" height="34" rx="4"/><text class="t" x="450" y="98" text-anchor="middle">CNIC</text>
+    <rect class="box-teal" x="530" y="76" width="100" height="34" rx="4"/><text class="t" x="580" y="98" text-anchor="middle">GPU</text>
+    <rect class="box-amber" x="400" y="124" width="230" height="30" rx="4"/><text class="t" x="515" y="144" text-anchor="middle">DRAM</text>
+    <rect class="box-coral" x="530" y="168" width="100" height="30" rx="4"/><text class="t" x="580" y="188" text-anchor="middle">SNIC</text>
+    <rect class="box-gray" x="40" y="240" width="610" height="34" rx="6"/><text class="t" x="345" y="262" text-anchor="middle">持久化存储 Persistent Storage（全集群共享 KV 仓库）</text>
+    <line class="arr" x1="110" y1="240" x2="110" y2="198" marker-end="url(#a7m)"/>
+    <line class="arr" x1="110" y1="168" x2="110" y2="154" marker-end="url(#a7m)"/>
+    <line class="arr" x1="130" y1="124" x2="118" y2="110" marker-end="url(#a7m)"/>
+    <line class="arr" x1="220" y1="124" x2="232" y2="110" marker-end="url(#a7m)"/>
+    <line class="arr" x1="290" y1="93" x2="400" y2="93" marker-end="url(#a7m)"/>
+    <line class="arr" x1="460" y1="110" x2="472" y2="124" marker-end="url(#a7m)"/>
+    <line class="arr" x1="562" y1="124" x2="572" y2="110" marker-end="url(#a7m)"/>
+    <line class="arr" x1="580" y1="240" x2="580" y2="198" marker-end="url(#a7m)"/>
+    <line class="arr" x1="580" y1="168" x2="580" y2="154" marker-end="url(#a7m)"/>
+    <text class="ts" x="345" y="82" text-anchor="middle">PE→DE 传 KV（节点间计算网络）</text>
+    <text class="ts" x="70" y="228" text-anchor="start">每个节点内：存储→SNIC→DRAM→CNIC→GPU 四层阶梯，Full/Layer Block 两种粒度混用</text>
+    </svg>
+    <figcaption>图 9 · 配套简化图（存储阶梯视角）：KV 命中后沿阶梯逐级上楼；PE 路径先落 prefill 节点再转发，DE 路径直接在 decode 节点这侧爬楼；持久化存储是全集群共享的 KV 仓库</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span>先读图例：每半幅里<b>粗箭头 = Full Block（整块搬运）、细箭头 = Layer Block（按层搬运）</b>——注意两种粒度在 PE、DE 两条路径里<b>都有</b>，不是一边一种。按图上的步骤序号走：</p>
+  <div class="qbox">
+    <div class="q"><div class="num">a</div><div class="body"><b>左半 · PE 读路径（紫红）</b>：用户带着历史对话回来，前文的 KV 之前算过、存在仓库里——命中的 KV 从 Persistent Storage 出发 (1)→SNIC (2)→DRAM，再经 CNIC 上到 GPU (4)(5)，在 <b>Prefill 节点</b>先落地；prefill 只对<b>新增</b>输入算注意力，然后把 KV 经 (6) CNIC→CNIC 的节点间网络推给 Decode 节点，在那边下到 DRAM/上到 GPU (7)(8)(9)。这就是"缓存命中"省钱的机制：<b>命中的部分完全不用重算，只花搬运费不花算力费</b>。</div></div>
+    <div class="q"><div class="num">b</div><div class="body"><b>右半 · DE 读路径（蓝）</b>：命中的 KV 不绕道 prefill，<b>直接在 Decode 节点这侧爬楼</b>——Persistent Storage (1)→SNIC (2)→DRAM (3)→CNIC→GPU (6)(7)，同时 (4)(5) 的箭头指向 Prefill 侧，即需要时也能把这份 KV 喂回给 prefill 用。适用场景：prefill 已经做完、decode 中途需要捞历史 KV（比如 KV 被换出到 DRAM/存储后再取回）。</div></div>
+    <div class="q"><div class="num">c</div><div class="body"><b>为什么要两种粒度</b>：Full Block 整块搬对一次性大搬运效率高（少次多量）；Layer Block 按层搬的价值在<b>流水线重叠</b>——模型逐层算，第 1 层在算时第 2 层的 KV 还在路上也不耽误，把搬运时间藏进计算时间。图上两条路径里粗细箭头混用，就是"该整搬整搬、能重叠就按层"的混合调度。</div></div>
+  </div>
+  <p><span class="tag tag-o">观点</span>这帧图的投资 read-through 最直接，是 A6"存力·结构性重排"那张卡的工程实证：<b>① KV cache 正式成为一个跨节点共享的存储层产品</b>——它值得配独立的持久化存储池 + 专用存储网卡（SNIC），意味着推理集群里 DRAM、企业级 SSD、存储网络（NIC/交换）的配比系统性上升，不再是"GPU 之外都是配角"；<b>② PD 分离让"算力机"和"存力机"分开采购</b>——prefill 机堆算力、decode 机堆显存带宽和网络，硬件 SKU 分化；<b>③ 和帧①②同一枚硬币</b>：CSA/HCA 把每 token 的 KV 压到 ~2%，才使得"把海量用户的 KV 长期存下来、随时命中复用"在经济上成立——压缩是让 KV 仓库买得起的前提，仓库是让压缩价值兑现的出口。</p>
+
+  <div class="keyline"><b>五帧连读</b>：①②（CSA/HCA）把 KV <b>做小</b>，③④（DSpark）把出字<b>做快</b>，⑤把做小后的 KV <b>存起来反复复用</b>。三件事分别砍"存力、串行延迟、重复计算"，正交叠加——这就是 DeepSeek 推理成本一路下探的完整工程闭环，也是 A6"算法-基础设施协同设计部分对冲硬件代差"论断的最完整证据链。</div>
+</section>
+
+<section id="a8">
+  <h2><span class="n">A8</span>Kimi K3：KDA + AttnRes + Stable LatentMoE（07-17 增补）</h2>
+  <p class="dek">这一节把 K3 的官方架构图拆成三条互相独立的轴：<b>序列长度、模型深度、模型宽度</b>。KDA 只负责第一条；红色跨层连线是 AttnRes，专家路由是 MoE，不能混为同一个创新。</p>
+
+  <figure class="orig">
+    <img src="20260717_KimiK3_架构原图.png" alt="Kimi K3 官方架构图：左侧为 Stable LatentMoE 与 Kimi Delta Attention，右侧为 Block Attention Residuals 主干">
+    <figcaption>原图 · Kimi K3 architecture：左上 Stable LatentMoE，左下 KDA，右侧是 3×KDA / 1×Gated MLA 混合主干与 Block AttnRes（来源：Kimi K3 官方博客）</figcaption>
+  </figure>
+
+  <h3>A8.1　先别钻公式：整张图同时优化三个维度</h3>
+  <figure>
+    <svg viewBox="0 0 680 330" role="img"><title>Kimi K3 三轴架构：序列、深度与宽度</title>
+      <defs><marker id="k3m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <text class="ts" x="340" y="28" text-anchor="middle">同一个 K3 block，从三个正交维度解决扩展问题</text>
+      <rect class="box-blue" x="38" y="54" width="184" height="102" rx="8"/>
+      <text class="th" x="130" y="78" text-anchor="middle">① 序列长度</text>
+      <text class="t" x="130" y="104" text-anchor="middle">3× KDA</text>
+      <text class="t" x="130" y="128" text-anchor="middle">+ 1× Gated MLA</text>
+      <text class="ts" x="130" y="148" text-anchor="middle">快记忆 + 精确查原文</text>
+
+      <rect class="box-purple" x="248" y="54" width="184" height="102" rx="8"/>
+      <text class="th" x="340" y="78" text-anchor="middle">② 模型深度</text>
+      <text class="t" x="340" y="104" text-anchor="middle">Block AttnRes</text>
+      <text class="t" x="340" y="128" text-anchor="middle">α 选择历史 block</text>
+      <text class="ts" x="340" y="148" text-anchor="middle">避免早期表示被残差稀释</text>
+
+      <rect class="box-teal" x="458" y="54" width="184" height="102" rx="8"/>
+      <text class="th" x="550" y="78" text-anchor="middle">③ 模型宽度</text>
+      <text class="t" x="550" y="104" text-anchor="middle">Stable LatentMoE</text>
+      <text class="t" x="550" y="128" text-anchor="middle">896 选 16 + shared</text>
+      <text class="ts" x="550" y="148" text-anchor="middle">大容量、低单 token 激活量</text>
+
+      <line class="arr" x1="130" y1="156" x2="252" y2="206" marker-end="url(#k3m)"/>
+      <line class="arr" x1="340" y1="156" x2="340" y2="206" marker-end="url(#k3m)"/>
+      <line class="arr" x1="550" y1="156" x2="428" y2="206" marker-end="url(#k3m)"/>
+      <rect class="box-coral" x="174" y="206" width="332" height="62" rx="8"/>
+      <text class="th" x="340" y="231" text-anchor="middle">Kimi K3：把 2.8T 模型跑起来</text>
+      <text class="ts" x="340" y="253" text-anchor="middle">长上下文效率 × 深层信息流 × 稀疏专家容量</text>
+      <rect class="box-gray" x="108" y="286" width="464" height="28" rx="4"/>
+      <text class="ts" x="340" y="305" text-anchor="middle">KDA ≠ AttnRes ≠ MoE：三者作用轴不同，收益不能混算</text>
+    </svg>
+    <figcaption>图 10 · 三轴读图法：KDA 管 token 时间轴，AttnRes 管网络深度，MoE 管参数宽度</figcaption>
+  </figure>
+
+  <div class="qbox">
+    <div class="q"><div class="num">蓝</div><div class="body"><b>右侧黑色主干 · 3×KDA + 1×Gated MLA</b>：三个便宜的线性状态记忆层之后，穿插一个能直接访问全上下文的 MLA 层。KDA 负责高频压缩阅读，MLA 负责周期性精确检索，补纯线性注意力的有限状态容量瓶颈。</div></div>
+    <div class="q"><div class="num">红</div><div class="body"><b>右侧红线 · Block AttnRes</b>：Embedding 和此前完成的 block 表示沿红线保留；每个子层用学习到的伪 query <code>w</code> 计算权重 <code>α</code>，按内容选择该回看哪个深度。块内仍正常残差累加，只在块间做深度注意力，控制保存开销。</div></div>
+    <div class="q"><div class="num">绿</div><div class="body"><b>左上 · Stable LatentMoE</b>：shared experts 始终参与，routed experts 由 Router 按 token 选择；K3 官方口径为 896 个专家中激活 16 个，图中另画出 shared experts，但具体计数待完整报告。"Stable"指向超稀疏路由下的负载与优化稳定性，不代表每个 token 跑完整 2.8T 参数。</div></div>
+  </div>
+
+  <h3>A8.2　KDA 的本质：不是挑历史 token，而是持续改写一块固定记忆</h3>
+  <p><span class="tag tag-f">事实</span>KDA 维护固定大小的关联记忆矩阵 <code>S</code>，而不是让每个历史 token 永久留一份 KV。官方 Kimi Linear 论文给出的递归形式：</p>
+  <pre class="stack">Sₜ = (I − βₜ kₜkₜᵀ) Diag(αₜ) Sₜ₋₁ + βₜ kₜvₜᵀ
+oₜ = Sₜᵀqₜ
+
+等价直觉：
+旧记忆先按通道衰减 → 用旧记忆预测当前 value → 只把预测误差 delta 写回 → query 从新记忆读取</pre>
+
+  <figure>
+    <svg viewBox="0 0 680 316" role="img"><title>Kimi Delta Attention 四步状态更新</title>
+      <defs><marker id="kdam" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <rect class="box-gray" x="34" y="92" width="104" height="62" rx="6"/>
+      <text class="th" x="86" y="118" text-anchor="middle">旧状态 Sₜ₋₁</text>
+      <text class="ts" x="86" y="139" text-anchor="middle">压缩历史关联</text>
+
+      <rect class="box-purple" x="166" y="78" width="116" height="90" rx="6"/>
+      <text class="th" x="224" y="104" text-anchor="middle">① 衰减</text>
+      <text class="t" x="224" y="128" text-anchor="middle">Diag(αₜ)</text>
+      <text class="ts" x="224" y="150" text-anchor="middle">每通道不同寿命</text>
+
+      <rect class="box-blue" x="310" y="78" width="116" height="90" rx="6"/>
+      <text class="th" x="368" y="104" text-anchor="middle">② 预测</text>
+      <text class="t" x="368" y="128" text-anchor="middle">v̂ = S̃ᵀkₜ</text>
+      <text class="ts" x="368" y="150" text-anchor="middle">旧记忆先回答</text>
+
+      <rect class="box-amber" x="454" y="78" width="116" height="90" rx="6"/>
+      <text class="th" x="512" y="104" text-anchor="middle">③ 求差</text>
+      <text class="t" x="512" y="128" text-anchor="middle">Δv = vₜ − v̂</text>
+      <text class="ts" x="512" y="150" text-anchor="middle">只保留新信息</text>
+
+      <line class="arr" x1="138" y1="123" x2="166" y2="123" marker-end="url(#kdam)"/>
+      <line class="arr" x1="282" y1="123" x2="310" y2="123" marker-end="url(#kdam)"/>
+      <line class="arr" x1="426" y1="123" x2="454" y2="123" marker-end="url(#kdam)"/>
+
+      <rect class="box-coral" x="214" y="210" width="252" height="62" rx="6"/>
+      <text class="th" x="340" y="236" text-anchor="middle">④ 写回纠正项 βₜ kₜ Δvᵀ</text>
+      <text class="ts" x="340" y="258" text-anchor="middle">已会的不重复写，预测错的才修正</text>
+      <path class="arr" d="M512 168 L512 188 L466 230" marker-end="url(#kdam)"/>
+      <path class="arr" d="M224 168 L224 188 L214 230" marker-end="url(#kdam)"/>
+
+      <rect class="box-teal" x="510" y="210" width="136" height="62" rx="6"/>
+      <text class="th" x="578" y="236" text-anchor="middle">新状态 Sₜ</text>
+      <text class="ts" x="578" y="258" text-anchor="middle">qₜ 读取 → oₜ</text>
+      <line class="arr" x1="466" y1="241" x2="510" y2="241" marker-end="url(#kdam)"/>
+      <text class="ts" x="340" y="302" text-anchor="middle">Delta 的含义 = 新 value − 当前记忆已能预测的 value，不是相邻 token 做差</text>
+    </svg>
+    <figcaption>图 11 · KDA 四步：选择性遗忘 → 预测 → 求误差 → 写回纠正；固定状态替代不断增长的逐 token KV</figcaption>
+  </figure>
+
+  <p><span class="tag tag-o">观点</span>最直观的类比：标准全注意力是<b>保留全部原始档案、每次重新检索</b>；KDA 是<b>维护一张持续修订的知识表</b>。新材料如果知识表已经会，就少写；如果答案错了，只改差额。这解释了它为什么长上下文便宜，也解释了为什么它不是无损无限记忆。</p>
+
+  <h3>A8.3　相对 Gated DeltaNet，KDA 真正新增的是“每个通道一只遗忘旋钮”</h3>
+  <table>
+    <tr><th>机制</th><th>历史保存方式</th><th>遗忘控制</th><th>核心局限</th></tr>
+    <tr><td><b>Full MLA / Softmax</b></td><td>保留逐 token KV，可精确回看</td><td>query 动态选历史 token</td><td>KV 与解码读取成本随上下文增长</td></tr>
+    <tr><td><b>Gated DeltaNet</b></td><td>固定状态矩阵</td><td>每个 head 一个标量 α，整头一起忘</td><td>控制较粗，长期/短期特征被同速衰减</td></tr>
+    <tr><td><b>KDA</b></td><td>固定状态矩阵</td><td>每个 feature channel 独立 α</td><td>仍是有限容量；β 写入步长仍为标量</td></tr>
+  </table>
+  <p><span class="tag tag-f">事实</span>KDA 把 Gated DeltaNet 的 head-wise 标量遗忘率换成 channel-wise 向量。不同语义维度可以拥有不同记忆寿命：主体/变量定义慢忘，局部句法或近期信号快忘。论文同时用专门的 DPLR + chunkwise 算法把递归更新改写为 GPU 友好的块并行计算。</p>
+
+  <h3>A8.4　收益怎么引用：Kimi Linear 实验 ≠ K3 实际服务数字</h3>
+  <table>
+    <tr><th>结论</th><th>可确认口径</th><th>不能外推什么</th></tr>
+    <tr><td>KDA/MLA 混合方式</td><td><b>A·官方图</b>：3×KDA + 1×Gated MLA</td><td>不能据图推出 K3 全模型具体层数和 block 数</td></tr>
+    <tr><td>KV cache 最多减少 75%</td><td><b>A·Kimi Linear 论文</b>：48B/3B activated 对照实验</td><td>不是 K3 线上实例的实测显存降幅</td></tr>
+    <tr><td>1M 解码最高约 6.3× TPOT</td><td><b>A·Kimi Linear 论文</b>：相对 MLA、特定硬件与实验设置</td><td>不是所有长度/批量下恒定 6.3×，更不是 K3 端到端加速</td></tr>
+    <tr><td>K3 scaling efficiency 约 2.5×</td><td><b>A·官方自报</b>：KDA + AttnRes + MoE/训练 recipe 合计 vs K2</td><td>无法把 2.5× 单独归功于 KDA</td></tr>
+  </table>
+  <div class="keyline"><b>横切结论</b>：DeepSeek V4 的 CSA/HCA 是“原文还在，只少存/少读一部分”；Kimi KDA 是“原文被压成持续改写的状态”。前者的风险是<b>选漏或压糊</b>，后者的风险是<b>有限状态干扰</b>。K3 用周期性 MLA 和 AttnRes 补回精确检索与深层信息流，因此它是<b>混合架构</b>，不是纯线性注意力模型。</div>
+  <p class="dek">边界：截至 2026-07-17，K3 完整技术报告与权重仍计划在 07-27 前发布。本节 K3 特有结构来自官方博客/架构图；KDA 公式、门控与效率实验来自先行发布的 Kimi Linear 官方论文。后续技术报告若披露不同维度或消融结果，应以 K3 报告刷新。</p>
+</section>
+
+<div class="partbar" id="partC"><div class="pk">PART C · 2026-07-25 增补</div><h2>架构图鉴：11 个开源模型原图 + 白话图解</h2></div>
+
+<section id="c0">
+  <h2><span class="n">C0</span>先学会看图：3 分钟读图法 + 四条路线总表</h2>
+  <p class="dek">原图来自 GitHub 开源项目 <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models">CalvinXKY/InfraTech</a>（已全量镜像到本地 <code>4-模型层/InfraTech开源模型架构图鉴/</code>），是"推理部署视角"的数据流图——每条线都标了数据的形状、每个权重都标了大小，论文概念图从来不画这么细。下面每张图都可以点开放大到算子级。</p>
+  <p><span class="tag tag-f">事实</span>所有图共用一套画法，会看一张就会看全部：<b>左侧竖列 = 模型主干</b>（从下往上：文字进 Tokenizer → 变向量 Embedding → 过几十层"注意力+专家"积木 → LM-Head 吐字，顶上 MTP 是"一次多猜几个字"的加速头）；<b>右侧大框 = 放大镜</b>，把 MoE、MLP、Attention 三种积木拆开画到每一个算子；<b>红色块 = KV cache</b>（推理时驻留显存的"记忆库"，决定长上下文成本的关键）；<b>方括号 = 数据形状</b>，看不懂可以全部跳过，不影响抓主线。</p>
+  <p><span class="tag tag-o">观点</span>11 张图横着比，会发现 <b>MoE 部分（怎么装知识）大家几乎一样</b>——都是几百个小专家、每个字只叫醒 8 个左右；<b>真正的分歧全在 Attention 部分（怎么读上下文）</b>，因为上下文越来越长，"读历史"的成本成了推理成本的大头。四条路线按"记忆方式"类比：</p>
+  <table>
+    <tr><th>路线</th><th>白话类比</th><th>KV cache（记忆库）怎么处理</th><th>谁在用</th></tr>
+    <tr><td><b>GQA 全注意力</b></td><td>逐字全文精读，每个字都回头看全文</td><td>全存，随上下文线性膨胀</td><td>MiniMax M2.5 · Qwen3-VL · Step(部分层)</td></tr>
+    <tr><td><b>MLA 低秩压缩</b></td><td>全文精读，但笔记先压缩成速记再存</td><td>每个字只存一小条压缩码（512+64 维）</td><td>DeepSeek V3 · Kimi K2 / K2.5</td></tr>
+    <tr><td><b>DSA/CSA 稀疏检索</b></td><td>先用目录检索挑出最相关的 2048 个字，只精读这些</td><td>压缩存 + 按需读，读取量不随全文涨</td><td>DeepSeek V3.2 / V4 · <b>GLM-5</b></td></tr>
+    <tr><td><b>线性/滑窗混合</b></td><td>3/4 的层只记"一页固定大小的摘要"，1/4 的层保留精读兜底</td><td>线性层记忆恒定大小、几乎零 cache</td><td>Qwen3.5 · Kimi K3 · Step 3.5</td></tr>
+  </table>
+  <div class="keyline">一句话总纲：四条路线就是"读历史"的四个价位档。2026 上半年国产旗舰集体从第一档往后三档搬家（GLM-5 换 DSA、Qwen3.5/Kimi K3 换线性混合、Step 换滑窗），目标都是把"上下文越长越贵"这条成本曲线打平——这是 token 降价和 Agent 长任务算得起的架构层原因。</div>
+  <p class="dek">深读版（每张图逐个数字讲透）见本地文档：<code>InfraTech开源模型架构图鉴/架构图全解_11模型图解_by_claude.md</code>；与 A3/A7/A8 的关系：A 部讲"机制原理"，本部给"整机图纸"。</p>
+</section>
+
+<section id="c1">
+  <h2><span class="n">C1</span>DeepSeek V3（671B A37B）——全行业的"模板机"</h2>
+  <p class="dek">MLA + 细粒度 MoE 范式的定义者 · 后面 10 张图都是它的变体 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/deepseek_v3">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/deepseek_v3/deepseek_v3_architecture.jpg" alt="DeepSeek V3 架构原图" loading="lazy">
+    <figcaption>原图 · DeepSeek V3：左=主干（3 层 Dense + 58 层 MoE），右上=MoE 放大（256+1 专家选 8），右下=MLA 放大（注意红色 kv cache / pe cache 两个块）</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：MLA（多头潜注意力）——K/V 不按 128 个头原样存，先压成一条 512 维"速记"（图右下 <code>kv_lora_rank=512</code>），位置信息单独走一条 64 维小通道。用时再解压回完整多头。<b>KV cache</b>：只存速记（512+64 维/字），比传统方案省一个数量级——图中两个红块就是全部要存的东西。<b>专家</b>：256 个小专家 + 1 个共享专家，每个字只叫醒 8 个（激活 37B/671B ≈ 5.5%）。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：它本身就是"标准"。第一性逻辑：多头之间的记忆高度重复 → 压缩掉重复，用两次小矩阵乘换一个数量级的显存（算力比显存带宽便宜）。看懂这张，后面 10 张只需要看"改了哪"。</p>
+</section>
+
+<section id="c2">
+  <h2><span class="n">C2</span>Kimi K2（1T A32B）——抄对作业，只改四个数字</h2>
+  <p class="dek">V3 同构放大版 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/kimi_k_2">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/kimi_k_2/kimi_k_2_architecture.jpg" alt="Kimi K2 架构原图" loading="lazy">
+    <figcaption>原图 · Kimi K2：与 V3 逐块对照几乎一样——差异只在数字（384 专家、64 头、256K）</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：与 V3 完全相同的 MLA，但头数 128→<b>64</b>（砍半，长上下文时注意力计算量减半）。<b>KV cache</b>：与 V3 相同的 512 维速记方案。<b>专家</b>：256→<b>384</b> 个（总参数 671B→1T 的主要来源），仍只激活 8 个——总参数涨 50%，每个字的计算成本反而略降（37B→32B）。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：K2 证明"架构不创新、参数配比精调"也能做出旗舰——容量用稀疏堆（专家数），成本用激活控（头数、激活专家数），这是 MoE 时代做大模型的标准姿势。</p>
+</section>
+
+<section id="c3">
+  <h2><span class="n">C3</span>DeepSeek V3.2（671B A37B）——给注意力装"检索器"（DSA 首发）</h2>
+  <p class="dek">机制原理见 A2/A3 · 这里是整机图纸 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/deepseek_v3_2">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/deepseek_v3_2/deepseek_v3_2_architecture.jpg" alt="DeepSeek V3.2 架构原图" loading="lazy">
+    <figcaption>原图 · DeepSeek V3.2：与 V3 唯一的区别在右下 DSA 框——多了右下角 Indexer（检索器）和中部 Select(top k)（挑选器）两个新部件</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：DSA = MLA + 检索。新增的 Indexer 是一个轻量打分头（FP8 低精度跑，够便宜），给所有历史字打相关性分，Select 只挑 <b>top 2048</b> 个最相关的送进注意力精算。<b>KV cache</b>：存的东西和 V3 一样（512 维速记），但<b>每次只读 2048 条</b>——"存全量、读局部"，读取带宽不再随上下文膨胀。<b>专家</b>：与 V3 完全相同。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：把"全文精读"改成"先查目录再精读"。上下文越长省得越狠（128K 时注意力计算约省 98%），这是 DeepSeek API 长上下文降价的直接技术底气。</p>
+</section>
+
+<section id="c4">
+  <h2><span class="n">C4</span>GLM-5（744B A40B）——DeepSeek 路线的"最佳实践集成商"</h2>
+  <p class="dek">从 GQA 整建制转向 DSA 的第一个非 DeepSeek 旗舰 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/glm_5">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/glm_5/glm_5_architecture.jpg" alt="GLM-5 架构原图" loading="lazy">
+    <figcaption>原图 · GLM-5：DSA 框与 V3.2 几乎逐块相同（同款 Indexer + Select top 2048），差异在超参——64 头（学 Kimi）、网络更深更瘦（75 层 MoE、hidden 6144）</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：与 V3.2 同款 DSA（MLA 底座 + top-2048 检索），头数 64（比 V3.2 砍半）、单头更宽（v_head_dim=256）。<b>KV cache</b>：同 V3.2 的"压缩存 + 检索读"。<b>专家</b>：256+1 选 8，与 V3 完全同构；差异在整体形体——75 层 MoE 比 DeepSeek 的 58 层更深，hidden 6144 更瘦。上下文 200K。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：GLM-5 的"独特"恰恰是<b>没有独特</b>——MoE 抄 V3、稀疏抄 V3.2、砍头学 K2，然后自己调深瘦比。印证 DeepSeek 架构已成国产公共底座，头部架构在收敛，竞争重心移向数据、RL 后训练和工程化（与 Part B 结论互为印证）。</p>
+</section>
+
+<section id="c5">
+  <h2><span class="n">C5</span>DeepSeek V4 Pro（1.6T A49B）——1M 上下文的"分级记忆"（全系最复杂）</h2>
+  <p class="dek">A7 五图讲机制，这张是整机总装图 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/deepseek_v4">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/deepseek_v4/deepseek_v4_architecture.jpg" alt="DeepSeek V4 架构原图" loading="lazy">
+    <figcaption>原图 · DeepSeek V4 Pro：中间主干，右侧 CSA（4:1 压缩+检索+128 滑窗），左侧 HCA（128:1 重压缩），三种注意力在 58 组块里混排；MoE 升级为 384 专家选 6 + hash 路由</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：三种混排——CSA（把每 4 个字压成 1 条记忆 + top-1024 检索 + 最近 128 字全精度滑窗）、HCA（每 128 个字压成 1 条，管超远距离）、SWA。<b>KV cache</b>：分级存储——窗口内全保真、中距离 4:1 压缩、远距离 128:1 重压缩，另配 sink 稳定符。这是"KV 从显存临时变量变成分层存储产品"（A7.5）在模型侧的对应物。<b>专家</b>：384 选 6，路由加了 hash 映射（图左上 Router 放大框）。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：像人的记忆——工作记忆全保真、近期记忆做摘要、远期只留梗概。1M 上下文能不能算得起，决定 Agent 吃整个代码库/整季财报堆的单位成本，这张图就是成本工程的教科书。</p>
+</section>
+
+<section id="c6">
+  <h2><span class="n">C6</span>Kimi K2.5（1T A32B）——K2 装上眼睛（外挂式多模态）</h2>
+  <p class="dek">语言塔零改动 + 视觉塔单点接入 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/kimi_k_2_5">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/kimi_k_2_5/kimi_k_2_5_architecture.jpg" alt="Kimi K2.5 架构原图" loading="lazy">
+    <figcaption>原图 · Kimi K2.5：上半 = 原封不动的 K2；下半新增 27 层 MoonViT 视觉编码器，图片切块编码后经一个 MLP 适配器在 Merge 处并入文字流</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制 / KV cache / 专家</b>：语言部分与 K2 完全一致（MLA 64 头 + 384 专家选 8）。新增部分：图片经 ImageProcessor 切块 → 27 层 MoonViT 编码 → PatchMerger 把 2×2 相邻块合一（视觉 token 数除以 4）→ 投影到文字维度并入主干，之后图文 token 完全同权处理。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：多模态的"最简接法"——语言模型不动，视觉当外设插上去。好处是语言能力零损失、改造成本最低；代价是视觉信息只在入口注入一次（对照 C10 Qwen3-VL 的多层注入）。</p>
+</section>
+
+<section id="c7">
+  <h2><span class="n">C7</span>Kimi K3（2.8T，草稿版）——线性注意力上桌 + 全系最激进容量</h2>
+  <p class="dek">机制细讲见 A8 · 此图为作者按已公开信息预画的草稿，7/27 权重发布后待定稿 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/kimi_k_3">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/kimi_k_3/kimi_k_3_architecture.jpg" alt="Kimi K3 架构原图（草稿版）" loading="lazy">
+    <figcaption>原图 · Kimi K3（草稿）：主干 = 1 层全注意力（Gated MLA）配 3 层线性注意力（KDA）循环；MoE 拉到 896+2 专家选 16；左上 Block Attention Residual 为本图独有部件</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：3/4 的层用 KDA（不存逐字记忆，把历史按"预测误差"写进一页固定大小的关联记忆，A8.2 有细讲），1/4 的层用带输出门的 MLA 兜底精确检索。<b>KV cache</b>：KDA 层状态恒定、几乎零 cache，只有 1/4 的 MLA 层还在花 cache 钱——1M 上下文的成本大头直接砍掉四分之三。<b>专家</b>：896+2 选 16，全系最激进，且专家计算包在低维潜空间里（stable latent）。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：两头下注——容量堆到 2.8T 之最，成本用线性注意力打平。与 Qwen3.5 各自独立选了"线性:全 = 3:1"，两家收敛到同一比例本身就是重要信号（工程甜点）。定稿后重点核对激活参数量。</p>
+</section>
+
+<section id="c8">
+  <h2><span class="n">C8</span>MiniMax M2.5（229B A10B）——大道至简的反例：全 GQA 不玩花活</h2>
+  <p class="dek">用"瘦身"而不是"稀疏"实现低成本 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/minimax_m_2_5">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/minimax_m_2_5/minimax_m_2_5_architecture.jpg" alt="MiniMax M2.5 架构原图" loading="lazy">
+    <figcaption>原图 · MiniMax M2.5：62 层清一色同构——GQA（48 个 Q 头共用 8 个 KV 头）+ 256 专家选 8，没有压缩、没有检索、没有线性层</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：最经典的 GQA——48 个"提问头"共用 8 个"记忆头"，每个字仍回看全部历史。<b>KV cache</b>：常规方案，随上下文线性膨胀（8 个 KV 头 ×128 维/字），靠 200K 封顶控制上限。<b>专家</b>：256 选 8，单专家很小（intermediate 1536）；全模型激活仅 <b>10B</b>，为 11 家最低；hidden 3072 也是全系最瘦。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：别人在注意力上做减法，M2.5 在整个模型上做减法。A10B 意味着单卡并发高、serving 简单稳定，与其"性价比 API + 海外 Agent 产品"定位自洽；代价是超长上下文成本曲线打不平（所以不追 1M）。M1 时代它是线性注意力先驱（Lightning Attention），M2 系反而回撤到 GQA——工程可靠性优先的选择。</p>
+</section>
+
+<section id="c9">
+  <h2><span class="n">C9</span>Qwen3.5 397B-A17B——线性混合注意力的"标准解"</h2>
+  <p class="dek">同配方另有 27B Dense 版覆盖低成本档 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/qwen3_5">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/qwen3_5/qwen_3_5_397b_a17b_architecture.jpg" alt="Qwen3.5 397B 架构原图" loading="lazy">
+    <figcaption>原图 · Qwen3.5 397B-A17B：15 组"3 层线性(Gated DeltaNet) + 1 层全注意力(Gated Attention)"循环；MoE 切得更碎（512 专家选 10）</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：3/4 层 Gated DeltaNet（与 KDA 同宗的线性注意力：历史写进固定大小状态，带遗忘门），1/4 层 GQA 加输出门（32 Q 头/2 KV 头——KV 头压到极限）。<b>KV cache</b>：线性层零膨胀，全注意力层每字只存 2 头 ×256 维，全系 cache 最省之一。<b>专家</b>：512 个超小专家选 10（单专家 intermediate 仅 1024），比 DeepSeek 切得更碎。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：为"云上高并发低价 serving"而生的架构——A17B + 四分之三层零 cache，同配方从 27B 铺到 397B 全尺寸覆盖，和阿里云"卖吞吐"的商业逻辑严丝合缝。</p>
+</section>
+
+<section id="c10">
+  <h2><span class="n">C10</span>Qwen3-VL 235B-A22B——多模态另一种接法：DeepStack 多层浇灌</h2>
+  <p class="dek">与 C6 的单点接入对照着看 · 32B Dense 版共用同一视觉塔 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/qwen3_vl">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/qwen3_vl/qwen_3_vl_235b_a22b_architecture.jpg" alt="Qwen3-VL 235B 架构原图" loading="lazy">
+    <figcaption>原图 · Qwen3-VL 235B：红色 DeepStack 通路——视觉塔第 8/16/24 层的中间特征分三路注入语言模型前 3 层，而不是只在入口并一次</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：语言塔是 Qwen3 世代的纯 GQA（64 Q 头/4 KV 头）+ MRoPE（位置编码带时间/宽/高三个轴，视频图片都能编）；无线性混合（VL 系比 3.5 早一代）。<b>KV cache</b>：常规 GQA 方案，视觉 token 与文字 token 同样进 cache（所以图多了上下文很快被吃掉）。<b>专家</b>：128 选 8。<b>独有部件 DeepStack</b>：视觉塔浅层特征保细节（小字、纹理）、深层特征给语义，分三层注入让语言模型两者都拿到。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：C6 是"视觉当外设"，C10 是"视觉浇灌进主干"。多层注入换来的是 OCR/图表/文档理解的细粒度优势——Qwen 一贯把文档场景当主打，架构选择与产品定位对得上。</p>
+</section>
+
+<section id="c11">
+  <h2><span class="n">C11</span>Step 3.5 Flash（196B A11B）——滑窗路线代表：只改"看多远"</h2>
+  <p class="dek">第三种线性化思路 · <a href="https://github.com/CalvinXKY/InfraTech/tree/main/models/step_3_5_flash">GitHub 模型卡</a></p>
+  <figure class="orig">
+    <img src="../InfraTech开源模型架构图鉴/step_3_5_flash/step_3_5_flash_architecture.jpg" alt="Step 3.5 Flash 架构原图" loading="lazy">
+    <figcaption>原图 · Step 3.5 Flash：48 块 = "3 层滑窗注意力(SWA, 窗口 512) + 1 层全注意力"循环；MoE 288 专家选 8</figcaption>
+  </figure>
+  <p><span class="tag tag-f">事实</span><b>注意力机制</b>：3/4 层滑窗注意力——算法不变（还是标准 softmax 注意力），只是每个字只看最近 512 个字；1/4 层全注意力（GQA 64/8 头）负责跨窗口长程依赖。<b>KV cache</b>：滑窗层只存窗口内 512 条，恒定大小；只有全注意力层随上下文涨。<b>专家</b>：288 选 8（单专家 intermediate 1280），前 3 块用 Dense FFN。</p>
+  <p><span class="tag tag-o">观点</span>独特性一句话：线性化的"第三种实现"——DeltaNet/KDA 改算法、SWA 只改视野，最保守但最好训。至此三家（Qwen3.5、Kimi K3、Step 3.5）用三种不同机制独立收敛到"省钱层:精读层 = 3:1"，这个比例本身就是 2026 年的工程共识。A11B + 窗口恒定 cache，同属"高并发低价"档，产品名 Flash 与架构一致。</p>
+</section>
+
+<section id="csum">
+  <h2><span class="n">C·总览</span>11 模型横切速查表</h2>
+  <table>
+    <tr><th>模型</th><th>总参/激活</th><th>注意力路线</th><th>KV cache 特征</th><th>专家配置</th><th>上下文</th></tr>
+    <tr><td>DeepSeek V3</td><td>671B/37B</td><td>MLA 128 头</td><td>512 维压缩速记</td><td>256+1 选 8</td><td>128K</td></tr>
+    <tr><td>Kimi K2</td><td>1T/32B</td><td>MLA 64 头</td><td>同上</td><td>384+1 选 8</td><td>256K</td></tr>
+    <tr><td>DeepSeek V3.2</td><td>671B/37B</td><td>DSA（MLA+top2048 检索）</td><td>压缩存 + 稀疏读</td><td>256+1 选 8</td><td>128K</td></tr>
+    <tr><td><b>GLM-5</b></td><td>744B/40B</td><td>DSA 64 头</td><td>压缩存 + 稀疏读</td><td>256+1 选 8</td><td>200K</td></tr>
+    <tr><td>DeepSeek V4 Pro</td><td>1.6T/49B</td><td>CSA/HCA/SWA 三混</td><td>分级压缩（4:1 / 128:1）+ 滑窗</td><td>384+1 选 6</td><td><b>1M</b></td></tr>
+    <tr><td>Kimi K2.5</td><td>1T/32B</td><td>MLA 64 头 + MoonViT</td><td>同 K2</td><td>384+1 选 8</td><td>256K</td></tr>
+    <tr><td>Kimi K3（草稿）</td><td>2.8T/?</td><td>3×KDA : 1×Gated MLA</td><td>3/4 层固定状态零膨胀</td><td>896+2 选 16</td><td>1M</td></tr>
+    <tr><td>MiniMax M2.5</td><td>229B/10B</td><td>纯 GQA 48/8 头</td><td>常规，线性膨胀</td><td>256 选 8</td><td>200K</td></tr>
+    <tr><td>Qwen3.5 397B</td><td>397B/17B</td><td>3×DeltaNet : 1×GatedAttn</td><td>3/4 层零膨胀 + 2 KV 头</td><td>512+1 选 10</td><td>262K</td></tr>
+    <tr><td>Qwen3-VL 235B</td><td>235B/22B</td><td>GQA 64/4 头 + MRoPE + DeepStack</td><td>常规（图文同 cache）</td><td>128 选 8</td><td>256K</td></tr>
+    <tr><td>Step 3.5 Flash</td><td>196B/11B</td><td>3×滑窗512 : 1×GQA</td><td>3/4 层窗口恒定</td><td>288+1 选 8</td><td>256K</td></tr>
+  </table>
+  <p class="dek">模块级深潜（MLA 为何 prefill/decode 走两套算法、DSA 检索器内部构造）：本地库 <code>deepseek_v3/MLA_MHA·MQA.jpg</code>、<code>deepseek_v3_2/DSA_MHA·MQA.jpg</code> 四张原图 + <code>架构图全解_11模型图解_by_claude.md</code> 第三节。</p>
+</section>
+
+
+<div class="partbar" id="partB"><div class="pk">PART B</div><h2>能力层：coding 能力从哪来（以智谱为例）</h2></div>
+
+<section id="b1">
+  <h2><span class="n">B1</span>第一性原理：为什么 coding 吃 RL，不吃架构</h2>
+  <p><span class="tag tag-o">观点</span><b>代码是极少数"对错可被机器自动判定"的能力</b>——写作/对话好不好没有客观判卷器，只能靠人类偏好（RLHF），噪声大上不了规模；代码写完丢沙箱跑测试，通过/不通过是 0/1 客观信号。这解锁 <b>RLVR（可验证奖励强化学习）</b>：模型像 AlphaGo 自我对弈——写码→跑测试→对加分错扣分→自己改→再跑，海量试错自我进化。<b>这是 coding 能力近一年突飞猛进、且和参数/架构关系不大的根本原因。</b></p>
+  <div class="keyline"><b>白话</b>：教模型写代码不是"看更多代码"（那只是背书），而是给它一个<b>会自动判卷的考场</b>——写完立刻编译跑测试，对了奖励错了惩罚，让它在考场里没日没夜刷题、自己纠错进化。谁的考场（沙箱+测试题库+多轮环境）<b>建得又大又真又快</b>，谁的 coding 就强。模型的"脑子结构"反而是各家通用、买得到的标准件。</div>
+  <p class="dek">subagent 实查六家全是这套路：DeepSeek RLVR+GRPO 单阶段、Qwen 2 万并行环境、Kimi MuonClip+数据合成+self-critique、MiniMax self-evolving 100+ 轮、智谱 SWE 可验证测试 RL。差别只在工程怎么做。</p>
+</section>
+
+<section id="b2">
+  <h2><span class="n">B2</span>为什么"去 GitHub diff 代码"基本看不出来</h2>
+  <p><span class="tag tag-f">事实</span>subagent 实查六家 repo，三条硬结论：</p>
+  <div class="qbox">
+    <div class="q"><div class="num">1</div><div class="body"><b>架构早趋同且本就公开</b>：旗舰几乎都是 <code>MoE + GQA + MTP/MLA</code>，架构是 commodity，解释不了分差。</div></div>
+    <div class="q"><div class="num">2</div><div class="body"><b>GitHub 上的 model code 只是"推理骨架 + 权重加载"</b>，不含训练数据/RL reward/沙箱环境——repo 只有 inference + weights，<b>训练 RL 代码闭源</b>；diff 一万行 <code>modeling.py</code> 也看不到"它怎么学会修 bug 的"。</div></div>
+    <div class="q"><div class="num">3</div><div class="body"><b>同模型换 harness，SWE-bench 差 17–21 分</b>——决定落地分的脚手架也不在架构代码里。</div></div>
+  </div>
+  <p>正确对比路径（按信息含量）：① 读各家<b>技术报告的 RL/数据/agentic 章节</b> → ② 对比<b>开源的训练框架</b>（最能看出工程差距）→ ③ 看<b>统一 harness 下的 SWE-bench Pro</b>。不是 diff 模型代码。</p>
+</section>
+
+<section id="b3">
+  <h2><span class="n">B3</span>智谱真正独一档的领先：把"考场"也开源了</h2>
+  <p><span class="tag tag-f">事实</span>唯一能被外部 verify 的智谱差异点 = <b>slime</b>（<a href="https://github.com/THUDM/slime">THUDM/slime</a>，Apache-2.0，v0.3.0/2026-05-31）：完整 agentic RL 训练框架（Megatron 训练 + SGLang rollout + sandbox/verifier/异步多轮 rollout），自述是 GLM-4.5→5.2 全系背后的 RL 框架，<b>且能反过来训 Qwen/DeepSeek/Llama</b>。</p>
+  <p>对照：Qwen 的 2 万环境、Kimi 的数据合成、MiniMax 的 self-evolution——工程都强，但<b>都锁在自己机房里</b>。别家"开源成品（weights）、藏起厨房（RL infra）"；智谱<b>连厨房一起开源</b>。三层 edge：① 生态绑定 ② 可复现可信度 ③ 社区帮 debug 飞轮。</p>
+  <p class="dek">软解释（专家口径 C 级，不 pass-through）：早期卡位——2022 与 OpenAI Codex 同期做 CodeGeeX，攒了 code 数据 pipeline；战略 all-in coding——MaaS 70% 收入来自 coding。</p>
+</section>
+
+<section id="b4">
+  <h2><span class="n">B4</span>各家 coding 横向对比</h2>
+  <table>
+    <tr><th>维度</th><th>智谱 GLM</th><th>DeepSeek</th><th>Qwen3-Coder</th><th>Kimi K2.5</th><th>MiniMax</th><th>豆包</th></tr>
+    <tr><td>专用 coder</td><td>无(ARC一体)</td><td>无</td><td>✅ 专用线</td><td>无</td><td>✅ coding-first</td><td>✅ Seed-Code</td></tr>
+    <tr><td>weights 开源</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>❌ 生产闭源</td></tr>
+    <tr><td><b>RL infra 开源</b></td><td>✅✅ <b>slime</b></td><td>❌ 闭源</td><td>🟡 ROLL≠coder</td><td>❌ 仅论文</td><td>❌</td><td>🟡 verl 发起</td></tr>
+    <tr><td>SWE-bench Verified</td><td>GLM-5 77.8</td><td>官72–74/三方43⚠️</td><td>67→69.6</td><td>76.8</td><td>M3 80.5</td><td>78.8(自报)</td></tr>
+  </table>
+  <div class="keyline"><b>边界修正</b>：benchmark 上 MiniMax M3(80.5) ≈ GLM-5(77.8) ≈ Kimi K2.5(76.8) ≈ Qwen3.5(76.4)，分差在噪声内。"智谱 coding 显著领先"应重述为<b>"智谱在 coding 开源策略/系统工程口碑上独一档"</b>，而非分数碾压。（分数自报或第三方 B 级；SWE-bench 有污染 + harness 噪声，只看量级。）</p></div>
+</section>
+
+<section id="end">
+  <h2><span class="n">★</span>统一洞察 + Challenge</h2>
+  <div class="keyline">把两部分缝起来：<b>国产大模型在"架构层"（怎么算）已经分化出两条工程路线——DeepSeek/GLM/MiniMax 主要在逐 token KV 上做压缩与选择，Kimi K3 用 KDA 把历史折叠为固定状态、再穿插 MLA 精确检索；真正拉开最终能力差距的仍是"能力层"（怎么训），而这层最不透明。</b>想懂"怎么省"看架构层；想懂"为什么强"不能只 diff 推理代码，还要看数据、RL + harness 与训练稳定性。</div>
+  <div class="qbox">
+    <div class="q"><div class="num">Q1</div><div class="body"><b>Jevons 一定成立吗？</b>若应用层付费意愿跟不上，效率提升可能阶段性压制而非拉动算力采购。</div></div>
+    <div class="q"><div class="num">Q2</div><div class="body"><b>稀疏化降本反噬 MaaS 毛利？</b>单 token 成本降→价格战更惨→毛利能否守住？降本和降价谁跑得快？</div></div>
+    <div class="q"><div class="num">Q3</div><div class="body"><b>智谱"断档第一"窗口 = 千问组织问题修复的时间常数</b>（专家称千问瓶颈是组织非资源，一旦理顺资源碾压）。</div></div>
+    <div class="q"><div class="num">Q4</div><div class="body"><b>slime 开源是真护城河还是把 know-how 送人？</b>别家能用 slime 训出更强模型反噬智谱吗？生态 edge vs 技术外溢的净值待观察。</div></div>
+    <div class="q"><div class="num">Q5</div><div class="body"><b>光 vs 铜的结构分化</b>：scale-up 短距走铜、超节点间走光，稀疏化利好哪段需再下沉。</div></div>
+  </div>
+</section>
+
+<footer>
+  <p><b>source 说明</b>：主文是 Claude 综合公开技术资料（arXiv/GitHub/官方 blog，B/C 级）+ 本地三家纪要的技术解读；A8 Kimi K3/KDA 由 Codex 于 2026-07-17 依据 Kimi 官方博客、Kimi Linear 官方论文与 Attention Residuals 官方仓库补充。架构与训练细节不作为具体数字一手 source，数字以原始 source 为准。不含投资评级。SWE-bench 类分数有污染 + harness 噪声，只看量级。</p>
+  <h4>Part C sources：架构图鉴（07-25 增补）</h4>
+  <p><a href="https://github.com/CalvinXKY/InfraTech/tree/main/models">CalvinXKY/InfraTech models/（架构原图出处，作者基于官方 config.json + transformers 源码绘制，B 级）</a> · 本地全量镜像与深读版图解：<code>4-模型层/InfraTech开源模型架构图鉴/</code>（含 架构图全解_11模型图解_by_claude.md 与 MLA/DSA 模块深潜四图）· Kimi K3 图为草稿版（C 级，权重发布后待定稿）</p>
+  <h4>外部 sources（稀疏注意力）</h4>
+  <p><a href="https://www.marktechpost.com/2026/04/24/deepseek-ai-releases-deepseek-v4-compressed-sparse-attention-and-heavily-compressed-attention-enable-one-million-token-contexts/">DeepSeek-V4 CSA/HCA — MarkTechPost</a> · <a href="https://sebastianraschka.com/llm-architecture-gallery/deepseek-sparse-attention/">DSA 原理 — Sebastian Raschka</a> · <a href="https://www.minimax.io/blog/minimax-m3">MiniMax M3 官方 blog</a> · <a href="https://openlm.ai/glm-5.2/">GLM-5.2 — OpenLM.ai</a></p>
+  <h4>外部 sources（投机解码 DSpark · 06-28 增补）</h4>
+  <p><a href="https://github.com/deepseek-ai/DeepSpec">DSpark 原论文 + DeepSpec 开源框架（GitHub）</a> · <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark">DeepSeek-V4-Pro-DSpark（HuggingFace）</a> · <a href="https://www.marktechpost.com/2026/06/27/deepseek-releases-dspark-a-speculative-decoding-framework-that-accelerates-deepseek-v4-per-user-generation-60-85-over-mtp-1/">MarkTechPost 技术解读</a>　｜ 论文 DeepSeek-AI + 北京大学，A5 数字经原文 A 级核实</p>
+  <h4>A7 五图逐帧解读（07-16 增补）source</h4>
+  <p>研究员提供的"DeepSeek V4 Inference Optimizations"总览图（技术报告图组转绘，<b>B 级</b>——图内数字 +51%/+60%/+85% 等与 A5.4 原论文 A 级数字一致；帧⑤ KV-cache 读路径细节以该图为据，未逐项对回 V4 技术报告原文，PD 分离与分层存储机制解读为通用推理系统工程常识 + 读图，标【观点】处为 Claude 推断）。原图与五帧切片已存同目录：20260716_DSV4推理优化五图_原图.png + _p1~_p5。</p>
+  <h4>A8 Kimi K3 / KDA（07-17 增补）source</h4>
+  <p><a href="https://www.kimi.com/blog/kimi-k3">Kimi K3 官方博客与架构图</a> · <a href="https://arxiv.org/abs/2510.26692">Kimi Linear / KDA 官方论文</a> · <a href="https://github.com/MoonshotAI/Kimi-Linear">Kimi Linear 官方代码与 kernel</a> · <a href="https://github.com/MoonshotAI/Attention-Residuals">Attention Residuals 官方仓库</a>。K3 原图已存同目录：20260717_KimiK3_架构原图.png。K3 完整技术报告截至 2026-07-17 尚未发布，因此 KDA 公式与效率数字明确引用 Kimi Linear，不冒充 K3 线上实测。</p>
+  <h4>外部 sources（coding 训练）</h4>
+  <p><a href="https://github.com/THUDM/slime">slime（智谱 RL 框架）</a> · <a href="https://arxiv.org/pdf/2508.06471">GLM-4.5 ARC</a> · <a href="https://arxiv.org/html/2512.02556v1">DeepSeek V3.2</a> · <a href="https://qwenlm.github.io/blog/qwen3-coder/">Qwen3-Coder</a> · <a href="https://arxiv.org/abs/2507.20534">Kimi K2</a> · <a href="https://www.morphllm.com/best-ai-model-for-coding">harness 噪声 caveat</a> · <a href="https://kilo.ai/open-source-models">kilo.ai 榜单</a></p>
+  <h4>本地 raw / wiki</h4>
+  <p>本地纪要：20260429 DeepSeek V4 · 20260612 MiniMax IR · 20260614 智谱专家访谈 ｜ 入口 wiki：国内大模型梯队 / AI模型与应用层 / MiniMax</p>
+  <p style="margin-top:14px;color:var(--hint);">主文 by_claude · 2026-06-17（06-28 A5 / 07-16 A7）· A8 Kimi K3/KDA by_codex · 2026-07-17 · 配套 md 正文见同目录 20260617_国产大模型技术横切_稀疏注意力与coding能力_by_claude.md · DSpark 原论文 PDF 见同目录 20260627_DSpark论文_DeepSeek北大_原文.pdf</p>
+</footer>
+
+</div>
+</body>
+</html>

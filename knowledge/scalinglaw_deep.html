@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scaling Laws 深度研究（完整版） · 知识解读深读</title>
+<style>
+body{margin:0;background:#f4f2ec;color:#2C2C2A;font-family:"Microsoft YaHei",system-ui,sans-serif;
+line-height:1.8;font-size:15.5px}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+.card{background:#fffefa;border:1px solid #e6e3da;border-radius:16px;padding:34px 40px}
+.meta{color:#8b8a83;font-size:13px;margin:10px 0 26px}
+.back{display:inline-block;margin-bottom:14px;color:#C05A2E;text-decoration:none;font-size:14px}
+h1{font-size:24px;line-height:1.4;margin:6px 0 4px}
+h2{font-size:19px;border-bottom:1px solid #eee9dd;padding-bottom:6px;margin-top:38px}
+h3{font-size:16.5px;margin-top:28px}
+a{color:#C05A2E}
+img{max-width:100%;border:1px solid #e6e3da;border-radius:10px;background:#fff}
+blockquote{border-left:3px solid #D85A30;margin:14px 0;padding:4px 16px;background:#faf8f3;
+border-radius:0 8px 8px 0;color:#5a5a54}
+code{background:#f0ede4;border-radius:4px;padding:1px 5px;font-size:.9em}
+pre{background:#f0ede4;border-radius:10px;padding:14px 16px;overflow-x:auto}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}
+th,td{border:1px solid #e6e3da;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#f0ede4;white-space:nowrap}
+hr{border:none;border-top:1px solid #eee9dd;margin:30px 0}
+</style></head><body><div class="wrap">
+<a class="back" href="../index.html">← 返回研究站 · 知识解读</a>
+<div class="card">
+<h1>Scaling Laws 深度研究（完整版）</h1>
+<div class="meta">2026-05-30 · 深读专题库 · 本页由 vault 源文件自动构建（更新源文件后重跑 build_site 即同步）</div>
+<h1>Scaling Laws 深度研究报告（完整版）：本质、物理瓶颈、中美差距，与 2026 的 Coding/Agentic 范式切换</h1>
+<blockquote>
+<p>本文为合并完整版，由两部分组成：Part 1–3 为 scaling law 本质 / 逐代物理算力 / 中美格局的主体研究；Part 4 为 2026 年 coding/agentic 范式切换的时效性补强。<strong>来源分级约定</strong>贯穿全文：【事实-厂商披露】【事实-第三方榜单/论文】【估计/传闻】【观点】。对没有明确结论的问题，本文给出猜想与正反论据，不强行下结论。</p>
+</blockquote>
+<hr />
+<h2>总论 · 核心结论先行（TL;DR）</h2>
+<ul>
+<li>
+<p><strong>Scaling Laws 本质上是"经验观测"先于"理论解释"的幂律现象</strong>：它先被 OpenAI（Kaplan 2020）在跨越七个数量级的实验中发现，事后才有"数据流形维度""量子化模型"等理论尝试去解释幂律指数的来源；这些理论能"描述"甚至"局部推导"幂律，但远未"证明"它必然成立。它既不是纯粹的"大力出奇迹"，也不是有第一性原理保证的物理定律，而是介于两者之间——一条异常稳健、但可能存在拐点的工程经验曲线。</p>
+</li>
+<li>
+<p><strong>若要把能力再推高一个数量级，最先"卡脖子"的是"电力 + 先进封装/HBM"这对组合</strong>：芯片裸片本身在 1–2 年内并非硬约束（AI 仅占先进逻辑产能约 12%），真正的物理瓶颈落在 CoWoS 先进封装、HBM 供给，以及吉瓦级数据中心的电网接入上。数据（高质量公开文本约 300 万亿 token，2026–2032 年间用尽）是 2–3 年后才显性化的"慢瓶颈"。</p>
+</li>
+<li>
+<p><strong>中国模型"以小博大"不违反 Scaling Laws——它们改变的是幂律前面的系数（效率），不是幂律本身</strong>。1–2 年走向是一个真正开放的问题，我倾向"在已发布模型层面收窄、在前沿探索层面维持甚至扩大"：算法效率约每 8 个月减半的复利 + 开源扩散让追平变易；但 test-time compute / RL 新范式重新吃算力，叠加 HBM/先进封装卡点，使"追平一个已发布模型"和"定义下一个前沿"之间的鸿沟依然存在。</p>
+</li>
+<li>
+<p><strong>【2026 更新，见 Part 4】范式已从"推理"切到"coding/agentic"，这把上面那条分层判断推向更清晰的形态</strong>：agentic 范式<strong>降低了"追平"门槛</strong>（coding 的免费可验证奖励 + 开源扩散），又<strong>抬高了"领跑"门槛</strong>（RL 算力军备竞赛）。净效果是差距的"形状"变了——从一条均匀代差线，变成"应用层并跑、前沿层落后、原创层代差"的分层结构。</p>
+</li>
+<li>
+<p><strong>【实证检验，见 Part 5】"卡最多"的两家（美国 xAI、中国字节）都不是"能力最强"的，xAI 甚至把旗舰集群整租给 Anthropic</strong>——这戳破了"算力=能力"的朴素叙事。<strong>算力是必要不充分条件：它是输入，不是产出；中间那个"把算力转化成能力"的函数（人才、聚焦、数据、训练配方、RL 环境、系统工程）才是分水岭。</strong> 这是全篇"效率是 scaling law 幂律前面的系数，不是幂律本身"这一论点最生动的现实印证；但要警惕别学过头——结论是"算力必要但不充分"，不是"算力不必要"。</p>
+</li>
+</ul>
+<hr />
+<h2>Part 1 — Scaling Laws 的本质：经验律还是第一性原理？</h2>
+<h3>一、先打个比方</h3>
+<p>想象你在一个巨大的暗室里用手电筒找东西。Scaling Laws 说的是：你把手电筒的功率（算力 C）、电池容量（数据 D）、和灯泡数量（参数 N）按比例放大，房间被照亮的面积会以一种<strong>平滑、可预测的幂律</strong>扩大——而且这条规律在跨越七个数量级时都成立。神奇的地方在于：你不需要知道房间里到底有什么，就能提前算出"再加十倍功率能多照亮多少"。这就是 Scaling Laws 最反直觉、也最有商业价值的地方——<strong>它让"砸钱变聪明"变成了一道可以提前测算 ROI 的工程题</strong>。</p>
+<h3>二、Kaplan 2020：幂律的发现（事实）</h3>
+<p>2020 年 1 月，OpenAI 的 Jared Kaplan、Sam McCandlish 等人发表 <em>Scaling Laws for Neural Language Models</em>（arXiv:2001.08361）。核心发现是：当性能不被其他两个因素瓶颈时，Transformer 的交叉熵损失 L 与三个量分别呈幂律关系：</p>
+<ul>
+<li>L(N) ∝ N^(−α_N)，α_N ≈ 0.076（N 为非嵌入参数）</li>
+<li>L(D) ∝ D^(−α_D)，α_D ≈ 0.095</li>
+<li>L(C) ∝ C^(−α_C)，α_C ≈ 0.050</li>
+</ul>
+<p>论文还有两个关键结论：（1）网络的宽度、深度等架构细节在很大范围内对损失影响很小——<strong>"规模"压倒"结构"</strong>；（2）更大的模型样本效率更高，因此"算力最优"的训练方式是<strong>训练一个非常大的模型、但不训练到收敛就提前停止</strong>。这个结论直接塑造了 GPT-3（175B）的设计哲学。</p>
+<h3>三、Chinchilla 2022：对 Kaplan 的修正（事实）</h3>
+<p>2022 年，DeepMind 的 Hoffmann 等人发表 <em>Training Compute-Optimal Large Language Models</em>（即 Chinchilla 论文）。他们训练了 400 多个模型（70M 到 16B 参数），发现 Kaplan 的"大模型 + 提前停止"结论在<strong>算力最优配置</strong>上是错的：在固定算力预算下，<strong>参数量 N 与训练 token 数 D 应当等比例放大</strong>——经验法则是约 <strong>20 个 token / 参数</strong>。</p>
+<p>最有说服力的实证：他们用与 Gopher（280B，300B token）相同的算力，训练了只有 70B 参数、但喂了 1.4T token 的 Chinchilla，结果在几乎所有基准上都击败了 Gopher、GPT-3（175B）、Megatron-Turing NLG（530B）等更大的模型——MMLU 上 Chinchilla 达 67.5%，比 Gopher 高 7 个百分点以上。这意味着 GPT-3 严重"训练不足"：按 20:1，175B 模型本应喂 3.5T token，而非 300B。</p>
+<p><strong>值得标注的争议（事实 + 不确定性）</strong>：Chinchilla 本身后来也受到挑战。Epoch AI（Besiroglu 等，arXiv:2404.10102）的复现尝试发现，Hoffmann 等人报告的拟合参数（第三种方法）与他们自己的前两种方法及 20:1 的实际训练配置不一致——按其拟合参数反推应是约 70 token/参数，且其置信区间窄得"需要 60 万次实验才能支撑"，而他们实际只做了不到 500 次。结论：20:1 这个数字本身大致成立，但其背后的统计严谨性被高估了。这本身就是 Scaling Laws "经验性强、理论性弱"的一个注脚。</p>
+<h3>四、试图从第一性原理解释幂律的理论（事实 + 诚实评估）</h3>
+<p>这是最关键的部分：<strong>幂律到底"为什么"成立？</strong> 目前有几条主要理论路径，按"解释力"递进排列：</p>
+<p><strong>1. 数据流形维度理论（Sharma &amp; Kaplan, 2020/2022, JMLR）</strong>。这是最优雅的尝试。核心思想用比喻说：神经网络本质上是在一个低维"数据流形"上做插值回归（想象高维数据其实都贴在一张揉皱的低维纸面上）。如果这张"纸"的内在维度是 d，那么理论预测幂律指数 <strong>α ≈ 4/d</strong>。他们在师生网络（teacher-student）框架里独立测量了内在维度 d 和幂律指数 α，发现两者吻合。<strong>这条理论的价值在于：它把"为什么是幂律"归因于"数据的几何结构"，并给出了指数的可测量来源。</strong> 局限是：它主要解释"欠拟合/数据充足"区间的参数 scaling，对完整的 L(N,D,C) 联合律解释力有限。</p>
+<p><strong>2. 量子化模型（Michaud, Liu, Girit, Tegmark, NeurIPS 2023, arXiv:2303.13506）</strong>。比喻：模型学到的能力不是连续的"水流"，而是一颗颗离散的"知识糖果"（quanta）。如果这些"糖果"按使用频率排序、且使用频率本身服从幂律（类似齐普夫定律），那么当模型按"频率从高到低"逐个学会这些糖果时，平均损失就会呈现幂律下降。<strong>这条理论的漂亮之处在于它同时解释了两件事</strong>：（1）平均损失的平滑幂律下降，（2）单个能力的"涌现"（emergence）——因为某颗糖果被学会的那一刻是突变的。他们在语言模型上找到了"使用频率分布的幂律指数 ≈ 经验 scaling 指数"的初步证据。</p>
+<p><strong>3. 其他路径</strong>：Maloney 等（2022）的"可解模型"用潜在特征的幂律谱结构来生成 scaling；Bahri 等（2024）区分"方差受限"与"分辨率受限"两种 scaling 区间；Brill（2024, arXiv:2412.07942）进一步用<strong>渗流理论（percolation）</strong>给数据分布建模，试图统一前述工作。</p>
+<p><strong>诚实评估（这是核心判断）</strong>：这些理论目前更多是 <strong>"描述（describe）"而非"证明（explain）"</strong>。理由有三：（1）它们大多是"事后构造一个能产生幂律的玩具模型，再验证它与观测吻合"，而不是"从信息论/统计力学公理出发必然推出幂律"；（2）不同理论给出的指数来源互不相同（有的归因于数据维度，有的归因于频率分布），彼此尚未统一；（3）它们都无法预测<strong>幂律何时会失效/拐弯</strong>——而这恰恰是当下最重要的实践问题。因此我的判断是：<strong>Scaling Laws 是一个有部分理论支撑、但本质上仍是经验性的稳健规律</strong>。说它是"大力出奇迹"低估了背后的几何/统计结构；说它是"第一性原理定律"则高估了理论的完备性。它更像热力学早期的经验气体定律——先有 PV=nRT 的经验观测，后有统计力学的微观解释，而 AI 目前还停留在"经验定律已确立、微观理论尚在襁褓"的阶段。</p>
+<h3>五、范式转移：从预训练 scaling 到推理时（test-time）scaling（事实）</h3>
+<p>2024 年 9 月 OpenAI 发布 o1，开启了<strong>第二条 scaling 曲线</strong>：不再只是"训练时砸更多算力"，而是"推理时让模型多想一会儿"。比喻：从"考前多复习"（预训练）转向"考场上多花时间打草稿"（test-time compute）。o1/o3、DeepSeek-R1、Gemini 2.0 Flash Thinking 等"大推理模型"（LRM）通过生成超长的思维链（chain-of-thought），在数学、代码等可验证任务上大幅提升。关键观察：<strong>推理时投入的算力越多，性能越好，且这种关系本身也呈现类似 scaling law 的可预测性</strong>——这被称为"System-2 思考"。NVIDIA 在其官方博客中把这称为驱动"更聪明 AI"的新 scaling law。</p>
+<h3>六、撞墙了吗？预训练边际递减之争（事实 + 双方论点）</h3>
+<p>这是 2024–2025 年最大的争论，<strong>不强行下结论</strong>，呈现双方：</p>
+<p><strong>"撞墙派"的证据</strong>：
+- Ilya Sutskever 在 NeurIPS 2024 明确表示，预训练 scaling 已经"见顶"。他的核心论点是"<strong>Peak Data（数据见顶）</strong>"：人类只有一个互联网，数据是 AI 的"化石燃料"（"data is the fossil fuel of AI...we've achieved peak data"），并断言"我们所知的预训练必将终结"。
+- GPT-4.5（内部代号 Orion）被广泛报道为"令人失望"：据报道 Orion 在训练完成 20% 时就达到了 GPT-4 水平，但最终的质量跃升远小于过去的代际飞跃。Sam Altman 称 GPT-4.5 是 OpenAI"最后一个非思维链模型"。
+- OpenAI 研究者在播客中承认，开发 GPT-4.5 时，<strong>新鲜数据的短缺比算力短缺更成为约束</strong>。</p>
+<p><strong>"未撞墙派"的反驳</strong>：
+- 所谓"撞墙"很可能是<strong>训练系统规模受资金约束</strong>所致，而非 scaling law 本身失效——下一代 25–40 亿美元、约 1 吉瓦的训练系统要到 2025 末/2026 才上线。
+- 边际递减 ≠ 零回报。GPT-4.5 的"看起来失望"部分源于它被拿去和几个月后才出的推理模型比。
+- 数据墙有缓解路径：合成数据、多模态数据（Epoch 估计图像/视频/音频可能让有效数据再扩约 3 倍）、多轮 epoch 训练（有效数据可放大 3–15 倍）。</p>
+<p><strong>判断</strong>：预训练这条单一曲线确实进入了陡峭的边际递减区，但"AI 整体进步撞墙"是过度解读——产业已经把增长引擎切换到了 test-time compute 和 RL 后训练这条新曲线上。真正的风险不是"某条曲线失效"，而是"所有曲线最终都要回到同一个物理约束：算力、电力、数据"——这正是 Part 2 的主题。</p>
+<hr />
+<h2>Part 2 — 每一代模型的物理算力账，以及下一个瓶颈</h2>
+<h3>一、逐代硬件/算力对照表</h3>
+<p>下表区分<strong>官方披露</strong>与<strong>第三方估计/泄露</strong>。所有 FLOP 为训练总量级。</p>
+<table>
+<thead>
+<tr>
+<th>模型（年份）</th>
+<th>参数规模</th>
+<th>训练算力 (FLOP)</th>
+<th>加速器类型与数量</th>
+<th>训练数据</th>
+<th>训练时长</th>
+<th>来源性质</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-2 (2019)</td>
+<td>1.5B</td>
+<td>~1e21（估）</td>
+<td>—</td>
+<td>~40GB 文本</td>
+<td>—</td>
+<td>估计</td>
+</tr>
+<tr>
+<td>GPT-3 (2020)</td>
+<td>175B (dense)</td>
+<td>~3.14e23</td>
+<td>~10,000 V100（估）</td>
+<td>300B token</td>
+<td>—</td>
+<td>参数官方/算力估</td>
+</tr>
+<tr>
+<td>GPT-4 (2023)</td>
+<td>~1.8T (MoE, 16 专家×111B；激活 ~280B)</td>
+<td>~2e25（≈2.15e25 BF16）</td>
+<td>~25,000 A100，90–100 天；MFU 32–36%</td>
+<td>13T token</td>
+<td>~90–100 天</td>
+<td><strong>全部为 SemiAnalysis 泄露/估计</strong></td>
+</tr>
+<tr>
+<td>Llama 3.1 405B (2024)</td>
+<td>405B (dense)</td>
+<td>3.8e25</td>
+<td>16,384 块 H100（700W TDP，80GB HBM3），39.3M GPU-时</td>
+<td>15.6T token</td>
+<td>~54–72 天</td>
+<td><strong>官方技术报告</strong></td>
+</tr>
+<tr>
+<td>DeepSeek-V3 (2024.12)</td>
+<td>671B MoE（激活 37B）</td>
+<td>~3.4e24（估）</td>
+<td>2,048 块 H800；2.788M GPU-时</td>
+<td>14.8T token</td>
+<td>~约两个月</td>
+<td><strong>官方技术报告</strong></td>
+</tr>
+<tr>
+<td>Grok-3 / xAI Colossus (2025.02)</td>
+<td>未披露</td>
+<td>&gt;1e26（Epoch 估，首个破 1e26 的模型）</td>
+<td>Colossus：初期 100,000 H100，后扩至 200,000（含 H200）；约 250MW</td>
+<td>未披露</td>
+<td>—</td>
+<td>集群官方/算力估</td>
+</tr>
+</tbody>
+</table>
+<p><strong>几个关键的物理锚点（用于建立"物理直觉"）</strong>：
+- GPT-4 的 ~2.15e25 FLOP 跑在 ~20,000–25,000 块 A100 上约 90–100 天，集群峰值仅 6.28 BF16 ExaFLOP/秒；MFU（有效算力利用率）仅 32–36%，且因频繁故障需从 checkpoint 重启。作为对比，SemiAnalysis 测算一个 10 万卡 H100 集群用 FP8 训练同等的 GPT-4 仅需约 4 天。
+- 一块 H100 标称 700W，但算上散热、网络、存储，SemiAnalysis 估算<strong>整机约 1,400W/卡</strong>。这意味着 10 万卡 H100 集群的电力需求在 100–150MW 量级，xAI Colossus（20 万卡）实测约 250MW。
+- DeepSeek-V3 的成本之所以震撼（2.788M H800 GPU-时，按 $2/卡时 ≈ 557.6 万美元），不是因为它违反物理，而是因为它把单位算力的"能力产出"做到了极致——这是 Part 3 的核心。<strong>注意：该数字只含正式训练，不含前期研究、消融实验、失败的训练 run。</strong></p>
+<h3>二、如果要再上一个数量级，哪个环节最先卡？</h3>
+<p>把候选瓶颈逐一用物理证据评估，再给判断。</p>
+<p><strong>(a) 算力/GPU 数量与晶圆产能</strong>。Epoch AI（2026）澄清了一个常见误解：<strong>裸逻辑芯片本身不是 2025 年的硬约束</strong>——AI 芯片仅消耗全球先进逻辑产能约 12%，理论上可以通过"出价竞争"从其他用途抢产能。真正的卡点在后端。</p>
+<p><strong>(b) 先进封装（CoWoS）+ HBM —— 这是 1–2 年内最硬的物理约束</strong>。同一份 Epoch AI 研究指出，2025 年 NVIDIA、Google、AMD、Amazon 四家<strong>合计消耗了全球 90% 以上（按价值）的 CoWoS 封装产能与 HBM 供给</strong>。台积电、SK 海力士、美光均称 2025–2026 年 HBM/CoWoS 产能已售罄。HBM 是一个被 SK 海力士（约 54–62%）、三星（约 39%）、美光（约 7%）三家垄断的市场，任何一家出问题都会立刻扼住全球 AI 部署。这是"敲鼹鼠"游戏里当下被敲出来的那只。</p>
+<p><strong>(c) 电力 —— 第二硬的约束，且是真正的"长周期"瓶颈</strong>。Epoch AI 估计，到 2030 年单个训练设施容纳 2–5 吉瓦电力需求是可行的（5GW 可支撑约 2e29 FLOP 的训练），但<strong>电网接入是数年起步的工程</strong>，美国老化电网的扩容速度远慢于 AI 需求。SemiAnalysis 的 Dylan Patel 认为电力不是终极约束（燃气轮机、燃料电池等可解），终极天花板在 2028 年后系于 ASML 每年不到一百台 EUV 光刻机的产能。</p>
+<p><strong>(d) 数据 —— 2–3 年后显性化的"慢瓶颈"</strong>。Epoch AI 估计高质量人类公开文本约 <strong>300 万亿 token</strong>（90% 置信区间 100T–1000T），按当前趋势将在 <strong>2026–2032 年间用尽</strong>（中位数 2028 年）。但有三条缓解路径：多模态、合成数据、多 epoch 训练。所以数据是"会迟到但不会缺席"的瓶颈。</p>
+<p><strong>(e) 网络/互联</strong>。NVLink（节点内）+ InfiniBand（节点间）是当前范式。MoE 等稀疏技术让通信量激增。这是工程约束，但暂未成为"再上一个数量级"的首要硬墙。</p>
+<p><strong>(f) 资本</strong>。据 Epoch AI，五大 hyperscaler 自 2023 Q2 起资本开支年化增长约 72%，2025 年合计近 5000 亿美元，2026 年趋势上看约 7700 亿美元。资本目前还不是"卡点"（钱还在涌入），但它是放大其他所有瓶颈的乘数。</p>
+<p><strong>(g) 时钟墙（wall-clock）</strong>。单次训练 run 不能无限拉长——故障率、checkpoint 重启、以及商业竞争压力，使实际训练时长被压在数月内。</p>
+<p><strong>综合判断（第一性原理 + 1–2 年窗口）</strong>：在 1–2 年的窗口内，<strong>最先绑定的是"先进封装/HBM"这一供给侧物理瓶颈，紧随其后的是吉瓦级电力的电网接入</strong>。芯片裸片、网络、资本都还有腾挪空间；数据是 2–3 年后的事。需要诚实承认的不确定性是：这是个"敲鼹鼠"系统——今天敲掉 HBM 瓶颈，明天可能就轮到 EUV 或电力。任何单一"终极瓶颈"的断言都应被怀疑。</p>
+<hr />
+<h2>Part 3 — 中国模型、架构创新与中美差距走向</h2>
+<h3>一、中国模型"以小博大"违反 Scaling Laws 吗？（核心概念澄清）</h3>
+<p><strong>没有违反——它们改变的是幂律前面的"系数"，而不是幂律本身。</strong> 这是整个 Part 3 最重要的概念区分，用比喻说清楚：</p>
+<p>Scaling Laws 是一条"投入→产出"的曲线，形如 L = A·C^(−α) + E。中国实验室在出口管制下拿不到最多的算力 C（A100/H100 被禁，H800/H20 受限，2025 年 4 月连 H20 也被列入许可要求），无法在 X 轴（算力）上走得最远。但它们做的事是：<strong>通过算法与架构创新，把曲线整体往下压（减小系数 A，即提升"算力→能力"的转化效率）</strong>。同样的算力，产出更好的能力。</p>
+<p>Epoch AI 的量化为此提供了关键标尺：算法进步（Ho 等，arXiv:2403.05812）让"达到同等性能所需的算力"约<strong>每 8 个月减半</strong>（95% 置信区间 5–14 个月），远超摩尔定律的两年翻倍。Epoch 官网另把预训练算力效率单列：<strong>约每 7.6 个月翻倍（约 3.0 倍/年）</strong>，同时前沿模型训练算力自 2020 年起约每年 5 倍增长。这意味着——<strong>一个落后于前沿的实验室，只要算法效率追赶速度够快，就能用更少的物理算力达到前沿模型的能力</strong>。</p>
+<h3>二、具体创新清单（事实，主要来自官方技术报告）</h3>
+<p><strong>DeepSeek-V3（arXiv:2412.19437）—— 效率工程的集大成者</strong>：
+- <strong>MLA（Multi-head Latent Attention）多头潜在注意力</strong>：标准注意力要为每个历史 token 存一份完整的"记忆卡"（KV cache），非常占显存；MLA 把这些记忆卡压缩成一份"低维摘要"再存。该技术最早在 DeepSeek-V2 披露，<strong>相比 DeepSeek 67B 把 KV cache 压缩了 93.3%，最大生成吞吐提升到 5.76 倍</strong>。
+- <strong>DeepSeekMoE 细粒度专家 + 共享专家</strong>：每个 MoE 层有 <strong>1 个共享专家（始终激活）+ 256 个路由专家（每 token 激活 8 个）</strong>；671B 总参数中每 token 仅激活 37B。
+- <strong>MTP（Multi-Token Prediction）多 token 预测</strong>：训练时让模型一次预测未来 2 个 token，提升数据效率；推理时可做投机解码加速。
+- <strong>FP8 混合精度训练</strong>：核心 GEMM 用 FP8 计算与存储；DeepSeek 报告其 FP8 训练相对 BF16 基线的<strong>相对损失误差始终低于 0.25%</strong>。
+- <strong>DualPipe + PTX 级优化</strong>：V3 报告明确写道"我们采用 warp 专化技术，把 <strong>20 个 SM 划分为 10 个通信通道</strong>"，并"采用<strong>定制的 PTX（Parallel Thread Execution）指令</strong>"——PTX 是 CUDA C++ 之下的汇编级层。<strong>值得注意的是 DeepSeek 自己也把这称为权宜之计</strong>，呼吁厂商提供专用通信协处理器。
+- <strong>无辅助损失的负载均衡</strong>：用动态调整的"偏置项"替代传统 MoE 的辅助损失。</p>
+<p><strong>DeepSeek-R1（arXiv:2501.12948，已发表于 Nature）—— RL 推理的范式突破</strong>：
+- 用 <strong>GRPO（Group Relative Policy Optimization）</strong>，无需价值网络（critic），降低 RL 训练成本。
+- 最激进的是 <strong>R1-Zero：纯 RL、跳过监督微调（SFT）</strong>，仅靠"答案正确性"奖励就让模型自发涌现出自我验证、反思、长链推理（"aha moment"）。AIME 2024 的 pass@1 从 15.6% 飙升到 71.0%，多数投票后达 86.7%，匹敌 OpenAI-o1-0912。</p>
+<p><strong>MiniMax-01 / M1（arXiv:2501.08313 / 2506.13585）—— 线性注意力的豪赌</strong>：
+- 456B 总参数（激活 45.9B）的 MoE，采用<strong>混合注意力</strong>：每 7 个 lightning attention（线性注意力）块后接 1 个 softmax attention 块。线性注意力让长上下文的计算复杂度从二次降到线性，原生支持 100 万 token 上下文。
+- M1 在生成 10 万 token 时的 FLOP 仅为 DeepSeek-R1 的 25%。其全程 RL 训练在 512 块 H800 上三周完成，租用成本仅约 53.47 万美元。</p>
+<p><strong>Kimi K2（Moonshot，arXiv:2507.20534，2025.07）—— 万亿 MoE + 优化器创新</strong>：
+- <strong>1.04 万亿总参数、激活 32B</strong> 的 MoE（384 专家选 8，复用 MLA）；预训练 15.5 万亿 token。
+- 提出 <strong>MuonClip 优化器</strong>：在 token 效率高的 Muon 基础上加入 QK-Clip 解决训练不稳定，<strong>在 15.5T token 上预训练"零 loss spike"</strong>。</p>
+<p><strong>Qwen（阿里）—— 开源稠密 + MoE 全家桶</strong>：
+- Qwen2.5 预训练数据从 7T 扩到 <strong>18T token</strong>；其 72B-Instruct 性能可与约 5 倍大的 Llama-3-405B-Instruct 竞争。
+- Qwen3 旗舰 <strong>235B 总 / 22B 激活</strong> 的 MoE；官方称仅用 1/5 激活参数即可匹配同级稠密模型，并大量使用蒸馏。</p>
+<h3>三、蒸馏的角色（事实 + 论点）</h3>
+<p>蒸馏是中国（及全球）模型快速追赶的关键工具。DeepSeek-R1 把推理能力蒸馏进 6 个基于 Qwen2.5 和 Llama3 的稠密模型（1.5B–70B），其中 Distill-Qwen-32B 达 AIME 2024 72.6%。</p>
+<p>但 R1 论文自己给出了<strong>"蒸馏能追平、却难以定义前沿"</strong>的最佳注脚（官方原话）："以 Qwen2.5-32B 为基座，<strong>直接从 DeepSeek-R1 蒸馏的效果优于在其上做 RL</strong>。这表明更大的基座模型发现的推理模式对提升推理能力至关重要。" 翻译成投资语言：<strong>蒸馏是把一个已经被"创造"出来的能力低成本地"复制"过来；但那个能力首先必须由一个前沿规模的模型用大规模 RL"创造"出来。</strong> 学生的天花板由老师决定——你无法蒸馏出不存在的能力。这正是"追平已发布模型" vs "推动前沿"鸿沟的技术根源。</p>
+<h3>四、关键前瞻问题：未来 1–2 年中美模型能力差距会收窄还是扩大？</h3>
+<p><strong>作为一个真正开放的问题来处理，先列双方论点，再给倾向性判断。</strong></p>
+<p><strong>支持"收窄"的论点</strong>：
+1. <strong>算法效率追赶</strong>：算法进步每 8 个月把算力需求减半。落后方天然受益于"知道前沿能做到、只需追上"的后发优势。
+2. <strong>开源扩散</strong>：DeepSeek、Qwen、Kimi、MiniMax 大量开源，全球开发者共同改进，能力快速扩散。
+3. <strong>中国电力相对充裕</strong>：当美国受老化电网制约时，中国的电力基建与政策支持成为优势。华为 CloudMatrix 384 系统这种"以电换效率"的打法在中国商业上可行，在受电网约束的美国行不通。
+4. <strong>国产芯片进步</strong>：华为 Ascend 910C（性能据报道为 H100 的 60–80%）在 2025 年 H20 被禁后成为中国 AI 开发者的"默认硬件"。
+5. <strong>纯规模的边际递减</strong>：既然预训练 scaling 进入陡峭递减区，"效率"的权重就上升了——而效率恰是中国实验室的强项。
+6. <strong>人才</strong>：中国 AI 论文产出和工程人才储备。</p>
+<p><strong>支持"扩大"的论点</strong>：
+1. <strong>算力优势的复利效应</strong>：10 倍算力领先会<strong>复利累积</strong>——更多算力不仅训练更强的模型，还能做更多消融实验、更多失败 run、生成更多合成数据形成飞轮。
+2. <strong>HBM 与先进封装的卡点直接打在中国身上</strong>：华为 Ascend 严重依赖库存——通过壳公司囤的近 290 万颗台积电裸片到 2026 年初已基本耗尽，此后完全依赖 SMIC 晶圆 + 国产 CXMT 的 HBM；而 CXMT 2026 年 HBM 产量预计仅约 200 万颗堆栈，只够约 25–30 万颗 910C 级封装。
+3. <strong>test-time compute 范式重新"吃算力"</strong>：推理模型靠在推理时砸算力提升性能，这重新利好算力充裕方。
+4. <strong>数据飞轮</strong>：拥有更多用户的一方能持续获得真实交互数据。
+5. <strong>资本获取</strong>：美国前沿实验室的融资规模远超中国同行。
+6. <strong>"追平已发布" ≠ "推动前沿"</strong>：中国擅长高效追平一个已发布的前沿模型，但"定义下一个前沿"需要的是大规模原创 RL/预训练，这恰恰最吃算力。
+7. <strong>管制收紧</strong>：2025 年 4 月 H20 被列入许可要求（NVIDIA 计提约 55 亿美元），使中国可用的最先进合法算力进一步受限。</p>
+<p><strong>倾向性判断（基于第一性原理，承认高度不确定）</strong>：我倾向一个<strong>"分层"结论</strong>：在"已发布模型"这一层，差距大概率继续收窄；在"定义前沿"这一层，差距大概率维持、甚至在某些时间点扩大。决定走向的核心变量有三：（1）CXMT 国产 HBM 的量产爬坡速度；（2）算法效率追赶能否持续每 8 个月减半；（3）test-time compute 范式是否最终也撞上自己的边际递减。<strong>换句话说：中国大概率能持续"跟得很紧"，但要"反超并定义前沿"，需要先解决 HBM/先进封装这个最硬的物理卡点。</strong></p>
+<hr />
+<h2>Part 4 — 2026 范式切换：Coding 与 Agentic 的中美竞速</h2>
+<blockquote>
+<p>本部分是时效性补强。Part 1–3 的骨架建立在 2024–2025 的"DeepSeek 冲击 + 后发追赶"叙事上，而 2026 年以来真正的前沿战场已从"推理能力"（o1/R1 时代）明显切换到 <strong>coding 与 agentic</strong>。本部分用截至 2026 年 5 月底的最新事实，重新检验前篇三个核心论点。</p>
+</blockquote>
+<h3>Part 4 核心结论先行</h3>
+<ul>
+<li>
+<p><strong>2026 年的范式切换是"从会思考到会做事"</strong>：衡量重心从"知识/推理"（MMLU、AIME、GPQA）转向"自主完成多步任务"（SWE-bench、Terminal-Bench、OSWorld、τ²-bench）。其技术底座是<strong>在可验证奖励环境里做 RL</strong>——而 coding 恰是天选的 RL 训练场：编译/测试通过本身就是免费、自动、客观的奖励信号。</p>
+</li>
+<li>
+<p><strong>Agentic 是一条"既能拉平差距、又能重新拉开差距"的双刃曲线</strong>：一方面 RL 后训练 + 可验证环境让"算力→能力"的转化效率成为胜负手，中国追得异常快；另一方面前沿级 agentic RL 算力消耗爆炸式增长（据 <em>The Art of Scaling RL Compute</em>，RL 算力从 o1 到 o3 增长 <strong>10 倍以上</strong>），又重新利好算力充裕方。</p>
+</li>
+<li>
+<p><strong>用 2026 事实更新分层结论</strong>：（1）<strong>在 agentic coding 这一最具经济价值的单点上，中美差距已基本抹平</strong>——据 Air Street《State of AI: May 2026》，"中国落后 6–9 个月"的旧框架在 agentic coding 上"已经站不住脚"，"几个最好的模型是中国的、且是开源的"；Kimi K2.6 在 SWE-Bench Pro 上以 58.6% 反超 GPT-5.4（57.7%）。（2）<strong>在综合/前沿层面差距仍在但显著收窄</strong>——据 Stanford AI Index 2026，头部中美模型性能差距从 2023 年 5 月的 17.5–31.6 个百分点收窄到 2026 年 3 月的 <strong>2.7%</strong>；但据 Epoch AI（2026.01），中国模型平均仍<strong>落后约 7 个月</strong>（区间 4–14），且"顶级闭源对顶级开源"的差距反而从 2024 年 8 月的 0.5% 略升到 3.3%。（3）<strong>最硬代差落在"原创下一个 Transformer 级架构"上</strong>——Hassabis（2026.01）说差距只剩"几个月"，但前沿真问题是中国能否"发明全新架构，而非改良西方的突破"。</p>
+</li>
+</ul>
+<h3>一、为什么前沿从"推理"切到了"coding/agentic"？</h3>
+<p><strong>先打个比方</strong>：2024–2025 比谁"考试考得好"（做难题），2026 比谁"能独立把活干完"——给它一个真实 GitHub bug 和整个代码库，让它自己读代码、改文件、跑测试、看报错、再修，直到测试通过。前者考"脑子"，后者考"手脚 + 脑子 + 耐力"。<strong>这就是 agentic 的本质：长链条、多步骤、调用工具、与环境反复交互、能执行并自我纠错。</strong></p>
+<p><strong>这是不是一条新的 scaling 轴？是。</strong> 2026 浮现出第三条——<strong>RL 训练算力 scaling</strong>。据论文 <em>The Art of Scaling RL Compute for LLMs</em>（arXiv:2510.13786）【事实-论文】，DeepSeek-R1-Zero 的 RL 阶段用了 10 万 H800 GPU-小时，仅相当于其预训练算力的 3.75%；但这个比例正在代际间暴涨——<strong>从 o1 到 o3，RL 算力增长了 10 倍以上，Grok-3 到 Grok-4 也是类似跳跃</strong>。RL 正从"预训练后面的一道小工序"变成"和预训练同量级、独立 scaling 的大工程"。</p>
+<p><strong>为什么 coding 是天选的 RL 训练场？</strong> RL 的命门是奖励信号。在大多数任务里判断对错既贵又主观，但在 coding 里，<strong>编译能否通过、测试能否跑绿，本身就是免费、自动、客观、可无限规模化的奖励</strong>。阿里 Qwen3-Coder-Next 技术报告（arXiv 预印本，2026.03.03）说得最直白【事实-厂商披露】："<strong>与其单纯依赖参数规模扩张，Qwen3-Coder-Next 专注于扩张 agentic 训练信号</strong>"——结果是一个总参数 80B、仅激活 3B 的小模型，在 SWE-bench Verified 上拿到 <strong>70.6%</strong>。</p>
+<p><strong>新护城河：RL 环境（gym），不是算法。</strong> 据 Norwest 对 RL gym 赛道的行业访谈【观点】，<strong>瓶颈不在算法，而在高保真的专家数据</strong>——定义任务、塑造奖励、验证结果，都需要领域专家，因而 RL 环境天然领域专属、难以通用规模化，目前大多数 gym 厂商"只把环境卖给少数几家前沿实验室"。<strong>agentic 时代的护城河，正从"谁算力多"部分转移到"谁能造出更好的训练环境/专家数据"</strong>——后者更依赖工程组织和人才密度，恰是中国能正面竞争的领域。</p>
+<h3>二、美国前沿（截至 2026.05）</h3>
+<table>
+<thead>
+<tr>
+<th>模型（发布）</th>
+<th>关键 coding/agentic 基准</th>
+<th>形态/定价</th>
+<th>来源性质</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Opus 4.5</strong>（2025.11）</td>
+<td>SWE-bench Verified <strong>80.9%</strong>、Terminal-Bench 59.3%、OSWorld 66.3%、ARC-AGI-2 37.6%</td>
+<td>闭源；$5/$25；200K</td>
+<td>厂商披露 + 第三方</td>
+</tr>
+<tr>
+<td><strong>Claude Opus 4.6</strong>（2026 初）</td>
+<td>SWE-bench Pro 53.4%；Arena 1503（榜首）</td>
+<td>闭源</td>
+<td>第三方榜单</td>
+</tr>
+<tr>
+<td><strong>Claude Opus 4.7</strong>（约 2026.05 初）</td>
+<td>SWE-bench Pro <strong>64.3%</strong>（vs GPT-5.4 57.7%）；多智能体协同、数小时长任务；AA 智能指数 57</td>
+<td>闭源；$5/$25</td>
+<td>厂商披露 + 第三方</td>
+</tr>
+<tr>
+<td><strong>Claude Opus 4.8</strong>（最新，当前选用）</td>
+<td>该代际最新；本文未取得其公开基准明细，不做杜撰</td>
+<td>闭源</td>
+<td>——</td>
+</tr>
+<tr>
+<td><strong>Claude Mythos Preview</strong></td>
+<td>SWE-bench Verified <strong>93.9%</strong>（2026.04 榜首）</td>
+<td><strong>受限</strong>：Project Glasswing 下仅约 11 家机构可用</td>
+<td>第三方榜单 + 受限</td>
+</tr>
+<tr>
+<td><strong>GPT-5.1 / 5.3 Codex / 5.4 / 5.5</strong>（OpenAI）</td>
+<td>GPT-5.1 SWE-V 76.3%；GPT-5.3 Codex SWE-V <strong>85%</strong>；GPT-5.4 SWE-Pro 57.7%、AIME 2026 99.2%；GPT-5.5 AA 智能指数 <strong>60</strong>（综合榜首）</td>
+<td>闭源</td>
+<td>第三方榜单</td>
+</tr>
+<tr>
+<td><strong>Gemini 3 Pro / 3.1 Pro</strong>（Google）</td>
+<td>3 Pro SWE-V 76.2%、Terminal-Bench 54.2%；3.1 Pro SWE-Pro 54.2%、2M 上下文</td>
+<td>闭源；3.1 Pro $2/$12</td>
+<td>第三方榜单</td>
+</tr>
+<tr>
+<td><strong>Cursor Composer-2（Anysphere）等工具层</strong></td>
+<td>据传 composer-2 后端由 Kimi K2.6 驱动</td>
+<td>产品层</td>
+<td><strong>估计/传闻</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>判断</strong>：第一，<strong>Anthropic 把"coding/agentic 第一"做成了明确卡位</strong>，从 Opus 4.5 到 4.8 一个季度多次迭代，每次都强调 SWE-bench 与 agentic reasoning 的领先。第二，<strong>真正最强的能力被"锁起来"了</strong>——Mythos Preview 以 93.9% SWE-bench Verified 居首但限于约 11 家机构。<strong>前沿的"上限"和市场上"买得到的上限"之间，本身就拉开了一段差距</strong>，这段差距任何追赶者都看不到、也无法蒸馏。第三，<strong>SWE-bench Verified 已饱和失真，要看 SWE-bench Pro</strong>——据 Scale AI SEAL【事实-第三方榜单】，切到 Pro（标准化脚手架、含私有集）后顶级模型从 ~80% 掉到 45–65%，私有库上 GPT-5 从 23.1% 掉到 14.9%。<strong>你的真实代码库不是 Django，你的 bug 不在 scikit-learn 的 issue 里。</strong></p>
+<h3>三、中国前沿（截至 2026.05）</h3>
+<p>一个标志性事件：据多方报道【分析/部分估计】，<strong>2026 年 5 月初的 12 天内，中国连发 4 个开源前沿模型——GLM-5.1、MiniMax M2.7、Kimi K2.6、DeepSeek V4</strong>，全部对标西方前沿，且推理定价均低于 Claude Opus 的 1/3。</p>
+<table>
+<thead>
+<tr>
+<th>模型（发布）</th>
+<th>关键 coding/agentic 基准</th>
+<th>形态/定价</th>
+<th>来源性质</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kimi K2.6</strong>（2026.04.20，月之暗面）</td>
+<td><strong>SWE-Bench Pro 58.6%</strong>（反超 GPT-5.4 57.7%、Opus 4.6 53.4%、Gemini 3.1 Pro 54.2%）；HLE w/ tools 54.0%（领先全场）；τ²-Bench Telecom 96%；AA 智能指数 54</td>
+<td>开源（改良 MIT）；1T 总 / 32B 激活；256K；约 $0.60/$2.50（一说 $0.95/$4.00）；Agent Swarm：300 子智能体、4000 步、12+ 小时</td>
+<td>厂商披露 + 第三方</td>
+</tr>
+<tr>
+<td><strong>Qwen3-Coder-Next</strong>（2026.02–03，阿里）</td>
+<td>SWE-V 70.6%、SWE-Pro 42.7–44.3%、Terminal-Bench 2.0 36.2%</td>
+<td>开源；80B 总 / <strong>3B 激活</strong></td>
+<td>厂商披露</td>
+</tr>
+<tr>
+<td><strong>Qwen3.6 系列</strong>（2026.04，阿里）</td>
+<td>27B：SWE-V <strong>77.2%</strong>、SWE-Pro 53.5%；35B-A3B：SWE-Pro 49.5%、Terminal-Bench 2.0 51.5%</td>
+<td>开源（Apache 2.0）</td>
+<td>厂商披露</td>
+</tr>
+<tr>
+<td><strong>GLM-5 / GLM-5.1</strong>（2026.02 / 05 初，智谱 Z.ai）</td>
+<td>GLM-5 SWE-V <strong>77.8%</strong>；GLM-5.1 SWE-Pro <strong>58.4%</strong>、长任务可达 8 小时、1700 步自主执行</td>
+<td>开源（MIT）；744B MoE；200K</td>
+<td>厂商披露（self-reported）</td>
+</tr>
+<tr>
+<td><strong>DeepSeek V3.2 / V4</strong>（2026.04.24，深度求索）</td>
+<td>V3.2 SWE-V 70.2%（稀疏注意力）；V4-Pro LiveBench Coding 69.99 / Agentic 56.67；DeepSeek 卡片称 V4-Pro 与 Opus 4.6/GPT-5.4 持平</td>
+<td>开源（MIT）；V4-Pro 1.6T/49B、V4-Flash 284B/13B；<strong>1M 上下文</strong></td>
+<td>厂商披露 + 第三方</td>
+</tr>
+<tr>
+<td><strong>MiniMax M2 / M2.7</strong>（2026.03.18，MiniMax）</td>
+<td>M2 agentic 指数 56.3；M2.7 SWE-Pro ~56.22%、AA 智能指数 50；据 Kilo Code 实测约 90% Opus 4.6 质量、约 7% 成本</td>
+<td>开源（M2.7 非商用许可）；<strong>230B 总 / 10B 激活</strong>；缓存重场景混合成本可低至 ~$0.06/M</td>
+<td>厂商披露 + 第三方</td>
+</tr>
+<tr>
+<td><strong>字节 Dola-Seed-2.0-Preview</strong></td>
+<td>Arena 1464（据 Stanford AI Index）</td>
+<td>闭源/产品（Trae IDE 等）</td>
+<td>第三方榜单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>判断</strong>：第一，<strong>Kimi K2.6 是"中国在最具经济价值的单点上反超"的标志</strong>——首个在 SWE-Bench Pro（最难刷分、最贴近真实 agentic）上领先所有西方前沿的开源模型。<strong>但要注意它的"专精"本质</strong>：综合智能指数仅 54，落后 GPT-5.5（60）和 Opus 4.7（57），纯数学/深推理仍有差距。第二，<strong>这正好印证你笔记里的"K2.6 不对称"</strong>——K2 家族这一年能力增量高度集中在 agentic/coding，纯推理已贴着前沿天花板停滞。机理是：<strong>agentic 能力主要靠 RL 环境工程拿到，对预训练算力依赖小；纯推理的进一步提升则更吃前沿规模的预训练</strong>。一句话：<strong>中国在"靠后训练能拿到的能力"上追得飞快，在"靠前沿预训练才能拿到的能力"上仍受物理约束。</strong> 第三，<strong>"小激活参数 + 廉价长程 agentic 推理"是中国一致的工程路线</strong>（Qwen3-Coder-Next 3B / MiniMax M2 10B / DeepSeek V4-Flash 13B 激活），目的就是让动辄烧几小时 token 的 agentic 工作流变便宜。据 USCC《Two Loops》（2026.03）【智库报告】，Kimi K2.5 价格是 GPT-5.2 的 1/4 而 AA 智能指数同为 47；据"12 天 4 模型"分析，中国模型推理成本普遍是西方的 1/3 到 1/7。</p>
+<h3>四、这次切换是否改变了中美差距走向？（核心综合）</h3>
+<p>判断仍是<strong>"分层"而非单一方向</strong>，但 2026 数据让分层更清晰。</p>
+<p><strong>收窄的力量（且在 agentic/coding 上已近乎抹平）</strong>：(1) coding 的免费可验证奖励让 RL 后训练绕开算力代差；(2) 开源 + 极致低价形成"全球分发"，据 Stanford AI Index 综合性能差距已收窄到 2.7%；(3) 据 Air Street《State of AI: May 2026》，agentic coding 上旧的"代差"叙事已失效，"几个最好的模型是中国的、且是开源的"；(4) 中国在电力、人才、专利、机器人、能源基建上的结构优势在 agentic 时代权重上升。</p>
+<p><strong>扩大的力量（且集中在"定义前沿"层）</strong>：(1) 前沿级 agentic RL 重新变成"吃算力"的游戏（RL 算力 o1→o3 涨 10 倍以上）；(2)"追平已发布" ≠ "定义前沿"，后者受 HBM/先进封装卡点最直接限制——据 Epoch AI（2026.01）中国模型平均仍落后约 7 个月，且截至 2026 年初没有任何中国模型超过 o3（2025.04）；(3)"顶级闭源 vs 顶级开源"差距不降反升（Stanford：0.5%→3.3%），而中国前沿几乎全开源、美国最强（含被锁的 Mythos）全闭源；(4) 被锁起来的上限（Mythos 93.9%）看不见、也蒸馏不到。</p>
+<p><strong>分层判断（基于第一性原理，承认高度不确定）</strong>：
+- <strong>开源/已发布层（尤其 agentic coding）</strong>：差距已基本抹平，1–2 年大概率"贴身跟随、互有胜负"。
+- <strong>综合/前沿定义层</strong>：差距仍在（Epoch 约 7 个月、闭源-开源差 3.3%），1–2 年大概率维持，某些时间点甚至因 RL 算力军备竞赛短暂扩大。
+- <strong>原创架构层</strong>：最难跨越——中国优势是"工程化追赶 + 效率创新"，但定义范式的原创突破（Transformer、RLHF、test-time compute 范式本身）迄今主要诞生在美国，1–2 年看不到收敛信号。</p>
+<p><strong>一句话</strong>：agentic 范式<strong>降低了"追平"门槛</strong>（免费可验证奖励 + 开源扩散），又<strong>抬高了"领跑"门槛</strong>（RL 军备竞赛）。<strong>净效果是差距的"形状"变了——不再是一条均匀代差线，而是"应用层并跑、前沿层落后、原创层代差"的分层结构。</strong></p>
+<h3>五、物理硬件落点：Agentic 时代算力瓶颈往哪挪？</h3>
+<p>第一，<strong>推理正在取代训练成为算力主导消费者</strong>。一个 agentic 任务可连续跑几小时、烧巨量 token（MiniMax M2.7 评测单次烧 8700 万输出 token，是中位数 4 倍——"verbosity tax"）。当全球部署千万个 agent 时，<strong>推理集群规模会压过训练集群</strong>——这对前篇瓶颈排序是延伸：HBM/电力紧张不只来自训练，更来自爆炸式增长的 agentic 推理负载。</p>
+<p>第二，<strong>agentic 改变 CPU:GPU 配比</strong>。据 TrendForce（2026.04）【行业观察】，agentic 的"编排层"（调度、路由工具调用、判断任务完成）是 <strong>CPU 密集型</strong>；agentic RL 中"每个动作都要被评估"额外加重 CPU——可能催生结构性 CPU 短缺与配比变化。</p>
+<p>第三，<strong>对中美含义不对称</strong>：推理成为主导利好中国"廉价高效模型"路线（小激活 MoE、线性注意力让长程 agentic 推理便宜）；但前沿级 agentic RL 训练门槛飙升又利好算力充裕方。<strong>部署/推理层中国有效率优势，前沿训练层美国有算力优势</strong>——前篇"先进封装/HBM 是最硬卡点"在 agentic 时代因"训练 + 推理双重需求"而更紧。</p>
+<hr />
+<h2>Part 5 — 实证检验：为什么"卡最多"的两家不是"能力最强"的？（xAI 与字节案例）</h2>
+<blockquote>
+<p>本部分用一个现实世界的反差案例，对全篇核心论点（"效率是 scaling law 幂律前面的系数"）做一次实战压力测试。中美各自 GPU 保有量最大的玩家——美国的 xAI、中国的字节跳动——都不是各自阵营里模型能力最强的；xAI 甚至在 2026 年 5 月把旗舰集群整租给了竞争对手 Anthropic。这组事实戳破了"算力=能力"的朴素叙事。</p>
+</blockquote>
+<h3>Part 5 核心结论先行</h3>
+<p><strong>算力是必要条件，不是充分条件。它是"投入"，不是"产出"。</strong> 决定胜负的是中间那个<strong>"把算力转化成能力"的转化函数</strong>——由人才密度、研究品味、数据质量、训练配方、RL 环境、组织聚焦度共同决定。<strong>卡可以用钱买，但"会用卡的组织"买不到。</strong> 这正是 Part 3 那个概念（效率是幂律前面的系数，不是幂律本身）在现实世界最生动的印证。但要警惕别学过头——这不等于"算力不重要"，而是"算力必要但不充分"。</p>
+<h3>一、事实层：一个跨国对称的现象</h3>
+<p><strong>美国侧（xAI）</strong>：2026 年 5 月 6 日，xAI 把 Colossus 1（约 22 万块英伟达 GPU、300MW）以约每年 50 亿美元（SpaceX 招股书 S-1 披露为每月 12.5 亿美元）整租给 Anthropic，为期四年【事实-第三方/S-1】。而 xAI 自己 2026 年一季度亏损 24 亿美元（去年同期 9.36 亿），2025 年砸了 127 亿美元搞基建，2026 一季度又花 77 亿，年化逼近 300 亿。它卡极多，但 Grok 4 只是在 SWE-bench 上以 75% 微弱领先（GPT-5.4 74.9%、Claude 74%+），靠的是四智能体架构和 X 实时数据这两个窄长板，并非全面领先；且 Grok 在 2026 年用户流失、被对手反超。</p>
+<p><strong>中国侧（字节）</strong>：字节是中国最大的 GPU 买家——2025 年约 850 亿元买英伟达，2026 年预算约 100 亿美元，还和阿里、腾讯一起获批采购 40 万+ 块 H200，外加约 57 亿美元的华为昇腾订单【事实-第三方报道】。豆包是中国第一大聊天应用，单月日处理超 50 万亿 token（一年前才 4 万亿）。但 Doubao-Seed-2.0（2026.02）的定位是"对标 GPT-5.2 / Gemini 3 Pro"（够到第一梯队），而在前沿/agentic/coding 榜上真正出风头的是 DeepSeek、Kimi、Qwen、GLM，不是豆包。</p>
+<p><strong>两个国家、两个"卡王"，都不是"能力王"——这个对称性本身就说明：这不是某国的偶然，而是"算力→能力"转化的结构性规律。</strong></p>
+<h3>二、算力是输入，能力是输出，中间隔着"转化效率"</h3>
+<p>比方：算力像"面粉的量"，模型能力像"面包的好坏"。面粉多能做更多面包，但<strong>面粉多 ≠ 面包好</strong>——好不好取决于配方、火候、揉面手艺。xAI 和字节囤了全行业最多的面粉，但配方和手艺不是最好的。</p>
+<p>最有力的反证是 DeepSeek：V3 用 2000 块 H800（不是 20 万块 B200）摸到了前沿。但有个被大众叙事忽略的关键——据 CSIS【智库报告】，DeepSeek 母公司是量化对冲基金幻方（High-Flyer），本身就有深厚的 AI 高频交易基建和顶尖工程人才，长期在数据中心工程和效率优化上做极致研究。<strong>所以 DeepSeek 不是"没算力的小作坊"，而是"用极少算力 + 极强人才"的组合</strong>。它和 xAI/字节恰好是镜像：一个小面粉量 + 顶级手艺，两个海量面粉 + 中上手艺。结论一样——<strong>手艺（转化效率）才是分水岭</strong>。</p>
+<h3>三、有卡 ≠ 会用卡（利用率与系统工程的鸿沟）</h3>
+<p>Colossus 1 是 122 天极速建成的，是马斯克引以为傲的招牌。但"建得快"和"训得最好"是两码事。把 20 万块 GPU 喂进一个模型、还要做到高利用率（MFU）、低故障、好的并行——是地狱级系统工程。GPT-4 当年的 MFU 才 32–36%。<strong>纸面 FLOPs ≠ 有效灌进好模型的 FLOPs。</strong> 卡的"保有量"是存量，"把存量高效转化"是另一种能力，后者 xAI 和字节都不是最强。</p>
+<h3>四、最被忽略的一层：各家的卡"指向哪里"根本不同</h3>
+<p>这是最关键、也最少被讨论的一层。<strong>字节的算力绝大部分指向它真正的护城河——推荐引擎（抖音/TikTok）和推理服务（豆包日均 50 万亿 token），而不是前沿大模型训练。</strong> 对字节来说推荐 AI 是直接印钱的，大模型只是众多优先级之一，甚至不是 ROI 最高的那个。所以它"卡多"是真的，但这些卡没有全部瞄准"训出最强前沿模型"这个单一目标。</p>
+<p>xAI 是同一问题的另一版本：Colossus 为 Grok 而建，但 xAI 是马斯克众多事业之一，组织更年轻、研究积淀更浅。<strong>反观 DeepSeek、月之暗面、Anthropic——这些是 all-in 在模型上的纯粹玩家。聚焦本身就是转化效率的乘数。</strong> 一个把全部带宽压在一件事上的小团队，常常打得过一个什么都做、把模型当"业务之一"的巨头。</p>
+<h3>五、xAI 租卡的经济学："打不赢就当包租公"，理性，但也是认输信号</h3>
+<p>两个都成立的读法：</p>
+<p><strong>理性的一面</strong>：xAI 已把自己的训练负载搬到更新的 Colossus 2（Blackwell GB300），把老一代 Colossus 1（Hopper/H100）租出去。SpaceX 招股书直说这是"把基建里未被使用的算力变现"——拿老卡每月收 12.5 亿美元，填巨额亏损、给 6 月 IPO（目标估值 1.75 万亿美元）粉饰报表，财务上非常聪明。</p>
+<p><strong>认输的一面</strong>（我更倾向）：你不会把那个定义了你战略身份的资产租出去。如果 Grok 在赢，xAI 会把每块卡都自己用；把它租出去，等于承认它没法把这些算力足够快地转化成一个能赢的模型，于是悄悄从"前沿模型赢家"转型成"包租公"。Grok 在掉用户，这次转租就是模型竞赛里的一次默认让步。</p>
+<p><strong>最妙的反讽</strong>：自有卡更少的 Anthropic，反过来租 xAI 的卡来跑 Claude——因为 Anthropic 把算力转化成价值的效率更高（更强的单位 token 能力、能卖溢价）。<strong>算力最终流向了"最会用它的人"手里。这就是市场对"谁会用卡"给出的裁决。</strong></p>
+<h3>六、回到框架 + 一个必须打的补丁</h3>
+<p>这整件事印证了报告"效率 = 系数""分层判断"：<strong>scaling law 是真的，但在给定算力下，系数（效率、人才、组织）才决定谁赢。</strong> 它也揭示 2026 的新意——当纯预训练 scaling 进入边际递减，这些"软"的转化要素权重<strong>上升</strong>了，所以算力轻的 DeepSeek、聚焦的 Anthropic，能在执行上压过算力重的 xAI/字节。</p>
+<p><strong>但必须打补丁，别学过头</strong>：这绝不等于"算力不重要"。据 RAND【智库报告】，效率提升让小玩家够到某个能力（access effect），但同样的提升也让算力充裕方走得更远（performance effect）。Bitter Lesson 依然在头顶：真正的前沿，规模 + 正确方法终将胜出。xAI/字节今天没转化好，不代表那 40 万+ 块卡是废铁——一旦它们修好研究执行力，那是可怕的存量。而且 Part 4 讲的 test-time compute / agentic-RL 新范式<strong>重新让算力变稀缺</strong>——所以"包租公"这个转身是聪明还是过早，取决于下一个范式到底"吃算力"（该留卡）还是"拼效率"（该租卡）。<strong>正确的结论是"算力必要但不充分"，不是"算力不必要"。</strong></p>
+<hr />
+<h2>综合跟踪框架（Part 1–5 合并，10 个指标 + 触发阈值）</h2>
+<p><strong>物理瓶颈侧（来自 Part 2–3）</strong>：
+1. <strong>把 CoWoS/HBM 供给作为 AI 周期"主水龙头"</strong>。监测台积电 CoWoS 扩产、SK 海力士/三星/美光 HBM 路线图与"售罄"窗口。<em>触发</em>：若任一季度出现 HBM 现货价回落或"产能不再售罄"措辞，意味着供给瓶颈缓解。
+2. <strong>把吉瓦级电力接入作为"第二慢变量"</strong>。<em>触发</em>：单个园区突破 1GW 实际通电即里程碑。
+3. <strong>用 Epoch 两个标尺校准"效率叙事"</strong>：算法效率约每 8 个月减半、前沿训练算力约每年 5 倍增长。
+4. <strong>区分"蒸馏追平"与"原创前沿"</strong>：它是复刻一个已发布能力，还是创造一个尚不存在的能力？
+5. <strong>CXMT 国产 HBM 突破 30 万颗/年</strong>——若突破，"扩大"论点的物理基础被削弱。</p>
+<p><strong>Agentic/Coding 竞速侧（来自 Part 4）</strong>：
+6. <strong>盯 SWE-bench Pro 而非 Verified</strong>（Verified 已饱和失真）。<em>触发</em>：若某中国开源模型在 SWE-Bench Pro 私有子集上持续领先所有闭源模型，说明"应用层反超"从单点变趋势。
+7. <strong>盯 RL 算力的代际增速</strong>（o1→o3 涨 10 倍以上）。<em>触发</em>：若下一代旗舰 RL 算力占比继续翻倍式上涨，说明 agentic 前沿重新变成算力军备竞赛，利好算力充裕方。
+8. <strong>盯 RL 环境（gym）供给格局</strong>。<em>触发</em>：若中国出现规模化、领域覆盖广的 RL 环境/专家数据供应链，"应用层并跑"根基更稳。
+9. <strong>盯"原创架构"信号</strong>。<em>触发</em>：若中国实验室拿出一个被全球广泛采用的全新架构范式（而非对 MoE/注意力的改良），才是"原创层代差"开始收敛的真信号——这是 Hassabis 之问的答案所在。</p>
+<p><strong>算力转化效率侧（来自 Part 5）</strong>：
+10. <strong>盯"卡保有量大户"的转化效率，而非保有量本身</strong>。算力存量是输入，能力是输出，中间的转化函数（人才/聚焦/系统工程）才是分水岭。<em>触发</em>：若 xAI/字节这类卡王突然在前沿/agentic 榜上跃升（说明它们修好了研究执行力，海量存量开始兑现），或反过来出现更多"卡王把算力外租/转作推理"的信号（说明转化失败、范式转向拼效率）——两者都是判断"下一阶段拼算力还是拼效率"的关键路标。</p>
+<hr />
+<h2>Caveats（Part 1–5 合并，须明确的局限与风险）</h2>
+<ul>
+<li><strong>事实/估计/推测分级</strong>：GPT-4 的全部硬件数字（1.8T MoE、25,000 A100、2e25 FLOP）均为 SemiAnalysis 泄露/估计，OpenAI 从未官方确认。DeepSeek-V3/R1、Llama 3.1、MiniMax、Kimi、Qwen 的数字来自官方技术报告，可信度高。Grok-3 的 &gt;1e26 FLOP 为 Epoch 估计。</li>
+<li><strong>DeepSeek 的 557.6 万美元只是正式训练的 GPU 租金等价</strong>，不含前期研究、消融、失败 run、人力、集群资本开支——用它论证"前沿模型可以很便宜"是误读。</li>
+<li><strong>基准分数的脚手架问题</strong>：Part 4 表格中的分数来自不同来源、不同 scaffold、不同 trial 次数，<strong>不可直接跨模型精确对比</strong>，仅供量级参考。厂商自报分数尤其需打折，优先采信 Scale AI SEAL（SWE-Bench Pro）、Artificial Analysis、Epoch、Stanford AI Index 等第三方标准化评测。</li>
+<li><strong>定价数字波动极快</strong>：Kimi K2.6 在不同来源有 $0.60/$2.50 与 $0.95/$4.00 两个版本；MiniMax 的"$0.06/M 混合成本"是缓存重场景特例。引用须回到官方价目表核对。</li>
+<li><strong>"差距 N 个月/N%"高度依赖口径</strong>：Epoch（约 7 个月）、Stanford（2.7%）、Air Street（agentic 上近乎为零）、NIST CAISI（V4 约落后 8 个月）数字差异巨大，因为衡量的是不同维度。<strong>正确读法不是取某一个数字，而是理解"分层"——维度不同，差距不同。</strong></li>
+<li><strong>Claude Opus 4.8、以及部分最新模型的基准明细</strong>本文未取得可靠公开数据，未做杜撰；表格中标注"——"处即为此。</li>
+<li><strong>华为 Ascend 产能、CXMT HBM、Mythos 受限、Cursor 后端用 K2.6 等</strong>含较多第三方估计/传闻成分，且供应链与产品集成状况变化极快。</li>
+<li><strong>xAI–SpaceX 交易与卡保有量数字（Part 5）</strong>：Colossus 1 租约（约 $5B/年、每月 $12.5B、22 万 GPU）来自 SpaceX 招股书 S-1 与多家媒体，可信度较高；但"年化亏损""字节 GPU 保有量""$5.7B 华为订单""豆包日均 50 万亿 token"等含第三方报道与估计成分。Grok/豆包的基准排名同样受脚手架与口径影响，仅供定性判断。"xAI 租卡=认输"是<strong>观点性解读</strong>，非事实。</li>
+<li><strong>Scaling Laws 的理论部分</strong>：本文对"理论只描述未证明"的判断是基于当前文献的综合评估，属分析性结论而非学界一致定论。</li>
+<li><strong>所有 1–2 年前瞻判断带有高度不确定性</strong>，AI 领域技术/政策变化以周计；本文基于截至 2026 年 5 月底的可得信息。</li>
+</ul>
+<hr />
+<p><em>（完整版，合并自《Scaling Laws 深度研究报告》Part 1–3、Part 4 时效性补充、Part 5 算力转化效率实证。）</em></p>
+</div></div></body></html>
